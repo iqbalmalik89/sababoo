@@ -123,5 +123,6 @@
         <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.introLoader.min.js')}}"></script>
         <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.responsivegrid.js')}}"></script>
         <script type="text/javascript" src="{{asset('assets/frontend/js/customs.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/global.js')}}"></script>
     </body>
 </html>
