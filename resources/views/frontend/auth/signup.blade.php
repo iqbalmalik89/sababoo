@@ -121,9 +121,9 @@ function fillData(data){
         $('#password').val('');
         return;
     }
-    $('#agree').attr('checked', false);
-    $('#agree').val('yes');
-     $('#msg_frm_join').addClass('msg_full');
+    $('#first_name').val('');
+	$('#last_name').val('');
+	$('#email').val('');
    
 }
 
