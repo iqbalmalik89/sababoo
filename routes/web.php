@@ -14,3 +14,5 @@
 Route::get('/signup', function () {
     return view('frontend.auth.signup');
 });
+Route::post('ui/createuser', 'RegisterController@createUser');
+Route::get('/ui/activate', 'RegisterController@activateUser');

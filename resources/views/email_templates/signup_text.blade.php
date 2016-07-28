@@ -9,7 +9,7 @@ Hello {{$firstname}} {{$lastname}},
 
 Thank You for creating your new Sababoo Account:
 
-Username  : {{$username}}
+Username  : {{$email}}
 Password  : {{$password}}
 
 To fully activate your account, please click the link below

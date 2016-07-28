@@ -5896,3 +5896,48 @@ ul.static-page-menu li.active a {
 }
 
 @media (max-width: 479px) {}
+
+
+
+
+
+/*Suresh CSs*/
+.msg_cancel, .msg_ok, .msg_error {
+    background-color: #f2dede;
+    border-radius: 5px;
+    border: 1px solid #eed3d7;
+    clear: both;
+    color: #b94a48;
+    display: block;
+    font: 700 12px/14px arial;
+    margin: -3px 0 10px;
+    padding: 6px 0.5%;
+    text-align: center;
+    width: 99%;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.msg_ok {
+    background-color:#dff0d8;
+    border:1px solid #d6e9c6;
+    color: #468847;
+}
+.msg_cancel ul, .msg_ok ul , .msg_error ul{
+    margin:0;
+}
+.msg_cancel li, .msg_ok li , .msg_error li{
+    line-height:20px;
+    list-style-type:disc;
+    margin-left:20px;
+    text-align:center;
+    padding:0;
+    margin-left:0px;
+    background:0;
+}
+
+.msg_cancel li, .msg_ok li , .msg_error li{
+    list-style: initial;
+    margin-left: 21px;
+    text-align: left;
+}
+
+/*End ofSuresh CSS*/

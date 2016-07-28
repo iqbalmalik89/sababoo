@@ -15,18 +15,18 @@ class RegisterController extends Controller
     private $registerServiceProvider;
     public function __construct()
     {
-        $this->registerServiceProvider = new RegisterServiceProvider();
+       $this->registerServiceProvider = new RegisterServiceProvider();
     }
 
    
     public function createUser(Request $request){
         $post_data = $request->all();
-
+           
         $validate_array = array(
             'first_name'         => "required|regex:/^[\pL\s.']+$/u",
             'last_name'          => "required|regex:/^[\pL\s.']+$/u",
             'email'             => 'required|email',
-            'password'          => 'required',
+            'password'          => 'required|min:6',
          );
 
 
@@ -39,10 +39,8 @@ class RegisterController extends Controller
 
     public function activateUser(Request $request){
         $response =  $this->registerServiceProvider->activateUser($request->all());
-        return view('ui.activate.index', array('response'=>$response));
+        return view('frontend.activate.index', array('response'=>$response));
     }
-    public function downloadTermCondition(Request $request){
-        Downloads::getDownloadFile($request->all());
-    }
+   
 
 }

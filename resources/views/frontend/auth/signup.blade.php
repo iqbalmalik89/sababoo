@@ -21,9 +21,8 @@
                         <div class="modal-body">
                                                 
                             <div class="row gap-20">
-								<div id="loader" class="loader"></div>
-									<div id="msg_frm_join" class=""></div>
-									<form action="" method="post" name="frm_join" id="frm_join">
+								    <div id="msg_frm_join" class=""></div>
+                                	<form action="" method="post" name="frm_join" id="frm_join">
 
                                 
                                 <div class="col-sm-12 col-md-12">
@@ -81,7 +80,7 @@
                         </div>
 
                         <div class="modal-footer text-center">
-                            <button type="button" class="btn btn-primary" id="join_now">Join now</button>
+                            <button type="button" class="btn btn-primary" id="join_now" >Join now</button>
                         </div>
                         
                     </div>
@@ -94,29 +93,7 @@
         </div>
         
     </div>
-<style>
-.loader{
-    background: rgba(0, 0, 0, 0.1) url("../images/loader.gif") no-repeat scroll center center !important;
-    height: 99.5%;
-    position: absolute;
-    width: 99.5%;}
 	
-	.msg_cancel, .msg_ok, .msg_error {
-    background-color: #f2dede;
-    border-radius: 5px;
-    border: 1px solid #eed3d7;
-    clear: both;
-    color: #b94a48;
-    display: inline-block;
-    font: 700 12px/14px arial;
-    margin: -3px 0 10px;
-    padding: 6px 0.5%;
-    text-align: center;
-    width: 99%;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-    float: left;
-}
-</style>	
 <script>	
 var pageURI = '';
 var request_data = '';
@@ -125,22 +102,12 @@ var html = '';
 $(document).ready(function () {
     //Sign up
     $('#join_now').click(function () {
-        $('.loader').show();
         html = '';
         pageURI = '/ui/createuser';
-        var frm = $(this).attr("tab_sec_id");
-        var button = $(this);
-        html = $(this).val();
-
-        if (button.val() != 'Signup') {
-            alert("Please wait. Request is already processing.");
-            return false;
-        }
-        button.val('Creating, please wait ...');
+        
         request_data = $('#frm_join').serializeArray();
         mainAjax('frm_join', request_data, 'POST',fillData);
-        goToByScroll('signup_top');
-
+   
     });
     
    
@@ -151,19 +118,13 @@ $(document).ready(function () {
 function fillData(data){
     $('.loader').hide();
     if (data.code != '200') {
-        $('#btnsignup').val(html);
-        $('#password1').val('');
-        $('#password2').val('');
-        $('#captcha').val('');
+        $('#password').val('');
         return;
     }
-    $('#frm_join :input').val('');
     $('#agree').attr('checked', false);
     $('#agree').val('yes');
-    $('#country option[value="US"]').attr("selected", true);
      $('#msg_frm_join').addClass('msg_full');
-    $('#btnsignup').val(html);
-
+   
 }
 
 </script>

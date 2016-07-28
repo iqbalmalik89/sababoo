@@ -17,10 +17,18 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database",
+            "app"
         ],
+        
+
         "psr-4": {
             "App\\": "app/"
+
+        },
+        "psr-0": {
+            "BusinessObject\\": ["database/entities/", "app/Models/", "app/Interfaces/", "app/DataObject/"],
+            "BusinessLogic\\": ["app/ServiceProviders/", "app/Interfaces/"]
         }
     },
     "autoload-dev": {

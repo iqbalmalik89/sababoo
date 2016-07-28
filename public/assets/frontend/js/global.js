@@ -20,12 +20,12 @@
             timeout: 0,
             beforeSend: function () {
                 $('#update_'+frm_id).prop('disabled', true);
-                 toggleSrcLockForm(frm_id);
+                // toggleSrcLockForm(frm_id);
                 $('.msg_ok , .msg_error').hide();
             },
             complete: function () {
                $('#update_'+frm_id).prop('disabled', false);
-                toggleSrcLockForm(frm_id);
+                //toggleSrcLockForm(frm_id);
                 if(typeof(complete_callback) == "function")
                 {
                     complete_callback();
@@ -64,7 +64,7 @@
                 if (status == 'ok') remove_msg_class = 'cancel';
 
                 if ( (msg != "") && (typeof(msg)!='undefined')) {
-                     $('#' + "msg_" + frm_id).removeClass('msg_' + remove_msg_class +' ,msg_error').addClass('msg_' + status).css('display', 'block').html(msg);
+                     $('#' + "msg_" + frm_id).removeClass('msg_' + remove_msg_class +' ,msg_error').addClass('msg_' + status).css('display', 'block').html(getFormatedMessages(msg));
                 }
                 if (fn)  fn(response_data);
 
@@ -78,7 +78,7 @@
 
                 if (textStatus === "timeout") msg = 'Connection Timeout, Please retry.';
 
-                $('#' + "msg_" + frm_id).removeClass('msg_' + remove_msg_class).addClass('msg_' + status).css('display', 'block').html(msg);
+                $('#' + "msg_" + frm_id).removeClass('msg_' + remove_msg_class).addClass('msg_' + status).css('display', 'block').html(getFormatedMessages(msg));
 
             }
         });

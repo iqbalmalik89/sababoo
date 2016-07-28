@@ -40,6 +40,36 @@
         <!-- CSS Custom -->
         <link href="{{asset('assets/frontend/css/style.css')}}" rel="stylesheet">
 
+
+         <script type="text/javascript" src="{{asset('assets/frontend/js/jquery-1.11.3.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery-migrate-1.2.1.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/bootstrap/js/bootstrap.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap-modalmanager.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap-modal.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/smoothscroll.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.easing.1.3.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.waypoints.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/wow.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.slicknav.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.placeholder.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap-tokenfield.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/typeahead.bundle.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap3-wysihtml5.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap-select.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery-filestyle.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap-select.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/ion.rangeSlider.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/handlebars.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.countimator.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.countimator.wheel.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/slick.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/easy-ticker.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.introLoader.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.responsivegrid.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/customs.js')}}"></script>
+        <script type="text/javascript" src="{{asset('assets/frontend/js/global.js')}}"></script>
+   
+
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -97,32 +127,5 @@
         </div>
         <!-- end Back To Top -->
 
-        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery-1.11.3.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery-migrate-1.2.1.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/bootstrap/js/bootstrap.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap-modalmanager.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap-modal.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/smoothscroll.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.easing.1.3.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.waypoints.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/wow.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.slicknav.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.placeholder.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap-tokenfield.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/typeahead.bundle.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap3-wysihtml5.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap-select.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery-filestyle.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap-select.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/ion.rangeSlider.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/handlebars.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.countimator.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.countimator.wheel.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/slick.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/easy-ticker.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.introLoader.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/jquery.responsivegrid.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/customs.js')}}"></script>
-        <script type="text/javascript" src="{{asset('assets/frontend/js/global.js')}}"></script>
-    </body>
+        </body>
 </html>

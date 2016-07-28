@@ -1,5 +1,7 @@
         <header id="header">
-
+   <meta charset="utf-8"/>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+     
             <!-- start Navbar (Header) -->
             <nav class="navbar navbar-default navbar-fixed-top navbar-sticky-function">
 
