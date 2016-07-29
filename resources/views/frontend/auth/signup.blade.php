@@ -13,7 +13,7 @@
                 <div class="col-sm-6 col-sm-offset-3">
                 
                     <div class="login-box-wrapper">
-            
+                         <div class="loader" style="display:none;"></div>
                         <div class="modal-header">
                             <h4 class="modal-title text-center">Create your account for free</h4>
                         </div>
@@ -71,7 +71,7 @@
                                 
                                 <div class="col-sm-12 col-md-12">
                                     <div class="login-box-box-action">
-                                        Already have account? <a href="account-login-page.html">Log-in</a>
+                                        Already have account? <a href="/login">Log-in</a>
                                     </div>
                                 </div>
 							</form>
@@ -102,6 +102,7 @@ var html = '';
 $(document).ready(function () {
     //Sign up
     $('#join_now').click(function () {
+        $('.loader').show();
         html = '';
         pageURI = '/ui/createuser';
         
@@ -124,6 +125,8 @@ function fillData(data){
     $('#first_name').val('');
 	$('#last_name').val('');
 	$('#email').val('');
+    $('#password').val('');
+   
    
 }
 

@@ -5940,4 +5940,21 @@ ul.static-page-menu li.active a {
     text-align: left;
 }
 
+.loader{
+    background: rgba(0, 0, 0, 0.1) url("../images/loader.gif") no-repeat scroll center center !important;
+    height: 99.5%;
+    position: absolute;
+    width: 94.5%;
+    z-index: 9999;
+}
+.preloader {
+    background: rgba(0, 0, 0, 0) url("../images/loader.gif") no-repeat center center !important;
+    height: 25px;
+    width: 25px;
+    float: right;
+    margin: 5px;
+    z-index: 9999;
+    background-size:100% !important;
+}
+
 /*End ofSuresh CSS*/

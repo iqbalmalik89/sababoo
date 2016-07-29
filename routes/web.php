@@ -18,9 +18,24 @@ Route::post('ui/createuser', 'RegisterController@createUser');
 Route::get('/ui/activate', 'RegisterController@activateUser');
 
 /*LOGIN ROUTE*/
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
+
+Route::get('/login', function () {
+    return view('frontend.auth.login');
+});
+
+Route::post('auth/login', 'UI\Auth\AuthController@postLogin');
+Route::get('auth/logout', 'UI\Auth\AuthController@getLogout');
+
+
+
 /*FORGOT PASSWORD */
 Route::match(['get', 'post'], '/ui/forgotpw', ['uses' => 'ForgotPasswordController@index', 'as' => 'forgotpw']);
 
+
+//Auth::routes();
+
+Route::get('/home', 'HomeController@index');
+
+Route::group(['middleware' => ['web']], function () {
+    //
+});

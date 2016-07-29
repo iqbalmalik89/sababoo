@@ -41,7 +41,11 @@
                         </div>
 
                         <div class="modal-footer text-center">
-                            <button type="button" class="btn btn-primary" id="join_now" >Join now</button>
+                            <div class="col-sm-12 col-md-12">
+                                    <div class="login-box-box-action">
+                                         <a href="/login">Log-in</a>
+                                    </div>
+                                </div>
                         </div>
                         
                     </div>
