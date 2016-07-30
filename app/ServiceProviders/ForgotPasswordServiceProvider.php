@@ -7,14 +7,17 @@
 
 namespace BusinessLogic;
 use Helper;
+use  BusinessObject\User;
+use Validator;
+use DB;
+
 class ForgotPasswordServiceProvider
 {
     /**
      * @param $username
      * @return array
      */
-    public function sendPassword($email)
-    {
+    public function sendPassword($email){
 
         if ($email == "") {
             return [
@@ -24,22 +27,18 @@ class ForgotPasswordServiceProvider
             ];
         }
 
-        $dsql = "select user.username,user.password from BusinessObject\\AdcenterProfiles user
-                where user.username=:username
-        ";
-        $sql_parts = ['dsql' => $dsql];
-        $basic_dsql_parts = ['dsql' => "", "params" => ['username' => $username]];
-        // Prepare basic valid arguments to work with
-        $final_sql = array_merge($basic_dsql_parts, $sql_parts);
-        $sql_obj = ["dql" => $final_sql['dsql'], "values" => $final_sql['params']];
-
-        $rows = $this->getRows($sql_obj, ['sort_by' => "", 'order' => ""],
-          ["page_num" => 1, "page_size" => 0], false);
-
-        if ($rows["rows"]) {
-            return $this->sendEmail($rows["rows"]);
+        if (User::where('email', '=', $email)->exists()) {
+               
+            $matchThese = ['email'=>$email];
+            $user = DB::table('users')->select('*')->where($matchThese)->first();
+            $user = User::find($user->id);
+            $random_password = "vZ".rand(21,99).rand(400,999).rand(1,9);
+            $user->password=bcrypt($random_password);
+            $user->updated_at = new \DateTime();
+            $user->save();
+            return $this->sendEmail($user,$random_password);
+     
         }
-
         return [
           'code' => 1000,
           'status' => 'error',
@@ -51,10 +50,10 @@ class ForgotPasswordServiceProvider
      * @param $user
      * @return mixed
      */
-    public function sendEmail($user)
+    public function sendEmail($user,$random_password)
     {
-        $user = $user[0];
-        $to = $user["username"];
+       
+        $to = $user->email;
         $subject = "Forgot Your Password?";
         $from = "noreply@sababoo.com";
 
@@ -62,8 +61,8 @@ class ForgotPasswordServiceProvider
           "from" => $from,
           "to" => env('TEST_EMAIL', $to),
           "subject" => $subject,
-          "email" => $user["email"],
-          "password" => $user['password'],
+          "email" => $user->email,
+          "password" => $random_password,
 
         ];
 

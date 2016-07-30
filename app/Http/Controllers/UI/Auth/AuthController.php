@@ -60,6 +60,11 @@ class AuthController extends Controller
        // $this->auth = $auth;
         $this->middleware('guest', ['except' => 'getLogout']);
     }
+
+    public function getLogout(){
+        Auth::logout();
+
+    }
      public function getLogin()
     {
        // return view('frontline.auth.signup');

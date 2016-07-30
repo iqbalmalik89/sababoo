@@ -101,8 +101,48 @@ $(document).ready(function () {
    
     // Press with enter key.
     submit_key('frm_join input', 'btnsignup');
+
+
+    /*FORGOT PASSWORD*/
+
+    $('#forgot_password').click(function(){
+        $('#loader_forgot').show();
+        pageURI = '/ui/forgotpw';
+        $("#forgot_password").prop('disabled',true);
+        $('#msg_frm_forgot_pass').removeClass('msg_ok msg_cancel');
+        $('#msg_frm_forgot_pass').html('');
+        $('#msg_frm_forgot_pass').html('');
+        if ($('#forgot_email').val() == '') {
+            $('#msg_frm_forgot_pass').addClass('msg_error');
+            $('#msg_frm_forgot_pass').html('<ul><li>Email is required.</li></ul>').slideDown('fast');
+            $("#forgot_password").prop('disabled',false);
+            $('#loader_forgot').hide();
+            return false;
+        }
+        request_data = {'email':$('#forgot_email').val()};
+        mainAjax('frm_forgot_pass', request_data, 'POST',forgot_response);
+       
+    });
    
 });
+
+function forgot_response(data){
+     $('#loader_forgot').hide();
+        if(data.code==200){
+            $('#msg_frm_forgot_pass').addClass('msg_ok');
+            $('#msg_frm_forgot_pass').html(data.msg).slideDown('fast');
+            $("#forgot_password").prop('disabled',false);
+            setTimeout(function() { $('#forgot_close').trigger('click'); },2000);
+            
+
+            return false;
+        }else{
+            $('#msg_frm_forgot_pass').addClass('msg_error');
+            $('#msg_frm_forgot_pass').html('<ul class="msg_full"><li>'+data.msg+'</li></ul>').slideDown('fast');
+            $("#forgot_password").prop('disabled',false);
+            return false;
+        }
+    }
 function fillData(data){
     $('.loader').hide();
    
