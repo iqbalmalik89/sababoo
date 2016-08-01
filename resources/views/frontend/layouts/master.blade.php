@@ -24,7 +24,6 @@
         <link href="{{asset('assets/frontend/css/animate.css')}}" rel="stylesheet">
         <link href="{{asset('assets/frontend/css/main.css')}}" rel="stylesheet">
         <link href="{{asset('assets/frontend/css/component.css')}}" rel="stylesheet">
-        
         <!-- CSS Font Icons -->
         <link rel="stylesheet" href="{{asset('assets/frontend/icons/linearicons/style.css')}}">
         <link rel="stylesheet" href="{{asset('assets/frontend/icons/font-awesome/css/font-awesome.min.css')}}">
