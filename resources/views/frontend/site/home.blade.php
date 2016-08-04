@@ -16,7 +16,7 @@
                                       <h2>Employ the best || Discover your dream job</h2>
                                       <hr>
                                           <a href="signup.php"></a>
-                                          <button class="btn btn-default btn-lg homeJoinUsButton"><a href="signup.php">Join Us!
+                                          <button class="btn btn-default btn-lg homeJoinUsButton"><a href="signup">Join Us!
                                           </a> </button>
                                       </div>
                         </div>
