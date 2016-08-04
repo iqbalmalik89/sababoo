@@ -60,6 +60,11 @@ class AuthController extends Controller
        // $this->auth = $auth;
         $this->middleware('guest', ['except' => 'getLogout']);
     }
+
+    public function getLogout(){
+        Auth::logout();
+
+    }
      public function getLogin()
     {
        // return view('frontline.auth.signup');
@@ -92,7 +97,7 @@ class AuthController extends Controller
         $validate_array = array('email' => "required|email",'password'=>'required');
         $post_data = $request->all();
         $validation_res = Validate::validateMe(array('email' => $post_data['email'],'password' => $post_data['password']), $validate_array);
-
+         //dd($validation_res);
         if ($validation_res['code'] == 401) {
             return $validation_res;
         }
@@ -102,8 +107,10 @@ class AuthController extends Controller
 			 $credentials = $this->getCredentials($request);
             
             
-		  if (Auth::attempt($credentials, $request->has('remember'))) {
+		  //if (Auth::attempt($credentials, $request->has('remember'))) {
              
+        if (Auth::attempt($credentials, false)) {
+         
 
 				$auth = true;
                 $user = Auth::user();

@@ -58,8 +58,7 @@ class RegisterServiceProvider
                   'code' => '200',
                   'status' => 'ok',
                   'msg' => "Congratulations!
-User Account has been successfully created. Please activate your account through, clicking on the activation link provided in an email just sent to your registered email address. Simply click the link contained in the email and your account will become fully activated.
-Thanks for Registering."
+User Account has been successfully created. Please activate your account through, clicking on the activation link provided in an email just sent to your registered email address. Thanks for Registering."
               );
           }
           return $response;
@@ -146,8 +145,6 @@ Thanks for Registering."
         return $mail_response;
 
     }
-
-    
   
     /**
      * Generating random verification string

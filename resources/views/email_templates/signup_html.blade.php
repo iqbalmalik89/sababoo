@@ -10,7 +10,6 @@
 <p>Thank You for creating your new Sababoo  Account:</p>
 
 Username  : {{$email}}<br>
-Password  : {{$password}}<br>
 
 <p>To fully activate your account, please click the link below
  which will verify your email address.<p>
