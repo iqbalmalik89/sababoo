@@ -127,7 +127,7 @@ User Account has been successfully created. Please activate your account through
 
         $data = [
             "from" => $from,
-            "to" => env('TEST_EMAIL',$to),
+            "to" => $to,
             "subject" => $subject,
             "firstname" => $user_data["first_name"],
             "lastname" => $user_data["last_name"],
