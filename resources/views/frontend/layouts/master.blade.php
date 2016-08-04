@@ -79,7 +79,7 @@
     <body class="not-transparent-header">
 
         <!-- start Container Wrapper -->
-        <div class="container-wrapper">
+        <div class="container-wrapper @yield('container_class')">
 
             @include('frontend.layouts.header')
 

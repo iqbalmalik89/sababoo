@@ -5958,3 +5958,57 @@ ul.static-page-menu li.active a {
 }
 
 /*End ofSuresh CSS*/
+
+
+
+.fixedbg{
+    background-image:url(../images/site/sababooWorldMap.png) !important;
+    background-attachment:fixed;
+    background-size:cover;
+    background-repeat:no-repeat;
+}
+.fixedbg .main-wrapper {
+  background: transparent none repeat scroll 0 0;
+}
+
+#content h1 {
+  color: #141443;
+  font-size: 5em;
+  font-weight: 700;
+  line-height: 76px;
+  margin-bottom: 0 !important;
+}
+#content h2 {
+  color: #141443;
+  font-size: 30px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+#content hr {
+  border-top: 1px solid #000034;
+  margin: 0 auto 35px;
+  width: 400px;
+}
+#content .homeJoinUsButton {
+  background: #141443 none repeat scroll 0 0;
+  color: white !important;
+  text-decoration: none;
+  border:1px solid #141443;
+}
+#content {
+  padding-top: 10%;
+  text-align: center;
+  padding-bottom:10%;
+}
+
+@media screen and (max-width:480px){
+    #content h1 {
+  color: #141443;
+  font-size: 3em;
+  font-weight: 700;
+  line-height: 50px;
+  margin-bottom: 0 !important;
+}
+    }
+
+

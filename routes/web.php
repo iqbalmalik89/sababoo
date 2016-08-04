@@ -34,7 +34,7 @@ Route::match(['get', 'post'], '/ui/forgotpw', ['uses' => 'ForgotPasswordControll
 
 //Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/', 'HomeController@showHome');
 
 Route::group(['middleware' => ['web']], function () {
     //
