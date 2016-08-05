@@ -34,6 +34,8 @@ class RegisterServiceProvider
         } else {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
+
+
         // Validate the request...
            $email_verify_code = $this->utilGetVerifyString();
         try {
@@ -42,6 +44,7 @@ class RegisterServiceProvider
             $user->last_name = $data['last_name'];
             $user->password = bcrypt($data['password']);
             $user->email = $data['email'];
+            $user->role = $data['role'];
             $user->create_browser = $_SERVER['HTTP_USER_AGENT'];
             $user->create_userip = $ip;
             $user->created_at = new \DateTime();
