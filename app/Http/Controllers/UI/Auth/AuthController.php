@@ -92,6 +92,7 @@ class AuthController extends Controller
         $msg = "";
         $detail = '';
         $status = 'success';
+        $url="";
        
         
         $validate_array = array('email' => "required|email",'password'=>'required');
@@ -120,15 +121,21 @@ class AuthController extends Controller
         }
  		
      if ($request->ajax()) {
-            if ($auth == false) {
+             if ($auth == false) {
                 $code = 1000;
                 $msg = "Login Failed";
                 $status = 'error';
-                
+                $detail = 'Incorrect Username or Password.';
+                if(!\Session::get('redirect_url')){
+                    \Session::put('redirect_url',\Redirect::intended()->getTargetUrl());
+                }
+            }else{
+                $url=Session::get('redirect_url');
+                Session::forget('redirect_url');
             }
 
             return response()->json([
-              'url' => '/home',
+              'url' => ($url!="" ? $url:\Redirect::intended()->getTargetUrl()),
               'code' => $code,
               'status' => $status,
               'msg' => $detail,
