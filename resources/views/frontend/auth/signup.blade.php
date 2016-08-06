@@ -67,9 +67,9 @@
                                     <div class="form-group"> 
                                         <label>Role</label>
 
-                                        <input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="radio" name="role" id="role" value="employer" checked="checked">
+                                        <input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="radio" name="role" id="role" value="employee" checked="checked">
 
-                                        <label class="" for="register_accept_checkbox">Emplyer</label>
+                                        <label class="" for="register_accept_checkbox">Emplyee</label>
                                         <input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="radio" name="role" id="role" value="employer">
                                         <label class="" for="register_accept_checkbox">Emplyer</label>
                                         <input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="radio" name="role" id="role" value="tradesman">

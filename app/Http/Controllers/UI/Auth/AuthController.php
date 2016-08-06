@@ -114,7 +114,6 @@ class AuthController extends Controller
 
 				$auth = true;
                 $user = Auth::user();
-                $user->last_login_timestamp = new \DateTime();
                 $user->save();
 
 
