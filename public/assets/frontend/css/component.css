@@ -743,14 +743,14 @@ ul.multiple-sticky-nav > li.active a {
     margin-top: 5px;
 }
 
-.checkbox-block label,
+/*.checkbox-block label,
 .radio-block label {
     display: block;
     font-family: 'Open Sans', sans-serif;
     color: #939393;
     font-weight: 400;
     font-size: 14px;
-}
+}*/
 
 .checkbox-block img,
 .radio-block img {
@@ -777,7 +777,7 @@ input[type='checkbox'] {
     width: 18px;
 }
 
-input[type='radio'] + label,
+/*input[type='radio'] + label,
 input[type='checkbox'] + label {
     margin: 0;
     clear: none;
@@ -786,9 +786,9 @@ input[type='checkbox'] + label {
     font-weight: 400;
     line-height: 18px;
     position: relative;
-}
+}*/
 
-input[type='radio'] + label:before,
+/*input[type='radio'] + label:before,
 input[type='checkbox'] + label:before {
     font-family: 'FontAwesome';
     content: "\f096";
@@ -796,15 +796,15 @@ input[type='checkbox'] + label:before {
     left: 0;
     top: 4px;
     color: #999;
-}
+}*/
 
-input[type='radio'] + label:before {
+/*input[type='radio'] + label:before {
     content: "\f1db";
-}
+}*/
 
-input[type='radio']:checked + label:before {
+/*input[type='radio']:checked + label:before {
     content: "\f192";
-}
+}*/
 
 input[type='checkbox']:checked + label:before {
     content: "\f14a";

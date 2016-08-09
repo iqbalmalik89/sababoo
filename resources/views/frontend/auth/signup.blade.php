@@ -1,4 +1,4 @@
-@extends('frontend.layouts.master')
+@extends('frontend.layouts.unathenticate')
 
 @section('title', 'Signup')
 
@@ -61,6 +61,23 @@
 									
                                 
                                 </div>
+
+                                 <div class="col-sm-12 col-md-12">
+                                
+                                    <div class="form-group"> 
+                                        <label>Role</label>
+
+                                        <input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="radio" name="role" id="role" value="employee" checked="checked">
+
+                                        <label class="" for="register_accept_checkbox">Emplyee</label>
+                                        <input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="radio" name="role" id="role" value="employer">
+                                        <label class="" for="register_accept_checkbox">Emplyer</label>
+                                        <input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="radio" name="role" id="role" value="tradesman">
+                                        <label class="" for="register_accept_checkbox">Tradesman</label>
+                                    </di
+                                    </div>
+                                </div>
+
                                                                 
                                 <div class="col-sm-12 col-md-12">
                                     <div class="checkbox-block"> 
@@ -69,6 +86,9 @@
                                     </div>
                                 </div>
                                 
+                               
+                                
+
                                 <div class="col-sm-12 col-md-12">
                                     <div class="login-box-box-action">
                                         Already have account? <a href="/login">Log-in</a>

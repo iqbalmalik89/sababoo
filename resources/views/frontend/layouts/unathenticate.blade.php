@@ -99,9 +99,13 @@
                 </div> -->
                 <!-- end hero-header -->
 
-               
+                <div class="login-container-wrapper">   
+        
+                    <div class="container">
                         @yield('content')
-                   
+                    </div>
+                
+                </div>
 
                 @include('frontend.layouts.footer')
 
