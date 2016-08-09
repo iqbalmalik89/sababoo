@@ -27,13 +27,8 @@ class RegisterServiceProvider
                );
            }
        }
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-            $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
-        }
+        
+
         // Validate the request...
            $email_verify_code = $this->utilGetVerifyString();
         try {
@@ -42,8 +37,7 @@ class RegisterServiceProvider
             $user->last_name = $data['last_name'];
             $user->password = bcrypt($data['password']);
             $user->email = $data['email'];
-            $user->create_browser = $_SERVER['HTTP_USER_AGENT'];
-            $user->create_userip = $ip;
+            $user->role = $data['role'];
             $user->created_at = new \DateTime();
             $user->updated_at = new \DateTime();
             $user->verified_string='unverified';
@@ -98,7 +92,6 @@ User Account has been successfully created. Please activate your account through
           }
 
             $user = User::find($user->id);
-            $user->create_browser = $_SERVER['HTTP_USER_AGENT'];
             $user->updated_at = new \DateTime();
             $user->verified_string='verified';
             $user->status='enabled';
