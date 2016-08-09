@@ -130,8 +130,9 @@ class AuthController extends Controller
                     \Session::put('redirect_url',\Redirect::intended()->getTargetUrl());
                 }
             }else{
-                $url=Session::get('redirect_url');
+                $url="/home";
                 Session::forget('redirect_url');
+
             }
 
             return response()->json([
