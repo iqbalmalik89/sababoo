@@ -35,7 +35,7 @@
         <link rel="stylesheet" href="{{asset('assets/frontend/icons/flaticon-streamline-outline/flaticon-streamline-outline.css')}}">
         <link rel="stylesheet" href="{{asset('assets/frontend/icons/flaticon-thick-icons/flaticon-thick.css')}}">
         <link rel="stylesheet" href="{{asset('assets/frontend/icons/flaticon-ventures/flaticon-ventures.css')}}">
-
+        <link rel="stylesheet" href="{{asset('assets/frontend/css/typeaheadjs.css')}}">
         <!-- CSS Custom -->
         <link href="{{asset('assets/frontend/css/style.css')}}" rel="stylesheet">
 

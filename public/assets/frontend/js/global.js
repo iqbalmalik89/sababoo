@@ -172,3 +172,39 @@ function hideSucessDiv(){
         }
     }, 5000);
 }
+
+
+
+
+$( document ).ready(function() {
+
+    var countries = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.whitespace,
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      // url points to a json file that contains an array of country names, see
+      // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+      prefetch: 'http://sababoo.dev/skills.json'
+    });
+
+    // passing in `null` for the `options` arguments will result in the default
+    // options being used
+    $('#all_skills').typeahead(null, {
+      name: 'countries',
+      source: countries
+    });
+
+
+    $('#all_skills').bind('typeahead:select', function(ev, suggestion) {
+      console.log('Selection: ' + suggestion);
+      console.log(ev);      
+    });
+
+
+
+
+
+
+
+
+
+});
