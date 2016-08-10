@@ -1,3 +1,4 @@
+
   <form class="post-form-wrapper" id="frm_basic_info">
 
       <div class="row gap-20">
@@ -25,13 +26,13 @@
                                   <div class="col-sm-5">
                                       <div class="form-group">
                                           <label for="dynamicAddForm">First Name </label>
-                                          <input id="first_name" name="first_name" type="text" class="form-control" />
+                                          <input id="first_name" name="first_name" type="text" class="form-control" value="<?php echo isset($userinfo->first_name)?$userinfo->first_name:null;?>"/>
                                       </div>
                                   </div>
                                   <div class="col-sm-5">
                                       <div class="form-group">
                                           <label for="dynamicAddForm">Last Name </label>
-                                          <input id="last_name" name="last_name" type="text" class="form-control" />
+                                          <input id="last_name" name="last_name" type="text" class="form-control"  value="<?php echo isset($userinfo->last_name)?$userinfo->last_name:'';?>"/>
                                       </div>
                                   </div>
 
@@ -41,7 +42,7 @@
 
                                       <div class="form-group mb-20">
                                           <label for="dynamicAddForm_#index#_program">Professional Heading(eg: Artist):</label>
-                                          <input id="professional_heading"  id="professional_heading" name="professional_heading" type="text" class="form-control" />
+                                          <input id="professional_heading"  id="professional_heading" name="professional_heading" type="text" class="form-control"  value="<?php echo isset($employeeinfo[0]->professional_heading)?$employeeinfo[0]->professional_heading:'';?>"/>
                                       </div>
 
                                   </div>
@@ -51,7 +52,7 @@
                                   <div class="col-sm-5">
                                       <div class="form-group">
                                           <label for="dynamicAddForm">Phone Number </label>
-                                          <input id="phone" name="phone" type="text" class="form-control" />
+                                          <input id="phone" name="phone" type="text" class="form-control"  value="<?php echo isset($userinfo->phone)?$userinfo->phone:'';?>"/>
                                       </div>
                                   </div>
                                   <div class="col-sm-5">
@@ -59,7 +60,7 @@
                                           <label for="dynamicAddForm_#index#_level">Phone Type:</label>
                                           <div class="btn-group bootstrap-select form-control dropup open">
 
-                                              <select id="mobile_type" name="mobile_type" class="selectpicker form-control" data-live-search="false" tabindex="-98">
+                                              <select id="phone_type" name="phone_type" class="selectpicker form-control" data-live-search="false" tabindex="-98">
                                                   <option value="home">Home</option>
                                                   <option value="office">Office</option>
 
@@ -311,14 +312,14 @@
                                   <div class="col-sm-5">
                                   <div class="form-group">
                                       <label for="dynamicAddForm">Postal Code </label>
-                                      <input id="postal_code" name="postal_code" type="text" class="form-control" />
+                                      <input id="postal_code" name="postal_code" type="text" class="form-control" <?php echo isset($userinfo->postal_code)?$userinfo->postal_code:0;?> />
                                   </div>
                               </div>
                                   <div class="col-sm-6">
 
                                       <div class="form-group mb-20">
                                           <label for="dynamicAddForm_#index#_program">Address</label>
-                                          <input id="professional_heading"  name="address" type="text" class="form-control" />
+                                          <input id="address"  name="address" type="text" class="form-control" value="<?php echo isset($userinfo->address)?$userinfo->address:'';?> "/>
                                       </div>
 
                                   </div>
@@ -328,7 +329,7 @@
 
                                       <div class="form-group mb-20 bootstrap3-wysihtml5-wrapper">
                                           <label for="dynamicAddForm_#index#_extraInfo">Addition Info:</label>
-                                          <textarea id="summary" name="summary" class="form-control" rows="5"></textarea>
+                                          <textarea id="summary" name="summary" class="form-control" rows="5"><?php echo isset($employeeinfo[0]->summary)?$employeeinfo[0]->summary:'';?></textarea>
 
                                       </div>
 
@@ -353,10 +354,7 @@
               <div class="clear"></div>
               <!-- No forms template -->
               <div id="msg_frm_basic_info" class="dynamic-add-form-empty clearfix">
-                  <div class="alert alert-danger mb-0">
-                      No form, please click "Add education" button
 
-                  </div>
               </div>
               <!-- /No forms template-->
 
@@ -380,8 +378,14 @@
       var request_data = '';
       var isScrLock = false;
       var html = '';
+
+      var country = '<?php echo isset($userinfo->country)?$userinfo->country:'';?>';
+      var phone_type = '<?php echo isset($userinfo->phone_type)?$userinfo->phone_type:'';?>';
+
       $(document).ready(function () {
-          //Sign up
+          $('#country option[value="' + country + '"]').prop('selected', true);
+          $('#phone_type option[value="' + phone_type + '"]').prop('selected', true);
+
           $('#update_basic_info').click(function () {
               $('.loader').show();
               html = '';
@@ -392,15 +396,7 @@
           });
          });
       function fillData(data){
-          $('.loader').hide();
-          if (data.code != '200') {
-              $('#password').val('');
-              return;
-          }
-          $('#first_name').val('');
-          $('#last_name').val('');
-          $('#email').val('');
-          $('#password').val('');
+
 
 
       }
