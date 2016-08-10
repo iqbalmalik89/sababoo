@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use BusinessLogic\EmployeeServiceProvider;
+use  BusinessObject\User;
+use  BusinessObject\Employee;
 
 
 class HomeController extends Controller
@@ -14,9 +17,12 @@ class HomeController extends Controller
      *
      * @return void
      */
+    private $employeeServiceProvider;
+
     public function __construct()
     {
          $this->middleware('auth');
+        $this->employeeServiceProvider = new EmployeeServiceProvider();
     }
 
     /**
@@ -30,9 +36,9 @@ class HomeController extends Controller
        $this->logged_user = Auth::user();
        
        if($this->logged_user->role=="employee"){
-        return view('frontend.employee.index');
-
-        }
+            $employee = Employee::find(array('userid'=> $this->logged_user->id));
+            return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee));
+       }
         return view('frontend.site.home');
     }
 

@@ -90,7 +90,7 @@
                                             <p>Oh to talking improve produce in limited offices fifteen an. Wicket branch to answer do we. Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
                                         </div>
 
-                                        @include('frontend.employee.basicinfo')
+                                        @include('frontend.employee.basicinfo',['userinfo'=>$userinfo,'employeeinfo'=>$employeeinfo])
 
 
                                         <form class="post-form-wrapper">

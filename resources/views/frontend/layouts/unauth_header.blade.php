@@ -17,66 +17,16 @@
                     
                         <ul class="nav navbar-nav" id="responsive-menu">
                         
-                            <li>
+                            <li> <a href="#">Home</a></li>
                             
-                                <a href="#">Home</a>
-<!--                                 <ul>
-                                    <li><a href="index.html">Home - Default</a></li>
-                                    <li><a href="index-02.html">Home - 02</a></li>
-                                    <li><a href="index-03.html">Home - 03</a></li>
-                                    <li><a href="index-04.html">Home - 04</a></li>
-                                    <li><a href="index-05.html">Home - 05</a></li>
-                                    <li><a href="index-06.html">Home - 06</a></li>
-                                    <li><a href="index-07.html">Home - 07</a></li>
-                                </ul> -->
-                                
-                            </li>
-                            
-                            <li>
-                                <a href="job-result.html">Job</a>
-<!--                                 <ul>
-                                    <li><a href="job-detail.html">Detail</a></li>
-                                    <li><a href="job-detail-02.html">Detail 02</a></li>
-                                    <li><a href="job-category.html">Category</a></li>
-                                    <li><a href="job-location.html">Location</a></li>
-                                    <li><a href="job-browse-job.html">Browse Job</a></li>
-                                    <li><a href="job-by-keywords.html">Job By Keyword</a></li>
-                                    <li><a href="job-company-list.html">Company List 01</a></li>
-                                    <li><a href="job-company-list-02.html">Company List 02</a></li>
-                                    <li><a href="job-company-list-03.html">Company List 03</a></li>
-                                </ul> -->
-                            </li>
-                            
-                            <li>
-                                <a href="employer.html">Employer</a>
-<!--                                 <ul>
-                                    <li><a href="employer-detail.html">Employer Detail</a></li>
-                                    <li><a href="employer-detail-02.html">Employer Detail 02</a></li>
-                                    <li><a href="employer-detail-03.html">Employer Detail 03</a></li>
-                                    <li><a href="employer-post-job.html">Post a Job</a></li>
-                                    <li><a href="employer-edit.html">Edit Profile</a></li>
-                                </ul> -->
-                            </li>
-                            
-                            <li>
-                                <a href="employee.html">Employee</a>
-<!--                                 <ul>
-                                    <li><a href="employee-detail.html">Employee Detail</a></li>
-                                    <li><a href="employee-detail-02.html">Employee Detail 02</a></li>
-                                    <li><a href="employee-create-resume.html">Create a resume</a></li>
-                                    <li><a href="employee-edit.html">Edit Profile</a></li>
-                                </ul> -->
-                            </li>
-                            
-
                         </ul>
                 
                     </div><!--/.nav-collapse -->
 
                     <div class="nav-mini-wrapper">
                         <ul class="nav-mini sign-in">
-                            <li><a data-toggle="modal" href="/auth/logout">Logout</a></li>
-                            
+                            <li><a data-toggle="modal" href="/login">login</a></li>
+                            <li><a data-toggle="modal" href="/signup">register</a></li>
                         </ul>
                     </div>
                 

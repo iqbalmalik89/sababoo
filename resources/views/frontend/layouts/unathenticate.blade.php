@@ -80,7 +80,7 @@
         <!-- start Container Wrapper -->
         <div class="container-wrapper @yield('container_class')">
 
-            @include('frontend.layouts.header')
+            @include('frontend.layouts.unauth_header')
 
             <div class="main-wrapper">    
 
@@ -107,7 +107,7 @@
                 
                 </div>
 
-                @include('frontend.layouts.footer')
+                @include('frontend.layouts.unauth_footer')
 
 
             </div>
