@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Session;
 use  BusinessObject\User;
+use  BusinessObject\Employee;
+use  BusinessObject\Employer;
 use Validator;
 use Helper;
 use DB;
@@ -43,7 +45,6 @@ class RegisterServiceProvider
             $user->verified_string='unverified';
             $user->status='disabled';
             $user->activation_token = $email_verify_code;
-
             $user->save();
            
         $response = $this->sendSignupEmail($data,$email_verify_code);
@@ -97,6 +98,20 @@ User Account has been successfully created. Please activate your account through
             $user->status='enabled';
             
             $user->save();
+
+              if($user->role=='employee'){
+                  $employee = new Employee;
+                  $employee->userid=$user->id;
+                  $employee->save();
+              }
+
+              if($user->role=='employer'){
+                  $employer = new Employer;
+                  $employer->userid=$user->id;
+                  $employer->save();
+              }
+
+
             $response['code'] = 200;
             $response['msg'] = 'Account has been verified.';
             $response['status'] = 'ok';
