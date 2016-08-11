@@ -172,3 +172,87 @@ function hideSucessDiv(){
         }
     }, 5000);
 }
+
+
+
+
+$( document ).ready(function() {
+
+
+
+    $.getJSON( "user/skills", function( data ) {
+
+        $('#user_skills').tokenfield()
+        $('#user_skills').tokenfield('setTokens', data);
+
+
+        // $('#user_skills').tokenfield('setTokens', data);
+
+
+
+    });
+
+   
+    $.getJSON( "skill", function( data ) {
+        console.log(data)
+        var stocks = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('skill'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: data
+        });
+
+        stocks.initialize();
+
+        $('#all_skills').typeahead(
+            null, {
+            name: 'skills',
+            displayKey: 'skill',
+            source: stocks.ttAdapter()
+        }).on('typeahead:selected', function(event, data){
+
+            setTimeout(function(){
+                $('#all_skills').val('');
+            }, 100);
+
+
+        var userSkills = $('#user_skills').tokenfield('getTokensList');
+
+
+        if( userSkills.split(',').indexOf(data.id.toString()) > -1 ) 
+        {
+            alert('Skill already exsits')
+        }
+        else
+        {
+            $('#user_skills').tokenfield('createToken', { value: data.id, label: data.skill });
+            userSkills = userSkills.replace(/\s/g,"");;            
+        }
+
+
+
+
+        
+
+
+
+
+        });
+
+    });
+
+
+});
+
+
+function saveSkills()
+{
+    var request_data = {"user_skills":$('#user_skills').tokenfield('getTokensList')};
+    pageURI = 'user/skills';
+    mainAjax('skill_form', request_data, 'PUT',skillCallback);
+}
+
+function skillCallback(data)
+{
+    console.log(data);
+}
+

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://fiddle.jshell.net/7z9qA/show/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+
+  
+  
+
+  
+  
+  
+
+  
+
+  <script type="text/javascript" src="./jquery-1.11.0.js"></script>
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" type="text/css" href="./result-light.css">
+  
+
+  
+    
+      <script type="text/javascript" src="./typeahead.bundle.js"></script>
+    
+  
+
+  <style type="text/css">
+    
+  </style>
+
+  <title></title>
+
+  
+    
+
+
+
+
+<script type="text/javascript">//<![CDATA[
+$(window).load(function(){
+var stocksData = [
+        {
+            "company_name": "Facebook",
+            "code": "fb",
+        },
+        {
+            "company_name": "Google",
+            "code": "goog",
+        },
+        {
+            "company_name": "Yahoo",
+            "code": "yhoo",
+        },
+        {
+            "company_name": "Apple",
+            "code": "aapl",
+        },
+        {
+            "company_name": "Royal Mail",
+            "code": "rmg.l",
+        },
+     ];
+    
+    var stocks = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('company_name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: stocksData
+        });
+
+        stocks.initialize();
+
+        $('.typeahead').typeahead(
+            null, {
+            name: 'stocks',
+            displayKey: 'company_name',
+            source: stocks.ttAdapter()
+        }).on('typeahead:selected', function(event, data){            
+            $('.typeahead').val(data.code);        
+        });
+
+});//]]> 
+
+</script>
+
+  
+</head>
+
+<body>
+  <span class="twitter-typeahead" style="position: relative; display: inline-block;"><input class="typeahead tt-hint" readonly="" autocomplete="off" spellcheck="false" tabindex="-1" dir="ltr" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"><input class="typeahead tt-input" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: BlinkMacSystemFont; font-size: 11px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;">Apple</pre><div class="tt-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"><div class="tt-dataset tt-dataset-stocks"><div class="tt-suggestion tt-selectable">Apple</div></div></div></span>
+  
+
+
+
+
+</body></html>
