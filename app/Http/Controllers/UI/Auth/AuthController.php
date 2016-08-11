@@ -64,6 +64,9 @@ class AuthController extends Controller
     public function getLogout(){
         Auth::logout();
 
+        Session::flush();
+        return redirect('/');
+
     }
      public function getLogin()
     {
@@ -131,9 +134,11 @@ class AuthController extends Controller
                 }
             }else{
                 $url="/home";
-                Session::forget('redirect_url');
+                 Session::forget('redirect_url');
 
             }
+
+          //return redirect(route('/home'));
 
             return response()->json([
               'url' => ($url!="" ? $url:\Redirect::intended()->getTargetUrl()),
