@@ -178,11 +178,25 @@ function hideSucessDiv(){
 
 $( document ).ready(function() {
 
+
+
+    $.getJSON( "user/skills", function( data ) {
+
+        $('#user_skills').tokenfield()
+        $('#user_skills').tokenfield('setTokens', data);
+
+
+        // $('#user_skills').tokenfield('setTokens', data);
+
+
+
+    });
+
    
-$.getJSON( "http://sababoo.dev/c.json", function( data ) {
+    $.getJSON( "skill", function( data ) {
         console.log(data)
         var stocks = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('company_name'),
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('skill'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             local: data
         });
@@ -191,24 +205,54 @@ $.getJSON( "http://sababoo.dev/c.json", function( data ) {
 
         $('#all_skills').typeahead(
             null, {
-            name: 'stocks',
-            displayKey: 'company_name',
+            name: 'skills',
+            displayKey: 'skill',
             source: stocks.ttAdapter()
-        }).on('typeahead:selected', function(event, data){            
-            // $('.typeahead').val(data.code);        
-            console.log(data);
+        }).on('typeahead:selected', function(event, data){
+
+            setTimeout(function(){
+                $('#all_skills').val('');
+            }, 100);
+
+
+        var userSkills = $('#user_skills').tokenfield('getTokensList');
+
+
+        if( userSkills.split(',').indexOf(data.id.toString()) > -1 ) 
+        {
+            alert('Skill already exsits')
+        }
+        else
+        {
+            $('#user_skills').tokenfield('createToken', { value: data.id, label: data.skill });
+            userSkills = userSkills.replace(/\s/g,"");;            
+        }
+
+
+
+
+        
+
+
+
+
         });
 
-});
-
-
-
-
-
-
-
-
-
+    });
 
 
 });
+
+
+function saveSkills()
+{
+    var request_data = {"user_skills":$('#user_skills').tokenfield('getTokensList')};
+    pageURI = 'user/skills';
+    mainAjax('skill_form', request_data, 'PUT',skillCallback);
+}
+
+function skillCallback(data)
+{
+    console.log(data);
+}
+

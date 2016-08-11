@@ -4,7 +4,6 @@
                                                 </div>
                                                 
                                                 <div id="dynamicAddForm3" class="clearfix">
-         
                                                     <!-- Form template-->
                                                     <div id="dynamicAddForm3_template">
 
@@ -25,33 +24,19 @@
                                                                             </div>
                                                                         </div>
                                                                         
-                                                                        <div class="col-sm-6">
-                                                                        
-                                                                            <div class="form-group mb-20">
-                                                                                <label for="dynamicAddForm3_#index#_program">Level of skill</label>
-                                                                                <div class="input-group">
-                                                                                    <input id="dynamicAddForm3_#index#_program" name="experience[program][#index#][program]" type="text" class="form-control" />
-                                                                                    <span class="input-group-addon">%</span>
-                                                                                </div>
-                                                                            </div>
-                                                                            
-                                                                        </div>
                                                                         
                                                                         <div class="clear"></div>
                                                                         
-                                                                        <div class="col-sm-6">
-                                                                        
-                                                                            
-                                                                            
-                                                                        </div>
                                                                         
                                                                         <div class="clear"></div>
                                                                         
                                                                         <div class="col-sm-12">
                                                                         
                                                                             <div class="form-group mb-20">
-                                                                                <label for="dynamicAddForm3_#index#_extraInfo">Skill details:</label>
-                                                                                <textarea id="dynamicAddForm3_#index#_extraInfo" name="experience[extraInfo][#index#][extraInfo]" class="form-control" rows="5"></textarea>
+                                                                                <label for="user_skills">Skill details:</label>
+
+                                                                                <input type="text" id="user_skills" name="user_skills" class="form-control">
+
                                                                             </div>
                                                                             
                                                                         </div>
@@ -74,23 +59,22 @@
                                                     <!-- /Form template-->
                                                      
                                                     <!-- No forms template -->
-                                                    <div id="dynamicAddForm3_noforms_template" class="dynamic-add-form-empty">
+<!--                                                     <div id="dynamicAddForm3_noforms_template" class="dynamic-add-form-empty">
                                                         <div class="alert alert-danger mb-0">No form, please click "Add Skill</div>
-                                                    </div>
+                                                    </div> -->
                                                     <!-- /No forms template-->
                                                      
                                                     <!-- Controls -->
                                                     <div id="dynamicAddForm3_controls" class="dynamic-add-form-action">
-                                                        <div id="dynamicAddForm3_add"><button class="btn btn-primary btn-sm"><span>Add Skill</span></button></div>
-                                                        <div id="dynamicAddForm3_remove_last"><button class="btn btn-danger btn-sm"><span>Remove</span></button></div>
+                                                        <div id="dynamicAddForm3_add"><a onclick="saveSkills();" class="btn btn-primary btn-sm"><span>Save Skills</span></a></div>
+<!--                                                         <div id="dynamicAddForm3_remove_last"><button class="btn btn-danger btn-sm"><span>Remove</span></button></div>
                                                         <div id="dynamicAddForm3_remove_all"><button class="btn btn-danger btn-sm"><span>Remove all</span></button></div>
                                                         <div id="dynamicAddForm3_add_n">
                                                             <div class="form-group">
                                                                 <input id="dynamicAddForm3_add_n_input" type="text" class="form-control form-control-sm" placeholder="how many to add? ex: 3" />
                                                             </div>
-                                                            <div id="dynamicAddForm3_add_n_button"><button class="btn btn-primary btn-sm"><span>Add</span></button></div></div>
+                                                            <div id="dynamicAddForm3_add_n_button"><button class="btn btn-primary btn-sm"><span>Add</span></button></div></div> -->
                                                     </div>
                                                     <!-- /Controls -->
-                                                     
                                                 </div>
  

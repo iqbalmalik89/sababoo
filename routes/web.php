@@ -26,7 +26,10 @@ Route::get('/login', function () {
 Route::post('auth/login', 'UI\Auth\AuthController@postLogin');
 Route::get('auth/logout', 'UI\Auth\AuthController@getLogout');
 
-
+// Skill routes
+Route::get('skill', 'UI\SkillController@get');
+Route::put('user/skills', 'UI\SkillController@updateUserSkills');
+Route::get('user/skills', 'UI\SkillController@getUserSkills');
 
 /*FORGOT PASSWORD */
 Route::match(['get', 'post'], '/ui/forgotpw', ['uses' => 'ForgotPasswordController@index', 'as' => 'forgotpw']);
