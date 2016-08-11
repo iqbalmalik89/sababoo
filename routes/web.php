@@ -42,7 +42,6 @@ Route::group(['middleware' => ['web']], function () {
 /************************************EMPLOYEE********************************************/
 Route::get('/employee', 'EmployeeController@index');
 Route::match(['get', 'post'], '/employee/update_basic_info', ['uses' => 'EmployeeController@updateBasicInfo']);
-Route::match(['get', 'post'], '/employee/imageUpload', ['uses' => 'EmployeeController@uploadImage']);
 
 /***********************************END OF EMPLOYEE*************************************/
 
