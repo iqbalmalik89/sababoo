@@ -45,19 +45,15 @@ class EmployeeServiceProvider
         if(isset($userArray['phone'])){			    $user->phone 			= $userArray['phone'];}
         if(isset($userArray['phone_type'])){		$user->phone_type 		= $userArray['phone_type'];}
         if(isset($userArray['postal_code'])){		$user->postal_code 		= $userArray['postal_code'];}
-        dd($user->update());
-        if($user->update()) {
+        if(isset($userArray['industry'])){		    $user->industry_id 		= $userArray['industry'];}
+
+        $user->update();
             return array(
                 'code' => '200',
                 'status' => 'ok',
                 'msg' => "Saved sucessfully !"
             );
-        }
-        return array(
-            'code' => '400',
-            'status' => 'error',
-            'msg' => "Error!"
-        );
+
 
     }
 
@@ -67,20 +63,9 @@ class EmployeeServiceProvider
         if(isset($userArray['industry_id'])){ 		$employee->industry_id 		= $userArray['industry_id']; }
         if(isset($userArray['summary'])){  		    $employee->summary 		= $userArray['summary'];  }
         if(isset($userArray['professional_heading'])){$employee->professional_heading 			= $userArray['professional_heading'];}
+        $employee->update();
 
-        if($employee->update()) {
-            return array(
-                'code' => '200',
-                'status' => 'ok',
-                'msg' => "Profile updated sucessfully !"
-            );
-        }
-        return array(
-            'code' => '400',
-            'status' => 'error',
-            'msg' => "Error, please try again."
-        );
-
+        return array('code'=>200,'status'=>'ok','msg'=>'Recored updated successfully.');
 
     }
 

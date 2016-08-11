@@ -26,13 +26,13 @@
                                   <div class="col-sm-5">
                                       <div class="form-group">
                                           <label for="dynamicAddForm">First Name </label>
-                                          <input id="first_name" name="first_name" type="text" class="form-control" value="<?php echo isset($userinfo->first_name)?$userinfo->first_name:null;?>"/>
+                                          <input id="first_name" name="first_name" type="text" class="form-control" value="<?php if(isset($userinfo->first_name)){ echo $userinfo->first_name;}?>"/>
                                       </div>
                                   </div>
                                   <div class="col-sm-5">
                                       <div class="form-group">
                                           <label for="dynamicAddForm">Last Name </label>
-                                          <input id="last_name" name="last_name" type="text" class="form-control"  value="<?php echo isset($userinfo->last_name)?$userinfo->last_name:'';?>"/>
+                                          <input id="last_name" name="last_name" type="text" class="form-control"  value="<?php if(isset($userinfo->last_name)){ echo $userinfo->last_name;}?>"/>
                                       </div>
                                   </div>
 
@@ -42,7 +42,7 @@
 
                                       <div class="form-group mb-20">
                                           <label for="dynamicAddForm_#index#_program">Professional Heading(eg: Artist):</label>
-                                          <input id="professional_heading"  id="professional_heading" name="professional_heading" type="text" class="form-control"  value="<?php echo isset($employeeinfo[0]->professional_heading)?$employeeinfo[0]->professional_heading:'';?>"/>
+                                          <input id="professional_heading"  id="professional_heading" name="professional_heading" type="text" class="form-control"  value="<?php if(isset($employeeinfo[0]->professional_heading)){ echo $employeeinfo[0]->professional_heading;}?>"/>
                                       </div>
 
                                   </div>
@@ -52,7 +52,7 @@
                                   <div class="col-sm-5">
                                       <div class="form-group">
                                           <label for="dynamicAddForm">Phone Number </label>
-                                          <input id="phone" name="phone" type="text" class="form-control"  value="<?php echo isset($userinfo->phone)?$userinfo->phone:'';?>"/>
+                                          <input id="phone" name="phone" type="text" class="form-control"  value="<?php if(isset($userinfo->phone)){ echo $userinfo->phone;}?>"/>
                                       </div>
                                   </div>
                                   <div class="col-sm-5">
@@ -312,15 +312,27 @@
                                   <div class="col-sm-5">
                                   <div class="form-group">
                                       <label for="dynamicAddForm">Postal Code </label>
-                                      <input id="postal_code" name="postal_code" type="text" class="form-control" <?php echo isset($userinfo->postal_code)?$userinfo->postal_code:0;?> />
+                                      <input id="postal_code" name="postal_code" type="text" class="form-control" value ="<?php if(isset($userinfo->postal_code)){ echo $userinfo->postal_code;}?>" />
                                   </div>
                               </div>
                                   <div class="col-sm-6">
 
-                                      <div class="form-group mb-20">
+                                      <div class="form-group mb-5">
                                           <label for="dynamicAddForm_#index#_program">Address</label>
-                                          <input id="address"  name="address" type="text" class="form-control" value="<?php echo isset($userinfo->address)?$userinfo->address:'';?> "/>
+                                          <input id="address"  name="address" type="text" class="form-control" value="<?php if(isset($userinfo->address)) { echo $userinfo->address;}?> "/>
                                       </div>
+
+                                      <div class="form-group mb-5">
+                                          <label for="dynamicAddForm_#index#_program">Industry</label>
+                                          <div class="btn-group bootstrap-select form-control dropup open">
+
+                                              <select id="industry" name="industry" class="selectpicker form-control" data-live-search="false" tabindex="-98">
+                                              <?php foreach($industry as $key=>$value){?>
+                                              <option value="<?php echo $value['id'];?>"><?php echo $value['name'];?></option>
+                                                  <?php }?>
+                                              </select>
+                                          </div>
+                                          </div>
 
                                   </div>
 
@@ -329,7 +341,7 @@
 
                                       <div class="form-group mb-20 bootstrap3-wysihtml5-wrapper">
                                           <label for="dynamicAddForm_#index#_extraInfo">Addition Info:</label>
-                                          <textarea id="summary" name="summary" class="form-control" rows="5"><?php echo isset($employeeinfo[0]->summary)?$employeeinfo[0]->summary:'';?></textarea>
+                                          <textarea id="summary" name="summary" class="form-control" rows="5"><?php if(isset($employeeinfo[0]->summary)){ echo $employeeinfo[0]->summary;}?></textarea>
 
                                       </div>
 
@@ -381,10 +393,12 @@
 
       var country = '<?php echo isset($userinfo->country)?$userinfo->country:'';?>';
       var phone_type = '<?php echo isset($userinfo->phone_type)?$userinfo->phone_type:'';?>';
+      var industry = '<?php echo isset($userinfo->industry_id)?$userinfo->industry_id:'';?>';
 
       $(document).ready(function () {
           $('#country option[value="' + country + '"]').prop('selected', true);
           $('#phone_type option[value="' + phone_type + '"]').prop('selected', true);
+          $('#industry option[value="' + industry + '"]').prop('selected', true);
 
           $('#update_basic_info').click(function () {
               $('.loader').show();
