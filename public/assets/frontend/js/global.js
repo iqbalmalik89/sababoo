@@ -178,26 +178,30 @@ function hideSucessDiv(){
 
 $( document ).ready(function() {
 
-    var countries = new Bloodhound({
-      datumTokenizer: Bloodhound.tokenizers.whitespace,
-      queryTokenizer: Bloodhound.tokenizers.whitespace,
-      // url points to a json file that contains an array of country names, see
-      // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
-      prefetch: 'http://sababoo.dev/skills.json'
-    });
+   
+$.getJSON( "http://sababoo.dev/c.json", function( data ) {
+        console.log(data)
+        var stocks = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('company_name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: data
+        });
 
-    // passing in `null` for the `options` arguments will result in the default
-    // options being used
-    $('#all_skills').typeahead(null, {
-      name: 'countries',
-      source: countries
-    });
+        stocks.initialize();
+
+        $('#all_skills').typeahead(
+            null, {
+            name: 'stocks',
+            displayKey: 'company_name',
+            source: stocks.ttAdapter()
+        }).on('typeahead:selected', function(event, data){            
+            // $('.typeahead').val(data.code);        
+            console.log(data);
+        });
+
+});
 
 
-    $('#all_skills').bind('typeahead:select', function(ev, suggestion) {
-      console.log('Selection: ' + suggestion);
-      console.log(ev);      
-    });
 
 
 
