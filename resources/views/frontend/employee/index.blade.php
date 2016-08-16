@@ -49,182 +49,12 @@
                                         @include('frontend.employee.basicinfo',['userinfo'=>$userinfo,'employeeinfo'=>$employeeinfo,'industry'=>$industry])
 
 
-                                        <form class="post-form-wrapper">
+
                                 
                                             <div class="row gap-20">
-                                        
-                                                <div class="col-sm-12 col-md-12 mb-15">
-                                                    <h3 class="heading mb-10">Educations</h3>
-                                                    <p>Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
-                                                </div>
-                                                
-                                                <div class="clear"></div>
-                                                
+
                                                 <!-- sheepIt Form -->
-                                                <div id="dynamicAddForm" class="clearfix">
-                                                 
-                                                    <!-- Form template-->
-                                                    <div id="dynamicAddForm_template">
-
-                                                        <div class="col-sm-12">
-                                                        
-                                                            <div class="dynamic-add-form-item">
-                                                            
-                                                                <div class="dynamic-add-form-inner">
-                                                                
-                                                                    <h4 class="heading font700 mb-15 text-primary">Education <span id="dynamicAddForm_label"></span></h4>
-                                                                    
-                                                                    <div class="row gap-20">
-                                                                    
-                                                                        <div class="col-sm-5">
-                                                                            <div class="form-group">
-                                                                                <label for="dynamicAddForm_#index#_school">University/College </label>
-                                                                                <input id="dynamicAddForm_#index#_school" name="education[school][#index#][school]" type="text" class="form-control" />
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-sm-7">
-                                                                        
-                                                                            <div class="row">
-                                                                
-                                                                                <div class="col-sm-6">
-                                                                                    <div class="form-group mb-20">
-                                                                                        <label for="dynamicAddForm_#index#_from1">From:</label>
-                                                                                        <div class="row gap-10">
-                                                                                            <div class="col-xs-6 col-sm-6">
-                                                                                                <select id="dynamicAddForm_#index#_from1" name="education[from1][#index#][from1]" class="selectpicker form-control" data-live-search="false">
-                                                                                                    <option value="0" selected >month</option>
-                                                                                                    <option value="1">Jan</option>
-                                                                                                    <option value="2">Feb</option>
-                                                                                                    <option value="3">Mar</option>
-                                                                                                    <option value="4">Apr</option>
-                                                                                                    <option value="5">May</option>
-                                                                                                </select>
-                                                                                            </div>
-                                                                                            <div class="col-xs-6 col-sm-6">
-                                                                                                <select id="dynamicAddForm_#index#_from2" name="education[from2][#index#][from2]" class="selectpicker form-control" data-live-search="false">
-                                                                                                    <option value="0" selected >year</option>
-                                                                                                    <option value="1">2000</option>
-                                                                                                    <option value="2">2001</option>
-                                                                                                    <option value="3">2002</option>
-                                                                                                    <option value="4">2003</option>
-                                                                                                    <option value="5">2004</option>
-                                                                                                </select>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                
-                                                                                <div class="col-sm-6">
-                                                                                    <div class="form-group mb-20">
-                                                                                        <label for="dynamicAddForm_#index#_to1">To:</label>
-                                                                                        <div class="row gap-10">
-                                                                                            <div class="col-xs-6 col-sm-6">
-                                                                                                <select id="dynamicAddForm_#index#_to1" name="education[to1][#index#][to1]" class="selectpicker form-control" data-live-search="false">
-                                                                                                    <option value="0" selected >Select</option>
-                                                                                                    <option value="1">Jan</option>
-                                                                                                    <option value="2">Feb</option>
-                                                                                                    <option value="3">Mar</option>
-                                                                                                    <option value="4">Apr</option>
-                                                                                                    <option value="5">May</option>
-                                                                                                </select>
-                                                                                            </div>
-                                                                                            <div class="col-xs-6 col-sm-6">
-                                                                                                <select id="dynamicAddForm_#index#_to2" name="education[to2][#index#][to2]" class="selectpicker form-control" data-live-search="false">
-                                                                                                    <option value="0" selected >Select</option>
-                                                                                                    <option value="1">2000</option>
-                                                                                                    <option value="2">2001</option>
-                                                                                                    <option value="3">2002</option>
-                                                                                                    <option value="4">2003</option>
-                                                                                                    <option value="5">2004</option>
-                                                                                                </select>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                
-                                                                            </div>
-                                                                        
-                                                                        </div>
-                                                                        
-                                                                        <div class="clear"></div>
-                                                                        
-                                                                        <div class="col-sm-6">
-                                                                        
-                                                                            <div class="form-group mb-20">
-                                                                                <label for="dynamicAddForm_#index#_level">Level:</label>
-                                                                                <select id="dynamicAddForm_#index#_level" name="education[level][#index#][level]" class="selectpicker form-control" data-live-search="false">
-                                                                                    <option value="0" selected >Select</option>
-                                                                                    <option value="1">Diploma</option>
-                                                                                    <option value="2">Bachelor</option>
-                                                                                    <option value="3">Master</option>
-                                                                                    <option value="4">Doctoral </option>
-                                                                                    <option value="5">Certificate</option>
-                                                                                </select>
-                                                                            </div>
-                                                                            
-                                                                        </div>
-                                                                        
-                                                                        <div class="col-sm-6">
-                                                                        
-                                                                            <div class="form-group mb-20">
-                                                                                <label for="dynamicAddForm_#index#_program">Course Title:</label>
-                                                                                <input id="dynamicAddForm_#index#_program" name="education[program][#index#][program]" type="text" class="form-control" />
-                                                                            </div>
-                                                                            
-                                                                        </div>
-                                                                        
-                                                                        <div class="clear"></div>
-                                                                        
-                                                                        <div class="col-sm-12">
-                                                                        
-                                                                            <div class="form-group mb-20 bootstrap3-wysihtml5-wrapper">
-                                                                                <label for="dynamicAddForm_#index#_extraInfo">Addition Info:</label>
-                                                                                <textarea id="dynamicAddForm_#index#_extraInfo" name="education[extraInfo][#index#][extraInfo]" class="form-control" rows="5"></textarea>
-                                    
-                                                                            </div>
-                                                                            
-                                                                        </div>
-                                                                        
-                                                                    </div>
-                                                                    
-                                                                    
-                                                                
-                                                                </div>
-                                                                
-                                                                <span id="dynamicAddForm_remove_current" class="dynamic-add-form-close">
-                                                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                                                </span>
-                                                                    
-                                                            </div>
-                                                        
-                                                        </div>
-                                                        
-                                                        <div class="clear"></div>
-
-                                                    </div>
-                                                    <!-- /Form template-->
-
-                                                    <!-- No forms template -->
-                                                    <div id="dynamicAddForm_noforms_template" class="dynamic-add-form-empty clearfix">
-                                                        <div class="alert alert-danger mb-0">No form, please click "Add education" button</div>
-                                                    </div>
-                                                    <!-- /No forms template-->
-                                                     
-                                                    <!-- Controls -->
-                                                    <div id="dynamicAddForm_controls" class="dynamic-add-form-action">
-                                                        <div id="dynamicAddForm_add"><button class="btn btn-primary btn-sm"><span>Add Education</span></button></div>
-                                                        <div id="dynamicAddForm_remove_last"><button class="btn btn-danger btn-sm"><span>Remove</span></button></div>
-                                                        <div id="dynamicAddForm_remove_all"><button class="btn btn-danger btn-sm"><span>Remove all</span></button></div>
-                                                        <div id="dynamicAddForm_add_n">
-                                                            <div class="form-group">
-                                                                <input id="dynamicAddForm_add_n_input" type="text" class="form-control form-control-sm" placeholder="how many to add? ex: 3" />
-                                                            </div>
-                                                            <div id="dynamicAddForm_add_n_button"><button class="btn btn-primary btn-sm"><span>Add</span></button></div></div>
-                                                    </div>
-                                                    <!-- /Controls -->
-
-                                                </div>
+                                                @include('frontend.employee.education',['employeeinfo'=>$employeeinfo,'education'=>$education])
                                                 <!-- /sheepIt Form -->
                                                 
                                                 <div class="clear mb-30"></div>
@@ -632,7 +462,7 @@
 
                                             </div>
                                             
-                                        </form>
+
                                         
                                     </div>
                                     

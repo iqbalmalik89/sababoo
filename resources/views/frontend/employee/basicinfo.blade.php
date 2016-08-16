@@ -1,5 +1,7 @@
+<script type="text/javascript" src="{{asset('assets/frontend/js/fileinput.min.js')}}"></script>
 
-  <form class="post-form-wrapper" id="frm_basic_info">
+
+<form class="post-form-wrapper" id="frm_basic_info">
 
       <div class="row gap-20">
           <div class="col-sm-12 col-md-12 mb-15">
@@ -15,15 +17,58 @@
 
                   <div class="col-sm-12">
 
-                      <div class="dynamic-add-form-item">
+                      <div class="">
 
                           <div class="dynamic-add-form-inner">
 
                               <h4 class="heading font700 mb-15 text-primary">Profile  <span id="dynamicAddForm_label"></span></h4>
 
                               <div class="row gap-20">
+                                  <div class="col-sm-6 col-md-4">
 
-                                  <div class="col-sm-5">
+                                      <div class="form-group bootstrap-fileinput-style-01">
+                                          <label>Photo</label>
+                                          <div class="file-input file-input-ajax-new"><div class="file-preview ">
+                                                  <div class=" file-drop-zone">
+                                                      <div class="image">
+
+                                                          <?php
+                                                             // dd($userinfo->image);
+                                                             $user_image = "user_images/01.jpg";
+                                                              if(isset($userinfo->image) && $userinfo->image!=''){
+                                                                  $user_image = "user_images/".$userinfo->image;
+                                                              }
+                                                          ?>
+                                                          <img  style="width:229px; height: 235px;" id="employee_image_1" class="" alt="image" src="<?php echo $user_image;?>">
+                                                      </div>
+
+                                                  </div>
+
+                                                  <div class="file-preview-status text-center text-success"></div>
+
+                                                  </div>
+                                              </div>
+                                              <div class="kv-upload-progress hide"></div>
+                                              <div tabindex="500" class="btn btn-primary btn-file">
+                                                  <input type="file" name="form-register-photo" id="form-register-photo"></div>
+
+
+
+
+                                      </div>
+                                      <div id="img_upload" class="" style="display: none;"></div>
+                                          <span class="font12 font-italic">** photo must not bigger than 250kb</span>
+                                      </div>
+
+                                  </div>
+
+                                  <div class="clear"></div>
+
+
+
+
+
+                              <div class="col-sm-5">
                                       <div class="form-group">
                                           <label for="dynamicAddForm">First Name </label>
                                           <input id="first_name" name="first_name" type="text" class="form-control" value="<?php if(isset($userinfo->first_name)){ echo $userinfo->first_name;}?>"/>
@@ -383,7 +428,12 @@
 
   </form>
   <div class="clear"></div>
+<style>
 
+    .file-thumb-progress .progress, .file-thumb-progress .progress-bar{
+        height: 0px;;
+    }
+</style>
 
   <script>
       var pageURI = '';
@@ -408,11 +458,71 @@
               mainAjax('frm_basic_info', request_data, 'POST',fillData);
 
           });
+
+
+          $("#form-register-photo").fileinput({
+              dropZoneTitle: '<i class="fa fa-photo"></i><span>Upload Photo</span>',
+              uploadUrl: '/employee/imageUpload?_token=' + $('meta[name="csrf-token"]').attr('content'),
+              maxFileCount: 1,
+              minFileCount: 1,
+              uploadAsync: true,
+              showUpload: true,
+              showRemove: false,
+              browseLabel: 'Browse',
+              browseIcon: '',
+              //removeLabel: 'Remove',
+              removeLabel: false,
+              removeIcon: '',
+              uploadLabel: 'Upload',
+              uploadIcon: '',
+              autoReplace: true,
+              showCaption: false,
+              allowedFileTypes: ['image' ],
+              allowedFileExtensions: ['jpg', 'gif', 'png', 'tiff'],
+              initialPreview: [
+                  '<img src="{{asset('assets/frontend/images/man/01.jpg')}}" class="file-preview-image" alt="The Moon" title="The Moon">',
+              ],
+              overwriteInitial: true,
+              msgFilesTooLess:true,
+              showPreview: false,
+              //initialPreviewAsData: true
+              elErrorContainer: '#kv-error-1'
+          }).on('filebatchuploadsuccess', function(event, data, id, index) {
+
+              console.log(data.jqXHR.responseJSON.code);
+              if(data.jqXHR.responseJSON.code==200){
+                $('#employee_image_1').attr('src',data.jqXHR.responseJSON.img);
+                $('#employee_image_2').attr('src',data.jqXHR.responseJSON.img);
+                 $('#img_upload').addClass('msg_ok');
+                 $('#img_upload').show();
+                 $('#img_upload').html('Image uploaded successfully');
+                 $('#img_upload').fadeIn('slow');
+                 $('#img_upload').delay(2000).fadeOut();
+              }else {
+                  $('#img_upload').addClass('msg_cancel');
+                  $('#img_upload').show();
+                  $('#img_upload').html('Invalid format please try again.');
+                  $('#img_upload').fadeIn('slow');
+                  $('#img_upload').delay(2000).fadeOut();
+              }
+
+
+          });
+
+
+          /*var $input = $("#form-register-photo");
+          $input.fileinput({
+              uploadUrl: '/employee/imageUpload?_token=' + $('meta[name="csrf-token"]').attr('content'), // server upload action
+              uploadAsync: false,
+              showUpload: false, // hide upload button
+              showRemove: false, // hide remove button
+              minFileCount: 1,
+              maxFileCount: 1
+          }).on("filebatchselected", function(event, files) {
+              // trigger upload method immediately after files are selected
+              $input.fileinput("upload");
+          });*/
+
          });
-      function fillData(data){
-
-
-
-      }
 
   </script>
