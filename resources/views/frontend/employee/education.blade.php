@@ -253,13 +253,8 @@
     $(document).ready(function () {
 
         $('#education_btn').click(function () {
-
             $('#education_pop').show();
-
         });
-
-
-
 
         $('.edit_education_link').click(function () {
           //  alert($(this).attr('tab_id'));
@@ -286,7 +281,7 @@
         }
 
         $('#update_btn').click(function () {
-     $('.loader').show();
+			$('.loader').show();
             html = '';
             pageURI = '/employee/add_education';
 

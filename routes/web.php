@@ -47,9 +47,9 @@ Route::get('/employee', 'EmployeeController@index');
 Route::match(['get', 'post'], '/employee/update_basic_info', ['uses' => 'EmployeeController@updateBasicInfo']);
 Route::match(['get', 'post'], '/employee/imageUpload', ['uses' => 'EmployeeController@uploadImage']);
 Route::match(['get', 'post'], '/employee/add_education', ['uses' => 'EmployeeController@addEducation']);
-Route::match(['get', 'post'], '/employee/edit_education', ['uses' => 'EmployeeController@EditEducation']);
-
-
-    /***********************************END OF EMPLOYEE*************************************/
+Route::match(['get', 'post'], '/employee/edit_education', ['uses' => 'EmployeeController@editEducation']);
+Route::match(['get', 'post'], '/employee/add_experience', ['uses' => 'EmployeeController@addExperience']);
+Route::match(['get', 'post'], '/employee/edit_experience', ['uses' => 'EmployeeController@editExperience']);
+/***********************************END OF EMPLOYEE*************************************/
 
 });
