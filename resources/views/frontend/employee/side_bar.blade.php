@@ -1,11 +1,20 @@
+
 <div class="employee-detail-sidebar">
                                         
                                     <div class="section-title mb-30">
                                         <h2 class="text-left">your Information</h2>
                                     </div>
-                                    
-                                    <div class="image">
-                                        <img src="{{asset('assets/frontend/images/man/01.jpg')}}" alt="image" class="img-circle" />
+
+                                    <div class="">
+
+                                        <?php
+                                        $user_image = "user_images/01.jpg";
+                                        if(isset($userinfo->image) && $userinfo->image!=''){
+                                            $user_image = "user_images/".$userinfo->image;
+                                        }
+                                        ?>
+                                        <img id="employee_image_2" src="<?php echo $user_image;?>" alt="image" class="" style="width:150px; height:150px;" />
+
                                     </div>
                                     
                                     <h3 class="heading mb-15"><?php if(isset($userinfo->first_name)){ echo $userinfo->first_name;}?> <?php if(isset($userinfo->last_name)){ echo $userinfo->last_name;}?></h3>
@@ -22,10 +31,7 @@
                                             <h4 class="heading">People:</h4>
                                             00+
                                         </li>
-                                        <li>
-                                            <h4 class="heading">Education:</h4>
-                                            B.Eng in Computer
-                                        </li>
+
                                         <li>
                                             <h4 class="heading">Email:</h4>
                                             <?php if(isset($userinfo->email)){ echo $userinfo->email;}?>

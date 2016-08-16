@@ -7,26 +7,7 @@ jQuery(function($) {
 	/**
 	* Fileinput
 	*/
-	$("#form-register-photo").fileinput({
-		dropZoneTitle: '<i class="fa fa-photo"></i><span>Upload Photo</span>',
-		uploadUrl: '/',
-		maxFileCount: 1,
-		showUpload: true,
-		browseLabel: 'Browse',
-		browseIcon: '',
-		removeLabel: 'Remove',
-		removeIcon: '',
-		uploadLabel: 'Upload',
-		uploadIcon: '',
-		autoReplace: true,
-		showCaption: false,
-		allowedFileTypes: ['image' ],
-		allowedFileExtensions: ['jpg', 'gif', 'png', 'tiff'],
-			initialPreview: [
-				'<img src="images/man/01.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
-		],
-		overwriteInitial: true,
-	});
+
 	
 	$("#form-register-photo-2").fileinput({
 		dropZoneTitle: '<i class="fa fa-photo"></i><span>Upload Photo</span>',
@@ -44,7 +25,7 @@ jQuery(function($) {
 		allowedFileTypes: ['image' ],
 		allowedFileExtensions: ['gif', 'png'],
 			initialPreview: [
-				'<img src="images/brands/06.png" class="file-preview-image" alt="The Moon" title="The Moon">',
+				'<img src="/resources/assets/frontend/images/brands/06.png" class="file-preview-image" alt="The Moon" title="The Moon">',
 		],
 		overwriteInitial: true,
 	});

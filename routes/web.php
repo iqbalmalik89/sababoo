@@ -42,12 +42,12 @@ Route::get('/', 'HomeController@index');
 Route::group(['middleware' => ['web']], function () {
    Route::get('/home', 'HomeController@showHome');
 
-
-   /************************************EMPLOYEE********************************************/
-    Route::get('/employee', 'EmployeeController@index');
-    Route::match(['get', 'post'], '/employee/update_basic_info', ['uses' => 'EmployeeController@updateBasicInfo']);
-
-
+/************************************EMPLOYEE********************************************/
+Route::get('/employee', 'EmployeeController@index');
+Route::match(['get', 'post'], '/employee/update_basic_info', ['uses' => 'EmployeeController@updateBasicInfo']);
+Route::match(['get', 'post'], '/employee/imageUpload', ['uses' => 'EmployeeController@uploadImage']);
+Route::match(['get', 'post'], '/employee/add_education', ['uses' => 'EmployeeController@addEducation']);
+Route::match(['get', 'post'], '/employee/edit_education', ['uses' => 'EmployeeController@EditEducation']);
 
 
     /***********************************END OF EMPLOYEE*************************************/

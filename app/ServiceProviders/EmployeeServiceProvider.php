@@ -11,6 +11,7 @@ namespace BusinessLogic;
 use Helper;
 use  BusinessObject\User;
 use  BusinessObject\Employee;
+use  BusinessObject\Education;
 use Validator;
 use DB;
 
@@ -64,8 +65,56 @@ class EmployeeServiceProvider
         if(isset($userArray['summary'])){  		    $employee->summary 		= $userArray['summary'];  }
         if(isset($userArray['professional_heading'])){$employee->professional_heading 			= $userArray['professional_heading'];}
         $employee->update();
+        //return response()->json("Recored updated successfully.");
+        return array('code'=>200,'status'=>'ok','msg'=>'Record updated successfully.');
 
-        return array('code'=>200,'status'=>'ok','msg'=>'Recored updated successfully.');
+    }
+
+    public function addEducation($data,$user_id){
+
+
+        //Update
+       if(isset($data['edu_id']) && $data['edu_id'] !=''){
+
+           $education = Education::find($data['edu_id']);
+           $education->employee_id = $data['employee_id'];
+           $education->school_name = $data['school_name'];
+           $education->year_from = $data['date_from'];
+           $education->year_to = $data['date_to'];
+           $education->degree = $data['degree'];
+           $education->field_study = $data['field_study'];
+           $education->grade = $data['grade'];
+           $education->description = $data['description'];
+           $education->update();
+           //return response()->json("Recored updated successfully.");
+           return array('code'=>200,'status'=>'ok','msg'=>'Record updated successfully.');
+       }
+        try {
+            $education = new Education;
+            $education->employee_id = $data['employee_id'];
+            $education->school_name = $data['school_name'];
+            $education->year_from = $data['date_from'];
+            $education->year_to = $data['date_to'];
+            $education->degree = $data['degree'];
+            $education->field_study = $data['field_study'];
+            $education->grade = $data['grade'];
+            $education->description = $data['description'];
+            $education->save();
+
+                return array(
+                    'code' => '200',
+                    'status' => 'ok',
+                    'msg' => "Education added successfully.",
+                    'data'=>$education,
+
+                );
+
+
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+
+
 
     }
 
