@@ -1,7 +1,10 @@
 <div class="col-sm-12 col-md-12 mb-15">
     <h3 class="heading mb-10">Educations</h3>
+
     <p>Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
 </div>
+
+
 
 <div class="clear"></div>
 <div id="dynamicAddForm" class="clearfix">
@@ -253,13 +256,8 @@
     $(document).ready(function () {
 
         $('#education_btn').click(function () {
-
             $('#education_pop').show();
-
         });
-
-
-
 
         $('.edit_education_link').click(function () {
           //  alert($(this).attr('tab_id'));
@@ -286,7 +284,7 @@
         }
 
         $('#update_btn').click(function () {
-     $('.loader').show();
+			$('.loader').show();
             html = '';
             pageURI = '/employee/add_education';
 

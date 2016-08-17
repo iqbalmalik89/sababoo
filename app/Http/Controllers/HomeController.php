@@ -9,6 +9,7 @@ use BusinessLogic\EmployeeServiceProvider;
 use  BusinessObject\User;
 use  BusinessObject\Employee;
 use  BusinessObject\Education;
+use  BusinessObject\Experience;
 
 use  BusinessObject\Industry;
 
@@ -44,8 +45,9 @@ class HomeController extends Controller
         if($this->logged_user->role=="employee"){
             $employee = Employee::find(array('userid'=> $this->logged_user->id));
             $education = Education::where(array('employee_id'=> $employee[0]->id))->get();
+            $exp = Experience::where(array('employee_id'=> $employee[0]->id))->get();
 
-             return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee,'industry'=>$industry,'education'=>$education));
+             return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee,'industry'=>$industry,'education'=>$education,'exp'=>$exp));
        }
         return view('frontend.site.home');
     }

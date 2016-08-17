@@ -18,6 +18,7 @@ use Session;
 use Validator;
 use  BusinessObject\User;
 use  BusinessObject\Education;
+use  BusinessObject\Experience;
 
 
 class EmployeeController extends Controller
@@ -65,13 +66,36 @@ class EmployeeController extends Controller
         return $this->employeeServiceProvider->addEducation($post_data,$this->logged_user->id);
      }
 
-    public function EditEducation(Request $request){
+    public function editEducation(Request $request){
         $post_data = $request->all();
         $education = Education::where(array('id'=>$post_data['edu_id']))->get();
         return response()->json(array("code"=>200,'status'=>'ok','msg'=>'','data'=> $education));
 
+	}
+	public function addExperience(Request $request){
+        $post_data = $request->all();
 
+       // dd($post_data);
+        $this->logged_user = Auth::user();
+        $validate_array = array(
+            'job_position'         => "required",
+            'company_name'          => "required",
+            'date_from_month'          => "required",
+            'date_from_year'          => "required",
+        );
+        $validation_res = Validate::validateMe($post_data,$validate_array);
+        if($validation_res['code'] == 401){
+            return $validation_res;
+        }
+        return $this->employeeServiceProvider->addExperience($post_data,$this->logged_user->id);
      }
+	 
+	 public function editExperience(Request $request){
+        $post_data = $request->all();
+        $experience = Experience::where(array('id'=>$post_data['exp_id']))->get();
+        return response()->json(array("code"=>200,'status'=>'ok','msg'=>'','data'=> $experience));
+
+	}
 
     public function uploadImage(Request $request){
 

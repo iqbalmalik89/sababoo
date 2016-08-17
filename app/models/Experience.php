@@ -11,13 +11,13 @@ namespace BusinessObject;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Education extends Model
+class Experience extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'education';
+    protected $table = 'experience';
     public $timestamps = true;
 }
