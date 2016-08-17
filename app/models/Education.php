@@ -19,5 +19,5 @@ class Education extends Model
      * @var string
      */
     protected $table = 'education';
-    public $timestamps = false;
+    public $timestamps = true;
 }

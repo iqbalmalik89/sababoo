@@ -19,5 +19,5 @@ class Experience extends Model
      * @var string
      */
     protected $table = 'experience';
-    public $timestamps = false;
+    public $timestamps = true;
 }
