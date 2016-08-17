@@ -11,7 +11,7 @@ namespace BusinessObject;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Education extends Model
+class Experience extends Model
 {
     /**
      * The database table used by the model.

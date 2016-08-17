@@ -74,7 +74,7 @@
                                         <label class="" for="register_accept_checkbox">Emplyer</label>
                                         <input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="radio" name="role" id="role" value="tradesman">
                                         <label class="" for="register_accept_checkbox">Tradesman</label>
-                                    </di
+
                                     </div>
                                 </div>
 

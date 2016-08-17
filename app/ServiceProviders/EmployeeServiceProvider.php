@@ -12,6 +12,7 @@ use Helper;
 use  BusinessObject\User;
 use  BusinessObject\Employee;
 use  BusinessObject\Education;
+use  BusinessObject\Experience;
 use Validator;
 use DB;
 
@@ -117,6 +118,55 @@ class EmployeeServiceProvider
 
     }
 	public function addExperience($data){
+
+        try{
+            if(isset($data['exp_id']) && $data['exp_id'] !=''){
+
+                $exp = Experience::find($data['exp_id']);
+                $exp->employee_id = $data['employee_id'];
+                $exp->company_name = $data['company_name'];
+                $exp->job_position = $data['job_position'];
+                $exp->date_from = $data['date_from_month']."-".$data['date_from_year'];
+                $exp->date_to = $data['date_to_month']."-".$data['date_to_year'];
+
+                if(!isset($data['current'])){
+                    $data['current']=0;
+                }
+
+                $exp->current = $data['current'];
+                $exp->description = $data['additional_info'];
+                $exp->status ='1';
+                $exp->update();
+                //return response()->json("Recored updated successfully.");
+                return array('code'=>200,'status'=>'ok','msg'=>'Record updated successfully.');
+            }
+            $exp = new Experience;
+            $exp->employee_id = $data['employee_id'];
+            $exp->company_name = $data['company_name'];
+            $exp->job_position = $data['job_position'];
+            $exp->date_from = $data['date_from_month']."-".$data['date_from_year'];
+            $exp->date_to = $data['date_to_month']."-".$data['date_to_year'];
+
+            if(!isset($data['current'])){
+                $data['current']=0;
+            }
+            $exp->current = $data['current'];
+            $exp->description = $data['additional_info'];
+            $exp->status ='1';
+            $exp->save();
+            return array(
+                'code' => '200',
+                'status' => 'ok',
+                'msg' => "Experience added successfully.",
+
+            );
+
+
+
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+
 	
 	}
 	

@@ -127,7 +127,7 @@
                                                 
                                                 <div class="clear mb-30"></div>
                                                 
-                                                @include('frontend.employee.experience')
+                                                @include('frontend.employee.experience',['employeeinfo'=>$employeeinfo,'exp'=>$exp])
                                                 
                                                 <div class="clear mb-30"></div>
                                                 
