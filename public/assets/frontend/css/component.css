@@ -5571,6 +5571,18 @@ ul.wysihtml5-toolbar div[data-wysihtml5-command-value=orange] {
     cursor: pointer;
 }
 
+
+.add-more-cancel {
+    color: red;
+}
+
+.add-more-cancel:hover {
+    color: green;
+    cursor: pointer;
+}
+
+
+
 .dynamic-add-form-empty {
     margin-left: 10px;
     margin-right: 10px;

@@ -178,23 +178,15 @@ function hideSucessDiv(){
 
 $( document ).ready(function() {
 
-
+    getUserLanguages();
 
     $.getJSON( "user/skills", function( data ) {
-
         $('#user_skills').tokenfield()
         $('#user_skills').tokenfield('setTokens', data);
-
-
-        // $('#user_skills').tokenfield('setTokens', data);
-
-
-
     });
 
    
     $.getJSON( "skill", function( data ) {
-        console.log(data)
         var stocks = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('skill'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -251,8 +243,97 @@ function saveSkills()
     mainAjax('skill_form', request_data, 'PUT',skillCallback);
 }
 
+function saveUserLanguages()
+{
+    // var request_data = {"user_skills":$('#user_skills').tokenfield('getTokensList')};
+    pageURI = 'user/languages';
+    var request_data = $('#language_form').serializeArray();
+    mainAjax('#language_form', request_data, 'PUT',languagesCallback);
+}
+
+function languagesCallback()
+{}
+
 function skillCallback(data)
 {
     console.log(data);
 }
+
+
+function getUserLanguages()
+{
+    pageURI = 'user/languages';
+    mainAjax('', {}, 'GET',languageRender);
+}
+
+function languageRender(data)
+{
+    if(data.data.length > 0)
+    {
+        $.each(data.data, function( index, language ) {                
+            addMoreLanguage(index, language.language, language.proficiency);            
+        });
+    }
+    else
+    {
+        addMoreLanguage(0, '', '');
+    }
+}
+function removeLanguage(obj)
+{
+    $(obj).next().remove();
+    $(obj).next().remove();
+    $(obj).remove();
+}
+
+function addMoreLanguage(mode, language, proficiency)
+{
+    var cancelHtml = '';
+    var optionsObj = {"": "Proficiency...", "elementary":"Elementary proficiency",
+                  "limited_working": "Limited working proficiency", "professional_working":"Professional working proficiency",
+                  "full_professional": "Full professional proficiency", "native_or_bilingual":"Native or bilingual proficiency"};
+
+    var options = '';
+    $.each(optionsObj, function( index, value ) {
+        if(index == proficiency)
+            var selected = 'selected';
+        else
+            var selected = '';
+
+        options += '<option '+selected+' value="'+index+'">'+value+'</option>';
+
+    });
+
+    if(mode != 0)
+    {
+        cancelHtml = '<span onclick="removeLanguage(this);" class="dynamic-add-form-close add-more-cancel">\
+                        <i class="fa fa-times" aria-hidden="true"></i>\
+                        </span>';
+
+    }
+
+    var html =  cancelHtml + '<div class="col-sm-4"> \
+                    <div class="form-group">\
+                        <label>Langauage</label>\
+                        <input type="text" value="'+language+'" class="form-control" name="user_language[]">\
+                    </div>\
+                </div>\
+                \
+                <div class="col-sm-4">\
+                    <div class="form-group">\
+                        <label>Proficiency</label>\
+                            <select class="form-control" name="language_proficiency[]">\
+                            '+options+'\
+                            </select>\
+                    </div>\
+                </div> <div  style="clear:both;"></div>';
+
+
+
+
+
+    $( "#language_container"  ).append( html);
+}
+
+
 

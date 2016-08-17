@@ -31,6 +31,11 @@ Route::get('skill', 'UI\SkillController@get');
 Route::put('user/skills', 'UI\SkillController@updateUserSkills');
 Route::get('user/skills', 'UI\SkillController@getUserSkills');
 
+//Language routes
+Route::get('user/languages', 'UI\LanguageController@getUserLanguages');
+Route::put('user/languages', 'UI\LanguageController@updateUserLanguages');
+
+
 /*FORGOT PASSWORD */
 Route::match(['get', 'post'], '/ui/forgotpw', ['uses' => 'ForgotPasswordController@index', 'as' => 'forgotpw']);
 

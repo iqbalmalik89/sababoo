@@ -64,66 +64,10 @@
 
                                                 @include('frontend.employee.skills')
 
+                                                @include('frontend.employee.languages')
 
 
-
                                                 
-                                                <div class="col-sm-12 col-md-12 mt-15">
-                                                
-                                                    <h4 class="heading font700 mb-10 text-primary">Langauage Skill</h4>
-                                                
-                                                </div>
-                                                
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>Langauage 1</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>Langauage 2</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>Langauage 3</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>Langauage 4</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>Langauage 5</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>Langauage 6</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-sm-12">
-                                                
-                                                    <div class="form-group mb-20">
-                                                        <label>Langauage details:</label>
-                                                        <textarea class="form-control" rows="5"></textarea>
-                                                    </div>
-                                                    
-                                                </div>
                                                 
                                                 <div class="clear mb-30"></div>
                                                 
