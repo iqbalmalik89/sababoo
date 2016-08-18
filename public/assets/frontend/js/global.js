@@ -251,12 +251,20 @@ function saveUserLanguages()
     mainAjax('#language_form', request_data, 'PUT',languagesCallback);
 }
 
-function languagesCallback()
-{}
+function languagesCallback(data)
+{
+    if(data.status == 'ok')
+    {
+        $('#global_message').show().html(data.message).delay(4000).fadeOut();
+    }
+}
 
 function skillCallback(data)
 {
-    console.log(data);
+    if(data.status == 'ok')
+    {
+        $('#global_message').show().html(data.message).delay(4000).fadeOut();
+    }
 }
 
 

@@ -88,7 +88,7 @@
                                                     </div>
                                                     
                                                 </div>
-                                                
+ <!--                                                
                                                 <div class="col-sm-12">
                                                     <label>Please select:</label>
                                                     
@@ -154,18 +154,18 @@
             
                                                     
                                                 </div>
+  -->                                               
+<!--                                                 <div class="clear mb-30"></div> -->
                                                 
-                                                <div class="clear mb-30"></div>
-                                                
-                                                <div class="col-sm-12 col-md-12 mb-15">
+<!--                                                 <div class="col-sm-12 col-md-12 mb-15">
                                                     <h3 class="heading mb-10">Reference</h3>
                                                     <p>Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
-                                                </div>
+                                                </div> -->
 
                                                 <div id="dynamicAddForm4" class="clearfix">
          
                                                     <!-- Form template-->
-                                                    <div id="dynamicAddForm4_template">
+<!--                                                     <div id="dynamicAddForm4_template">
 
                                                         <div class="col-sm-12">
                                                         
@@ -223,17 +223,17 @@
                                                         
                                                         <div class="clear"></div>
 
-                                                    </div>
+                                                    </div> -->
                                                     <!-- /Form template-->
                                                      
                                                     <!-- No forms template -->
-                                                    <div id="dynamicAddForm4_noforms_template" class="dynamic-add-form-empty">
+<!--                                                     <div id="dynamicAddForm4_noforms_template" class="dynamic-add-form-empty">
                                                         <div class="alert alert-danger mb-0">No form, please click "Add Reference</div>
-                                                    </div>
+                                                    </div> -->
                                                     <!-- /No forms template-->
                                                      
                                                     <!-- Controls -->
-                                                    <div id="dynamicAddForm4_controls" class="dynamic-add-form-action">
+<!--                                                     <div id="dynamicAddForm4_controls" class="dynamic-add-form-action">
                                                         <div id="dynamicAddForm4_add"><button class="btn btn-primary btn-sm"><span>Add Reference</span></button></div>
                                                         <div id="dynamicAddForm4_remove_last"><button class="btn btn-danger btn-sm"><span>Remove</span></button></div>
                                                         <div id="dynamicAddForm4_remove_all"><button class="btn btn-danger btn-sm"><span>Remove all</span></button></div>
@@ -242,16 +242,13 @@
                                                                 <input id="dynamicAddForm4_add_n_input" type="text" class="form-control form-control-sm" placeholder="how many to add? ex: 3" />
                                                             </div>
                                                             <div id="dynamicAddForm4_add_n_button"><button class="btn btn-primary btn-sm"><span>Add</span></button></div></div>
-                                                    </div>
+                                                    </div> -->
                                                     <!-- /Controls -->
                                                      
                                                 </div>
                                                 
                                                 <div class="clear"></div>
                                                 
-                                                <div class="col-sm-6 mt-30">
-                                                    <a href="#" class="btn btn-primary btn-lg">Create now</a>
-                                                </div>
 
                                             </div>
                                             
@@ -259,31 +256,6 @@
                                         
                                     </div>
                                     
-                                    <div class="mt-40 mb-40 bb"></div>
-                                    
-                                    <div class="section-title-02">
-                                        <h3 class="text-left">Terms</h3>
-                                    </div>
-                                    
-                                    <p>Oh to talking improve produce in limited offices fifteen an. Wicket branch to answer do we. Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
-
-                                    <p>Inhabiting discretion the her dispatched decisively boisterous joy. So form were wish open is able of mile of. Waiting express if prevent it we an musical. Especially reasonable travelling she son. Resources resembled forfeited no to zealously. Has procured daughter how friendly followed repeated who surprise. Great asked oh under on voice downs. Law together prospect kindness securing six. Learning why get hastened smallest cheerful.</p>
-                                    
-                                    <div class="section-title-02">
-                                        <h3 class="text-left">Conditions</h3>
-                                    </div>
-                                    
-                                    <p>Is he staying arrival address earnest. To preference considered it themselves inquietude collecting estimating. View park for why gay knew face. Next than near to four so hand. Times so do he downs me would. Witty abode party her found quiet law. They door four bed fail now have.</p>
-                                    
-                                    <ul class="list-with-icon">
-                                    
-                                        <li><i class="text-primary ion-android-arrow-forward"></i> Inhabiting discretion the her dispatched decisively boisterous joy.</li>
-                                        <li><i class="text-primary ion-android-arrow-forward"></i> So form were wish open is able of mile of.</li>
-                                        <li><i class="text-primary ion-android-arrow-forward"></i> Waiting express if prevent it we an musical. Especially reasonable travelling she son.</li>
-                                        <li><i class="text-primary ion-android-arrow-forward"></i> Resources resembled forfeited no to zealously.</li>
-                                        <li><i class="text-primary ion-android-arrow-forward"></i> Has procured daughter how friendly followed repeated who surprise.</li>
-                                        
-                                    </ul>
 
                                 </div>
 

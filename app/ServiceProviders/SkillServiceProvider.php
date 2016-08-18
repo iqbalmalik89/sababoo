@@ -19,6 +19,9 @@ class SkillServiceProvider
 {
     public function updateUserSkills($userId, $userSkills)
     {
+        // Delete user skills
+        $this->deleteUserSkills($userId, $userSkills);
+
         foreach (explode(',', $userSkills) as $key => $skillId) {
 
             $skillId = trim($skillId);
@@ -29,8 +32,14 @@ class SkillServiceProvider
             }
         }
 
-        return ['code' => 200, 'status' => 'success', 'msg' => 'Skills updated successfully'];
+        return ['code' => 200, 'status' => 'ok', 'message' => 'Skills updated successfully'];
     }
+
+    public function deleteUserSkills($userId, $userSkills)
+    {
+
+    }
+    
 
     public function skillExists($userId, $skillId)
     {

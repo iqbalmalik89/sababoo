@@ -26,7 +26,7 @@
                               <div class="row gap-20">
                                   <div class="col-sm-6 col-md-4">
 
-                                      <div class="form-group bootstrap-fileinput-style-01">
+<!--                                       <div class="form-group bootstrap-fileinput-style-01">
                                           <label>Photo</label>
                                           <div class="file-input file-input-ajax-new"><div class="file-preview ">
                                                   <div class=" file-drop-zone">
@@ -55,11 +55,11 @@
 
 
 
-                                      </div>
+                                      </div> 
                                       <div id="img_upload" class="" style="display: none;"></div>
                                           <span class="font12 font-italic">** photo must not bigger than 250kb</span>
                                       </div>
-
+-->
                                   </div>
 
                                   <div class="clear"></div>
@@ -410,7 +410,7 @@
               <!-- /Form template-->
               <div class="clear"></div>
               <!-- No forms template -->
-              <div id="msg_frm_basic_info" class="dynamic-add-form-empty clearfix">
+<!--               <div id="msg_frm_basic_info" class="dynamic-add-form-empty clearfix"> -->
 
               </div>
               <!-- /No forms template-->
@@ -459,6 +459,13 @@
 
           });
 
+          function fillData(data)
+          {
+            if(data.status == 'ok')
+            {
+                $('#global_message').show().html(data.message).delay(4000).fadeOut();
+            }            
+          }
 
           $("#form-register-photo").fileinput({
               dropZoneTitle: '<i class="fa fa-photo"></i><span>Upload Photo</span>',

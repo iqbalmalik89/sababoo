@@ -7,13 +7,48 @@
 
                                     <div class="">
 
-                                        <?php
+                                       <div class="form-group bootstrap-fileinput-style-01">
+                                          <label>Photo</label>
+                                          <div class="file-input file-input-ajax-new"><div class="file-preview ">
+                                                  <div class=" file-drop-zone">
+                                                      <div>
+
+                                                          <?php
+                                                             // dd($userinfo->image);
+                                                             $user_image = "user_images/01.jpg";
+                                                              if(isset($userinfo->image) && $userinfo->image!=''){
+                                                                  $user_image = "user_images/".$userinfo->image;
+                                                              }
+                                                          ?>
+                                                          <img id="employee_image_1" class="" alt="image" src="<?php echo $user_image;?>">
+                                                      </div>
+
+                                                  </div>
+
+                                                  <div class="file-preview-status text-center text-success"></div>
+
+                                                  </div>
+                                              </div>
+                                              <div class="kv-upload-progress hide"></div>
+                                              <div tabindex="500" class="btn btn-primary btn-file">
+                                                  <input type="file" name="form-register-photo" id="form-register-photo"></div>
+
+
+
+
+                                      </div> 
+
+                                      <div id="img_upload" class="" style="display: none;"></div>
+                                          <span class="font12 font-italic">** photo must not bigger than 250kb</span>
+
+
+<!--                                         <?php
                                         $user_image = "user_images/01.jpg";
                                         if(isset($userinfo->image) && $userinfo->image!=''){
                                             $user_image = "user_images/".$userinfo->image;
                                         }
                                         ?>
-                                        <img id="employee_image_2" src="<?php echo $user_image;?>" alt="image" class="" style="width:150px; height:150px;" />
+                                        <img id="employee_image_2" src="<?php echo $user_image;?>" alt="image" class="" style="width:150px; height:150px;" /> -->
 
                                     </div>
                                     
@@ -45,6 +80,6 @@
                                     </ul>
                                     
                                     
-                                    <a href="employer-edit.html" class="btn btn-primary mt-5"><i class="fa fa-pencil-square-o mr-5"></i>Edit</a>
+<!--                                     <a href="employer-edit.html" class="btn btn-primary mt-5"><i class="fa fa-pencil-square-o mr-5"></i>Edit</a> -->
                                     
                                 </div>

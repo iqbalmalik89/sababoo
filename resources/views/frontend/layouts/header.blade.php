@@ -83,7 +83,10 @@
                 </div>
                 
                 <div id="slicknav-mobile"></div>
-                
+
+                <center>
+                    <div id="global_message" style="background-color:#33B6CB;color:#000;font-size:16px; display:none;">Information updated successfully</div>
+                <center>
             </nav>
             <!-- end Navbar (Header) -->
 

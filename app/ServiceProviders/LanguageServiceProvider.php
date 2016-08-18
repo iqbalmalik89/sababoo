@@ -46,7 +46,7 @@ class LanguageServiceProvider
         }
 
 
-        return ['code' => 200, 'status' => 'success', 'msg' => 'Language updated successfully'];
+        return ['code' => 200, 'status' => 'ok', 'msg' => 'Language updated successfully'];
     }
 
     public function deleteLangauges($userId, $userLanguages, $dbLanguages)
