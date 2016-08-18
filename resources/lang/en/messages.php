@@ -10,5 +10,16 @@ return [
     'email_email'           => 'Invalid Email.',
     'email_required'        => 'Email is required.',
 	'forgotpw_success'      => 'Password request submitted. Check your email in just a few minutes.',
+    'school_name_required'  => 'Schoool name is required.',
+    'degree_required'       => 'Degree name is required.',
+    'field_study_required'  => 'Field of study is required.',
+    'job_position_required'  => 'Job position is required.',
+    'company_name_required'  => 'Company name is required.',
+    'date_from_month_required'  => 'Date from month is required.',
+    'date_from_year_required'  => 'Date ffrom year is required.',
+
+
+
+
 ];
 ?>
