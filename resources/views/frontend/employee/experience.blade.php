@@ -10,7 +10,7 @@ if(count($exp) > 0){
 <?php } ?>
 </div>
 
-
+<div style="clear:both;"></div>
 <br>
 <div class="{{$class}}">
 
