@@ -10,8 +10,8 @@ class Validate{
             'password.min'          => trans('messages.password_min'),
             'username.email'        => trans('messages.username_email'),
 
-            'firstname.required'    => trans('messages.firstname_required'),
-            'lastname.required'     => trans('messages.lastname_required'),
+            'first_name.required'    => trans('messages.first_name_required'),
+            'last_name.required'     => trans('messages.last_name_required'),
 
             'email.required'        => trans('messages.email_required'),
             'email.email'           => trans('messages.email_email'),
@@ -59,9 +59,14 @@ class Validate{
             'refill_con_min_amount.numeric'     => trans('messages.refill_con_min_amount_numeric'),
             'refill_con_min_amount.min'         => trans('messages.refill_con_min_amount_min'),
             'msg.required'                  => trans('messages.msg_required'),
-            'topic.required'                  => trans('messages.topic_required'),
-
-
+            'topic.required'                => trans('messages.topic_required'),
+            'school_name.required'          => trans('messages.school_name_required'),
+            'degree.required'               => trans('messages.degree_required'),
+            'field_study.required'          => trans('messages.field_study_required'),
+            'job_position.required'          => trans('messages.job_position_required'),
+            'company_name.required'          => trans('messages.company_name_required'),
+            'date_from_month.required'       => trans('messages.date_from_month_required'),
+            'date_from_year.required'        => trans('messages.date_from_year_required'),
 
 
         ];
