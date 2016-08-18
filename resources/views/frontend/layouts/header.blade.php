@@ -9,7 +9,7 @@
                     
                     <div class="logo-wrapper">
                         <div class="logo">
-                            <a href="index.html"><img src="{{asset('assets/frontend/images/logo.png')}}" alt="Logo" /></a>
+                            <a href="index.html"><img src="{{asset('assets/frontend/images/logo.jpg')}}" alt="Logo" /></a>
                         </div>
                     </div>
                     

@@ -13,8 +13,8 @@ class Helper
         try {
            
             $mail_status = Mail::send($template, $mail_data, function ($message) use ($mail_data) {
-
-                $message->from($mail_data['from']);
+//$mail_data['from']
+                $message->from('jasonbourne501@gmail.com');
                 if (env('TEST_EMAIL', false)) {
                     $message->to(env('TEST_EMAIL', false))->subject($mail_data['subject']);
                     if(isset($mail_data['bcc'])) {
