@@ -94,11 +94,6 @@ class LanguageServiceProvider
         return array('status' =>'ok', 'data' => $data, 'code' => 200);
     }
 
-    public function getSkill($id)
-    {
-        return Skill::find($id)->toArray();
-    }
-
     public function update($languageId, $language, $proficiency)
     {
         $rec = Language::find($languageId);
@@ -106,30 +101,6 @@ class LanguageServiceProvider
         $rec->proficiency = $proficiency;
         $rec->update();
     }
-
-    function saveUserSkill($userId, $skillId)
-    {
-        $rec = new UserSkill();
-        $rec->user_id = $userId;
-        $rec->skill_id = $skillId;
-        return $rec->save();
-    }
-
-
-    public function get($page, $limit)
-    {
-        if($limit)
-        {
-
-        }
-        else
-        {
-            $skills = Skill::get();
-        }
-
-        return array('code'=>200,'status'=>'ok', 'data' =>$skills,'msg'=>'Recored fetched successfully.');        
-    }
-
 
 
 }

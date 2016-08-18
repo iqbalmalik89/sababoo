@@ -34,6 +34,7 @@ Route::get('user/skills', 'UI\SkillController@getUserSkills');
 //Language routes
 Route::get('user/languages', 'UI\LanguageController@getUserLanguages');
 Route::put('user/languages', 'UI\LanguageController@updateUserLanguages');
+Route::put('user/interest', 'EmployeeController@updateUserInterest');
 
 
 /*FORGOT PASSWORD */

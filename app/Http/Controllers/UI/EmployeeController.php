@@ -72,6 +72,15 @@ class EmployeeController extends Controller
         return response()->json(array("code"=>200,'status'=>'ok','msg'=>'','data'=> $education));
 
 	}
+
+    public function updateUserInterest(Request $request){
+        $interests = $request->get('interests');
+        return $this->employeeServiceProvider->updateInterest(Auth::user()->id, $interests);
+    }
+
+
+
+
 	public function addExperience(Request $request){
         $post_data = $request->all();
 

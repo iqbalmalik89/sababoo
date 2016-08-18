@@ -259,6 +259,24 @@ function languagesCallback(data)
     }
 }
 
+
+function saveInterests()
+{
+    // var request_data = {"user_skills":$('#user_skills').tokenfield('getTokensList')};
+    pageURI = 'user/interest';
+    var request_data = {"interests":$('#interests').val()};
+    mainAjax('#language_form', request_data, 'PUT',interestCallback);
+}
+
+function interestCallback(data)
+{
+    if(data.status == 'ok')
+    {
+        $('#global_message').show().html(data.message).delay(4000).fadeOut();
+    }
+}
+
+
 function skillCallback(data)
 {
     if(data.status == 'ok')

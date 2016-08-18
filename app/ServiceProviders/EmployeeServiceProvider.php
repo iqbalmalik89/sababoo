@@ -59,6 +59,14 @@ class EmployeeServiceProvider
 
     }
 
+    public function updateInterest($userId, $interests)
+    {
+        $rec = Employee::find($userId);
+        $rec->interests = $interests;
+        $rec->update();
+        return array('code'=>200,'status'=>'ok','msg'=>'Record updated successfully.');
+    }
+
     public function updateEmployee($employee,$userArray){
 
         $employee = Employee::find($employee[0]->id);
