@@ -2,25 +2,35 @@
 <div class="employee-detail-sidebar">
                                         
                                     <div class="section-title mb-30">
-                                        <h2 class="text-left">your Information</h2>
+                                        <h2 class="text-left">{{ucfirst($userinfo->first_name)}} {{ucfirst($userinfo->last_name)}}</h2>
                                     </div>
 
                                     <div class="">
 
                                        <div class="form-group bootstrap-fileinput-style-01">
-                                          <label>Photo</label>
-                                          <div class="file-input file-input-ajax-new"><div class="file-preview ">
+<!--                                           <label>Photo</label>
+ -->                                          <div class="file-input file-input-ajax-new"><div class="file-preview ">
                                                   <div class=" file-drop-zone">
                                                       <div>
 
                                                           <?php
                                                              // dd($userinfo->image);
-                                                             $user_image = "user_images/01.jpg";
+                                                             //$user_image = "user_images/01.jpg";
                                                               if(isset($userinfo->image) && $userinfo->image!=''){
                                                                   $user_image = "user_images/".$userinfo->image;
                                                               }
                                                           ?>
-                                                          <img id="employee_image_1" class="" alt="image" src="<?php echo $user_image;?>">
+
+                                                <?php if(!isset($user_image)) {?>
+                                                    <div class="file-drop-zone-title"><i class="fa fa-photo"></i><span>Upload Photo</span></div>
+                                                <?php
+                                                }else {
+                                                 ?>    
+                                                           <img id="employee_image_1" class="" alt="image" src="<?php echo $user_image;?>">                                                  
+                                                 <?php
+                                                }
+                                                ?>
+
                                                       </div>
 
                                                   </div>
@@ -53,19 +63,19 @@
                                     </div>
                                     
                                     <h3 class="heading mb-15"><?php if(isset($userinfo->first_name)){ echo $userinfo->first_name;}?> <?php if(isset($userinfo->last_name)){ echo $userinfo->last_name;}?></h3>
-                                
-                                    <p class="location"><i class="fa fa-map-marker"></i> <?php if(isset($userinfo->address)){ echo $userinfo->address;}?> <?php if(isset($userinfo->country)){ echo $userinfo->country;}?> <span class="block"><i class="fa fa-phone"></i> <?php if(isset($userinfo->phone)){ echo $userinfo->phone;}?></span></p>
+
+                                    <p class="location"> <?php if(!empty($userinfo->address)){ echo '<i class="fa fa-map-marker"></i>'.$userinfo->address;}?> <?php if(isset($userinfo->country)){ echo $userinfo->country;}?>  <?php if(!empty($userinfo->phone)){ echo '<span class="block"><i class="fa fa-phone"></i>'.$userinfo->phone.'</span>';}?></p>
                                     
                                     <ul class="meta-list clearfix">
-                                        <li>
+<!--                                         <li>
                                             <h4 class="heading">Birth Day::</h4>
                                             12/01/1991
-                                        </li>
+                                        </li> -->
 
-                                        <li>
+<!--                                         <li>
                                             <h4 class="heading">People:</h4>
                                             00+
-                                        </li>
+                                        </li> -->
 
                                         <li>
                                             <h4 class="heading">Email:</h4>

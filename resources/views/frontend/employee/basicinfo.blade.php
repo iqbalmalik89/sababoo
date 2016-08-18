@@ -5,8 +5,8 @@
 
       <div class="row gap-20">
           <div class="col-sm-12 col-md-12 mb-15">
-              <h3 class="heading mb-10">Profile</h3>
-              <p>Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
+<!--               <h3 class="heading mb-10">Profile</h3>
+              <p>Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p> -->
           </div>
            <div class="clear"></div>
           <!-- sheepIt Form -->
@@ -21,8 +21,8 @@
 
                           <div class="dynamic-add-form-inner">
 
-                              <h4 class="heading font700 mb-15 text-primary">Profile  <span id="dynamicAddForm_label"></span></h4>
-
+<!--                               <h4 class="heading font700 mb-15 text-primary">Profile  <span id="dynamicAddForm_label"></span></h4>
+ -->
                               <div class="row gap-20">
                                   <div class="col-sm-6 col-md-4">
 
@@ -385,7 +385,7 @@
                                   <div class="col-sm-12">
 
                                       <div class="form-group mb-20 bootstrap3-wysihtml5-wrapper">
-                                          <label for="dynamicAddForm_#index#_extraInfo">Addition Info:</label>
+                                          <label for="dynamicAddForm_#index#_extraInfo">About Me:</label>
                                           <textarea id="summary" name="summary" class="form-control" rows="5"><?php if(isset($employeeinfo[0]->summary)){ echo $employeeinfo[0]->summary;}?></textarea>
 
                                       </div>

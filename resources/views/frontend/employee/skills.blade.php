@@ -1,6 +1,6 @@
                                                <div class="col-sm-12 col-md-12 mb-15">
                                                     <h3 class="heading mb-10">Skills</h3>
-                                                    <p>Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
+                                                    <p>Select your skills.</p>
                                                 </div>
                                                 
                                                 <div id="dynamicAddForm3" class="clearfix">
@@ -45,10 +45,10 @@
                                                                     
                                                                 </div>
                                                                 
-                                                                <span id="dynamicAddForm3_remove_current" class="dynamic-add-form-close">
+ <!--                                                                <span id="dynamicAddForm3_remove_current" class="dynamic-add-form-close">
                                                                     <i class="fa fa-times" aria-hidden="true"></i>
                                                                 </span>
-                                                                    
+ -->                                                                    
                                                             </div>
                                                         
                                                         </div>

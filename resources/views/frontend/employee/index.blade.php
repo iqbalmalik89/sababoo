@@ -42,8 +42,8 @@
                                     <div class="company-detail-company-overview mt-0 clearfix">
                                         
                                         <div class="section-title-02">
-                                            <h3 class="text-left">Create a resume</h3>
-                                            <p>Oh to talking improve produce in limited offices fifteen an. Wicket branch to answer do we. Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
+                                            <h3 class="text-left">Update Profile</h3>
+<!--                                             <p>Oh to talking improve produce in limited offices fifteen an. Wicket branch to answer do we. Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p> -->
                                         </div>
 
                                         @include('frontend.employee.basicinfo',['userinfo'=>$userinfo,'employeeinfo'=>$employeeinfo,'industry'=>$industry])
@@ -56,23 +56,31 @@
                                                 <!-- sheepIt Form -->
                                                 @include('frontend.employee.education',['employeeinfo'=>$employeeinfo,'education'=>$education])
                                                 <!-- /sheepIt Form -->
+
+                                               <div class="clear mb-30"></div>
+ 
+ 
+                                                @include('frontend.employee.experience',['employeeinfo'=>$employeeinfo,'exp'=>$exp])
+
+                                                
                                                 
                                                 <div class="clear mb-30"></div>
-                                                
 
 
 
                                                 @include('frontend.employee.skills')
 
-                                                @include('frontend.employee.languages')
+
 
 
                                                 
                                                 
                                                 <div class="clear mb-30"></div>
                                                 
-                                                @include('frontend.employee.experience',['employeeinfo'=>$employeeinfo,'exp'=>$exp])
                                                 
+
+                                                @include('frontend.employee.languages')
+
                                                 <div class="clear mb-30"></div>
                                                 
                                                 <div class="col-sm-12 col-md-12 mb-15">
