@@ -1,6 +1,6 @@
                                                 <div class="col-sm-12 col-md-12 mt-15">
                                                 
-                                                    <h4 class="heading font700 mb-10 text-primary">Langauage Skill</h4>
+                                                    <h4 class="heading font700 mb-10 text-primary">Langauages</h4>
                                                 
                                                 </div>
 

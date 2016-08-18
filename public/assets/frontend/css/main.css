@@ -2640,7 +2640,7 @@ label {
 }
 
 .section-title h2 {
-    text-transform: lowercase;
+/*    text-transform: lowercase;*/
     text-align: center;
     font-size: 40px;
     font-weight: 400;
@@ -2686,8 +2686,8 @@ label {
 .section-title-02 h3 {
     font-size: 34px;
     color: #656565;
-    text-transform: lowercase;
-    line-height: 1.2;
+/*    text-transform: lowercase;
+*/    line-height: 1.2;
     margin-bottom: 0;
 }
 

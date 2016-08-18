@@ -1,21 +1,25 @@
 <div class="col-sm-12 col-md-12 mb-15">
 	<h3 class="heading mb-15">Work Experiences</h3>
-	<p>Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
+<!-- 	<p>Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p> -->
+<?php 		
+$class = '';
+if(count($exp) > 0){
+	$class = 'work-expereince-wrapper';
+	?> 
 	<input type="button "class="btn btn-primary btn-sm" id="show_exp_pop" value="Add Experiences">
+<?php } ?>
 </div>
 
 
 <br>
-<div class="work-expereince-wrapper" style="margin:135px 0;">
+<div class="{{$class}}">
 
 	<?php
 		if(count($exp)<=0){?>
-		<div class="work-expereince-block">
 
-			<div class="work-expereince-content">
-				<p>No work expereince found</p>
-			</div> <!-- work-expereince-content -->
-		</div> <!-- work-expereince-block -->
+			<div id="experience_not_found" class="alert alert-info mt-30"> <strong>Work experience not found</strong> - <a href="javascript:void(0)" name="show_exp_pop" id="show_exp_pop" >Add Experience</a> </div>
+
+
 	<?php } else{
 		foreach($exp as $single_exp){
 	?>
@@ -62,7 +66,7 @@
 
 	<div class="dynamic-add-form-inner">
 
-		<h4 class="heading font700 mb-10 text-primary">Work Experience <span id="dynamicAddForm2_label"></span></h4>
+<!-- 		<h4 class="heading font700 mb-10 text-primary">Work Experience <span id="dynamicAddForm2_label"></span></h4> -->
 
 		<div class="row gap-20">
 
@@ -148,11 +152,11 @@
 
 
 		<div class="col-sm-8">
-			<div class="checkbox-block">
+<!-- 			<div class="checkbox-block">
 				<input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="checkbox" name="current" id="current" value="1">
 
 				<label class="" for="register_accept_checkbox">I currently working here</label>
-					</div>
+					</div> -->
 		</div>
 
 			</div>
@@ -161,12 +165,26 @@
 
 <div class="clear"></div>
 
-	<div class="col-sm-6">
+	<div class="col-sm-5">
 		<div class="form-group mb-20">
 		<label for="dynamicAddForm2_#index#_program">Company:</label>
 		<input id="company_name" name="company_name" type="text" class="form-control" />
 		</div>
+
 	</div>
+
+
+	<div class="col-sm-5">
+
+			<div class="checkbox-block">
+				<input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="checkbox" name="current" id="current" value="1">
+
+				<label class="" for="register_accept_checkbox">I currently working here</label>
+					</div>
+	
+	</div>
+
+
 
 	<div class="clear"></div>
 
@@ -205,7 +223,7 @@
 
 	<div id="dynamicAddForm2_add_n">
 		<div id="dynamicAddForm2_add_n_button">
-			<input type="button "class="btn btn-primary btn-sm" id="add_exp" value="Add">
+			<input type="button" class="btn btn-primary btn-sm" id="add_exp" value="Save">
 
 		</div>
 	</div>
@@ -226,6 +244,7 @@
 
         $('#show_exp_pop').click(function () {
 			$('#exp_pop').show();
+			$('#experience_not_found').hide();
 		});
 
 		$('#current').click(function () {
