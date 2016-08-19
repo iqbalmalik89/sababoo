@@ -133,12 +133,13 @@ class AuthController extends Controller
                     \Session::put('redirect_url',\Redirect::intended()->getTargetUrl());
                 }
             }else{
-                $url="/home";
+
+                 $url="/home";
                  Session::forget('redirect_url');
+                 Auth::login($user);
 
             }
 
-          //return redirect(route('/home'));
 
             return response()->json([
               'url' => ($url!="" ? $url:\Redirect::intended()->getTargetUrl()),

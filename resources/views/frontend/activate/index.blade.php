@@ -1,5 +1,4 @@
-@extends('frontend.layouts.master')
-
+@extends('frontend.layouts.unathenticate')
 @section('title', 'Activate Account')
 
 @section('content')
