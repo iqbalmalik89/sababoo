@@ -16,13 +16,14 @@
                                                           <?php
                                                              // dd($userinfo->image);
                                                              //$user_image = "user_images/01.jpg";
+
                                                               if(isset($userinfo->image) && $userinfo->image!=''){
                                                                   $user_image = "user_images/".$userinfo->image;
                                                               }
                                                           ?>
 
-                                                <?php if(!isset($user_image)) {?>
-                                                    <div class="file-drop-zone-title"><i class="fa fa-photo"></i><span>Upload Photo</span></div>
+                                                <?php if(empty($user_image)) {?>
+                                                           <img id="employee_image_1" class="" alt="image" src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}">
                                                 <?php
                                                 }else {
                                                  ?>    
@@ -81,12 +82,17 @@
                                             <h4 class="heading">Email:</h4>
                                             <?php if(isset($userinfo->email)){ echo $userinfo->email;}?>
                                         </li>
+                                        <?php
+                                        if(!empty($employeeinfo[0]->summary)){
+                                        ?>
                                         <li>
                                             <h4 class="heading">Introduce myself:</h4>
 
                                             <?php if(isset($employeeinfo[0]->summary)){ echo $employeeinfo[0]->summary;}?>
 
                                         </li>
+
+                                        <?php } ?>
                                     </ul>
                                     
                                     
