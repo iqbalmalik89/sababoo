@@ -121,6 +121,7 @@ $(document).ready(function () {
         }
         request_data = {'email':$('#forgot_email').val()};
         mainAjax('frm_forgot_pass', request_data, 'POST',forgot_response);
+        $('#loader_forgot').hide();
        
     });
    

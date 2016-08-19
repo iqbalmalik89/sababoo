@@ -414,7 +414,7 @@
 
               </div>
               <!-- /No forms template-->
-
+                <div id="msg_frm_basic_info"></div>
               <!-- Controls -->
               <div id="dynamicAddForm_controls" class="dynamic-add-form-action">
                   <div id="dynamicAddForm_add">

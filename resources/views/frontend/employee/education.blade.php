@@ -152,6 +152,7 @@
                                 <textarea id="description" name="description" class="form-control" rows="5"></textarea>
 
                             </div>
+                            <div id="msg_frm_education"></div>
 
                         </div>
                         <div id="dynamicAddForm_add">
@@ -168,8 +169,7 @@
             </div>
 
         </div>
-            <div id="msg_frm_education"></div>
-        </form>
+           </form>
 
         <div class="clear"></div>
 
