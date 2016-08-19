@@ -16,7 +16,7 @@ return [
     'job_position_required'  => 'Job position is required.',
     'company_name_required'  => 'Company name is required.',
     'date_from_month_required'  => 'Date from month is required.',
-    'date_from_year_required'  => 'Date ffrom year is required.',
+    'date_from_year_required'  => 'Date from year is required.',
 
 
 

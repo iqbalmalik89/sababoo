@@ -86,7 +86,7 @@ if(count($exp) > 0){
 			<div class="row gap-10">
 			<div class="col-xs-6 col-sm-6">
 			<select id="date_from_month" name="date_from_month" class="form-control" data-live-search="false">
-			<option value="0" selected >Select</option>
+			<option value="" selected >Select</option>
 				<option value="Jan">Jan</option>
 				<option value="Feb">Feb</option>
 				<option value="March">Mar</option>
@@ -103,12 +103,13 @@ if(count($exp) > 0){
 			</div>
 			<div class="col-xs-6 col-sm-6">
 			<select id="date_from_year" name="date_from_year" class=" form-control" data-live-search="false">
-			<option value="0" selected >Select</option>
-			<option value="2000">2000</option>
-			<option value="2002">2001</option>
-			<option value="2003">2002</option>
-			<option value="2003">2003</option>
-			<option value="2004">2004</option>
+			<option value="" selected >Select</option>
+				<?php
+				foreach(range(2000, 2042) as $year)
+				{
+					echo '<option value="'.$year.'">'.$year.'</option>';
+				}
+				?>
 			</select>
 			</div>
 			</div>
@@ -139,11 +140,12 @@ if(count($exp) > 0){
 			<div class="col-xs-6 col-sm-6">
 				<select id="date_to_year" name="date_to_year" class=" form-control" data-live-search="false">
 				<option value="" selected >Select</option>
-				<option value="2000">2000</option>
-				<option value="2001">2001</option>
-				<option value="2002">2002</option>
-				<option value="2003">2003</option>
-				<option value="2004">2004</option>
+					<?php
+					foreach(range(2000, 2042) as $year)
+					{
+						echo '<option value="'.$year.'">'.$year.'</option>';
+					}
+					?>
 				</select>
 			</div>
 		</div>
