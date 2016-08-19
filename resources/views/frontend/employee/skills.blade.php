@@ -1,3 +1,4 @@
+<form id="skill_form">
                                                <div class="col-sm-12 col-md-12 mb-15">
                                                     <h3 class="heading mb-10">Skills</h3>
                                                     <p>Select your skills.</p>
@@ -65,6 +66,12 @@
                                                     <!-- /No forms template-->
                                                      
                                                     <!-- Controls -->
+
+                                                    <div id="dynamicAddForm2_noforms_template" class="dynamic-add-form-empty">
+                                                        <div id="msg_skill_form"></div>
+
+                                                    </div>
+
                                                     <div id="dynamicAddForm3_controls" class="dynamic-add-form-action">
                                                         <div id="dynamicAddForm3_add"><a onclick="saveSkills();" class="btn btn-primary btn-sm"><span>Save Skills</span></a></div>
 <!--                                                         <div id="dynamicAddForm3_remove_last"><button class="btn btn-danger btn-sm"><span>Remove</span></button></div>
@@ -77,4 +84,4 @@
                                                     </div>
                                                     <!-- /Controls -->
                                                 </div>
- 
+</form> 

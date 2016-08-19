@@ -173,16 +173,31 @@ function hideSucessDiv(){
     }, 5000);
 }
 
+function readonlyTokenField(id)
+{
+    $(id).keypress(function(e) { 
+        $(this).val('');
+        e.preventDefault();
+    });    
+}
 
-
-
+readonlyTokenField('#user_skills-tokenfield');
+readonlyTokenField('#user_skills');
 $( document ).ready(function() {
 
     getUserLanguages();
 
+
+
+
+
+
     $.getJSON( "user/skills", function( data ) {
-        $('#user_skills').tokenfield()
+        $('#user_skills').tokenfield();
         $('#user_skills').tokenfield('setTokens', data);
+
+        readonlyTokenField('#user_skills-tokenfield');
+
     });
 
    

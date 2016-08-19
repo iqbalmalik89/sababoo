@@ -37,7 +37,16 @@ class SkillServiceProvider
 
     public function deleteUserSkills($userId, $userSkills)
     {
-
+        $userSkillsDb = $this->getUserSkills($userId);
+        if(!empty($userSkillsDb))
+        {
+            foreach ($userSkillsDb as $key => $userSkillDb) {
+                if(!in_array($userSkillDb['value'], explode(',', $userSkills)))
+                {
+                    UserSkill::where('skill_id', $userSkillDb['value'])->where('user_id', $userId)->delete();
+                }
+            }
+        }
     }
     
 
@@ -65,7 +74,10 @@ class SkillServiceProvider
 
     public function getSkill($id)
     {
-        return Skill::find($id)->toArray();
+        $rec = Skill::find($id);
+        if(!empty($rec))
+            $rec = $rec->toArray();
+        return $rec;
     }
 
     public function update($skill, $skillObj)

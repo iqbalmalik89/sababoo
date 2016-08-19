@@ -43,6 +43,14 @@ class SkillController extends Controller
 
     public function updateUserSkills(Request $request)
     {
+        $validate_array = array('skill'=>'required');
+        $validation_res = Validate::validateMe(array('skill' => $request->input('user_skills')), $validate_array);
+
+         //dd($validation_res);
+        if ($validation_res['code'] == 401) {
+            return $validation_res;
+        }
+
        $data = $this->skillServiceProvider->updateUserSkills(Auth::user()->id, $request->input('user_skills'));
        return $data;
     }
