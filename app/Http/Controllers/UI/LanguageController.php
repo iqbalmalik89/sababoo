@@ -43,6 +43,23 @@ class LanguageController extends Controller
 
     public function updateUserLanguages(Request $request)
     {
+        $resp = array('code' => 401, 'status' => 'error', 'msg' => 'Language and proficincy is required.|');
+
+        if(!empty($request->input('user_language')) && !empty($request->input('language_proficiency')))
+        {
+            foreach ($request->input('user_language') as $key => $language) {
+                $proficiency = $request->input('language_proficiency')[$key];
+                if(empty($language) || empty($proficiency))
+                    return response()->json($resp);
+            }
+        }
+        else
+        {
+            return response()->json($resp);
+        }
+
+
+
        $data = $this->languageServiceProvider->updateUserLanguages(Auth::user()->id, $request->all());
        return $data;
     }
