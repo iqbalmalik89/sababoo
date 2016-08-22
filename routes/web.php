@@ -26,15 +26,6 @@ Route::get('/login', function () {
 Route::post('auth/login', 'UI\Auth\AuthController@postLogin');
 Route::get('auth/logout', 'UI\Auth\AuthController@getLogout');
 
-// Skill routes
-Route::get('skill', 'UI\SkillController@get');
-Route::put('user/skills', 'UI\SkillController@updateUserSkills');
-Route::get('user/skills', 'UI\SkillController@getUserSkills');
-
-//Language routes
-Route::get('user/languages', 'UI\LanguageController@getUserLanguages');
-Route::put('user/languages', 'UI\LanguageController@updateUserLanguages');
-Route::put('user/interest', 'EmployeeController@updateUserInterest');
 
 
 /*FORGOT PASSWORD */
@@ -56,6 +47,28 @@ Route::match(['get', 'post'], '/employee/add_education', ['uses' => 'EmployeeCon
 Route::match(['get', 'post'], '/employee/edit_education', ['uses' => 'EmployeeController@editEducation']);
 Route::match(['get', 'post'], '/employee/add_experience', ['uses' => 'EmployeeController@addExperience']);
 Route::match(['get', 'post'], '/employee/edit_experience', ['uses' => 'EmployeeController@editExperience']);
+
+    // Skill routes
+    Route::get('skill', 'UI\SkillController@get');
+    Route::put('user/skills', 'UI\SkillController@updateUserSkills');
+    Route::get('user/skills', 'UI\SkillController@getUserSkills');
+
+//Language routes
+    Route::get('user/languages', 'UI\LanguageController@getUserLanguages');
+    Route::put('user/languages', 'UI\LanguageController@updateUserLanguages');
+    Route::put('user/interest', 'EmployeeController@updateUserInterest');
+// Resume
+    Route::match(['get', 'post'], '/employee/upload_resume', ['uses' => 'EmployeeController@resumeUpload']);
+
+
+
+
+
+    Route::match(['get', 'post'], '/employee/view/{id}', ['uses' => 'EmployeeController@viewEmployee']);
+
+
+
 /***********************************END OF EMPLOYEE*************************************/
+
 
 });

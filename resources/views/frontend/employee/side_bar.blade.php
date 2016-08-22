@@ -2,7 +2,11 @@
 <div class="employee-detail-sidebar">
                                         
                                     <div class="section-title mb-30">
-                                        <h2 class="text-left">{{ucfirst($userinfo->first_name)}} {{ucfirst($userinfo->last_name)}}</h2>
+                                        <h2 class="text-left">{{ucfirst($userinfo->first_name)}} {{ucfirst($userinfo->last_name)}}
+
+
+                                        </h2>
+                                        <a href="/employee/view/<?php echo $userinfo->id;?>">View Profile</a>
                                     </div>
 
                                     <div class="">

@@ -71,7 +71,7 @@
                                                 @include('frontend.employee.skills')
 
 
-
+                                                @include('frontend.employee.resume')
 
                                                 
                                                 

@@ -8,11 +8,13 @@
 
 
 namespace BusinessLogic;
+use BusinessObject\UserSkill;
 use Helper;
 use  BusinessObject\User;
 use  BusinessObject\Employee;
 use  BusinessObject\Education;
 use  BusinessObject\Experience;
+use  BusinessObject\Industry;
 use Validator;
 use DB;
 
@@ -175,9 +177,54 @@ class EmployeeServiceProvider
             return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
         }
 
-	
 	}
-	
+
+
+
+    public function getBasicUserProfile($userid){
+
+        try {
+            return  User::find($userid);
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+    }
+
+     public function getBasicEmpProfile($id){
+
+         try {
+             return $employee = Employee::find($id);
+         }catch (\Exception $e) {
+                return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+     }
+
+    public function getEducation($id){
+        try {
+            return $education = Education::where(array('employee_id'=> $id))->get();
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+
+    }
+
+    public function getExp($id){
+        try {
+            return  Experience::find($id);
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+
+    }
+
+    public function getIndustry($id){
+        try {
+            return  Industry::find($id);
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+    }
+
 
 
 }

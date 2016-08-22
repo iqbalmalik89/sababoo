@@ -10,6 +10,8 @@
 namespace App\Http\Controllers;
 
 use BusinessLogic\EmployeeServiceProvider;
+use BusinessLogic\SkillServiceProvider;
+use BusinessLogic\LanguageServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +28,7 @@ class EmployeeController extends Controller
     private $employeeServiceProvider;
     public function __construct()
     {
+        $this->logged_user = Auth::user();
         $this->employeeServiceProvider = new EmployeeServiceProvider();
     }
 
@@ -112,7 +115,7 @@ class EmployeeController extends Controller
 
         $file = array('image' => $request->file('form-register-photo'));
         // setting up rules
-         $rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
+         $rules = array('image' => 'required'); //mimes:jpeg,bmp,png and for max size max:10000
         // doing the validation, passing post data, rules and the messages
          $validator = Validator::make($file, $rules);
         if ($validator->fails()) {
@@ -136,6 +139,37 @@ class EmployeeController extends Controller
      }
 
 
+
+     public function viewEmployee($id){
+
+
+        $basic_emp_info = $this->employeeServiceProvider->getBasicEmpProfile($id);
+
+        $basic_user_info = $this->employeeServiceProvider->getBasicUserProfile($basic_emp_info->userid);
+        if($basic_emp_info==null){
+            return view('errors.404');
+        }
+         $this->skillServiceProvider = new SkillServiceProvider();
+         $this->languageServiceProvider = new LanguageServiceProvider();
+         $education = $this->employeeServiceProvider->getEducation($id);
+         $exp = Experience::where(array('employee_id'=> $id))->get();
+         $industry = $this->employeeServiceProvider->getIndustry($basic_emp_info->industry_id);
+         $skills = $this->skillServiceProvider->getUserSkills($basic_emp_info->userid);
+         $language = $this->languageServiceProvider->getUserLanguages($basic_emp_info->userid);
+
+
+         return view('frontend.employee.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'exp'=>$exp,'industry'=>$industry,'language'=>$language ));
+    }
+
+    public function resumeUpload(Request $request){
+        $post_data = $request->all();
+        $rules = array('resume' => 'required'); //mimes:jpeg,bmp,png and for max size max:10000
+        // doing the validation, passing post data, rules and the messages
+        $validator = Validator::make($file, $rules);
+        if ($validator->fails()) {
+            return array('code'=>401,'status'=>'error','msg'=>'Image only.');
+        }
+    }
 
 
 }
