@@ -21,6 +21,7 @@ use Validator;
 use  BusinessObject\User;
 use  BusinessObject\Education;
 use  BusinessObject\Experience;
+use  BusinessObject\Employee;
 
 
 class EmployeeController extends Controller
@@ -163,13 +164,64 @@ class EmployeeController extends Controller
 
     public function resumeUpload(Request $request){
         $post_data = $request->all();
-        $rules = array('resume' => 'required'); //mimes:jpeg,bmp,png and for max size max:10000
+
+
+        $file = array('file' => $request->file('resume'));
+        $rules = array('file' => 'required|mimes:doc,docx,pdf'); //'required|mimes:png,gif,jpeg,txt,pdf,doc'
+        if($file==null){
+            return array('code'=>401,'status'=>'error','msg'=>'File not found.');
+
+        }
+
         // doing the validation, passing post data, rules and the messages
         $validator = Validator::make($file, $rules);
+
         if ($validator->fails()) {
-            return array('code'=>401,'status'=>'error','msg'=>'Image only.');
+            return array('code'=>401,'status'=>'error','msg'=>'Invalid format found.');
         }
+
+        $validate_array = array(
+            'resume_name'         => "required",
+        );
+        $validation_res = Validate::validateMe($post_data,$validate_array);
+        if($validation_res['code'] == 401){
+            return $validation_res;
+        }
+        if ($request->file('resume')->isValid()) {
+            $destinationPath = env('CV_UPLOAD_PATH');
+            $extension = $request->file('resume')->getClientOriginalExtension(); // getting image extension
+            $fileName = rand(11111,99999).'.'.$extension; // renameing image
+            $request->file('resume')->move($destinationPath, $fileName); // uploading file to given path
+            $this->logged_user = Auth::user();
+            $employee = Employee::find(array('userid'=> $this->logged_user->id))->first();
+
+            $employee->resume_name = $fileName;
+            $employee->resume_title = $post_data['resume_name'];
+            $employee->update();
+            return response()->json(array("code"=>200,'status'=>'ok','msg'=>'CV successfully uploaded','file_path'=>"/Docs/".$fileName));
+
+        }
+        return response()->json(array("code"=>400,'status'=>'error','msg'=>'Failed .Please try again','file_path'=>""));
+
     }
+
+    public function downloadResume($name){
+      try{
+          if($name){
+           $employee = Employee::find($name);
+           $pathToFile = env('CV_UPLOAD_PATH').'/'.$employee->resume_name;
+           header("Content-type:application/pdf");
+           header("Content-Disposition:attachment;filename='$employee->resume_title'");
+           readfile($pathToFile);
+
+       }
+
+    }
+        catch (\Exception $e) {
+            return view('errors.404');
+            }
+        }
+
 
 
 }

@@ -233,6 +233,40 @@
 
 
                         </div> <!-- work-expereince -->
+
+
+                            <?php echo ucfirst($basic_emp_info->professional_heading);?>
+
+                        <div class="col-sm-12">
+
+                            <h3>Resume</h3>
+
+                            <div id="education_ist">
+                                <?php
+
+                              //  dd($basic_emp_info->resume_name);
+                                if($basic_emp_info->resume_name ==''){?>
+
+
+                                <div id="education_not_found" class="alert alert-info mt-30"> <strong>Resume not found</strong>  </div>
+                                <?php }else{ ?>
+                                <ul class="employee-detail-list" id="education_detail">
+
+                                    <li>
+                                        <h5><a target="_blank" href="/employee/download_resume/<?php echo $basic_emp_info->id;?>"> <?php echo $basic_emp_info->resume_title;?></a></h5>
+
+                                    </li>
+                                    <?php } ?>
+                                </ul>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
                         <div class="col-sm-12">
 
                             <h3>Languages</h3>

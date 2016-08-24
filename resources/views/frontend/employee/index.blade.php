@@ -71,7 +71,7 @@
                                                 @include('frontend.employee.skills')
 
 
-                                                @include('frontend.employee.resume')
+                                                @include('frontend.employee.resume',['employeeinfo'=>$employeeinfo])
 
                                                 
                                                 

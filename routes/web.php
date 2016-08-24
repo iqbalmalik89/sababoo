@@ -59,6 +59,7 @@ Route::match(['get', 'post'], '/employee/edit_experience', ['uses' => 'EmployeeC
     Route::put('user/interest', 'EmployeeController@updateUserInterest');
 // Resume
     Route::match(['get', 'post'], '/employee/upload_resume', ['uses' => 'EmployeeController@resumeUpload']);
+    Route::match(['get', 'post'], '/employee/download_resume/{name}', ['uses' => 'EmployeeController@downloadResume']);
 
 
 
