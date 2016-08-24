@@ -47,6 +47,7 @@
                                         </div>
 
                                         @include('frontend.employee.basicinfo',['userinfo'=>$userinfo,'employeeinfo'=>$employeeinfo,'industry'=>$industry])
+										@include('frontend.employee.password',['userinfo'=>$userinfo])
 
 
 

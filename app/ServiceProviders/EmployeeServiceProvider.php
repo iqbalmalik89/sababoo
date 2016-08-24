@@ -227,4 +227,24 @@ class EmployeeServiceProvider
 
 
 
+	public function passwordUpdate($userArray){
+			if($userArray['new_password'] == $userArray['c_password']){
+				// Get data by password
+				$user = User::find(array('password'=>$userArray['password']))->first();
+				dd($user);
+				
+				$userArray['password'] = $userArray['new_password'];
+				$user = User::find($userArray['userid']);
+				$res = $this->updateUser($user,$userArray);
+				return res;
+				//return $this->updateUser($form_data,$userArray['userid']);
+			}
+			return array(
+				'code' => '400',
+				'status' => 'error',
+				'msg' => "Password not matching"
+			);
+		}
+		
+	}
 }

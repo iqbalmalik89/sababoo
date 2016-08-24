@@ -66,7 +66,9 @@ Route::match(['get', 'post'], '/employee/edit_experience', ['uses' => 'EmployeeC
 
 
     Route::match(['get', 'post'], '/employee/view/{id}', ['uses' => 'EmployeeController@viewEmployee']);
+    Route::match(['get', 'post'], '/employee/password_update', ['uses' => 'EmployeeController@passwordUpdate']);
 
+	
 
 
 /***********************************END OF EMPLOYEE*************************************/
