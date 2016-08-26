@@ -49,29 +49,31 @@ Route::match(['get', 'post'], '/employee/add_experience', ['uses' => 'EmployeeCo
 Route::match(['get', 'post'], '/employee/edit_experience', ['uses' => 'EmployeeController@editExperience']);
 
     // Skill routes
-    Route::get('skill', 'UI\SkillController@get');
-    Route::put('user/skills', 'UI\SkillController@updateUserSkills');
-    Route::get('user/skills', 'UI\SkillController@getUserSkills');
+Route::get('skill', 'UI\SkillController@get');
+Route::put('user/skills', 'UI\SkillController@updateUserSkills');
+Route::get('user/skills', 'UI\SkillController@getUserSkills');
 
 //Language routes
-    Route::get('user/languages', 'UI\LanguageController@getUserLanguages');
-    Route::put('user/languages', 'UI\LanguageController@updateUserLanguages');
-    Route::put('user/interest', 'EmployeeController@updateUserInterest');
+Route::get('user/languages', 'UI\LanguageController@getUserLanguages');
+Route::put('user/languages', 'UI\LanguageController@updateUserLanguages');
+Route::put('user/interest', 'EmployeeController@updateUserInterest');
 // Resume
-    Route::match(['get', 'post'], '/employee/upload_resume', ['uses' => 'EmployeeController@resumeUpload']);
-    Route::match(['get', 'post'], '/employee/download_resume/{name}', ['uses' => 'EmployeeController@downloadResume']);
+Route::match(['get', 'post'], '/employee/upload_resume', ['uses' => 'EmployeeController@resumeUpload']);
+Route::match(['get', 'post'], '/employee/download_resume/{name}', ['uses' => 'EmployeeController@downloadResume']);
 
+    // Password
+Route::match(['get', 'post'], '/user/password_update', ['uses' => 'UI\UserController@passwordUpdate']);
 
-
-
-
-    Route::match(['get', 'post'], '/employee/view/{id}', ['uses' => 'EmployeeController@viewEmployee']);
-    Route::match(['get', 'post'], '/employee/password_update', ['uses' => 'EmployeeController@passwordUpdate']);
+ Route::match(['get', 'post'], '/employee/view/{id}', ['uses' => 'EmployeeController@viewEmployee']);
 
 	
 
 
 /***********************************END OF EMPLOYEE*************************************/
+/**********************************EMPLOYER ROUTE *************************************/
+
+Route::match(['get', 'post'], '/employer/update_employer', ['uses' => 'UI\EmployerController@updateEmployer']);
+
 
 
 });

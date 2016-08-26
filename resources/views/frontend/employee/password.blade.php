@@ -1,3 +1,8 @@
+<div class="col-sm-12 col-md-12 mb-15">
+    <h3 class="heading mb-10">Password</h3>
+
+    <!--     <p>Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p> -->
+</div>
 
 
 
@@ -97,13 +102,17 @@
 		$('#update_password').click(function () {
 			$('.loader').show();
 			html = '';
-			pageURI = '/employee/update_password';
+			pageURI = '/user/password_update';
 			request_data = $('#frm_password').serializeArray();
 			mainAjax('frm_password', request_data, 'POST',fillData);
 		});
 
 		function fillData(data){
 			if(data.status == 'ok'){
+                $('#password').val('');
+                $('#new_password').val('');
+                $('#c_password').val('');
+                $('#msg_frm_password').hide();
 				$('#global_message').show().html(data.message).delay(4000).fadeOut();
 			}            
 		}

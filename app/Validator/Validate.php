@@ -39,26 +39,10 @@ class Validate{
             'zipcode.required'      => trans('messages.zipcode_required'),
             'zipcode.numeric'        => trans('messages.zipcode_number'),
 
-            'country.required'      => trans('messages.country_required'),
+            'country.required'      => "Country name required.",
             'captcha.required'      => trans('messages.captcha_required'),
             'agree.required'        => trans('messages.agree_required'),
-
-            'account_daily_budget.numeric'  =>trans('messages.account_daily_budget_numeric'),
-            'account_daily_budget.min'      =>trans('messages.account_daily_budget_min'),
-
-
-            'refill_sod_amount.numeric'         => trans('messages.refill_sod_amount_numeric'),
-            'refill_sod_amount.min'             => trans('messages.refill_sod_amount_min'),
-
-            'refill_fixed_amount.numeric'       => trans('messages.refill_fixed_amount_numeric'),
-            'refill_fixed_amount.min'           => trans('messages.refill_fixed_amount_min'),
-
-            'refill_con_charged_amount.numeric' => trans('messages.refill_con_charged_amount_numeric'),
-            'refill_con_charged_amount.min'     => trans('messages.refill_con_charged_amount_min'),
-
-            'refill_con_min_amount.numeric'     => trans('messages.refill_con_min_amount_numeric'),
-            'refill_con_min_amount.min'         => trans('messages.refill_con_min_amount_min'),
-            'msg.required'                  => trans('messages.msg_required'),
+             'msg.required'                  => trans('messages.msg_required'),
             'topic.required'                => trans('messages.topic_required'),
             'school_name.required'          => trans('messages.school_name_required'),
             'degree.required'               => trans('messages.degree_required'),

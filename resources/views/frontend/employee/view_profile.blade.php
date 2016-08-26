@@ -117,24 +117,21 @@
 
                             <div class="row">
 
+
+
                                 <div class="col-sm-6">
+                                    <?php if(count($education)>0){?>
 
                                     <h3>Education</h3>
 
                                     <div id="education_list">
-                                        <?php if(count($education)<=0){?>
 
-
-                                        <div id="education_not_found" class="alert alert-info mt-30"> <strong>Education not found</strong>  </div>
-                                       <?php }else{ ?>
                                             <ul class="employee-detail-list" id="education_detail">
 
                                            <?php
 
                                                 foreach($education as $single_edu){
-
-
-                                        ?>
+                                             ?>
 
 
                                             <li>
@@ -147,43 +144,43 @@
 
                                         <?php } ?>
                                         </ul>
-                                            <?php } ?>
+
 
                                     </div>
+                                        <?php } ?>
+
 
 
                                 </div>
 
                                 <div class="col-sm-6">
+                                  <?php   if(count($skills)>0){?>
 
                                     <h3>Skill</h3>
 
-                                    <?php
 
-                                    if(count($skills)<=0){?>
-
-
-                                    <div id="" class="alert alert-info mt-30"> <strong>Skills not found</strong>  </div>
-
-
-
-                                    <?php } else { ?>
-                                    <ul class="employee-detail-list">
+                                    <p>
                                         <?php
 
                                         foreach($skills as $skill){    ?>
 
-                                        <li>
-                                            <h5><?php echo $skill['label'];?></h5>
+                                          <?php echo ucfirst($skill['label']);?>&nbsp; &nbsp;
 
-                                        </li>
 
-                                    <?php }?>
-                                    </ul>
+
+                                        <?php }?>
+                                    </p>
                                     <?php }?>
                                 </div>
 
                             </div>
+
+
+
+
+                            <?php
+                            if(count($exp)>0){?>
+
 
                             <h3>Work Expeince</h3>
                             <?php
@@ -193,20 +190,13 @@
                             $class = 'work-expereince-wrapper';
                             ?>
                             <?php } ?>
-                        </div>
+
 
                         <div style="clear:both;"></div>
                         <br>
                         <div class="{{$class}}">
-
                             <?php
-                            if(count($exp)<=0){?>
-
-                            <div id="experience_not_found" class="alert alert-info mt-30"> <strong>Work experience not found</strong> </div>
-
-
-                            <?php } else{
-                            foreach($exp as $single_exp){
+                                foreach($exp as $single_exp){
 
                             ?>
 
@@ -229,34 +219,32 @@
 
                                 </div> <!-- work-expereince-content -->
                             </div> <!-- work-expereince-block -->
-                            <?php } } ?>
+                            <?php } ?>
 
 
                         </div> <!-- work-expereince -->
+                            <?php }?>
 
 
-                            <?php echo ucfirst($basic_emp_info->professional_heading);?>
+                            <?php
 
-                        <div class="col-sm-12">
+                            //  dd($basic_emp_info->resume_name);
+                            if($basic_emp_info->resume_name !=''){?>
+
+
+                            <div class="col-sm-12">
 
                             <h3>Resume</h3>
 
                             <div id="education_ist">
-                                <?php
 
-                              //  dd($basic_emp_info->resume_name);
-                                if($basic_emp_info->resume_name ==''){?>
-
-
-                                <div id="education_not_found" class="alert alert-info mt-30"> <strong>Resume not found</strong>  </div>
-                                <?php }else{ ?>
-                                <ul class="employee-detail-list" id="education_detail">
+                                    <ul class="employee-detail-list" id="education_detail">
 
                                     <li>
                                         <h5><a target="_blank" href="/employee/download_resume/<?php echo $basic_emp_info->id;?>"> <?php echo $basic_emp_info->resume_title;?></a></h5>
 
                                     </li>
-                                    <?php } ?>
+
                                 </ul>
 
 
@@ -264,19 +252,20 @@
 
 
                         </div>
+                     <?php } ?>
 
 
+                            <?php
+                            //dd($language['data']);
+                            if(count($language['data'])>0){?>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
 
                             <h3>Languages</h3>
 
                             <div id="education_ist">
-                                <?php if(count($language['data'])<=0){?>
 
 
-                                <div id="education_not_found" class="alert alert-info mt-30"> <strong>Languages not found</strong>  </div>
-                                <?php }else{ ?>
                                 <ul class="employee-detail-list" id="education_detail">
 
                                     <?php
@@ -288,26 +277,32 @@
                                     </li>
                                     <?php } ?>
                                 </ul>
-                                <?php } ?>
 
                             </div>
 
 
                         </div>
+                            <?php } ?>
 
 
 
-                        <h3>Interests &amp; Hobby</h3>
-
-                            <p>Inhabiting discretion the her dispatched decisively boisterous joy. So form were wish open is able of mile of. Waiting express if prevent it we an musical. Especially reasonable travelling she son. Resources resembled forfeited no to zealously. Has procured daughter how friendly followed repeated who surprise. Great asked oh under on voice downs.</p>
-
-                           <strong><?php echo $basic_emp_info->interests;?></strong>
 
 
+                            <div class="col-sm-10">
+                                <?php if($basic_emp_info->interests){?>
 
-                            <div class="clearfix text-center mt-40">
-                                <a href="#" class="btn btn-primary btn-lg">Recruite Me</a>
+                                <h3>Interests &amp; Hobby</h3>
+
+
+                                <strong><?php echo $basic_emp_info->interests;?></strong>
+                                <?php }?>
+                                <div class="clearfix text-center mt-40">
+                                    <a href="#" class="btn btn-primary btn-lg">Recruite Me</a>
+                                </div>
                             </div>
+
+
+
 
                         </div>
 

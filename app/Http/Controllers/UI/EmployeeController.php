@@ -220,36 +220,8 @@ class EmployeeController extends Controller
         catch (\Exception $e) {
             return view('errors.404');
             }
-        }
+    }
 
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public function passwordUpdate(Request $request){
-	  $post_data = $request->all();
-
-	 $validate_array = array(
-            'password'         => "required",
-            'new_password'         => "required",
-        );
-        $validation_res = Validate::validateMe($post_data,$validate_array);
-        if($validation_res['code'] == 401){
-            return $validation_res;
-        }
-	  return response(json_encode($this->employeeServiceProvider->passwordUpdate($request->all())))->header('Content-Type', 'json');
-	
-	}
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use BusinessLogic\EmployeeServiceProvider;
 use  BusinessObject\User;
 use  BusinessObject\Employee;
+use  BusinessObject\Employer;
 use  BusinessObject\Education;
 use  BusinessObject\Experience;
 
@@ -49,6 +50,11 @@ class HomeController extends Controller
 
              return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee,'industry'=>$industry,'education'=>$education,'exp'=>$exp));
        }
+        else if($this->logged_user->role=="employer"){
+            $employer = Employer::where('userid', '=' , $this->logged_user->id)->firstOrFail();
+            return view('frontend.employer.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'employer'=>$employer));
+
+        }
         return view('frontend.site.home');
     }
 
