@@ -112,11 +112,11 @@
 													<div class="col-sm-6 col-md-4">
 														<label>People:</label>
 														<select name="people" id="people" class=" show-tick form-control mb-15" data-live-search="false">
-															<option value="0">1-10</option>
-															<option value="1">11-100</option>
-															<option value="2">200+</option>
-															<option value="3">300+</option>
-															<option value="4">1000+ </option>
+															<option value="1-10">1-10</option>
+															<option value="11-100">11-100</option>
+															<option value="200+">200+</option>
+															<option value="300+">300+</option>
+															<option value="1000+">1000+</option>
 														</select>
 													</div>
 
@@ -489,7 +489,7 @@
 		$('#country option[value="' + country + '"]').prop('selected', true);
 		$('#phone_type option[value="' + phone_type + '"]').prop('selected', true);
 		$('#industry option[value="' + industry + '"]').prop('selected', true);
-		$('#$employer option[value="' + esablish_in + '"]').prop('selected', true);
+		$('#esablish_in option[value="' + esablish_in + '"]').prop('selected', true);
 		$('#people option[value="' + people + '"]').prop('selected', true);
 
 		$('#update_employer').click(function () {
