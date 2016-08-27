@@ -34,7 +34,7 @@
 
                                                           <?php
                                                              // dd($userinfo->image);
-                                                             $user_image = "user_images/01.jpg";
+                                                             $user_image = "user_images/01.png";
                                                               if(isset($userinfo->image) && $userinfo->image!=''){
                                                                   $user_image = "user_images/".$userinfo->image;
                                                               }
@@ -469,7 +469,7 @@
 
           $("#form-register-photo").fileinput({
               dropZoneTitle: '<i class="fa fa-photo"></i><span>Upload Photo</span>',
-              uploadUrl: '/employee/imageUpload?_token=' + $('meta[name="csrf-token"]').attr('content'),
+              uploadUrl: '/user/imageUpload?_token=' + $('meta[name="csrf-token"]').attr('content'),
               maxFileCount: 1,
               minFileCount: 1,
               uploadAsync: true,

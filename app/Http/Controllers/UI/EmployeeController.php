@@ -110,37 +110,6 @@ class EmployeeController extends Controller
 
 	}
 
-    public function uploadImage(Request $request){
-
-        $post_data = $request->all();
-
-        $file = array('image' => $request->file('form-register-photo'));
-        // setting up rules
-         $rules = array('image' => 'required'); //mimes:jpeg,bmp,png and for max size max:10000
-        // doing the validation, passing post data, rules and the messages
-         $validator = Validator::make($file, $rules);
-        if ($validator->fails()) {
-            return array('code'=>401,'status'=>'error','msg'=>'Image only.');
-        }
-        if ($request->file('form-register-photo')->isValid()) {
-            $destinationPath = env('IMAGE_UPLOAD_PATH');
-            $extension = $request->file('form-register-photo')->getClientOriginalExtension(); // getting image extension
-            $fileName = rand(11111,99999).'.'.$extension; // renameing image
-            $request->file('form-register-photo')->move($destinationPath, $fileName); // uploading file to given path
-            $this->logged_user = Auth::user();
-            $user = User::find($this->logged_user->id);
-            $user->image =$fileName;
-            $user->update();
-            return response()->json(array("code"=>200,'status'=>'ok','msg'=>'Image successfully uploaded','img'=>"/user_images/".$fileName));
-          //  return response()->json("image updated succesfully");
-            //return ("image updated succesfully");
-
-        }
-         return response()->json(array("code"=>400,'status'=>'error','msg'=>'Error. please try again.','img'=>''));
-     }
-
-
-
      public function viewEmployee($id){
 
 
@@ -225,3 +194,6 @@ class EmployeeController extends Controller
 
 
 }
+
+
+

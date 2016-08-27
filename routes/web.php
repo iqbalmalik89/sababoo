@@ -42,7 +42,6 @@ Route::group(['middleware' => ['web']], function () {
 /************************************EMPLOYEE********************************************/
 Route::get('/employee', 'EmployeeController@index');
 Route::match(['get', 'post'], '/employee/update_basic_info', ['uses' => 'EmployeeController@updateBasicInfo']);
-Route::match(['get', 'post'], '/employee/imageUpload', ['uses' => 'EmployeeController@uploadImage']);
 Route::match(['get', 'post'], '/employee/add_education', ['uses' => 'EmployeeController@addEducation']);
 Route::match(['get', 'post'], '/employee/edit_education', ['uses' => 'EmployeeController@editEducation']);
 Route::match(['get', 'post'], '/employee/add_experience', ['uses' => 'EmployeeController@addExperience']);
@@ -61,10 +60,7 @@ Route::put('user/interest', 'EmployeeController@updateUserInterest');
 Route::match(['get', 'post'], '/employee/upload_resume', ['uses' => 'EmployeeController@resumeUpload']);
 Route::match(['get', 'post'], '/employee/download_resume/{name}', ['uses' => 'EmployeeController@downloadResume']);
 
-    // Password
-Route::match(['get', 'post'], '/user/password_update', ['uses' => 'UI\UserController@passwordUpdate']);
-
- Route::match(['get', 'post'], '/employee/view/{id}', ['uses' => 'EmployeeController@viewEmployee']);
+Route::match(['get', 'post'], '/employee/view/{id}', ['uses' => 'EmployeeController@viewEmployee']);
 
 	
 
@@ -73,7 +69,15 @@ Route::match(['get', 'post'], '/user/password_update', ['uses' => 'UI\UserContro
 /**********************************EMPLOYER ROUTE *************************************/
 
 Route::match(['get', 'post'], '/employer/update_employer', ['uses' => 'UI\EmployerController@updateEmployer']);
+Route::match(['get', 'post'], '/employer/password', ['uses' => 'UI\EmployerController@password']);
 
+
+
+
+/************************************USERS ROUTE*************************************************/
+Route::match(['get', 'post'], '/user/imageUpload', ['uses' => 'UI\UserController@uploadImage']);
+// Password
+Route::match(['get', 'post'], '/user/password_update', ['uses' => 'UI\UserController@passwordUpdate']);
 
 
 });

@@ -1,8 +1,11 @@
 <div class="admin-sidebar">
-										
+
+	<?php
+
+		?>
 									<div class="admin-user-item for-employer">
 										
-										<div class="image">
+										<div class="image" style="width: 239px;">
 											<div class="">
 
 												<div class="form-group bootstrap-fileinput-style-01">
@@ -16,7 +19,7 @@
 																	//$user_image = "user_images/01.jpg";
 
 																	if(isset($userinfo->image) && $userinfo->image!=''){
-																		$user_image = "user_images/".$userinfo->image;
+																		$user_image = "/user_images/".$userinfo->image;
 																	}
 																	?>
 
@@ -67,35 +70,27 @@
 										
 									</div>
 									
-									<div class="admin-user-action text-center">
-									
-										<a href="#" class="btn btn-primary btn-sm">Post Job</a>
-										<a href="#" class="btn btn-primary btn-sm btn-inverse">Create Resume</a>
-										
-									</div>
-									
+
 									<ul class="admin-user-menu clearfix">
-										<li>
-											<a href="#"><i class="fa fa-tachometer"></i> Dashboard</a>
+										<?php
+
+											$home = '';
+											$emp_active = '';
+										if(Route::getCurrentRoute()->getPath()=='home'){
+											$home= 'active';
+										}
+										if(Route::getCurrentRoute()->getPath()=='employer/password')
+										{
+											$emp_active = 'active';
+										}
+										?>
+										<li class="<?php echo $home;?>">
+											<a href="/home"><i class="fa fa-user"></i> Profile</a>
 										</li>
-										<li>
-											<a href="#"><i class="fa fa-user"></i> Profile</a>
+										<li class="<?php echo $emp_active;?>">
+											<a href="/employer/password"><i class="fa fa-key"></i> Change Password</a>
 										</li>
-										<li class="active">
-											<a href="#"><i class="fa fa-key"></i> Change Password</a>
-										</li>
-										<li>
-											<a href="#"><i class="fa fa-bell"></i> My Alert</a>
-										</li>
-										<li>
-											<a href="#"><i class="fa fa-bookmark"></i> Saved Jobs</a>
-										</li>
-										<li>
-											<a href="#"><i class="fa fa-pencil"></i> Resume Lists</a>
-										</li>
-										<li>
-											<a href="#"><i class="fa fa-sign-out"></i> Logout</a>
-										</li>
+
 									</ul>
 									
 								</div>
@@ -112,7 +107,7 @@
 
 		$("#form-register-photo").fileinput({
 			dropZoneTitle: '<i class="fa fa-photo"></i><span>Upload Photo</span>',
-			uploadUrl: '/employee/imageUpload?_token=' + $('meta[name="csrf-token"]').attr('content'),
+			uploadUrl: '/user/imageUpload?_token=' + $('meta[name="csrf-token"]').attr('content'),
 			maxFileCount: 1,
 			minFileCount: 1,
 			uploadAsync: true,

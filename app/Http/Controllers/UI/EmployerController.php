@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use  App\Validator\Validate;
+use  BusinessObject\Employer;
 
 
 
@@ -27,6 +28,7 @@ class EmployerController extends Controller
         $this->userServiceProvider = new UserServiceProvider();
         $this->employerServiceProvider = new EmployerServiceProvider();
     }
+
 
     public function updateEmployer(Request $request){
         $post_data = $request->all();
@@ -47,7 +49,11 @@ class EmployerController extends Controller
         return $this->employerServiceProvider->updateEmployer($post_data,$this->logged_user->id);
 
     }
-
+    public function password(){
+        $this->logged_user = Auth::user();
+        $employer = Employer::where('userid', '=' , $this->logged_user->id)->firstOrFail();
+        return  view('frontend.employer.password',array('userinfo'=>$this->logged_user,'employer'=>$employer));
+    }
 
 
 }
