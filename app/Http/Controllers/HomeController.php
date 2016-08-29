@@ -9,6 +9,7 @@ use BusinessLogic\EmployeeServiceProvider;
 use  BusinessObject\User;
 use  BusinessObject\Employee;
 use  BusinessObject\Employer;
+use  BusinessObject\Tradesman;
 use  BusinessObject\Education;
 use  BusinessObject\Experience;
 
@@ -39,6 +40,7 @@ class HomeController extends Controller
     {
        
         $this->logged_user = Auth::user();
+        dd($this->logged_user);
         $matchThese = ['status'=>1];
         $industry = Industry::where($matchThese)->get();
 
@@ -53,6 +55,15 @@ class HomeController extends Controller
         else if($this->logged_user->role=="employer"){
             $employer = Employer::where('userid', '=' , $this->logged_user->id)->firstOrFail();
             return view('frontend.employer.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'employer'=>$employer));
+
+        }
+
+        else if($this->logged_user->role=="tradesman"){
+
+            $tradesman = Tradesman::where('userid', '=' , $this->logged_user->id)->firstOrFail();
+            $education = Education::where(array('employee_id'=> $tradesman->id))->get();
+
+            return view('frontend.tradesman.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'tradesman'=>$tradesman,'education'=>$education));
 
         }
         return view('frontend.site.home');
