@@ -49,7 +49,7 @@ class HomeController extends Controller
 
 
             $employee = Employee::where(array('userid'=> $this->logged_user->id));
-            dd($employee[0]->id);
+            dd($employee->id);
             $education = Education::where(array('employee_id'=> $employee[0]->id))->get();
             $exp = Experience::where(array('employee_id'=> $employee[0]->id))->get();
 
