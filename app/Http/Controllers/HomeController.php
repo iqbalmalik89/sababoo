@@ -40,13 +40,15 @@ class HomeController extends Controller
     {
        
         $this->logged_user = Auth::user();
-        dd($this->logged_user);
+
         $matchThese = ['status'=>1];
         $industry = Industry::where($matchThese)->get();
 
 
         if($this->logged_user->role=="employee"){
+
             $employee = Employee::find(array('userid'=> $this->logged_user->id));
+            dd($employee );
             $education = Education::where(array('employee_id'=> $employee[0]->id))->get();
             $exp = Experience::where(array('employee_id'=> $employee[0]->id))->get();
 
