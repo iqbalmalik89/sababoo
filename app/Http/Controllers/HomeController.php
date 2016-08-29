@@ -46,9 +46,10 @@ class HomeController extends Controller
 
 
         if($this->logged_user->role=="employee"){
+            dd($this->logged_user->id);
 
             $employee = Employee::find(array('userid'=> $this->logged_user->id));
-            dd($employee );
+            dd($employee);
             $education = Education::where(array('employee_id'=> $employee[0]->id))->get();
             $exp = Experience::where(array('employee_id'=> $employee[0]->id))->get();
 
