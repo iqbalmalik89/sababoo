@@ -9,6 +9,7 @@ use Session;
 use  BusinessObject\User;
 use  BusinessObject\Employee;
 use  BusinessObject\Employer;
+use  BusinessObject\Tradesman;
 use Validator;
 use Helper;
 use DB;
@@ -109,6 +110,12 @@ User Account has been successfully created. Please activate your account through
                   $employer = new Employer;
                   $employer->userid=$user->id;
                   $employer->save();
+              }
+
+              if($user->role=='tradesman'){
+                  $tradesman = new Tradesman;
+                  $tradesman->userid=$user->id;
+                  $tradesman->save();
               }
 
 

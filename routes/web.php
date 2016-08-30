@@ -71,6 +71,9 @@ Route::match(['get', 'post'], '/employee/view/{id}', ['uses' => 'EmployeeControl
 Route::match(['get', 'post'], '/employer/update_employer', ['uses' => 'UI\EmployerController@updateEmployer']);
 Route::match(['get', 'post'], '/employer/password', ['uses' => 'UI\EmployerController@password']);
 
+/********************************TRADESMAN***********************************************/
+    Route::match(['get', 'post'], '/tradesman/update_basic_info', ['uses' => 'UI\TradesmanController@updateBasicInfo']);
+
 
 
 
