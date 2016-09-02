@@ -61,13 +61,13 @@ class TradesmanController extends Controller
         $this->skillServiceProvider = new SkillServiceProvider();
         $this->languageServiceProvider = new LanguageServiceProvider();
         $this->employeeServiceProvider = new EmployeeServiceProvider();
-        $education = $this->employeeServiceProvider->getEducation($id);
+        $education = $this->employeeServiceProvider->getEducation($basic_emp_info->userid);
         $industry = $this->employeeServiceProvider->getIndustry($basic_emp_info->industry_id);
         $skills = $this->skillServiceProvider->getUserSkills($basic_emp_info->userid);
         $language = $this->languageServiceProvider->getUserLanguages($basic_emp_info->userid);
         $certification =  $this->userServiceProvider->getCertifcation($basic_emp_info->userid);
 
-        dd($education);
+
 
         return view('frontend.tradesman.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'industry'=>$industry,'language'=>$language,'certification'=>$certification ));
     }
