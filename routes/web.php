@@ -70,17 +70,25 @@ Route::match(['get', 'post'], '/employee/view/{id}', ['uses' => 'EmployeeControl
 
 Route::match(['get', 'post'], '/employer/update_employer', ['uses' => 'UI\EmployerController@updateEmployer']);
 Route::match(['get', 'post'], '/employer/password', ['uses' => 'UI\EmployerController@password']);
-
-/********************************TRADESMAN***********************************************/
-    Route::match(['get', 'post'], '/tradesman/update_basic_info', ['uses' => 'UI\TradesmanController@updateBasicInfo']);
+    Route::match(['get', 'post'], '/employer/view/{id}', ['uses' => 'UI\EmployerController@viewEmployer']);
 
 
+    /********************************TRADESMAN***********************************************/
+Route::match(['get', 'post'], '/tradesman/update_basic_info', ['uses' => 'UI\TradesmanController@updateBasicInfo']);
+Route::match(['get', 'post'], '/tradesman/view/{id}', ['uses' => 'UI\TradesmanController@viewTradesman']);
 
 
-/************************************USERS ROUTE*************************************************/
+
+
+
+    /************************************USERS ROUTE*************************************************/
 Route::match(['get', 'post'], '/user/imageUpload', ['uses' => 'UI\UserController@uploadImage']);
 // Password
 Route::match(['get', 'post'], '/user/password_update', ['uses' => 'UI\UserController@passwordUpdate']);
+Route::match(['get', 'post'], '/user/add_certification', ['uses' => 'UI\UserController@addCertification']);
+Route::match(['get', 'post'], '/user/edit_certification', ['uses' => 'UI\UserController@editCertification']);
+
+
 
 
 });

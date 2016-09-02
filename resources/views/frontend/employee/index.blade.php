@@ -55,10 +55,12 @@
                                             <div class="row gap-20">
 
                                                 <!-- sheepIt Form -->
-                                                @include('frontend.employee.education',['employeeinfo'=>$employeeinfo,'education'=>$education])
+                                                @include('frontend.employee.education',['userinfo'=>$userinfo,'employeeinfo'=>$employeeinfo,'education'=>$education])
                                                 <!-- /sheepIt Form -->
+                                                @include('frontend.employee.certification',['userinfo'=>$userinfo,'employeeinfo'=>$employeeinfo,'certification'=>$certification])
 
-                                               <div class="clear mb-30"></div>
+
+                                                <div class="clear mb-30"></div>
  
 
                                                 @include('frontend.employee.experience',['employeeinfo'=>$employeeinfo,'exp'=>$exp])

@@ -42,5 +42,14 @@ class EmployerServiceProvider{
       // return array('code'=>200,'status'=>'ok','msg'=>'Record updated successfully.');
     }
 
+    public function getBasicEmpProfile($id){
+
+
+        try {
+            return  Employer::find($id);
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+    }
 
 }

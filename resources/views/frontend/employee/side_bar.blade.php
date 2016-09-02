@@ -6,7 +6,7 @@
 
 
                                         </h2>
-                                        <a href="/employee/view/<?php echo $userinfo->id;?>">View Profile</a>
+                                        <a href="/employee/view/<?php echo $employeeinfo[0]->id;?>">View Profile</a>
                                     </div>
 
                                     <div class="">

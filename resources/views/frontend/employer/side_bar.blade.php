@@ -1,16 +1,16 @@
 <div class="admin-sidebar">
 
-	<?php
 
-		?>
 									<div class="admin-user-item for-employer">
+										<a href="/employer/view/<?php echo $employer->id;?>">View Profile</a>
+
 										
 										<div class="image" style="width: 239px;">
 											<div class="">
 
 												<div class="form-group bootstrap-fileinput-style-01">
 													<!--                                           <label>Photo</label>
-                                                     -->                                          <div class="file-input file-input-ajax-new"><div class="file-preview ">
+                                                     -->          <div class="file-input file-input-ajax-new"><div class="file-preview ">
 															<div class=" file-drop-zone">
 																<div>
 

@@ -14,7 +14,7 @@
     <div id="dynamicAddForm_template">
         <form id="frm_education">
         <div class="col-sm-12">
-            <input type="hidden" id="employee_id" name="employee_id" value="<?php echo $employeeinfo[0]->id;?>">
+            <input type="hidden" id="userid" name="userid" value="<?php echo $userinfo->id;?>">
 
             <div class="">
 

@@ -26,7 +26,9 @@ class EmployeeServiceProvider
         $user = User::find($user_id);
         $res = $this->updateUser($user,$user_data);
         if($res['code']==200){
-            $employee = Employee::find(array('userid'=>$user_id));
+
+            $employee = Employee::where('userid', '=' , $user_id)->firstOrFail();
+           // $employee = Employee::find(array('userid'=>$user_id));
             return $this->updateEmployee($employee,$user_data);
 
         }
@@ -63,7 +65,10 @@ class EmployeeServiceProvider
 
     public function updateInterest($userId, $interests)
     {
-        $rec = Employee::find($userId);
+        $rec = Employee::where(array('userid'=>$userId))->first();
+
+
+       // $rec = Employee::find($userId);
         $rec->interests = $interests;
         $rec->update();
         return array('code'=>200,'status'=>'ok','msg'=>'Record updated successfully.');
@@ -71,7 +76,8 @@ class EmployeeServiceProvider
 
     public function updateEmployee($employee,$userArray){
 
-        $employee = Employee::find($employee[0]->id);
+
+        $employee = Employee::find($employee->id);
         if(isset($userArray['industry_id'])){ 		$employee->industry_id 		= $userArray['industry_id']; }
         if(isset($userArray['summary'])){  		    $employee->summary 		= $userArray['summary'];  }
         if(isset($userArray['professional_heading'])){$employee->professional_heading 			= $userArray['professional_heading'];}
@@ -91,7 +97,7 @@ class EmployeeServiceProvider
 		   if(isset($data['edu_id']) && $data['edu_id'] !=''){
 
 			   $education = Education::find($data['edu_id']);
-			   $education->employee_id = $data['employee_id'];
+			   $education->userid = $data['userid'];
 			   $education->school_name = $data['school_name'];
 			   $education->year_from = $data['date_from'];
 			   $education->year_to = $data['date_to'];
@@ -104,7 +110,7 @@ class EmployeeServiceProvider
 			   return array('code'=>200,'status'=>'ok','msg'=>'Record updated successfully.');
 		   }
             $education = new Education;
-            $education->employee_id = $data['employee_id'];
+            $education->userid = $data['userid'];
             $education->school_name = $data['school_name'];
             $education->year_from = $data['date_from'];
             $education->year_to = $data['date_to'];
@@ -182,8 +188,7 @@ class EmployeeServiceProvider
 
 
     public function getBasicUserProfile($userid){
-
-        try {
+   try {
             return  User::find($userid);
         }catch (\Exception $e) {
             return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
@@ -201,7 +206,7 @@ class EmployeeServiceProvider
 
     public function getEducation($id){
         try {
-            return $education = Education::where(array('employee_id'=> $id))->get();
+            return $education = Education::where(array('userid'=> $id))->get();
         }catch (\Exception $e) {
             return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
         }

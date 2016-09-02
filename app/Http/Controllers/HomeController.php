@@ -12,6 +12,7 @@ use  BusinessObject\Employer;
 use  BusinessObject\Tradesman;
 use  BusinessObject\Education;
 use  BusinessObject\Experience;
+use  BusinessObject\Certification;
 
 use  BusinessObject\Industry;
 
@@ -51,10 +52,12 @@ class HomeController extends Controller
             //$employee = Employee::find(array('userid'=> $this->logged_user->id));
             //$employee = Employee::find(array('userid'=> $this->logged_user->id));
             $employee[0] = Employee::where('userid', '=' , $this->logged_user->id)->firstOrFail();
-            $education = Education::where(array('employee_id'=> $employee[0]->id))->get();
+            $education = Education::where(array('userid'=> $this->logged_user->id))->get();
+            $certification = Certification::where(array('userid'=> $this->logged_user->id))->get();
+
             $exp = Experience::where(array('employee_id'=> $employee[0]->id))->get();
 
-             return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee,'industry'=>$industry,'education'=>$education,'exp'=>$exp));
+             return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee,'industry'=>$industry,'education'=>$education,'exp'=>$exp,'certification'=>$certification));
        }
         else if($this->logged_user->role=="employer"){
             $employer = Employer::where('userid', '=' , $this->logged_user->id)->firstOrFail();
@@ -65,9 +68,12 @@ class HomeController extends Controller
         else if($this->logged_user->role=="tradesman"){
 
             $tradesman = Tradesman::where('userid', '=' , $this->logged_user->id)->firstOrFail();
-            $education = Education::where(array('employee_id'=> $tradesman->id))->get();
+            $education = Education::where(array('userid'=> $this->logged_user->id))->get();
+            $certification = Certification::where(array('userid'=> $this->logged_user->id))->get();
 
-            return view('frontend.tradesman.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'tradesman'=>$tradesman,'education'=>$education));
+
+
+            return view('frontend.tradesman.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'tradesman'=>$tradesman,'education'=>$education,'certification'=>$certification));
 
         }
         return view('frontend.site.home');

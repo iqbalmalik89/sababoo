@@ -285,9 +285,11 @@ function saveInterests()
 
 function interestCallback(data)
 {
+
     if(data.status == 'ok')
     {
-        $('#global_message').show().html(data.message).delay(4000).fadeOut();
+
+        $('#global_message').show().html(data.msg).delay(4000).fadeOut();
     }
 }
 

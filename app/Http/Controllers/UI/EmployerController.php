@@ -11,6 +11,7 @@ namespace App\Http\Controllers\UI;
 use App\Http\Controllers\Controller;
 use BusinessLogic\UserServiceProvider;
 use BusinessLogic\EmployerServiceProvider;
+use BusinessLogic\EmployeeServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,18 @@ class EmployerController extends Controller
         $this->logged_user = Auth::user();
         $employer = Employer::where('userid', '=' , $this->logged_user->id)->firstOrFail();
         return  view('frontend.employer.password',array('userinfo'=>$this->logged_user,'employer'=>$employer));
+    }
+
+    public function viewEmployer($id){
+        $basic_emp_info = $this->employerServiceProvider->getBasicEmpProfile($id);
+        $basic_user_info = $this->userServiceProvider->getBasicUserProfile($basic_emp_info->userid);
+        if($basic_emp_info==null){
+            return view('errors.404');
+        }
+        $this->employeeServiceProvider = new EmployeeServiceProvider();
+        $industry = $this->employeeServiceProvider->getIndustry($basic_emp_info->industry_id);
+        return view('frontend.employer.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'industry'=>$industry));
+
     }
 
 

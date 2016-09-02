@@ -19,6 +19,7 @@ use Hash;
 use Validator;
 
 use  BusinessObject\User;
+use  BusinessObject\Certification;
 
 
 class UserController extends Controller
@@ -78,6 +79,29 @@ class UserController extends Controller
 
         }
         return response()->json(array("code"=>400,'status'=>'error','msg'=>'Error. please try again.','img'=>''));
+    }
+
+    public function addCertification(Request $request){
+        $post_data = $request->all();
+
+        // dd($post_data);
+        $this->logged_user = Auth::user();
+        $validate_array = array(
+            'name'              => "required",
+            'authority'          => "required",
+        );
+        $validation_res = Validate::validateMe($post_data,$validate_array);
+        if($validation_res['code'] == 401){
+            return $validation_res;
+        }
+        return $this->userServiceProvider->addCertification($post_data,$this->logged_user->id);
+    }
+
+    public function editCertification(Request $request){
+        $post_data = $request->all();
+        $certification = Certification::where(array('id'=>$post_data['cer_id']))->get();
+        return response()->json(array("code"=>200,'status'=>'ok','msg'=>'','data'=> $certification));
+
     }
 
 

@@ -383,6 +383,17 @@
 
                                 </div>
 
+                                <div class="col-sm-12">
+
+                                    <div class="form-group mb-20 bootstrap3-wysihtml5-wrapper">
+                                        <label for="dynamicAddForm_#index#_extraInfo">Interests:</label>
+                                        <textarea id="interests" name="interests" class="form-control" rows="5"><?php if(isset($tradesman->interests)){ echo $tradesman->interests;}?></textarea>
+
+                                    </div>
+
+                                </div>
+
+
                             </div>
 
 

@@ -55,7 +55,9 @@
 
                             <div class="row gap-20">
 
-                                @include('frontend.tradesman.education',['tradesman'=>$tradesman,'education'=>$education])
+                                @include('frontend.tradesman.education',['userinfo'=>$userinfo,'tradesman'=>$tradesman,'education'=>$education])
+                                @include('frontend.employee.certification',['userinfo'=>$userinfo,'certification'=>$certification])
+
 
                                 <div class="clear mb-30"></div>
 

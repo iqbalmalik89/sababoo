@@ -7,6 +7,7 @@
  */
 
 namespace BusinessLogic;
+use BusinessObject\Certification;
 use Helper;
 use  BusinessObject\User;
 use  BusinessObject\Employee;
@@ -59,6 +60,68 @@ class UserServiceProvider
         );
     }
 
+    public function getBasicUserProfile($userid){
+        try {
+            return  User::find($userid);
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+    }
+
+    public function addCertification($userArray,$userid){
+
+        try {
+           // dd($userArray);
+            if (isset($userArray['cer_id']) && $userArray['cer_id'] != '') {
+
+                $certification = Certification::find($userArray['cer_id']);
+                $certification->userid = $userid;
+                $certification->authority = $userArray['authority'];
+                $certification->name = $userArray['name'];
+
+                $certification->date_from = $userArray['date_from_month'] . "-" . $userArray['date_from_year'];
+                $certification->date_to = $userArray['date_to_month'] . "-" . $userArray['date_to_year'];
+                $certification->url = $userArray['url'];
+                if (!isset($userArray['present'])) {
+                    $userArray['present'] = 0;
+                }
+                $certification->present = $userArray['present'];
+                $certification->update();
+                return array('code' => 200, 'status' => 'ok', 'msg' => 'Record updated successfully.');
+            }
+            $certification = new Certification();
+            $certification->userid = $userid;
+            $certification->name = $userArray['name'];
+            $certification->authority = $userArray['authority'];
+            $certification->date_from = $userArray['date_from_month'] . "-" . $userArray['date_from_year'];
+            $certification->date_to = $userArray['date_to_month'] . "-" . $userArray['date_to_year'];
+            $certification->url = $userArray['url'];
+            if (!isset($userArray['present'])) {
+                $userArray['present'] = 0;
+            }
+            $certification->present = $userArray['present'];
+            $certification->save();
+
+            return array(
+                'code' => '200',
+                'status' => 'ok',
+                'msg' => "Certification added successfully.",
+
+            );
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+
+    }
+
+    public function getCertifcation($id){
+        try {
+            return  Certification::where(array('userid'=> $id))->get();
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+
+    }
 
 
 }

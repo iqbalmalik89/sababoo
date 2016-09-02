@@ -152,6 +152,50 @@
 
 
                                 </div>
+                                <div class="col-sm-6">
+                                    <?php if(count($certification)>0){?>
+
+                                    <h3>Certification</h3>
+
+                                    <div id="education_list">
+
+                                        <ul class="employee-detail-list" id="education_detail">
+
+                                            <?php
+
+                                            foreach($certification as $single_cer){
+                                            ?>
+
+
+                                            <li>
+                                                <h5><?php echo $single_cer->name;?>  </h5>
+                                                <p class="text-muted font-italic">
+
+                                                    <?php echo $single_cer->date_from;?> –
+                                                    <?php
+                                                    if($single_cer->present==1){
+                                                        echo "Present";
+                                                    }else{
+                                                        echo $single_cer->date_to;
+                                                    }
+                                                    ?>
+                                                    at <span class="font600 text-primary"><?php echo $single_cer->authority;?></span></p>
+                                                <p><a href="<?php echo $single_cer->url;?>"><?php echo $single_cer->url;?></a></p>
+                                            </li>
+
+
+
+                                            <?php } ?>
+                                        </ul>
+
+
+                                    </div>
+                                    <?php } ?>
+
+
+
+                                </div>
+
 
                                 <div class="col-sm-6">
                                   <?php   if(count($skills)>0){?>
@@ -177,6 +221,10 @@
 
 
 
+
+
+
+                            <div class="col-sm-8">
 
                             <?php
                             if(count($exp)>0){?>
@@ -224,6 +272,7 @@
 
                         </div> <!-- work-expereince -->
                             <?php }?>
+                                    </div>
 
 
                             <?php
@@ -256,6 +305,14 @@
 
 
                             <?php
+                            $language_array=array(
+                                    'elementary'=>'Elementary proficiency',
+                                    'limited_working' =>'Limited working proficiency',
+                                    'professional_working' =>'Professional working proficiency',
+                                    'full_professional'  => 'Full professional proficiency',
+                                    'native_or_bilingual'=>'Native or bilingual proficiency',
+
+                            );
                             //dd($language['data']);
                             if(count($language['data'])>0){?>
 
@@ -273,7 +330,7 @@
                                     ?>
                                    <li>
                                         <h5><?php echo $single_lan['language'];?></h5>
-                                        <p><?php echo $single_lan['proficiency'];?></p>
+                                        <p><?php echo $language_array[$single_lan['proficiency']];?></p>
                                     </li>
                                     <?php } ?>
                                 </ul>

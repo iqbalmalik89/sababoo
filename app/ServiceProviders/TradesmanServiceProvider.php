@@ -33,8 +33,18 @@ class TradesmanServiceProvider{
     public function update($userArray){
         $tradesman = Tradesman::find($userArray['id']);
         if(isset($userArray['summary'])){ 		$tradesman->background 		= $userArray['summary']; }
+        if(isset($userArray['interests'])){ 	$tradesman->interests 		= $userArray['interests']; }
         $tradesman->update();
 
+    }
+
+    public function getBasicTradesmanProfile($id){
+
+        try {
+            return  Tradesman::find($id);
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
     }
 
 

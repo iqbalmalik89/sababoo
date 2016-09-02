@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use BusinessLogic\EmployeeServiceProvider;
 use BusinessLogic\SkillServiceProvider;
 use BusinessLogic\LanguageServiceProvider;
+use BusinessLogic\UserServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
@@ -114,6 +115,7 @@ class EmployeeController extends Controller
 
 
         $basic_emp_info = $this->employeeServiceProvider->getBasicEmpProfile($id);
+         ;
 
         $basic_user_info = $this->employeeServiceProvider->getBasicUserProfile($basic_emp_info->userid);
         if($basic_emp_info==null){
@@ -121,14 +123,14 @@ class EmployeeController extends Controller
         }
          $this->skillServiceProvider = new SkillServiceProvider();
          $this->languageServiceProvider = new LanguageServiceProvider();
-         $education = $this->employeeServiceProvider->getEducation($id);
+         $this->UserServiceProvider = new UserServiceProvider();
+         $education = $this->employeeServiceProvider->getEducation($basic_emp_info->userid);
          $exp = Experience::where(array('employee_id'=> $id))->get();
          $industry = $this->employeeServiceProvider->getIndustry($basic_emp_info->industry_id);
          $skills = $this->skillServiceProvider->getUserSkills($basic_emp_info->userid);
          $language = $this->languageServiceProvider->getUserLanguages($basic_emp_info->userid);
-
-
-         return view('frontend.employee.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'exp'=>$exp,'industry'=>$industry,'language'=>$language ));
+         $certification =  $this->UserServiceProvider->getCertifcation($basic_emp_info->userid);
+         return view('frontend.employee.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'exp'=>$exp,'industry'=>$industry,'language'=>$language,'certification'=>$certification ));
     }
 
     public function resumeUpload(Request $request){
