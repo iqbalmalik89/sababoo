@@ -3,340 +3,339 @@
 @section('title', 'Job Post')
 
 @section('content')
-                 
-<!-- start Main Wrapper -->
-<div class="main-wrapper">  
-        
-<!-- start breadcrumb -->
-<div class="breadcrumb-wrapper">
 
-	<div class="container">
-	
-		<ol class="breadcrumb-list booking-step">
-			<li><a href="">Home</a></li>
-			<li><a href="">Your Admin</a></li>
-			<li><span>Post a Job</span></li>
-		</ol>
-		
+
+		<!-- start Main Wrapper -->
+<div class="main-wrapper">
+
+	<!-- start breadcrumb -->
+	<div class="breadcrumb-wrapper">
+
+		<div class="container">
+
+			<ol class="breadcrumb-list booking-step">
+				<li><a href="/home">Home</a></li>
+				<li><a href="/job">Job</a></li>
+				<li><span>Post a Job</span></li>
+			</ol>
+
+		</div>
+
 	</div>
-	
-</div>
-			<!-- end breadcrumb -->
-			
-	<div class="section sm">
-			
-				<div class="container">
-				
-					<div class="row">
-						
-							<div class="col-sm-5 col-md-4">
-							
-								<div class="company-detail-sidebar">
-										
-									<div class="section-title mb-30">
-										<h2 class="text-left">Company Information</h2>
-									</div>
-									
-									<div class="image">
-										<img src="images/brands/06.png" alt="image" />
-									</div>
-									
-									<h2 class="heading mb-15">Expedia</h2>
-								
-									<p class="location"><i class="fa fa-map-marker"></i> 3150 139th Ave. SE Bellevue, WA 98005 USA <span class="block"><i class="fa fa-phone"></i> +66-5445-5420</span></p>
-									
-									<ul class="meta-list clearfix">
-										<li>
-											<h4 class="heading">Established In:</h4>
-											1999
-										</li>
-										<li>
-											<h4 class="heading">Type:</h4>
-											Booking/Travel
-										</li>
-										<li>
-											<h4 class="heading">People:</h4>
-											2000+
-										</li>
-										<li>
-											<h4 class="heading">Website: </h4>
-											https://www.expedia.com/
-										</li>
-										<li>
-											<h4 class="heading">Company background: </h4>
-											<span class="font600">Expedia</span> is repulsive questions contented him few extensive supported. Of remarkably thoroughly he appearance in. Supposing tolerably applauded or of be. Suffering unfeeling so objection agreeable allowance me of. Ask within entire season sex common far who family... <a href="employer-detail.html">read full information</a>
-										</li>
-									</ul>
-									
-									
-									<a href="employer-edit.html" class="btn btn-primary mt-5"><i class="fa fa-pencil-square-o mr-5"></i>Edit</a>
-									
-								</div>
-					
-					
-							</div>
-							
-							<div class="col-sm-7 col-md-8">
-							
-								<div class="company-detail-wrapper">
+	<!-- end breadcrumb -->
 
-									<div class="company-detail-company-overview  mt-0 clearfix">
-										
-										<div class="section-title-02">
-											<h3 class="text-left">Post a Job</h3>
-											<p>Oh to talking improve produce in limited offices fifteen an. Wicket branch to answer do we. Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
+	<div class="section sm">
+
+		<div class="container">
+
+			<div class="row">
+
+
+
+				<div class="col-sm-7 col-md-8">
+
+					<div class="company-detail-wrapper">
+
+						<div class="company-detail-company-overview  mt-0 clearfix">
+
+							<div class="section-title-02">
+								<h3 class="text-left">Post a Job</h3>
+								<p>Oh to talking improve produce in limited offices fifteen an. Wicket branch to answer do we. Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
+							</div>
+
+							<form id="frm_job_post" class="post-form-wrapper">
+								<input type="hidden" id="jobid" name="jobid" value="<?php if(isset($job_data->id)){echo $job_data->id;}?>">
+								<div class="row gap-20">
+
+									<div class="col-sm-8 col-md-8">
+
+										<div class="form-group">
+											<label>Job Title</label>
+											<input id="title" name="title" type="text" class="form-control" value="<?php if(isset($job_data->name)){ echo $job_data->name;}?>">
 										</div>
 
-										<form class="post-form-wrapper">
-								
+									</div>
+
+									<div class="clear"></div>
+
+									<div class="col-sm-8 col-md-5">
+
+										<div class="form-group">
+											<label>Location</label>
+											<input id="location" name="location" type="text" class="form-control" value="<?php if(isset($job_data->location)){ echo $job_data->location;}?>">
+										</div>
+
+									</div>
+
+									<div class="clear"></div>
+
+									<div class="col-sm-8 col-md-8">
+
+										<div class="form-group">
+											<label>Rate/Salary</label>
+
 											<div class="row gap-20">
-										
-												<div class="col-sm-8 col-md-8">
-												
-													<div class="form-group">
-														<label>Job Title</label>
-														<input type="text" class="form-control">
+												<div class="col-sm-6">
+													<div class="input-group">
+														<input id="salary" name="salary" type="text" class="form-control" value="<?php if(isset($job_data->salary)){ echo $job_data->salary;}?>">
+														<span class="input-group-addon">$</span>
 													</div>
-													
 												</div>
-												
-												<div class="clear"></div>
-												
-												<div class="col-sm-8 col-md-5">
-												
-													<div class="form-group">
-														<label>Location</label>
-														<input type="text" class="form-control">
-													</div>
-													
-												</div>
-												
-												<div class="clear"></div>
-												
-												<div class="col-sm-8 col-md-8">
-												
-													<div class="form-group">
-														<label>Rate/Salary</label>
-														
-														<div class="row gap-20">
-															<div class="col-sm-6">
-																<div class="input-group">
-																	<input type="text" class="form-control">
-																	<span class="input-group-addon">$</span>
-																</div>
-															</div>
-															<div class="col-sm-6">
-															
-																<div class="clearfix" style="margin-top: 2px;">
-																
-																	<div class="pull-left">
-																		<div class="text-primary font600" style="margin-right: 15px; margin-top: 2px;">or</div>
-																	</div>
-																		<div class="pull-left">
-																		<div class="radio-block" style="margin-top: 2px;">
-																			<input id="radio_salary-1" name="radio_salary" type="radio" class="radio" />
-																			<label for="radio_salary-1">Negotiable</label>
-																		</div>
-																	</div>
-																
-																</div>
-																
-															</div>
-														</div>
-														
-													</div>
-													
-												</div>
-												
-												<div class="clear"></div>
-												
-												<div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
-												
-													<div class="form-group mb-20">
-														<label>Job Type:</label>
-														<select class="selectpicker show-tick form-control" data-live-search="false" data-selected-text-format="count > 3" data-done-button="true" data-done-button-text="OK" data-none-selected-text="All">
-															<option value="0" selected>Select</option>
-															<option value="1" data-content="<span class='label label-warning'>Full-time</span>">Full-time</option>
-															<option value="2" data-content="<span class='label label-danger'>Part-time</span>">Part-time</option>
-															<option value="3" data-content="<span class='label label-success'>Freelance</span>">Freelance</option>
-														</select>
-													</div>
-													
-												</div>
-												
-												<div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
-												
-													<div class="form-group mb-20">
-														<label>Experience:</label>
-														<select class="selectpicker show-tick form-control" data-live-search="false" data-selected-text-format="count > 3" data-done-button="true" data-done-button-text="OK" data-none-selected-text="All">
-															<option value="0" selected >Select</option>
-															<option value="1">Expert</option>
-															<option value="2">2 Years</option>
-															<option value="3">3 Years</option>
-															<option value="4">4 Years</option>
-															<option value="5">5 Years</option>
-														</select>
-													</div>
-													
-													
-												</div>
+												<div class="col-sm-6">
 
-												<div class="clear"></div>
-												
-												<div class="col-sm-12 col-md-12">
-												
-													<div class="form-group bootstrap3-wysihtml5-wrapper">
-														<label>Job Description</label>
-														<textarea class="bootstrap3-wysihtml5 form-control" placeholder="Enter text ..." style="height: 200px;"></textarea>
-													</div>
-													
-												</div>
-												
-												<div class="clear"></div>
-												
-												<div class="col-sm-12 col-md-12">
-												
-													<div class="form-group bootstrap3-wysihtml5-wrapper">
-														<label>Job Responsibilies</label>
-														<textarea class="bootstrap3-wysihtml5 form-control" placeholder="Enter text ..." style="height: 200px;"></textarea>
-													</div>
-													
-												</div>
-												
-												<div class="clear"></div>
-												
-												<div class="col-sm-12 col-md-12">
-												
-													<div class="form-group bootstrap3-wysihtml5-wrapper">
-														<label>Requirements</label>
-														<textarea class="bootstrap3-wysihtml5 form-control" placeholder="Enter text ..." style="height: 200px;"></textarea>
-													</div>
-													
-												</div>
-												
-												<div class="clear"></div>
-												
-												<div class="col-sm-12 col-md-12">
-												
-													<div class="form-group bootstrap3-wysihtml5-wrapper">
-														<label>Tags</label>
-														<input type="text" class="form-control" id="autocompleteTagging" value="red,green,blue" placeholder="tag to add?" />
-													</div>
-													
-												</div>
-												
-												<div class="clear"></div>
-												
-												<div class="col-sm-11">
+													<div class="clearfix" style="margin-top: 2px;">
 
-													<label class="mt-10">Checkbox Option</label>
-													
-													<p class="mb-10">On then sake home is am leaf. Of suspicion do departure at extremely he believing.</p>
-											
-													<div class="checkbox-block">
-														<input id="checkbox_option-1" name="checkbox_option" type="checkbox" class="checkbox" checked />
-														<label class="" for="checkbox_option-1">Checkbox Option One home </label>
-													</div>
-													<div class="checkbox-block">
-														<input id="checkbox_option-2" name="checkbox_option" type="checkbox" class="checkbox"/>
-														<label class="" for="checkbox_option-2">Checkbox Option Two</label>
-													</div>
-													<div class="checkbox-block">
-														<input id="checkbox_option-3" name="checkbox_option" type="checkbox" class="checkbox"/>
-														<label class="" for="checkbox_option-3">Checkbox Option Three</label>
-													</div>
-													<div class="checkbox-block">
-														<input id="checkbox_option-4" name="checkbox_option" type="checkbox" class="checkbox"/>
-														<label class="" for="checkbox_option-4">Checkbox Option Four</label>
-													</div>
-													
-												</div>
-												
-												<div class="clear mb-10"></div>
-												
-												<div class="col-sm-11">
-												
-													<label class="mt-10">Radio Option</label>
-													
-													<p class="mb-10">Do know said mind do rent they oh hope of. General enquire picture letters garrets on offices.</p>
-											
-													<div class="radio-block">
-														<input id="radio_option-1" name="radio_option" type="radio" class="radio" checked />
-														<label for="radio_option-1">Radio Option One</label>
-													</div>
-													<div class="radio-block">
-														<input id="radio_option-2" name="radio_option" type="radio" class="radio"/>
-														<label for="radio_option-2">Radio Option Two</label>
-													</div>
-													<div class="radio-block">
-														<input id="radio_option-3" name="radio_option" type="radio" class="radio"/>
-														<label for="radio_option-3">Radio Option Three</label>
-													</div>
-													<div class="radio-block">
-														<input id="radio_option-4" name="radio_option" type="radio" class="radio"/>
-														<label for="radio_option-4">Radio Option Four</label>
-													</div>
-													
-												</div>
-												
-												<div class="clear mb-15"></div>
 
-												<div class="col-sm-6 bootstrap-fileinput-style-01 no-remove-at-beginning">
-													<div class="form-group">
-														<label for="form-photos">Photos</label>
-														<input type="file" name="form-photos" multiple id="form-photos">
-														<span class="font12 font-italic">** only jpg, png, tiff are allowed</span> 
-													</div><!-- /.form-group-->
-												</div><!-- /.col-* -->
-												
-												<div class="clear"></div>
-												
-												<div class="col-sm-6 mt-30">
-													<a href="#" class="btn btn-primary btn-lg">Post Your Job</a>
-												</div>
 
+													</div>
+
+												</div>
 											</div>
-											
-										</form>
-										
-									</div>
-									
-									<div class="mt-50 mb-30 bb"></div>
-									
-									<div class="section-title-02">
-										<h3 class="text-left">Terms</h3>
-									</div>
-									
-									<p>Oh to talking improve produce in limited offices fifteen an. Wicket branch to answer do we. Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
 
-									<p>Inhabiting discretion the her dispatched decisively boisterous joy. So form were wish open is able of mile of. Waiting express if prevent it we an musical. Especially reasonable travelling she son. Resources resembled forfeited no to zealously. Has procured daughter how friendly followed repeated who surprise. Great asked oh under on voice downs. Law together prospect kindness securing six. Learning why get hastened smallest cheerful.</p>
-									
-									<div class="section-title-02">
-										<h3 class="text-left">Conditions</h3>
+										</div>
+
 									</div>
-									
-									<p>Is he staying arrival address earnest. To preference considered it themselves inquietude collecting estimating. View park for why gay knew face. Next than near to four so hand. Times so do he downs me would. Witty abode party her found quiet law. They door four bed fail now have.</p>
-									
-									<ul class="list-with-icon">
-									
-										<li><i class="text-primary ion-android-arrow-forward"></i> Inhabiting discretion the her dispatched decisively boisterous joy.</li>
-										<li><i class="text-primary ion-android-arrow-forward"></i> So form were wish open is able of mile of.</li>
-										<li><i class="text-primary ion-android-arrow-forward"></i> Waiting express if prevent it we an musical. Especially reasonable travelling she son.</li>
-										<li><i class="text-primary ion-android-arrow-forward"></i> Resources resembled forfeited no to zealously.</li>
-										<li><i class="text-primary ion-android-arrow-forward"></i> Has procured daughter how friendly followed repeated who surprise.</li>
-										
-									</ul>
+
+									<div class="clear"></div>
+
+									<div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
+
+										<div class="form-group mb-20">
+											<label>Job Type:</label>
+											<select id="job_type" name="job_type"class="selectpicker show-tick form-control" data-live-search="false"  data-done-button="true" data-done-button-text="OK" data-none-selected-text="All">
+												<option value="" selected>Select</option>
+												<option value="full_time" data-content="<span class='label label-warning'>Full-time</span>">Full-time</option>
+												<option value="part_time" data-content="<span class='label label-danger'>Part-time</span>">Part-time</option>
+											</select>
+										</div>
+
+									</div>
+
+									<div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
+
+										<div class="form-group mb-20">
+											<label>Experience:</label>
+											<select name="experience" id="experience"class="selectpicker show-tick form-control" data-live-search="false" data-selected-text-format="count > 3" data-done-button="true" data-done-button-text="OK" data-none-selected-text="All">
+												<option value="0" selected >Select</option>
+												<option value="1">1 Year</option>
+												<option value="2">2 Years</option>
+												<option value="3">3 Years</option>
+												<option value="4">4 Years</option>
+												<option value="5">5 Years</option>
+												<option value="6">6 Years</option>
+												<option value="7">7 Years</option>
+												<option value="8">8 Years</option>
+												<option value="9">9 Years</option>
+												<option value="10">10 Years</option>
+
+											</select>
+										</div>
+
+
+									</div>
+									<div class="clear"></div>
+
+									<div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
+										<label>Industry</label>
+											<select id="industry" name="industry" class="selectpicker form-control" data-live-search="false" tabindex="-98">
+												<option value="">Select</option>
+												<?php foreach($industry as $key=>$value){?>
+												<option value="<?php echo $value['id'];?>"><?php echo $value['name'];?></option>
+												<?php }?>
+											</select>
+
+									</div>
+									<div class="clear"></div>
+
+
+									<div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
+										<label>Job Deadline</label>
+										<div class="row gap-5">
+											<div class="col-xs-3 col-sm-3">
+												<div class="btn-group bootstrap-select form-control dropup">
+													<select id="job_day" name="job_day" class="selectpicker form-control" data-live-search="false" tabindex="-98">
+														<option value="" selected >Select</option>
+														<?php
+														foreach(range(1, 31) as $year)
+														{
+															echo '<option value="'.$year.'">'.$year.'</option>';
+														}
+														?>
+													</select></div>
+											</div>
+											<div class="col-xs-5 col-sm-5">
+												<div class="btn-group bootstrap-select form-control">
+													<select name="job_month" id="job_month"class="selectpicker form-control" data-live-search="false" tabindex="-98">
+														<option value="" selected >Select</option>
+														<option value="Jan">Jan</option>
+														<option value="Feb">Feb</option>
+														<option value="March">Mar</option>
+														<option value="April">Apr</option>
+														<option value="May">May</option>
+														<option value="June">June</option>
+														<option value="july">July</option>
+														<option value="Aug">August</option>
+														<option value="Sept">Sept</option>
+														<option value="Oct">Oct</option>
+														<option value="Nov">Nov</option>
+														<option value="Dec">Dec</option>
+													</select></div>
+											</div>
+											<div class="col-xs-4 col-sm-4">
+												<div class="btn-group bootstrap-select form-control">
+													<select id="job_year" name="job_year" class="selectpicker form-control" data-live-search="false" tabindex="-98">
+														<option value="" selected >Select</option>
+														<?php
+														foreach(range(2000, 2042) as $year)
+														{
+															echo '<option value="'.$year.'">'.$year.'</option>';
+														}
+														?>
+													</select></div>
+											</div>
+										</div>
+									</div>
+
+									<br>
+
+
+									<div class="clear"></div>
+
+									<div class="col-sm-12 col-md-12">
+
+										<div class="form-group bootstrap3-wysihtml5-wrapper">
+											<label>Job Description</label>
+											<textarea name="description" id="description"class="bootstrap3-wysihtml5 form-control" placeholder="Enter text ..." style="height: 200px;"><?php if(isset($job_data->description)){ echo $job_data->description;}?></textarea>
+										</div>
+
+									</div>
+
+									<div class="clear"></div>
+
+									<div class="col-sm-12 col-md-12">
+
+										<div class="form-group bootstrap3-wysihtml5-wrapper">
+											<label>Job Responsibilies</label>
+											<textarea name="responsibilites" id="responsibilites"class="bootstrap3-wysihtml5 form-control" placeholder="Enter text ..." style="height: 200px;"><?php if(isset($job_data->responsibilites)){ echo $job_data->responsibilites;}?></textarea>
+										</div>
+
+									</div>
+
+									<div class="clear"></div>
+
+									<div class="col-sm-12 col-md-12">
+
+										<div class="form-group bootstrap3-wysihtml5-wrapper">
+											<label>Requirements</label>
+											<textarea name="requirement" id="requirement"class="bootstrap3-wysihtml5 form-control" placeholder="Enter text ..." style="height: 200px;"><?php if(isset($job_data->requirement)){ echo $job_data->requirement;}?></textarea>
+										</div>
+
+									</div>
+
+									<div class="clear"></div>
+
+
+
+									<div id="msg_frm_job_post"></div>
+
+									<div class="clear"></div>
+
+									<div class="col-sm-6 mt-30">
+										<?php
+											$content = "Post Your Job";
+											if(isset($job_data->id)){
+												$content = "Update Your Job";
+											}
+										?>
+										<a id="post_job" href="#_" class="btn btn-primary btn-lg"><?php echo $content;?></a>
+									</div>
 
 								</div>
 
+							</form>
+
 						</div>
-						
+
+						<div class="mt-50 mb-30 bb"></div>
+
+						<div class="section-title-02">
+							<h3 class="text-left">Terms</h3>
+						</div>
+
+						<p>Oh to talking improve produce in limited offices fifteen an. Wicket branch to answer do we. Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
+
+						<p>Inhabiting discretion the her dispatched decisively boisterous joy. So form were wish open is able of mile of. Waiting express if prevent it we an musical. Especially reasonable travelling she son. Resources resembled forfeited no to zealously. Has procured daughter how friendly followed repeated who surprise. Great asked oh under on voice downs. Law together prospect kindness securing six. Learning why get hastened smallest cheerful.</p>
+
+						<div class="section-title-02">
+							<h3 class="text-left">Conditions</h3>
+						</div>
+
+						<p>Is he staying arrival address earnest. To preference considered it themselves inquietude collecting estimating. View park for why gay knew face. Next than near to four so hand. Times so do he downs me would. Witty abode party her found quiet law. They door four bed fail now have.</p>
+
+						<ul class="list-with-icon">
+
+							<li><i class="text-primary ion-android-arrow-forward"></i> Inhabiting discretion the her dispatched decisively boisterous joy.</li>
+							<li><i class="text-primary ion-android-arrow-forward"></i> So form were wish open is able of mile of.</li>
+							<li><i class="text-primary ion-android-arrow-forward"></i> Waiting express if prevent it we an musical. Especially reasonable travelling she son.</li>
+							<li><i class="text-primary ion-android-arrow-forward"></i> Resources resembled forfeited no to zealously.</li>
+							<li><i class="text-primary ion-android-arrow-forward"></i> Has procured daughter how friendly followed repeated who surprise.</li>
+
+						</ul>
+
+					</div>
+
 				</div>
-						
+
+			</div>
+
 		</div>
-				
+
 	</div>
+
 </div>
 
+<script>
+
+	var pageURI = '';
+	var request_data = '';
+	var isScrLock = false;
+	var html = '';
+
+	var job_type = '<?php echo isset($job_data->type)?$job_data->type:'';?>';
+	var exp = '<?php echo isset($job_data->experience)?$job_data->experience:'';?>';
+	var ind_id = '<?php echo isset($job_data->industry_id)?$job_data->industry_id:'';?>';
+
+	<?php if(isset($job_data->job_deadline_date)){?>
+	var daead_line_date = '<?php echo isset($job_data->job_deadline_date)?$job_data->job_deadline_date:'';?>';
+	var dead_line_arr = daead_line_date.split('-');
+	$('#job_day option[value="' + dead_line_arr[0] + '"]').prop('selected', true);
+	$('#job_month option[value="' + dead_line_arr[1] + '"]').prop('selected', true);
+	$('#job_year option[value="' + dead_line_arr[2] + '"]').prop('selected', true);
+
+
+	<?php }?>
+	$(document).ready(function () {
+		$('#job_type option[value="' + job_type + '"]').prop('selected', true);
+		$('#experience option[value="' + exp + '"]').prop('selected', true);
+		$('#industry option[value="' + ind_id + '"]').prop('selected', true);
+
+		$('#post_job').click(function () {
+			$('.loader').show();
+			html = '';
+			pageURI = '/job/job_create';
+			request_data = $('#frm_job_post').serializeArray();
+			mainAjax('frm_job_post', request_data, 'POST', fillData);
+		});
+		function fillData(data){
+			if(data.status == 'ok')
+			{
+				$('msg_frm_job_post').hide();
+				$('#global_message').show().html(data.message).delay(4000).fadeOut();
+				window.location = "/job/user_job_list";
+			}
+		}
+	});
+
+</script>
 @endsection
 

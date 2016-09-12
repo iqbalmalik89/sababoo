@@ -94,7 +94,7 @@
                     </ul>
 
 
-                    <a href="/home" class="btn btn-primary mt-5"><i class="fa fa-pencil-square-o mr-5"></i>Edit</a>
+
 
                 </div>
 
@@ -260,15 +260,11 @@
 
                     <div class="col-sm-10">
                         <?php if($basic_emp_info->interests){?>
-
                         <h3>Interests &amp; Hobby</h3>
-
 
                         <strong><?php echo $basic_emp_info->interests;?></strong>
                         <?php }?>
-                        <div class="clearfix text-center mt-40">
-                            <a href="#" class="btn btn-primary btn-lg">Recruite Me</a>
-                        </div>
+
                     </div>
 
 

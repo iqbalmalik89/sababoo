@@ -94,7 +94,6 @@
                     </ul>
 
 
-                    <a href="/home" class="btn btn-primary mt-5"><i class="fa fa-pencil-square-o mr-5"></i>Edit</a>
 
                 </div>
 
@@ -170,13 +169,6 @@
 
 
                     </div>
-
-
-
-
-
-
-
 
 
                 </div>

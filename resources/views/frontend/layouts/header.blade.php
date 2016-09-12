@@ -34,6 +34,11 @@
                             
                             <li>
                                 <a href="job-result.html">Job</a>
+
+                                <ul>
+                                    <li><a href="/job/post">Post Job</a></li>
+                                    <li><a href="/job/user_job_list"> Job Lists</a></li>
+                                </ul>
 <!--                                 <ul>
                                     <li><a href="job-detail.html">Detail</a></li>
                                     <li><a href="job-detail-02.html">Detail 02</a></li>
@@ -47,27 +52,9 @@
                                 </ul> -->
                             </li>
                             
-                            <li>
-                                <a href="employer.html">Employer</a>
-<!--                                 <ul>
-                                    <li><a href="employer-detail.html">Employer Detail</a></li>
-                                    <li><a href="employer-detail-02.html">Employer Detail 02</a></li>
-                                    <li><a href="employer-detail-03.html">Employer Detail 03</a></li>
-                                    <li><a href="employer-post-job.html">Post a Job</a></li>
-                                    <li><a href="employer-edit.html">Edit Profile</a></li>
-                                </ul> -->
-                            </li>
+
                             
-                            <li>
-                                <a href="employee.html">Employee</a>
-<!--                                 <ul>
-                                    <li><a href="employee-detail.html">Employee Detail</a></li>
-                                    <li><a href="employee-detail-02.html">Employee Detail 02</a></li>
-                                    <li><a href="employee-create-resume.html">Create a resume</a></li>
-                                    <li><a href="employee-edit.html">Edit Profile</a></li>
-                                </ul> -->
-                            </li>
-                            
+
 
                         </ul>
                 

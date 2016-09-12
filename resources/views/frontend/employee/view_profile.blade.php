@@ -89,7 +89,11 @@
                                    <?php echo  $basic_user_info->email;?>
                                 </li>
                                 <?php
-                                     if($industry){?>
+
+                                     if($industry){
+
+
+                                ?>
                                 <li>
                                     <h4 class="heading">Industry:</h4>
                                     <?php echo  $industry->name;?>
@@ -98,7 +102,7 @@
                             </ul>
 
 
-                            <a href="/home" class="btn btn-primary mt-5"><i class="fa fa-pencil-square-o mr-5"></i>Edit</a>
+
 
                         </div>
 
@@ -353,9 +357,7 @@
 
                                 <strong><?php echo $basic_emp_info->interests;?></strong>
                                 <?php }?>
-                                <div class="clearfix text-center mt-40">
-                                    <a href="#" class="btn btn-primary btn-lg">Recruite Me</a>
-                                </div>
+
                             </div>
 
 

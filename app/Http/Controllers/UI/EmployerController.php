@@ -63,7 +63,7 @@ class EmployerController extends Controller
             return view('errors.404');
         }
         $this->employeeServiceProvider = new EmployeeServiceProvider();
-        $industry = $this->employeeServiceProvider->getIndustry($basic_emp_info->industry_id);
+        $industry = $this->employeeServiceProvider->getIndustry($basic_user_info->industry_id);
         return view('frontend.employer.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'industry'=>$industry));
 
     }

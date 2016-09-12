@@ -53,16 +53,17 @@ class TradesmanController extends Controller
     public function viewTradesman($id){
 
         $basic_emp_info = $this->tradesmanServiceProvider->getBasicTradesmanProfile($id);
-        $basic_user_info = $this->userServiceProvider->getBasicUserProfile($basic_emp_info->userid);
 
         if($basic_emp_info==null){
             return view('errors.404');
         }
+        $basic_user_info = $this->userServiceProvider->getBasicUserProfile($basic_emp_info->userid);
+
         $this->skillServiceProvider = new SkillServiceProvider();
         $this->languageServiceProvider = new LanguageServiceProvider();
         $this->employeeServiceProvider = new EmployeeServiceProvider();
         $education = $this->employeeServiceProvider->getEducation($basic_emp_info->userid);
-        $industry = $this->employeeServiceProvider->getIndustry($basic_emp_info->industry_id);
+        $industry = $this->employeeServiceProvider->getIndustry($basic_user_info->industry_id);
         $skills = $this->skillServiceProvider->getUserSkills($basic_emp_info->userid);
         $language = $this->languageServiceProvider->getUserLanguages($basic_emp_info->userid);
         $certification =  $this->userServiceProvider->getCertifcation($basic_emp_info->userid);

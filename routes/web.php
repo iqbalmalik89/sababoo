@@ -88,7 +88,11 @@ Route::match(['get', 'post'], '/user/password_update', ['uses' => 'UI\UserContro
 Route::match(['get', 'post'], '/user/add_certification', ['uses' => 'UI\UserController@addCertification']);
 Route::match(['get', 'post'], '/user/edit_certification', ['uses' => 'UI\UserController@editCertification']);
 
-
+/************************************JOB POSTING *****************************************************/
+Route::match(['get', 'post'], '/job/post', ['uses' => 'UI\JobPostController@jobPost']);
+Route::match(['get', 'post'], '/job/job_create', ['uses' => 'UI\JobPostController@jobCreate']);
+Route::match(['get', 'post'], '/job/user_job_list', ['uses' => 'UI\JobPostController@userJobList']);
+Route::match(['get', 'post'], '/job/job_delete', ['uses' => 'UI\JobPostController@delJob']);
 
 
 });
