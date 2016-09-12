@@ -92,7 +92,7 @@ class JobPostController extends Controller
             $filters['location'] =   $post_data['location'];
         }
         $my_jobs=  $this->jobpostServiceProvider->userJobList($filters,$order_by,$paging);
-        dd($my_jobs);
+
         return view ('frontend.job.user_job_listing',array('my_jobs'=>$my_jobs));
     }
 
