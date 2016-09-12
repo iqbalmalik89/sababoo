@@ -1,5 +1,5 @@
 <?php
-//dd($paginator);
+if($paginator->total()>0){
 // config
 $link_limit = 5; // maximum number of links (a little bit inaccurate, but will be ok for now)
 ?>
@@ -32,3 +32,4 @@ $link_limit = 5; // maximum number of links (a little bit inaccurate, but will b
         </li>
     </ul>
 @endif
+<?php }?>
