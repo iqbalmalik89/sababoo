@@ -34,6 +34,7 @@ class JobPostController extends Controller
     private $jobpostServiceProvider;
     public function __construct()
     {
+        $this->middleware('auth');
         $this->logged_user = Auth::user();
         $this->jobpostServiceProvider = new JobPostServiceProvider();
     }

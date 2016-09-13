@@ -30,6 +30,7 @@ class EmployeeController extends Controller
     private $employeeServiceProvider;
     public function __construct()
     {
+        $this->middleware('auth');
         $this->logged_user = Auth::user();
         $this->employeeServiceProvider = new EmployeeServiceProvider();
     }

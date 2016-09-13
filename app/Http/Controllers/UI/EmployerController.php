@@ -26,6 +26,7 @@ class EmployerController extends Controller
     private $employerServiceProvider;
     public function __construct()
     {
+        $this->middleware('auth');
         $this->userServiceProvider = new UserServiceProvider();
         $this->employerServiceProvider = new EmployerServiceProvider();
     }

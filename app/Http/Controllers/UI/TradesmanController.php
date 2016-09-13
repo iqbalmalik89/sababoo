@@ -30,6 +30,7 @@ class TradesmanController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth');
         $this->userServiceProvider = new UserServiceProvider();
         $this->tradesmanServiceProvider = new TradesmanServiceProvider();
     }

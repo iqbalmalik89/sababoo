@@ -27,6 +27,7 @@ class UserController extends Controller
     private $userServiceProvider;
     public function __construct()
     {
+        $this->middleware('auth');
         $this->userServiceProvider = new UserServiceProvider();
     }
 
