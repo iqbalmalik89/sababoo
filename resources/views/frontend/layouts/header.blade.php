@@ -19,7 +19,7 @@
                         
                             <li>
                             
-                                <a href="#">Home</a>
+                                <a href="/home">Home</a>
 <!--                                 <ul>
                                     <li><a href="index.html">Home - Default</a></li>
                                     <li><a href="index-02.html">Home - 02</a></li>
@@ -33,7 +33,7 @@
                             </li>
                             
                             <li>
-                                <a href="job-result.html">Job</a>
+                                <a href="#_">Job</a>
 
                                 <ul>
                                     <li><a href="/job/post">Post Job</a></li>
@@ -50,6 +50,17 @@
                                     <li><a href="job-company-list-02.html">Company List 02</a></li>
                                     <li><a href="job-company-list-03.html">Company List 03</a></li>
                                 </ul> -->
+                            </li>
+
+                            <li>
+                                <a href="#_">My Network</a>
+
+                                <ul>
+                                    <li><a href="/network/connection">Connections</a></li>
+                                    <li><a href="/network/people_find">People You May Know</a></li>
+
+                                </ul>
+
                             </li>
                             
 

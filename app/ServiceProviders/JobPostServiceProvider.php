@@ -78,18 +78,18 @@ class JobPostServiceProvider
         $name = isset($filters['name'])?$filters['name']:'';
         $loc = isset($filters['location'])?$filters['location']:'';
 
-        if(isset($filters['name']) and $filters['name']!=''){
+        /*if(isset($filters['name']) and $filters['name']!=''){
            // $matchThese['job_post.name'] = $filters['name'];
             //$matchThese['job_post.name'] = " 'job_post.name', 'LIKE', '%'".$filters['name']."'%' ";
 
-        }
+        }*/
 
 
-        if(isset($filters['location']) and $filters['location']!=''){
+       /* if(isset($filters['location']) and $filters['location']!=''){
            // $matchThese['job_post.location'] = $filters['location'];
            // $matchThese['job_post.location'] = 'job_post.location', 'LIKE', '%'.$tag.'%';
 
-        }
+        }*/
        //dd($matchThese);
       $str = '';
       foreach($matchThese as $key=>$value){
@@ -116,6 +116,7 @@ class JobPostServiceProvider
             ->where($matchThese)
             ->Where("job_post.name", "LIKE", "%$name%")
             ->Where("job_post.location", "LIKE", "%$loc%")
+            ->OrderBy('job_post.created_at', 'DESC')
         //dd( count($job) );
         ->paginate($paging['page_size']);
   //dd(DB::getQueryLog());
@@ -130,8 +131,6 @@ class JobPostServiceProvider
             ->select('job_post.*','industry.id as ind_id','industry.name as ind_name')
             ->join('industry', 'job_post.industry_id', '=','industry.id' )
             ->where($matchThese)
-
-
             ->first();
         return $job;
     }
@@ -146,6 +145,10 @@ class JobPostServiceProvider
             'msg' => "Job deleted successfully.",
 
         );
+    }
+
+    public function getJobTerms($data){
+
     }
 
 

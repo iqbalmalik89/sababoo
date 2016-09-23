@@ -11,6 +11,7 @@ namespace App\Http\Controllers\UI;
 use App\Http\Controllers\Controller;
 use BusinessLogic\UserServiceProvider;
 use BusinessLogic\TradesmanServiceProvider;
+use BusinessLogic\NetworkServiceProvider;
 use BusinessLogic\SkillServiceProvider;
 use BusinessLogic\LanguageServiceProvider;
 use BusinessLogic\EmployeeServiceProvider;
@@ -68,10 +69,10 @@ class TradesmanController extends Controller
         $skills = $this->skillServiceProvider->getUserSkills($basic_emp_info->userid);
         $language = $this->languageServiceProvider->getUserLanguages($basic_emp_info->userid);
         $certification =  $this->userServiceProvider->getCertifcation($basic_emp_info->userid);
+        $this->networkServiceProvider = new NetworkServiceProvider();
+        $recoms = $this->networkServiceProvider->getUsersAllRecommendation($basic_emp_info->userid);
 
-
-
-        return view('frontend.tradesman.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'industry'=>$industry,'language'=>$language,'certification'=>$certification ));
+        return view('frontend.tradesman.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms));
     }
 
 

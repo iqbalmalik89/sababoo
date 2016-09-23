@@ -360,6 +360,36 @@
 
                             </div>
 
+                          <?php  if(count($recoms)>0){?>
+
+                            <div class="col-sm-12">
+
+                                <h3>Recommendations</h3>
+
+                                <div id="education_ist">
+
+
+                                    <ul class="employee-detail-list" id="education_detail">
+
+                                        <?php
+                                        foreach($recoms as $recom){
+
+                                        ?>
+                                        <li>
+                                            <h5> <?php echo ucfirst($recom->sender_id->first_name);?> <?php echo ucfirst($recom->sender_id->last_name);?></h5>
+                                            <p class="text-muted font-italic"><?php echo ucfirst($recom->sender_id->role);?><br>
+                                           &nbsp;&nbsp;&nbsp;&nbsp; <?php echo $recom->message;?></p>
+                                            <p> <?php echo date('M-d-Y',strtotime($recom->created_at)); ?> &nbsp; &nbsp;<?php echo ucfirst($recom->sender_id->first_name);?> <?php echo ucfirst($recom->sender_id->last_name);?> is <?php echo $recom->relationship;?></p>
+
+                                        </li>
+                                        <?php } ?>
+                                    </ul>
+
+                                </div>
+
+
+                            </div>
+                            <?php } ?>
 
 
 

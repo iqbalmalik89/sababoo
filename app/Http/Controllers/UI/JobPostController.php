@@ -100,7 +100,13 @@ class JobPostController extends Controller
     public function delJob(Request $request){
         $post_data = $request->all();
         return  $this->jobpostServiceProvider->jobDelByJobId($post_data['job_id']);
+    }
 
+    public function getTerm(Request $request){
+        $this->logged_user = Auth::user();
+        $post_data= $request->all();
+        $post_data['userid']=$this->logged_user->id;
+        return  $this->jobpostServiceProvider->getJobTerms($post_data);
     }
 
 
