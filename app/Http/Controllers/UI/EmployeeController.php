@@ -13,6 +13,7 @@ use BusinessLogic\EmployeeServiceProvider;
 use BusinessLogic\SkillServiceProvider;
 use BusinessLogic\LanguageServiceProvider;
 use BusinessLogic\UserServiceProvider;
+use BusinessLogic\NetworkServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
@@ -135,7 +136,11 @@ class EmployeeController extends Controller
          $language = $this->languageServiceProvider->getUserLanguages($basic_emp_info->userid);
          $certification =  $this->UserServiceProvider->getCertifcation($basic_emp_info->userid);
 
-         return view('frontend.employee.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'exp'=>$exp,'industry'=>$industry,'language'=>$language,'certification'=>$certification ));
+         $this->networkServiceProvider = new NetworkServiceProvider();
+         $recoms = $this->networkServiceProvider->getUsersAllRecommendation($basic_emp_info->userid);
+
+
+         return view('frontend.employee.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'exp'=>$exp,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms ));
     }
 
     public function resumeUpload(Request $request){

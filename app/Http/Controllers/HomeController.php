@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use BusinessLogic\EmployeeServiceProvider;
+use BusinessLogic\NetworkServiceProvider;
 use  BusinessObject\User;
 use  BusinessObject\Employee;
 use  BusinessObject\Employer;
@@ -45,7 +46,6 @@ class HomeController extends Controller
         $matchThese = ['status'=>1];
         $industry = Industry::where($matchThese)->get();
 
-
         if($this->logged_user->role=="employee"){
 
 
@@ -56,6 +56,7 @@ class HomeController extends Controller
             $certification = Certification::where(array('userid'=> $this->logged_user->id))->get();
 
             $exp = Experience::where(array('employee_id'=> $employee[0]->id))->get();
+
 
              return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee,'industry'=>$industry,'education'=>$education,'exp'=>$exp,'certification'=>$certification));
        }
