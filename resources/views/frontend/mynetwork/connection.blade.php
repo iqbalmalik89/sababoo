@@ -514,7 +514,9 @@
                 console.log(data)
                 if(data.code==200){
                     $('.btn-inverse').trigger('click');
-                    $('#recModal_'+rec_id).find("select, textarea, input").html();
+                    $('#recModal_'+rec_id).find("select, textarea, input").html('');
+                    $('#recModal_'+rec_id).find("select, textarea, input").text('');
+                    $('#recModal_'+rec_id).find("select, textarea, input").val('');
                     $('#msg_recModal_'+rec_id).hide();
                     $('#global_message').show().html(data.msg).delay(4000).fadeOut();
 
