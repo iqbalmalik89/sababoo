@@ -33,9 +33,26 @@ class NetworkController extends Controller
 
     public function myConnections(Request $request){
         $this->logged_user = Auth::user();
+        $post_data = $request->all();
 
-        return view('frontend.mynetwork.connection',array('logged_user'=> $this->logged_user));
 
+        $filter['id'] = $this->logged_user->id;
+        $filter['name'] = isset($post_data['name'])?$post_data['name']:'';
+        $filter['roll'] = isset($post_data['roll'])?$post_data['roll']:'';
+        $user_suggestion =$this->networkServiceProvider->getSuggestion($filter);
+        //dd($user_suggestion);
+        if ($request->ajax()) {
+            $view = view('frontend.mynetwork.recommedation_part')->with(
+                [ 'user_suggestion' => $user_suggestion]
+            );
+            $response = array(
+                'code' => 200,
+                'status' => 'ok',
+                'rows' => $view->render()
+            );
+            return response(json_encode($response))->header('Content-Type', 'json');
+        }
+        return view('frontend.mynetwork.connection',array('logged_user'=> $this->logged_user,'user_suggestion'=>$user_suggestion));
     }
 
     public function sendRecom(Request $request){
@@ -50,6 +67,7 @@ class NetworkController extends Controller
             return $validation_res;
         }
         $form_data['sender_id'] =$this->logged_user->id;
+
         return  $this->networkServiceProvider->sendRecommendation($form_data);
      }
 

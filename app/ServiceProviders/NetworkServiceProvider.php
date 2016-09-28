@@ -78,8 +78,11 @@ class NetworkServiceProvider
     }
     public function getViewUrl($user){
 
+       // print_r($user->id);
+
         if($user->role=='employee'){
            $employee = Employee::where('userid', '=' , $user->id)->firstOrFail();
+
             return "employee/view/".$employee->id;
         }
 
@@ -88,6 +91,7 @@ class NetworkServiceProvider
             return "employer/view/".$employer->id;
         }
         if($user->role=='tradesman'){
+
             $tradesman = Tradesman::where('userid', '=' , $user->id)->firstOrFail();
             return "tradesman/view/".$tradesman->id;
         }
@@ -97,18 +101,17 @@ class NetworkServiceProvider
         $to = $data["reciever_email"];
         $subject = "Sababoo's - Recommendation Email";
         $from = $data['sender_email'];
-
         $data = [
             "from" => $from,
             "to" => $to,
             "subject" => $subject,
-            "SERVER_PATH" => env('CDN_URL'),
+            "SERVER_PATH" => env('CDN'),
             "rec_id" => $data['rec_id'],
             'sender_first_name'=>$data['sender_first_name'],
             'sender_last_name'=>$data['sender_last_name'],
 
         ];
-
+//dd($data);
         $mail_response = Helper::sendEmail(
             $data,
             ['email_templates/recommendation_html', 'email_templates/recommendation_text']
@@ -146,5 +149,80 @@ class NetworkServiceProvider
         return $jobs;
     }
 
+    public function getSuggestion($filter){
 
+
+        $suggest_array=array();
+        if(!empty($filter['name'])){
+
+        $name = $filter['name'];
+        $role = $filter['roll'];
+        $data = User::where('id','!=',$filter['id'])
+            ->Where("first_name","LIKE", "%$name%")
+            ->orWhere("email", "LIKE", "%$name%")
+            ->where('role','!=','employer')
+            ->where('status','=', 'enabled')
+            ->Where("role","=", $role)
+
+
+            ->OrderBy('created_at', 'DESC')
+            ->get();
+
+        }else{
+
+            $data = User::where('id', '!=', $filter['id'])
+                ->where('status', '=', 'enabled')
+                ->where('role', '!=', 'employer')
+                ->OrderBy('created_at', 'DESC')
+                ->get();
+        }
+
+
+        foreach($data as $single_data){
+            if($single_data->role=='employer'){
+                continue;
+            }
+            $single_data->postal_code =$this->getViewUrl($single_data);
+             $suggest_array['data'][]=$single_data;
+        }
+
+
+        return  $suggest_array;
+
+
+/*       if(count($data)>0){
+           foreach($data as $single_data){
+
+               if($single_data->role=='employer'){
+                   $emp= $this->getEmployerNameByUSerId($single_data->id);
+
+                   if(isset($emp->company_name)){
+                       $single_data->first_name=$emp->company_name;
+                   }
+
+                  // dd($single_data->first_name);
+                   $suggest_array['employer'][]=$single_data;
+
+               }
+               if($single_data->role=='employee'){
+
+                   $suggest_array['employee'][]=$single_data;
+               }
+               if($single_data->role=='tradesman'){
+
+                   $suggest_array['tradesman'][]=$single_data;
+               }
+         }
+
+       }
+        //dd($suggest_array);
+        return $suggest_array;*/
+     }
+
+    /*Get Company Name*/
+    public function getEmployerNameByUSerId($userid){
+        $data = Employer::where('userid', '=', $userid) ->first();
+        return $data;
+
+    }
 }

@@ -106,9 +106,6 @@ class JobPostServiceProvider
 
       }
 
-         $str =  substr($str, 0, -4);
-       //dd($str);
-        //record count =
 
         $job = DB::table('job_post')
             ->select('job_post.id as id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','job_post.created_at','industry.id as ind_id','industry.name as ind_name')

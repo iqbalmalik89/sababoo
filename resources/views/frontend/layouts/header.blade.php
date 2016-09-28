@@ -56,8 +56,8 @@
                                 <a href="#_">My Network</a>
 
                                 <ul>
-                                    <li><a href="/network/connection">Connections</a></li>
-                                    <li><a href="/network/people_find">People You May Know</a></li>
+                                    <li><a href="/network/connection">Recomendation</a></li>
+                                    <!--<li><a href="/network/people_find">People You May Know</a></li>-->
 
                                 </ul>
 
