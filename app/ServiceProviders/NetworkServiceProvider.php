@@ -157,12 +157,14 @@ class NetworkServiceProvider
 
         $name = $filter['name'];
         $role = $filter['roll'];
+
         $data = User::where('id','!=',$filter['id'])
-            ->Where("first_name","LIKE", "%$name%")
-            ->Where("last_name","LIKE", "%$name%")
-            ->orWhere("email", "LIKE", "%$name%")
             ->where('role','!=','employer')
             ->where('status','=', 'enabled')
+            ->Where("email", "LIKE", "%".$name."%")
+            ->orWhere("first_name","LIKE", "%".$name."%")
+            ->orWhere("last_name","LIKE", "%".$name."%")
+
             ->Where("role","=", $role)
             ->OrderBy('created_at', 'DESC')
             ->get();
@@ -175,7 +177,7 @@ class NetworkServiceProvider
                 ->OrderBy('created_at', 'DESC')
                 ->get();
         }
-
+dd($data);
 
         foreach($data as $single_data){
             if($single_data->role=='employer'){
