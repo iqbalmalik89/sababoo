@@ -23,13 +23,14 @@
                         <?php
                         // dd($userinfo->image);
                         //$user_image = "user_images/01.jpg";
-                       // $user_image='';
+                        $user_image='';
                         if(isset($suggestion->image) && $suggestion->image!=''){
                             $user_image = "/user_images/".$suggestion->image;
                         }
+                            echo $user_image;
                         ?>
 
-                        <?php if(empty($user_image)) {?>
+                        <?php if($user_image=='') {?>
                         <img id="employee_image_1" class="img-circle" alt="image" src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}">
                         <?php
                         }else {
