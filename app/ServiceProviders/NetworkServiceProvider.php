@@ -105,7 +105,7 @@ class NetworkServiceProvider
             "from" => $from,
             "to" => $to,
             "subject" => $subject,
-            "SERVER_PATH" => env('CDN'),
+            "SERVER_PATH" => env('CDN_URL'),
             "rec_id" => $data['rec_id'],
             'sender_first_name'=>$data['sender_first_name'],
             'sender_last_name'=>$data['sender_last_name'],
