@@ -129,14 +129,14 @@
         $(document).ready(function () {
 
             $('#search_it').click(function () {
-                if($.trim($('#name').val())!='') {
+               // if($.trim($('#name').val())!='') {
                     $('.loader').show();
                     html = '';
                     pageURI = '/network/connection';
                     request_data = $('#search_from').serializeArray();
                     mainAjax('search_from', request_data, 'POST', callBackSearch);
                     $('.loader').hide();
-                }
+                //}
 
             });
 

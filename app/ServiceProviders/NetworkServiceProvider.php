@@ -159,6 +159,7 @@ class NetworkServiceProvider
         $role = $filter['roll'];
         $data = User::where('id','!=',$filter['id'])
             ->Where("first_name","LIKE", "%$name%")
+            ->Where("last_name","LIKE", "%$name%")
             ->orWhere("email", "LIKE", "%$name%")
             ->where('role','!=','employer')
             ->where('status','=', 'enabled')
