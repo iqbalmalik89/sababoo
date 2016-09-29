@@ -163,8 +163,6 @@ class NetworkServiceProvider
             ->where('role','!=','employer')
             ->where('status','=', 'enabled')
             ->Where("role","=", $role)
-
-
             ->OrderBy('created_at', 'DESC')
             ->get();
 

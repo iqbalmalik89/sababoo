@@ -1,3 +1,6 @@
+
+
+
         <header id="header">
    <meta charset="utf-8"/>
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -56,7 +59,10 @@
                                 <a href="#_">My Network</a>
 
                                 <ul>
+                                    <?php if(Auth::user()->role!='employer'){?>
+
                                     <li><a href="/network/connection">Recomendation</a></li>
+                                        <?php }?>
                                     <!--<li><a href="/network/people_find">People You May Know</a></li>-->
 
                                 </ul>
