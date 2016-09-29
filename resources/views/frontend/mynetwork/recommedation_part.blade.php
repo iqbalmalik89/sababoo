@@ -27,7 +27,6 @@
                         if(isset($suggestion->image) && $suggestion->image!=''){
                             $user_image = "/user_images/".$suggestion->image;
                         }
-                            echo $user_image;
                         ?>
 
                         <?php if($user_image=='') {?>
