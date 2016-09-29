@@ -177,7 +177,7 @@ class NetworkServiceProvider
                 ->OrderBy('created_at', 'DESC')
                 ->get();
         }
-dd($data);
+//dd($data);
 
         foreach($data as $single_data){
             if($single_data->role=='employer'){
