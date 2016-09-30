@@ -29,7 +29,7 @@ class HomeController extends Controller
 
     public function __construct()
     {
-         $this->middleware('auth');
+         //$this->middleware('auth');
         $this->employeeServiceProvider = new EmployeeServiceProvider();
     }
 
@@ -40,8 +40,10 @@ class HomeController extends Controller
      */
     public function showHome()
     {
-       
+
         $this->logged_user = Auth::user();
+
+
 
         $matchThese = ['status'=>1];
         $industry = Industry::where($matchThese)->get();
@@ -82,7 +84,10 @@ class HomeController extends Controller
 
      public function index()
     {
-      return view('frontend.site.home');
+         if(Auth::user()!=null) {
+             return view('frontend.site.home');
+         }
+        return view('frontend.site.unauth_home');
     }
 
 }
