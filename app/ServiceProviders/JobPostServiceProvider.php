@@ -37,6 +37,7 @@ class JobPostServiceProvider
             if(isset($data['responsibilites'])){ 		$job->responsibilites 		    = $data['responsibilites']; }
             if(isset($data['experience'])){ 		    $job->experience 		        = $data['experience']; }
             if(isset($data['industry_id'])){ 		    $job->industry_id 		        = $data['industry_id']; }
+            if(isset($data['all_terms'])){ 		        $job->terms 		            = $data['all_terms']; }
             $job->job_deadline_date 		= $job_deadline;
             $job->update();
             return array(
@@ -47,19 +48,21 @@ class JobPostServiceProvider
             );
         }
 
-
+//dd($data);
         $job = new JobPost;
         $job->userid        = $data['userid'];
         $job->name          = $data['title'];
-        $job->description   = $data['description'];
+        $job->description   = strip_tags($data['description']);
         $job->type          = $data['job_type'];
         $job->location      = $data['location'];
         $job->salary        = $data['salary'];
-        $job->requirement   = $data['requirement'];
-        $job->responsibilites = $data['responsibilites'];
+        $job->requirement   = strip_tags($data['requirement']);
+        $job->responsibilites = strip_tags($data['responsibilites']);
         $job->experience      = $data['experience'];
         $job->industry_id     = $data['industry'];
         $job->job_deadline_date = $job_deadline;
+        $job->terms 		  = $data['all_terms'];
+
         $job->save();
         return array(
             'code' => '200',
@@ -145,6 +148,7 @@ class JobPostServiceProvider
     }
 
     public function getJobTerms($data){
+        return "test";
 
     }
 

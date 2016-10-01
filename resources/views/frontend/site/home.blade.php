@@ -16,7 +16,7 @@
                         <h1> Welcome and Join Us!</h1>
                         <h2>Employ the best || Discover your dream job</h2>
                         <hr>
-                        
+
                     </div>
                 </div>
             </div>

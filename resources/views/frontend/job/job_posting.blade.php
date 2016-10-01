@@ -231,7 +231,7 @@
 									</div>
 
 
-									<!--
+
 									<div class="dynamic-add-form-inner">
 
 										<h4 class="heading font700 mb-10 text-primary">Job Terms <span id="dynamicAddForm3_label"></span></h4>
@@ -240,32 +240,17 @@
 
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label for="all_skills">Type of Term</label>
-													<input id="all_terms" name="all_terms" type="text" class="form-control" />
+													<label for="all_skills">Type Terms</label>
+													<input class="form-control" data-role="tagsinput" id="all_terms" name="all_terms" type="text" class="form-control" value="<?php if(isset($job_data->terms)){ echo $job_data->terms;}?>"/>
 												</div>
 											</div>
 
 
 											<div class="clear"></div>
-
-
-											<div class="clear"></div>
-
-											<div class="col-sm-12">
-
-												<div class="form-group mb-20">
-													<label for="user_skills">Job Terms details:</label>
-
-													<input type="text" id="job_terms" name="job_terms" class="form-control">
-
-												</div>
-
-											</div>
-
 										</div>
 
 									</div>
-									-->
+
 
 									<div class="clear"></div>
 
@@ -329,6 +314,11 @@
 
 </div>
 
+<link href="{{asset('assets/frontend/css/bootstrap-tagsinput.css')}}" rel="stylesheet">
+
+
+<script type="text/javascript" src="{{asset('assets/frontend/js/bootstrap-tagsinput.js')}}"></script>
+
 <script>
 
 	var pageURI = '';
@@ -370,60 +360,9 @@
 			}
 		}
 
-				// Autocomplete
+			/*********Autocomplete***********/
 
-				//readonlyTokenField('#job_terms-tokenfield');
-				//readonlyTokenField('#job_terms');
-
-				/*$.getJSON( "/job/getTerms", function( data ) {
-					$('#job_terms').tokenfield();
-					$('#job_terms').tokenfield('setTokens', data);
-
-					readonlyTokenField('#user_skills-tokenfield');
-
-				});
-
-
-				$.getJSON( "skill", function( data ) {
-					var stocks = new Bloodhound({
-						datumTokenizer: Bloodhound.tokenizers.obj.whitespace('skill'),
-						queryTokenizer: Bloodhound.tokenizers.whitespace,
-						local: data
-					});
-
-					stocks.initialize();
-
-					$('#all_terms').typeahead(
-							null, {
-								name: 'term',
-								displayKey: 'term',
-								source: stocks.ttAdapter()
-							}).on('typeahead:selected', function(event, data){
-
-								setTimeout(function(){
-									$('#all_terms').val('');
-								}, 100);
-
-
-								var userSkills = $('#job_terms').tokenfield('getTokensList');
-
-
-								if( userSkills.split(',').indexOf(data.id.toString()) > -1 )
-								{
-									alert('Skill already exsits')
-								}
-								else
-								{
-									$('#job_terms').tokenfield('createToken', { value: data.id, label: data.skill });
-									userSkills = userSkills.replace(/\s/g,"");;
-								}
-
-
-
-
-							});
-
-				});*/
+			$("#all_terms").tagsinput('items')
 
 			});
 
