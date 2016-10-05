@@ -96,7 +96,9 @@ Route::match(['get', 'post'], '/job/post', ['uses' => 'UI\JobPostController@jobP
 Route::match(['get', 'post'], '/job/job_create', ['uses' => 'UI\JobPostController@jobCreate']);
 Route::match(['get', 'post'], '/job/user_job_list', ['uses' => 'UI\JobPostController@userJobList']);
 Route::match(['get', 'post'], '/job/job_delete', ['uses' => 'UI\JobPostController@delJob']);
-Route::match(['get', 'post'], '/job/getTerms', ['uses' => 'UI\JobPostController@getTerm']);
+Route::match(['get', 'post'], '/job/search_jobs', ['uses' => 'UI\JobPostController@searchJob']);
+Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController@viewJob']);
+
 
 /************************************NETWORK*********************************************************/
  Route::match(['get', 'post'], '/network/connection', ['uses' => 'UI\NetworkController@myConnections']);
@@ -105,6 +107,8 @@ Route::match(['get', 'post'], '/job/getTerms', ['uses' => 'UI\JobPostController@
  Route::match(['get', 'post'], 'network/accept_recommendation/{id}', ['uses' => 'UI\NetworkController@acceptRecom']);
  Route::match(['get', 'post'], 'network/reject_recommendation/{id}', ['uses' => 'UI\NetworkController@rejectRecom']);
  Route::match(['get', 'post'], '/network/people_find', ['uses' => 'UI\NetworkController@getPeopleList']);
+
+
 
 
 

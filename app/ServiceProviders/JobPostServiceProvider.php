@@ -128,8 +128,9 @@ class JobPostServiceProvider
     public function getJobByJobId($jobid){
         $matchThese = ['job_post.id'=>$jobid];
         $job = DB::table('job_post')
-            ->select('job_post.*','industry.id as ind_id','industry.name as ind_name')
+            ->select('job_post.*','industry.id as ind_id','industry.name as ind_name','users.*')
             ->join('industry', 'job_post.industry_id', '=','industry.id' )
+            ->join('users', 'job_post.userid', '=','users.id' )
             ->where($matchThese)
             ->first();
         return $job;
@@ -147,10 +148,44 @@ class JobPostServiceProvider
         );
     }
 
-    public function getJobTerms($data){
-        return "test";
+    public function allJobList($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
+        $name = null;
+        $location = null;
+        $type = null;
+        $ind_name = null;
+      //  dd($filters);
+        if($filters['search_by']=='name'){
+            $name = isset($filters['search'])?$filters['search']:'';
+        }
+        if($filters['search_by']=='location'){
+            $location = isset($filters['search'])?$filters['search']:'';
+        }
+        if($filters['search_by']=='type'){
+            $type = isset($filters['search'])?$filters['search']:'';
+        }
+        if($filters['search_by']=='category'){
+            $ind_name = isset($filters['search'])?$filters['search']:'';
+        }
 
+
+
+        $matchThese = ["job_post.status" =>1];
+        $job = DB::table('job_post')
+            ->select('job_post.id as id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','job_post.created_at','industry.id as ind_id','industry.name as ind_name')
+            ->join('industry', 'job_post.industry_id', '=','industry.id' )
+            ->where($matchThese)
+            ->Where("job_post.userid", "!=", $filters['userid'])
+            ->Where("job_post.name", "LIKE", "%$name%")
+            ->Where("job_post.location", "LIKE", "%$location%")
+            ->Where("job_post.type", "LIKE", "%$type%")
+            ->Where("industry.name", "LIKE", "%$ind_name%")
+            ->OrderBy('job_post.created_at', 'DESC')
+            //dd( count($job) );
+            ->paginate($paging['page_size']);
+        //dd(DB::getQueryLog());
+        return $job;
     }
+
 
 
 

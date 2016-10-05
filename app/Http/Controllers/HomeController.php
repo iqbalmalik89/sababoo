@@ -43,7 +43,9 @@ class HomeController extends Controller
 
         $this->logged_user = Auth::user();
 
-
+        if(Auth::user()==null) {
+            return view('frontend.site.unauth_home');
+        }
 
         $matchThese = ['status'=>1];
         $industry = Industry::where($matchThese)->get();

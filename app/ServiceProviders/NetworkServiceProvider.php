@@ -164,9 +164,9 @@ class NetworkServiceProvider
             ->Where("email", "LIKE", "%".$name."%")
             ->orWhere("first_name","LIKE", "%".$name."%")
             ->orWhere("last_name","LIKE", "%".$name."%")
-
             ->Where("role","=", $role)
             ->OrderBy('created_at', 'DESC')
+            ->limit(20)
             ->get();
 
         }else{
@@ -175,12 +175,16 @@ class NetworkServiceProvider
                 ->where('status', '=', 'enabled')
                 ->where('role', '!=', 'employer')
                 ->OrderBy('created_at', 'DESC')
+                ->limit(20)
                 ->get();
         }
 //dd($data);
 
         foreach($data as $single_data){
             if($single_data->role=='employer'){
+                continue;
+            }
+            if($single_data->id==$filter['id']){
                 continue;
             }
             $single_data->postal_code =$this->getViewUrl($single_data);

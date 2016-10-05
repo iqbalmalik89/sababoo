@@ -39,8 +39,9 @@
                                 <a href="#_">Job</a>
 
                                 <ul>
-                                    <li><a href="/job/post">Post Job</a></li>
+                                    <li><a href="/job/post">Job Post</a></li>
                                     <li><a href="/job/user_job_list"> Job Lists</a></li>
+                                    <li><a href="/job/search_jobs"> Browse Jobs</a></li>
                                 </ul>
 <!--                                 <ul>
                                     <li><a href="job-detail.html">Detail</a></li>

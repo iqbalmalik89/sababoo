@@ -13,8 +13,8 @@
 				
 					<ol class="breadcrumb-list booking-step">
 						<li><a href="">Home</a></li>
-						<li><a href="">Your Admin</a></li>
-						<li><span>Post a Job</span></li>
+						<li><a href="">Job</a></li>
+						<li><span>Browse Jobs</span></li>
 					</ol>
 					
 				</div>
@@ -27,6 +27,13 @@
 				<div class="container">
 				
 					<div class="row">
+
+						<?php
+							if($job==null){?>
+
+							<div class="col-sm-5 col-md-4">Sorry. Job details not found...</div>
+
+							<?php } else{ ?>
 						
 							<div class="col-sm-5 col-md-4">
 							
@@ -39,33 +46,69 @@
 											<?php echo $job->location;?>
 										</li>
 										<?php } ?>
-										<?php if($job->location){?>
+										<?php if($job->salary){?>
 										<li>
 											<h4 class="heading">Rate/Salary:</h4>
-											<?php echo $job->location;?> $
+											<?php echo $job->salary;?> $
 										</li>
 										<?php }?>
-										<li>
-											<h4 class="heading">Expert:</h4>
-											Expert
-										</li>
-										<?php if($job->location){?>
+
+										<?php if($job->job_deadline_date){?>
 										<li>
 											<h4 class="heading">Posted:</h4>
-											32 minutes ago
+											<?php echo $job->job_deadline_date;?>
 										</li>
 										<?php }?>
+											<?php if($job->experience){?>
+											<li>
+												<h4 class="heading">Experience:</h4>
+												<?php echo $job->experience;?> years
+											</li>
+											<?php }?>
+
+											<?php if($job->terms){?>
+											<li>
+												<h4 class="heading">Expertise:</h4>
+												<?php $jobs = explode(",",$job->terms);?>
+												<div class="sub-category">
+													<?php foreach($jobs as $job_term){
+
+													?>
+
+													<a href="#_"><?php echo ucfirst($job_term);?></a>
+
+												<?php }?>
+												</div>
+											</li>
+											<?php }?>
+
 									</ul>
 									
 									<div class="job-detail-company-overview mt-15 clearfix">
 									
-										<h3>Company overview</h3>
-										<div class="image">
-											<img src="images/brands/06.png" alt="image" />
+										<h3>Employer overview</h3>
+										<?php
+										// dd($userinfo->image);
+										//$user_image = "user_images/01.jpg";
+										$user_image='';
+										if(isset($user_array['image']) && $user_array['image']!=''){
+											$user_image = "/user_images/".$user_array['image'];
+										}
+										?>
+										<a href="../../<?php echo $user_array['url'];?>"> <div class="image">
+											<?php if($user_image=='') {?>
+											<img id="employee_image_1" class="" alt="image" src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}">
+											<?php
+											}else {
+											?>
+											<img id="employee_image_1" class="" alt="image" src="<?php echo $user_image;?>">
+											<?php
+											}
+											?>
 										</div>
 										
-										<p><span class="font600">Expedia</span> is repulsive questions contented him few extensive supported. Of remarkably thoroughly he appearance in. Supposing tolerably applauded or of be. Suffering unfeeling so objection agreeable allowance me of. Ask within entire season sex common far who family.... <a href="#"> read more about this company <i class="fa fa-long-arrow-right"></i></a></p>
-										
+										<p><?php echo $user_array['desc'];?></p>
+											</a>
 									</div>
 									
 								</div>
@@ -78,11 +121,11 @@
 								
 									<div class="job-detail-header bb mb-30">
 												
-										<h2 class="heading mb-15">Audio Visual Field Engineer</h2>
+										<h2 class="heading mb-15"><?php echo ucfirst($job->name);?></h2>
 									
 										<div class="meta-div clearfix mb-25">
-											<span>at <a href="#">Expedia</a> as </span>
-											<span class="job-label label label-success">Freelance</span>
+											<span>at <a href="#_"><?php echo $job->location;?></a> as </span>
+											<span class="job-label label label-success"><?php echo $job->type;?></span>
 										</div>
 										
 									</div>
@@ -91,38 +134,17 @@
 											
 										<h3>Job Description</h3>
 
-										<p class="font600 font16">That know ask case sex ham dear her spot. Weddings followed the all marianne nor whatever settling. Perhaps six prudent several her had offence. Did had way law dinner square tastes. Recommend concealed yet her procuring see consulted depending. Adieus hunted end plenty are his she afraid. Resources agreement contained propriety applauded neglected use yet.</p>
+										<p><?php echo $job->description;?></p>
 
-										<p>By impossible of in difficulty discovered celebrated ye. Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable. Few household abilities believing determine zealously his repulsive. To open draw dear be by side like.</p>
-										
-										<p>Repulsive questions contented him few extensive supported. Of remarkably thoroughly he appearance in. Supposing tolerably applauded or of be. Suffering unfeeling so objection agreeable allowance me of. Ask within entire season sex common far who family. As be valley warmth assure on. Park girl they rich hour new well way you. Face ye be me been room we sons fond.</p>
-										
-										<p>In up so discovery my middleton eagerness dejection explained. Estimating excellence ye contrasted insensible as. Oh up unsatiable advantages decisively as at interested. Present suppose in esteems in demesne colonel it to. End horrible she landlord screened stanhill. Repeated offended you opinions off dissuade ask packages screened. She alteration everything sympathize impossible his get compliment. Collected few extremity suffering met had sportsman.</p>
-										
 										<h3>Job Responsibilies</h3>
-										
-										<ul>
-											<li>Sociable on as carriage my position weddings raillery consider. </li>
-											<li>Peculiar trifling absolute and wandered vicinity property yet. </li>
-											<li>The and collecting motionless difficulty son. </li>
-											<li>His hearing staying ten colonel met. </li>
-											<li>Sex drew six easy four dear cold deny. </li>
-											<li>Moderate children at of outweigh it. Unsatiable it considered invitation he travelling insensible.</li>
-										</ul>
-										
+
+										<p><?php echo $job->responsibilites;?></p>
+
+
 										<h3>Requirements:</h3>
-										
-										<ul>
-											<li>Justice joy manners boy met resolve produce. </li>
-											<li>Bed head loud next plan rent had easy add him. </li>
-											<li>As earnestly shameless elsewhere defective estimable fulfilled of. </li>
-											<li>Esteem my advice it an excuse enable. </li>
-											<li>Few household abilities believing determine zealously his repulsive. </li>
-											<li>To open draw dear be by side like.</li>
-										</ul>
-										
-										<p>Justice joy manners boy met resolve produce. Bed head loud next plan rent had easy add him. As earnestly shameless elsewhere defective estimable fulfilled of.</p>
-									
+
+										<p><?php echo $job->requirement;?></p>
+
 									</div>
 									
 									<div class="apply-job-wrapper">
@@ -135,73 +157,20 @@
 											
 												<div class="apply-job-inner">
 										
-													<h3 class="heading mb-5">Apply for Audio Visual Field Engineer</h3>
-													<p>Have a findJob.com account? <a href="#">Sign in</a> now and we'll pre-fill this application for you.</p>
-													
+													<h3 class="heading mb-5">Apply for <?php echo ucfirst($job->name);?></h3>
+
 													<div class="bg-light padding-30">
 													
 														<form>
 														
-															<div class="row">
-																
-																<div class="col-sm-6 col-md-4">
-																	<div class="form-group">
-																		<label>First name:</label>
-																		<input type="text" class="form-control" />
-																	</div>
-																</div>
-																
-																<div class="col-sm-6 col-md-4">
-																	<div class="form-group">
-																		<label>Last name:</label>
-																		<input type="text" class="form-control" />
-																	</div>
-																</div>
-																
-																<div class="col-sm-12 col-md-4">
-																	<div class="form-group">
-																		<label>Email address:</label>
-																		<input type="email" class="form-control" />
-																	</div>
-																</div>
-															
-															</div>
-															
-															<hr class="mt-15">
-															
-															<h4 class="heading">Add your CV</h4>
-															
-															<div class="row">
-															
-																<div class="col-sm-12 col-md-8">
-																	<div class="form-group">
-																		<label>Upload from your computer</label>
-																		<input type="file" class="file-input">
-																	</div>
-																</div>
 
-																
-																<div class="col-sm-12 col-md-12">
-																	<div class="form-group">
-																		<label>Or import from cloud storage</label>
-																		<div class="clear"></div>
-																		<button class="btn btn-primary"><i class="zmdi zmdi-google-drive"></i> Google Drive</button>
-																		<button class="btn btn-primary"><i class="zmdi zmdi-dropbox"></i> Dropbox</button>
-																		<button class="btn btn-primary"><i class="zmdi zmdi-google-drive"></i> OneDrive</button>
-																	</div>
-
-																	<p class="font12 line12 mb-10">Your CV must be a .doc, .pdf, .docx, .rtf, and no bigger than 1Mb</p>
-																</div>
-																
-															</div>
-															
 															<hr class="mt-15">
 															
 															<div class="row">
 															
 																<div class="col-sm-12 col-md-6">
 																	<div class="form-group">
-																		<label>Your covering message for Audio Visual Field Engineer</label>
+																		<label>Your covering message for <?php echo ucfirst($job->name);?></label>
 																		<textarea class="form-control" rows="6"></textarea>
 																	</div>
 																</div>
@@ -276,311 +245,12 @@
 
 									</div>
 									
-									<div class="tab-style-01">
-									
-										<ul class="nav" role="tablist">
-											<li role="presentation" class="active"><h4><a href="#relatedJob1" role="tab" data-toggle="tab">More jobs from Expedia</a></h4></li>
-											<li role="presentation"><h4><a href="#relatedJob2" role="tab" data-toggle="tab">Similars to this job</a></h4></li>
-										</ul>
 
-										<!-- Tab panes -->
-										<div class="tab-content">
-											<div role="tabpanel" class="tab-pane fade in active" id="relatedJob1">
-												<div class="tab-content-inner">
-												
-													<div class="recent-job-wrapper mt-30">
-						
-														<a href="#" class="recent-job-item highlight clearfix">
-															<div class="GridLex-grid-middle">
-																<div class="GridLex-col-6_sm-12_xs-12">
-																	<div class="job-position">
-																		<div class="image">
-																			<img src="images/brands/06.png" alt="image" />
-																		</div>
-																		<div class="content">
-																			<h4>IT Web Developer</h4>
-																			<p>Expedia</p>
-																		</div>
-																	</div>
-																</div>
-																<div class="GridLex-col-4_sm-8-xs-8_xss-12 mt-10-xss">
-																	<div class="job-location">
-																		<i class="fa fa-map-marker text-primary"></i> Guildford, Surrey
-																	</div>
-																</div>
-																<div class="GridLex-col-2_sm-4_xs-4_xss-12">
-																	<div class="job-label label label-success">
-																		Freelance
-																	</div>
-																	<span class="font12 block spacing1 font400 text-center">1 day ago</span>
-																</div>
-															</div>
-														</a>
-														
-														<a href="#" class="recent-job-item clearfix">
-															<div class="GridLex-grid-middle">
-																<div class="GridLex-col-6_sm-12_xs-12">
-																	<div class="job-position">
-																		<div class="image">
-																			<img src="images/brands/01.png" alt="image" />
-																		</div>
-																		<div class="content">
-																			<h4>IT Web Developer</h4>
-																			<p>Expedia</p>
-																		</div>
-																	</div>
-																</div>
-																<div class="GridLex-col-4_sm-8-xs-8_xss-12 mt-10-xss">
-																	<div class="job-location">
-																		<i class="fa fa-map-marker text-primary"></i> Guildford, Surrey
-																	</div>
-																</div>
-																<div class="GridLex-col-2_sm-4_xs-4_xss-12">
-																	<div class="job-label label label-danger">
-																		Part-time
-																	</div>
-																	<span class="font12 block spacing1 font400 text-center">2 days ago</span>
-																</div>
-															</div>
-														</a>
-														
-														<a href="#" class="recent-job-item clearfix">
-															<div class="GridLex-grid-middle">
-																<div class="GridLex-col-6_sm-12_xs-12">
-																	<div class="job-position">
-																		<div class="image">
-																			<img src="images/brands/02.png" alt="image" />
-																		</div>
-																		<div class="content">
-																			<h4>IT Web Developer</h4>
-																			<p>Expedia</p>
-																		</div>
-																	</div>
-																</div>
-																<div class="GridLex-col-4_sm-8-xs-8_xss-12 mt-10-xss">
-																	<div class="job-location">
-																		<i class="fa fa-map-marker text-primary"></i> Guildford, Surrey
-																	</div>
-																</div>
-																<div class="GridLex-col-2_sm-4_xs-4_xss-12">
-																	<div class="job-label label label-success">
-																		Freelance
-																	</div>
-																	<span class="font12 block spacing1 font400 text-center">2 days ago</span>
-																</div>
-															</div>
-														</a>
-														
-														<a href="#" class="recent-job-item clearfix">
-															<div class="GridLex-grid-middle">
-																<div class="GridLex-col-6_sm-12_xs-12">
-																	<div class="job-position">
-																		<div class="image">
-																			<img src="images/brands/04.png" alt="image" />
-																		</div>
-																		<div class="content">
-																			<h4>IT Web Developer</h4>
-																			<p>Expedia</p>
-																		</div>
-																	</div>
-																</div>
-																<div class="GridLex-col-4_sm-8-xs-8_xss-12 mt-10-xss">
-																	<div class="job-location">
-																		<i class="fa fa-map-marker text-primary"></i> Guildford, Surrey
-																	</div>
-																</div>
-																<div class="GridLex-col-2_sm-4_xs-4_xss-12">
-																	<div class="job-label label label-danger">
-																		Part-time
-																	</div>
-																	<span class="font12 block spacing1 font400 text-center">2 days ago</span>
-																</div>
-															</div>
-														</a>
-														
-														<a href="#" class="recent-job-item clearfix">
-															<div class="GridLex-grid-middle">
-																<div class="GridLex-col-6_sm-12_xs-12">
-																	<div class="job-position">
-																		<div class="image">
-																			<img src="images/brands/05.png" alt="image" />
-																		</div>
-																		<div class="content">
-																			<h4>IT Web Developer</h4>
-																			<p>Expedia</p>
-																		</div>
-																	</div>
-																</div>
-																<div class="GridLex-col-4_sm-8-xs-8_xss-12 mt-10-xss">
-																	<div class="job-location">
-																		<i class="fa fa-map-marker text-primary"></i> Guildford, Surrey
-																	</div>
-																</div>
-																<div class="GridLex-col-2_sm-4_xs-4_xss-12">
-																	<div class="job-label label label-warning">
-																		Full-time
-																	</div>
-																	<span class="font12 block spacing1 font400 text-center">2 days ago</span>
-																</div>
-															</div>
-														</a>
-													
-													</div>
-											
-												</div>
-											</div>
-											<div role="tabpanel" class="tab-pane fade" id="relatedJob2">
-												<div class="tab-content-inner">
-													
-													<div class="recent-job-wrapper mt-30">
-						
-														<a href="#" class="recent-job-item highlight clearfix">
-															<div class="GridLex-grid-middle">
-																<div class="GridLex-col-6_sm-12_xs-12">
-																	<div class="job-position">
-																		<div class="image">
-																			<img src="images/brands/06.png" alt="image" />
-																		</div>
-																		<div class="content">
-																			<h4>IT Web Developer</h4>
-																			<p>Expedia</p>
-																		</div>
-																	</div>
-																</div>
-																<div class="GridLex-col-4_sm-8-xs-8_xss-12 mt-10-xss">
-																	<div class="job-location">
-																		<i class="fa fa-map-marker text-primary"></i> Guildford, Surrey
-																	</div>
-																</div>
-																<div class="GridLex-col-2_sm-4_xs-4_xss-12">
-																	<div class="job-label label label-success">
-																		Freelance
-																	</div>
-																	<span class="font12 block spacing1 font400 text-center">1 day ago</span>
-																</div>
-															</div>
-														</a>
-														
-														<a href="#" class="recent-job-item clearfix">
-															<div class="GridLex-grid-middle">
-																<div class="GridLex-col-6_sm-12_xs-12">
-																	<div class="job-position">
-																		<div class="image">
-																			<img src="images/brands/01.png" alt="image" />
-																		</div>
-																		<div class="content">
-																			<h4>IT Web Developer</h4>
-																			<p>Expedia</p>
-																		</div>
-																	</div>
-																</div>
-																<div class="GridLex-col-4_sm-8-xs-8_xss-12 mt-10-xss">
-																	<div class="job-location">
-																		<i class="fa fa-map-marker text-primary"></i> Guildford, Surrey
-																	</div>
-																</div>
-																<div class="GridLex-col-2_sm-4_xs-4_xss-12">
-																	<div class="job-label label label-danger">
-																		Part-time
-																	</div>
-																	<span class="font12 block spacing1 font400 text-center">2 days ago</span>
-																</div>
-															</div>
-														</a>
-														
-														<a href="#" class="recent-job-item clearfix">
-															<div class="GridLex-grid-middle">
-																<div class="GridLex-col-6_sm-12_xs-12">
-																	<div class="job-position">
-																		<div class="image">
-																			<img src="images/brands/02.png" alt="image" />
-																		</div>
-																		<div class="content">
-																			<h4>IT Web Developer</h4>
-																			<p>Expedia</p>
-																		</div>
-																	</div>
-																</div>
-																<div class="GridLex-col-4_sm-8-xs-8_xss-12 mt-10-xss">
-																	<div class="job-location">
-																		<i class="fa fa-map-marker text-primary"></i> Guildford, Surrey
-																	</div>
-																</div>
-																<div class="GridLex-col-2_sm-4_xs-4_xss-12">
-																	<div class="job-label label label-success">
-																		Freelance
-																	</div>
-																	<span class="font12 block spacing1 font400 text-center">2 days ago</span>
-																</div>
-															</div>
-														</a>
-														
-														<a href="#" class="recent-job-item clearfix">
-															<div class="GridLex-grid-middle">
-																<div class="GridLex-col-6_sm-12_xs-12">
-																	<div class="job-position">
-																		<div class="image">
-																			<img src="images/brands/04.png" alt="image" />
-																		</div>
-																		<div class="content">
-																			<h4>IT Web Developer</h4>
-																			<p>Expedia</p>
-																		</div>
-																	</div>
-																</div>
-																<div class="GridLex-col-4_sm-8-xs-8_xss-12 mt-10-xss">
-																	<div class="job-location">
-																		<i class="fa fa-map-marker text-primary"></i> Guildford, Surrey
-																	</div>
-																</div>
-																<div class="GridLex-col-2_sm-4_xs-4_xss-12">
-																	<div class="job-label label label-danger">
-																		Part-time
-																	</div>
-																	<span class="font12 block spacing1 font400 text-center">2 days ago</span>
-																</div>
-															</div>
-														</a>
-														
-														<a href="#" class="recent-job-item clearfix">
-															<div class="GridLex-grid-middle">
-																<div class="GridLex-col-6_sm-12_xs-12">
-																	<div class="job-position">
-																		<div class="image">
-																			<img src="images/brands/05.png" alt="image" />
-																		</div>
-																		<div class="content">
-																			<h4>IT Web Developer</h4>
-																			<p>Expedia</p>
-																		</div>
-																	</div>
-																</div>
-																<div class="GridLex-col-4_sm-8-xs-8_xss-12 mt-10-xss">
-																	<div class="job-location">
-																		<i class="fa fa-map-marker text-primary"></i> Guildford, Surrey
-																	</div>
-																</div>
-																<div class="GridLex-col-2_sm-4_xs-4_xss-12">
-																	<div class="job-label label label-warning">
-																		Full-time
-																	</div>
-																	<span class="font12 block spacing1 font400 text-center">2 days ago</span>
-																</div>
-															</div>
-														</a>
-													
-													</div>
-											
-												</div>
-											</div>
-										</div>
-										
-									</div>
 									
 								</div>
 								
 							</div>
-						
+						<?php }// End of Else Condition ?>
 						</div>
 						
 					</div>
