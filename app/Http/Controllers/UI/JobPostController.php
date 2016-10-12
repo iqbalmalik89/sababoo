@@ -16,6 +16,7 @@ use BusinessLogic\LanguageServiceProvider;
 use BusinessLogic\UserServiceProvider;
 use BusinessLogic\JobPostServiceProvider;
 use BusinessLogic\NetworkServiceProvider;
+use BusinessLogic\CommentServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
@@ -132,9 +133,12 @@ class JobPostController extends Controller
 
     public function viewJob($id){
         $this->networkServiceProvider = new NetworkServiceProvider();
+        $this->commentServiceProvider = new CommentServiceProvider();
        if($id){
            $job =  $this->jobpostServiceProvider->getJobByJobId($id);
            $user = User::where('id', '=' , $job->userid)->firstOrFail();
+           $job_comments =$this->commentServiceProvider->getJobComments($id);
+
            $user_array=array();
            if($job->role=='tradesman'){
                $td_ob = Tradesman::where('userid', '=' , $job->userid)->firstOrFail();
@@ -155,7 +159,9 @@ class JobPostController extends Controller
            }
            $user_array['url'] =$this->networkServiceProvider->getViewUrl($user);
            $user_array['image'] =$job->image;
-           return view('frontend.job.job_view',array('job'=>$job,'user_array'=>$user_array));
+           $user_array['userid'] =$user->id;
+
+           return view('frontend.job.job_view',array('job'=>$job,'user_array'=>$user_array,'user'=> $this->logged_user = Auth::user(),'job_comments'=>$job_comments));
        }
 
     }

@@ -244,7 +244,8 @@
 										</div>
 
 									</div>
-									
+
+									@include('frontend.mynetwork.comments',['loged_user'=>$user,'job'=>$job,'comment_user'=>'','user_array'=>$user_array,'job_comments'=>$job_comments])
 
 									
 								</div>
@@ -258,6 +259,91 @@
 				</div>
 			
 			</div>
+
+<?php
+$loged_user_image='';
+if(isset($user->image) && $user->image!=''){
+	$loged_user_image = "/user_images/".$user->image;
+}
+?>
+
+<script>
+	var user_name='<?php echo $user->first_name;?>';
+	var user_id='<?php echo $user->id;?>';
+	var user_image='<?php echo $loged_user_image;?>';
+	var job_id='<?php echo $job->id;?>';
+
+	$(document).ready(function () {
+
+	});
+
+	function status_comment(jobid){
+		var comment=$.trim($('#new_comment_add'+jobid).val());
+		if(comment){
+
+			html = '';
+			pageURI = '/comments/add_comment';
+			request_data = {jobid:jobid,comment:comment}
+			mainAjax('', request_data, 'POST',fillData);
+
+		}
+
+	}
+
+	function edit_comment(status_id,user_id){
+
+		$('#liedit'+status_id).remove();
+		$('#comments'+status_id).append("<li id='liedit"+status_id+"'><textarea id='editcomment"+status_id+"' style='height:150px;' class='form-control'>"+$('#comment_text'+status_id).text()+"</textarea><input type=button class=post-comment value=Update  onclick='update_comment("+status_id+")'></li>");
+	}
+
+	function update_comment(comment_id){
+		var comment=$.trim($('#editcomment'+comment_id).val());
+		if(comment){
+			pageURI = '/comments/update_comment';
+			request_data = {comment_id:comment_id,comment:comment}
+			mainAjax('', request_data, 'POST',callUpdateComment);
+		}
+
+
+	}
+
+	function callUpdateComment(data){
+		if(data.code==200){
+			console.log(data.data);
+			$('#liedit'+data.data['id']).html('');
+			$('#comment_text'+data.data['id']).html(data.data['comments']);
+		}
+	}
+	function fillData(data){
+		if(data.code==200){
+			var currentTime = new Date()
+			var hours = currentTime.getHours()
+			var minutes = currentTime.getMinutes()
+			var format ="AM";
+			if(hours>11)
+			{format="PM";}
+			$('#new_comment_add'+data.data['job_id']).empty('');
+			$('#new_comment_add'+data.data['job_id']).val('');
+			$('#ulcomment'+data.data['job_id']).append("<li id=comments"+data.data['id']+"><a href=javascript:void(0) class=feed-action></a>" +
+				"<img src='<?php echo $loged_user_image;?>' style='width:50px;height:50px'><p>" +
+				"<a class='commenter' href='javascript:void(0)'>"+user_name+"</a>" +
+				"<br><span id='comment_text"+data.data['id']+"'>"+data.data['comments']+"</span></p>"+
+				"<span class=nus-timestamp'>"+hours+":"+minutes+" "+format+"</span>" +
+				"<span class=nus-timestamp><a href=javascript:void(0) onclick=edit_comment("+data.data['id']+","+data.data['commenter_id']+")>Edit</a></span>" +
+				"&nbsp;<span class=nus-timestamp><a href=javascript:void(0) onclick=delete_comment("+data.data['id']+","+data.data['commenter_id']+")>Delete</a></span>" +
+				"" + "</li>");
+
+
+		}
+	}
+
+	function delete_comment(comment_id,user_id){
+			$('#comments'+comment_id).remove();
+			pageURI = '/comments/delete_comment';
+			request_data = {comment_id:comment_id}
+			mainAjax('', request_data, 'POST');
+	}
+</script>
 
 @endsection
 

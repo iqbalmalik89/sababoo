@@ -108,6 +108,13 @@ Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController
  Route::match(['get', 'post'], 'network/reject_recommendation/{id}', ['uses' => 'UI\NetworkController@rejectRecom']);
  Route::match(['get', 'post'], '/network/people_find', ['uses' => 'UI\NetworkController@getPeopleList']);
 
+/**************************************COMMENTS********************************************************/
+ Route::match(['get', 'post'], ' /comments/getComments', ['uses' => 'UI\CommentController@getComments']);
+ Route::match(['get', 'post'], ' /comments/add_comment', ['uses' => 'UI\CommentController@addComment']);
+ Route::match(['get', 'post'], ' /comments/update_comment', ['uses' => 'UI\CommentController@updateComment']);
+ Route::match(['get', 'post'], '/comments/delete_comment', ['uses' => 'UI\CommentController@deleteComment']);
+
+
 
 
 

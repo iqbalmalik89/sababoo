@@ -128,7 +128,7 @@ class JobPostServiceProvider
     public function getJobByJobId($jobid){
         $matchThese = ['job_post.id'=>$jobid];
         $job = DB::table('job_post')
-            ->select('job_post.*','industry.id as ind_id','industry.name as ind_name','users.*')
+            ->select('job_post.*','industry.id as ind_id','industry.name as ind_name','users.first_name','users.last_name','users.id as userid','users.image','users.role')
             ->join('industry', 'job_post.industry_id', '=','industry.id' )
             ->join('users', 'job_post.userid', '=','users.id' )
             ->where($matchThese)
