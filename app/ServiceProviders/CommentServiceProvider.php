@@ -13,6 +13,7 @@ use Helper;
 use  BusinessObject\User;
 use  BusinessObject\UserSkill;
 use  BusinessObject\Skill;
+use  BusinessObject\JobPost;
 use Validator;
 use DB;
 
@@ -20,11 +21,13 @@ class CommentServiceProvider{
 
 
     public function addComments($data){
+
         $com = new JobComments();
         $com->commenter_id  = $data['commenter_id'];
         $com->job_id        = $data['jobid'];
         $com->comments      = $data['comment'];
         $com->save();
+
         return array(
             'code' => '200',
             'status' => 'ok',
@@ -33,6 +36,10 @@ class CommentServiceProvider{
 
         );
 
+    }
+
+    public function sendCommentEmail($data){
+        $this->sendNotificationEmail($data);
     }
 
     public function updateComments($data){
@@ -80,10 +87,36 @@ class CommentServiceProvider{
            'code' => '200',
            'status' => 'ok',
            'msg' => "Comment updated successfully.",
-
-
-
        );
+   }
+
+   public function sendNotificationEmail($data){
+
+       $receiver_job = JobPost::where(array('id'=>$data['jobid']))->first();
+       $receiver_data = User::where(array('id'=>$receiver_job->userid))->first();
+       $sender_data = User::where(array('id'=>$data['commenter_id']))->first();
+       #$data['to']  = $receiver_data->email;
+
+       $subject = "Sababoo's - Comment on your job by " . $sender_data->email;
+       $from = "noreply@sababoo.com";
+
+       $data = [
+           "from"           => $from,
+           "to"             => $receiver_data->email,
+           "subject"        => $subject,
+           "sender_email"   => $sender_data->email,
+           "comments"       =>$data['comment'],
+           "SERVER_PATH"    => env('URL'),
+           "jobid"          =>  $data['jobid']
+
+       ];
+
+       $mail_response = Helper::sendEmail(
+           $data,
+           ['email_templates/jobcomment_html', 'email_templates/jobcomment_text']
+       );
+
+
 
    }
 }

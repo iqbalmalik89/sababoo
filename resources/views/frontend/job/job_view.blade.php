@@ -1,7 +1,5 @@
 @extends('frontend.layouts.master')
-
 @section('title', 'Job Post')
-
 @section('content')
 <!-- start Main Wrapper -->
 		<div class="main-wrapper">
@@ -286,24 +284,32 @@ if(isset($user->image) && $user->image!=''){
 			request_data = {jobid:jobid,comment:comment}
 			mainAjax('', request_data, 'POST',fillData);
 
+			pageURI = '/comments/send_comment_email';
+			request_data = {jobid:jobid,comment:comment}
+			mainAjax('', request_data, 'POST');
+
 		}
 
 	}
 
-	function edit_comment(status_id,user_id){
+	function edit_comment(status_id,user_id,jobid){
 
 		$('#liedit'+status_id).remove();
-		$('#comments'+status_id).append("<li id='liedit"+status_id+"'><textarea id='editcomment"+status_id+"' style='height:150px;' class='form-control'>"+$('#comment_text'+status_id).text()+"</textarea><input type=button class=post-comment value=Update  onclick='update_comment("+status_id+")'></li>");
+		$('#comments'+status_id).append("<li id='liedit"+status_id+"'><textarea id='editcomment"+status_id+"' style='height:150px;' class='form-control'>"+$('#comment_text'+status_id).text()+"</textarea><input type=button class=post-comment value=Update  onclick='update_comment("+status_id+','+jobid+")'></li>");
 	}
 
-	function update_comment(comment_id){
+	function update_comment(comment_id,jobid){
+
 		var comment=$.trim($('#editcomment'+comment_id).val());
 		if(comment){
 			pageURI = '/comments/update_comment';
 			request_data = {comment_id:comment_id,comment:comment}
 			mainAjax('', request_data, 'POST',callUpdateComment);
-		}
 
+			pageURI = '/comments/send_comment_email';
+			request_data = {jobid:jobid,comment:comment}
+			mainAjax('', request_data, 'POST');
+		}
 
 	}
 
@@ -329,9 +335,11 @@ if(isset($user->image) && $user->image!=''){
 				"<a class='commenter' href='javascript:void(0)'>"+user_name+"</a>" +
 				"<br><span id='comment_text"+data.data['id']+"'>"+data.data['comments']+"</span></p>"+
 				"<span class=nus-timestamp'>"+hours+":"+minutes+" "+format+"</span>" +
-				"<span class=nus-timestamp><a href=javascript:void(0) onclick=edit_comment("+data.data['id']+","+data.data['commenter_id']+")>Edit</a></span>" +
+				"<span class=nus-timestamp><a href=javascript:void(0) onclick=edit_comment("+data.data['id']+","+data.data['commenter_id']+","+data.data['job_id']+")>Edit</a></span>" +
 				"&nbsp;<span class=nus-timestamp><a href=javascript:void(0) onclick=delete_comment("+data.data['id']+","+data.data['commenter_id']+")>Delete</a></span>" +
 				"" + "</li>");
+
+
 
 
 		}

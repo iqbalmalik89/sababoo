@@ -52,6 +52,13 @@ class CommentController extends Controller
   public function deleteComment(Request $request){
     return $this->commentServiceProvider->deleteComments($request->all());
   }
+  public function sendCommentEmail(Request $request){
+    $this->logged_user = Auth::user();
+    $post_data= $request->all();
+    $post_data['commenter_id']=$this->logged_user->id;
+    return $this->commentServiceProvider->sendCommentEmail($post_data);
+
+  }
 
 
 

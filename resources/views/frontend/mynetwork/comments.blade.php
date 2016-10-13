@@ -35,7 +35,7 @@
                 <span class="nus-timestamp">
                      <span class="nus-timestamp"><?php echo $job_comment->updated_at;?></span>
                         <?php if($loged_user->id==$job_comment->commenter_id){?>
-                        <a href="javascript:void(0)" onclick=edit_comment("<?php echo $job_comment->id;?>","<?php echo $job_comment->userid;?>")>Edit</a></span>
+                        <a href="javascript:void(0)" onclick=edit_comment("<?php echo $job_comment->id;?>","<?php echo $job_comment->userid;?>","<?php echo $job->id;?>")>Edit</a></span>
                         <a href="javascript:void(0)" onclick=delete_comment("<?php echo $job_comment->id;?>","<?php echo $job_comment->userid;?>")>Delete</a></span>
                     <?php }?>
             </p>
