@@ -7,9 +7,9 @@
 
         <!-- Title Of Site -->
         <title>@yield('title')</title>
-        <meta name="description" content="HTML Responsive Landing Page Template for Job Portal Based on Twitter Bootstrap 3.x.x" />
-        <meta name="keywords" content="job, work, resume, applicants, application, employee, employer, hire, hiring, human resource management, hr, online job management, company, worker, career, recruiting, recruitment" />
-        <meta name="author" content="crenoveative">
+        <meta name="description" content="@yield('description')">
+        <meta name="keywords" content="@yield('keywords')">
+
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         
         <!-- Fav and Touch Icons -->

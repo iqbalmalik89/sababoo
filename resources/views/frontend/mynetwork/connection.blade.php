@@ -1,6 +1,9 @@
 @extends('frontend.layouts.master')
 
 @section('title', 'My Connections')
+@section('description', 'Share your jobs with sababo,Sababoo is a job portal','Create a job and post with Sababoo','Connect with sababoo')
+@section('keywords', 'Sababoo,  Sababoo Tradesman, Sababoo Job Recuritment,Sababoo Employer,Sababoo Employee','Sababoo employee view','sababoo tradesman ','job','job post','apply job','job browse','job search','sababoo connect','connect with sababoo','connection','job connection')
+
 
 @section('content')
 

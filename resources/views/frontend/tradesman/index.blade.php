@@ -3,6 +3,9 @@
 @section('title', 'Tradesman')
 
 @section('content')
+@section('description', 'Share your jobs with sababo,Sababoo is a job portal')
+@section('keywords', 'Sababoo,  Sababoo Tradesman, Sababoo Job Recuritment,Sababoo Employer,Sababoo Employee','Sababoo employee view','sababoo tradesman ')
+
 
         <!-- start Main Wrapper -->
 <div class="main-wrapper">

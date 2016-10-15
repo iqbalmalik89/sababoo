@@ -1,6 +1,8 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Job Browse')
+@section('title', 'Job Browse')@section('description', 'Share your jobs with sababo,Sababoo is a job portal','Create a job and post with Sababoo')
+@section('keywords', 'Sababoo,  Sababoo Tradesman, Sababoo Job Recuritment,Sababoo Employer,Sababoo Employee','Sababoo employee view','sababoo tradesman ','job','job post','apply job','job browse','job search')
+
 
 @section('content')
 

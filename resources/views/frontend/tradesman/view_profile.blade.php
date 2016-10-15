@@ -9,6 +9,9 @@
 @extends('frontend.layouts.master')
 
 @section('title', 'View Tradesman')
+@section('description', 'Share your jobs with sababo,Sababoo is a job portal')
+@section('keywords', 'Sababoo,  Sababoo Tradesman, Sababoo Job Recuritment,Sababoo Employer,Sababoo Employee','Sababoo employee view','sababoo tradesman ')
+
 
 @section('content')
         <!-- start breadcrumb -->
