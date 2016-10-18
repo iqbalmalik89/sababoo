@@ -257,6 +257,8 @@
                     </div>
                     <?php } ?>
 
+                    @include('frontend.employee.view_files',['user_files'=>$user_files])
+
 
 
 

@@ -14,6 +14,7 @@ use  BusinessObject\Tradesman;
 use  BusinessObject\Education;
 use  BusinessObject\Experience;
 use  BusinessObject\Certification;
+use  BusinessObject\UserFiles;
 
 use  BusinessObject\Industry;
 
@@ -48,7 +49,10 @@ class HomeController extends Controller
         }
 
         $matchThese = ['status'=>1];
+        $matchTheseFile = ['status'=>1,'userid'=>$this->logged_user->id];
         $industry = Industry::where($matchThese)->get();
+        $user_files = UserFiles::where($matchTheseFile)->get();
+
 
         if($this->logged_user->role=="employee"){
 
@@ -60,13 +64,11 @@ class HomeController extends Controller
             $certification = Certification::where(array('userid'=> $this->logged_user->id))->get();
 
             $exp = Experience::where(array('employee_id'=> $employee[0]->id))->get();
-
-
-             return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee,'industry'=>$industry,'education'=>$education,'exp'=>$exp,'certification'=>$certification));
+             return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee,'industry'=>$industry,'education'=>$education,'exp'=>$exp,'certification'=>$certification,'user_files'=>$user_files));
        }
         else if($this->logged_user->role=="employer"){
             $employer = Employer::where('userid', '=' , $this->logged_user->id)->firstOrFail();
-            return view('frontend.employer.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'employer'=>$employer));
+            return view('frontend.employer.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'employer'=>$employer,'user_files'=>$user_files));
 
         }
 
@@ -78,7 +80,7 @@ class HomeController extends Controller
 
 
 
-            return view('frontend.tradesman.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'tradesman'=>$tradesman,'education'=>$education,'certification'=>$certification));
+            return view('frontend.tradesman.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'tradesman'=>$tradesman,'education'=>$education,'certification'=>$certification,'user_files'=>$user_files));
 
         }
         return view('frontend.site.home');

@@ -75,10 +75,11 @@
 
                                 <div class="clear mb-30"></div>
 
+                                @include('frontend.employee.add_files',['user_files'=>$user_files])
+                                <div class="clear mb-30"></div>
 
 
-
-                                </div>
+                            </div>
                                 <div class="clear"></div>
                             </div>
 

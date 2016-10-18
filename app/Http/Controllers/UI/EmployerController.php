@@ -63,6 +63,8 @@ class EmployerController extends Controller
         $basic_user_info = $this->userServiceProvider->getBasicUserProfile($basic_emp_info->userid);
         $this->networkServiceProvider = new NetworkServiceProvider();
         $recoms = $this->networkServiceProvider->getUsersAllRecommendation($basic_emp_info->userid);
+        $user_files = $this->userServiceProvider->getUserFiles($basic_emp_info->userid);
+
 
 
         if($basic_emp_info==null){
@@ -70,7 +72,7 @@ class EmployerController extends Controller
         }
         $this->employeeServiceProvider = new EmployeeServiceProvider();
         $industry = $this->employeeServiceProvider->getIndustry($basic_user_info->industry_id);
-        return view('frontend.employer.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'industry'=>$industry,'recoms'=>$recoms));
+        return view('frontend.employer.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'industry'=>$industry,'recoms'=>$recoms,'user_files'=>$user_files));
 
     }
 

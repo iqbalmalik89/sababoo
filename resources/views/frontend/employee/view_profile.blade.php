@@ -234,6 +234,7 @@
                             <div class="col-sm-8">
 
                             <?php
+
                             if(count($exp)>0){?>
 
 
@@ -349,6 +350,9 @@
                             <?php } ?>
 
 
+                            <!--    USER FILES SECTION !-->
+                            @include('frontend.employee.view_files',['user_files'=>$user_files])
+                              <!--    END USER FILES SECTION !-->
 
 
 

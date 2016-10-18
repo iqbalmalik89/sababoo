@@ -168,6 +168,8 @@
 
                         </div>
 
+                        @include('frontend.employee.view_files',['user_files'=>$user_files])
+
                         <?php  if(count($recoms)>0){?>
 
                         <div class="col-sm-12">

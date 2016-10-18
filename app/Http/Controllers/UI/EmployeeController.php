@@ -115,19 +115,21 @@ class EmployeeController extends Controller
 
      public function viewEmployee($id){
 
+         $this->UserServiceProvider = new UserServiceProvider();
 
-        $basic_emp_info = $this->employeeServiceProvider->getBasicEmpProfile($id);
+         $basic_emp_info = $this->employeeServiceProvider->getBasicEmpProfile($id);
 
 
         if($basic_emp_info==null){
             return view('errors.404');
         }
          $basic_user_info = $this->employeeServiceProvider->getBasicUserProfile($basic_emp_info->userid);
+         $user_files = $this->UserServiceProvider->getUserFiles($basic_emp_info->userid);
+
 
 
          $this->skillServiceProvider = new SkillServiceProvider();
          $this->languageServiceProvider = new LanguageServiceProvider();
-         $this->UserServiceProvider = new UserServiceProvider();
          $education = $this->employeeServiceProvider->getEducation($basic_emp_info->userid);
          $exp = Experience::where(array('employee_id'=> $id))->get();
 
@@ -140,7 +142,7 @@ class EmployeeController extends Controller
          $recoms = $this->networkServiceProvider->getUsersAllRecommendation($basic_emp_info->userid);
 
 
-         return view('frontend.employee.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'exp'=>$exp,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms ));
+         return view('frontend.employee.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'exp'=>$exp,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms ,'user_files'=>$user_files));
     }
 
     public function resumeUpload(Request $request){
@@ -174,8 +176,10 @@ class EmployeeController extends Controller
             $fileName = rand(11111,99999).'.'.$extension; // renameing image
             $request->file('resume')->move($destinationPath, $fileName); // uploading file to given path
             $this->logged_user = Auth::user();
-            $employee = Employee::find(array('userid'=> $this->logged_user->id))->first();
 
+            $employee = Employee::where('userid', '=' , $this->logged_user->id)->firstOrFail();
+
+            //$employee = Employee::find(array('userid'=> $this->logged_user->id))->first();
             $employee->resume_name = $fileName;
             $employee->resume_title = $post_data['resume_name'];
             $employee->update();
@@ -191,9 +195,17 @@ class EmployeeController extends Controller
           if($name){
            $employee = Employee::find($name);
            $pathToFile = env('CV_UPLOAD_PATH').'/'.$employee->resume_name;
-           header("Content-type:application/pdf");
-           header("Content-Disposition:attachment;filename='$employee->resume_title'");
-           readfile($pathToFile);
+              header("Pragma: public");
+              header("Expires: 0");
+              header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+              header("Cache-Control: public");
+              header("Content-Description: File Transfer");
+              //We can likely use the 'application/zip' type, but the octet-stream 'catch all' works just fine.
+              header("Content-type: application/octet-stream");
+            header("Content-Disposition:attachment;filename='$employee->resume_name'");
+            readfile($pathToFile);
+
+              exit;
 
        }
 

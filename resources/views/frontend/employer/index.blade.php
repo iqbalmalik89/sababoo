@@ -463,7 +463,7 @@
 											</div>
 											
 										</form>
-									
+									@include('frontend.employee.add_files',['user_files'=>$user_files])
 								</div>
 
 							</div>
@@ -474,6 +474,7 @@
 
 				</div>
 			
+			</div>
 			</div>
 <script>
 	var pageURI = '';

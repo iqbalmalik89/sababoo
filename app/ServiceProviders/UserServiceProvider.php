@@ -14,6 +14,7 @@ use  BusinessObject\Employee;
 use  BusinessObject\Education;
 use  BusinessObject\Experience;
 use  BusinessObject\Industry;
+use  BusinessObject\UserFiles;
 use Validator;
 use DB;
 
@@ -123,5 +124,34 @@ class UserServiceProvider
 
     }
 
+    public function uploadUserFiles($file_info){
+
+
+        if(!empty($file_info['file']) and count($file_info['file']>0)){
+
+            foreach($file_info['file'] as $key=>$value){
+                $user_files = new UserFiles();
+                $user_files->userid = $file_info['userid'];
+                $user_files->title = $key;
+                $user_files->name = $value;
+                $user_files->save();
+            }
+
+            return array('code'=>200,'status'=>'ok','msg'=>'File uploaded successfully');
+        }
+
+    }
+
+    public function deleteUserFile($data){
+      $user_file = UserFiles::find($data['file_id']);
+      $user_file->status=2;
+      $user_file->update();
+        return array('code'=>200,'status'=>'ok','msg'=>'File deleted successfully');
+    }
+
+    public function getUserFiles($userid){
+        $matchTheseFile = ['status'=>1,'userid'=>$userid];
+        return  UserFiles::where($matchTheseFile)->get();
+    }
 
 }

@@ -60,6 +60,7 @@ class TradesmanController extends Controller
             return view('errors.404');
         }
         $basic_user_info = $this->userServiceProvider->getBasicUserProfile($basic_emp_info->userid);
+        $user_files = $this->userServiceProvider->getUserFiles($basic_emp_info->userid);
 
         $this->skillServiceProvider = new SkillServiceProvider();
         $this->languageServiceProvider = new LanguageServiceProvider();
@@ -71,8 +72,7 @@ class TradesmanController extends Controller
         $certification =  $this->userServiceProvider->getCertifcation($basic_emp_info->userid);
         $this->networkServiceProvider = new NetworkServiceProvider();
         $recoms = $this->networkServiceProvider->getUsersAllRecommendation($basic_emp_info->userid);
-
-        return view('frontend.tradesman.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms));
+       return view('frontend.tradesman.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms,'user_files'=>$user_files));
     }
 
 

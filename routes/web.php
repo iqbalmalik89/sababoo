@@ -90,6 +90,9 @@ Route::match(['get', 'post'], '/user/imageUpload', ['uses' => 'UI\UserController
 Route::match(['get', 'post'], '/user/password_update', ['uses' => 'UI\UserController@passwordUpdate']);
 Route::match(['get', 'post'], '/user/add_certification', ['uses' => 'UI\UserController@addCertification']);
 Route::match(['get', 'post'], '/user/edit_certification', ['uses' => 'UI\UserController@editCertification']);
+Route::match(['get', 'post'], '/user/add_files', ['uses' => 'UI\UserController@addFiles']);
+Route::match(['get', 'post'], '/user/delete_user_file', ['uses' => 'UI\UserController@DeleteUserFile']);
+Route::match(['get', 'post'], '/user/download_files/{file_id}', ['uses' => 'UI\UserController@DownloadFiles']);
 
 /************************************JOB POSTING *****************************************************/
 Route::match(['get', 'post'], '/job/post', ['uses' => 'UI\JobPostController@jobPost']);

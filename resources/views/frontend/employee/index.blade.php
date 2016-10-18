@@ -88,8 +88,12 @@
                                                 @include('frontend.employee.languages')
 
                                                 <div class="clear mb-30"></div>
+                                                @include('frontend.employee.add_files',['user_files'=>$user_files])
                                                 
                                                 @include('frontend.employee.interest')
+                                                <div class="clear mb-30"></div>
+
+
  <!--                                                
                                                 <div class="col-sm-12">
                                                     <label>Please select:</label>
