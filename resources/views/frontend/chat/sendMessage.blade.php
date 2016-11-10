@@ -79,13 +79,22 @@
 <script>
     $(document).ready(function(){
         $("#load").hide();
-
-        var socket = new io.connect('http://sababoo.local:3000', {
+        var url = '<?php echo env('URL');?>:3000'
+       /* var socket = new io.connect('http://sababoo.local:3000', {
             'reconnection': true,
             'reconnectionDelay': 1000,
             'reconnectionDelayMax' : 5000,
             'reconnectionAttempts': 5
-        });
+        });*/
+
+        var socket = new io.connect(url, {
+         'reconnection': true,
+         'reconnectionDelay': 1000,
+         'reconnectionDelayMax' : 5000,
+         'reconnectionAttempts': 5
+         });
+
+
         $("#submit").click(function(){
             $( "#load" ).show();
             var dataString = {

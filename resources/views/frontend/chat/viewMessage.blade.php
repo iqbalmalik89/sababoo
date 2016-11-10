@@ -153,8 +153,10 @@
 
 
            // var socket = io.connect( );
+            var url = '<?php echo env('URL');?>:3000'
+            //alert(url);
 
-            var socket = new io.connect('http://sababoo.local:3000', {
+            var socket = new io.connect(url, {
                 'reconnection': true,
                 'reconnectionDelay': 1000,
                 'reconnectionDelayMax' : 5000,
