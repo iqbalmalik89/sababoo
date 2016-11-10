@@ -13,6 +13,7 @@ use Helper;
 use  BusinessObject\User;
 use  BusinessObject\UserSkill;
 use  BusinessObject\Skill;
+use  BusinessObject\Employer;
 use  BusinessObject\JobPost;
 use Validator;
 use DB;
