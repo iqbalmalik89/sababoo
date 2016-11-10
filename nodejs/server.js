@@ -133,9 +133,18 @@ io.on('connection', function (socket) {
     });
 
 
+    /*New Message Count */
+   /* socket.on( 'new_count_message', function( data ) {
+        io.sockets.emit( 'new_count_message', {
+            new_count_message: data.new_count_message
+
+        });
+    });*/
+
+
     socket.on( 'typing', function( data ) {
-        console.log( 'User is typing ' + socket.userName + ":" + data.message );
-        io.sockets.emit( 'typing', { name: data.name, message: data.message } );
+        console.log( 'User is typing ' + socket.name );
+        io.sockets.emit( 'typing', { name: data.name} );
     });
 
 

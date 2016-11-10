@@ -31,10 +31,11 @@
         </ul>
     </div>
 
-    <audio id="notif_audio"><source src="../assets/frontend/sounds/notify.ogg" type="audio/ogg">
-    <source src="../assets/frontend/sounds/notify.mp3" type="audio/mpeg">
-    <source src="../assets/frontend/sounds/notify.wav" type="audio/wav"></audio>
-
+    <audio id="notif_audio">
+        <source src="{!! asset('sounds/notify.ogg') !!}" type="audio/ogg">
+        <source src="{!! asset('sounds/notify.mp3') !!}" type="audio/mpeg">
+        <source src="{!! asset('sounds/notify.wav') !!}" type="audio/wav">
+    </audio>
 
 
 
@@ -100,14 +101,19 @@
                         <div class="chat-box">
                             <div class="chating-people">
                                 <div class="chat-pic" >
-                                    <img src=" " id="sender_image" class="img-circle">
+                                    <img src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}" id="sender_image" class="img-circle">
                                 </div>
                                 <h3 id="sender_username"><span></span></h3>
 
                             </div>
                             <div class="chating-section" id="message_app">
 
-                                <?php //foreach($all_messages as $single_message){
+                                <?php
+                                 if(count($all_messages)<=0){
+
+                                     echo "<h4>Sorry. We havn't found any conservation..<h4>";
+                                 }
+                                 //foreach($all_messages as $single_message){
                                     //echo //$single_message->message ."<br>";
                                // }?>
 
@@ -260,9 +266,9 @@
             $( "#message" ).keyup( function() {
                 //console.log('clientside keyup');
                 var nameVal = $('#reciever_name').val();
-                var msg = $( "#message" ).val();
+               // var msg = $( "#message" ).val();
 
-                socket.emit( 'typing', { name: nameVal, message: msg } );
+                socket.emit( 'typing', { name: $('#reciever_name').val()} );
             });
 
             var typingClear = false;
@@ -277,12 +283,29 @@
 
 
 
+            //NEW MESSAGE COUNT
+
+            /*socket.on( 'new_count_message', function( data ) {
+                alert(data.new_count_message)
+
+                $( "#new_count_message" ).html( data.new_count_message );
+                $('#notif_audio')[0].play();
+            });*/
+
+
+
        // });
 
             $(document).ready(function(){
                // var loged_userid=  $('#userid').val();
                 $('.send_user_list').click(function(e){
                     e.preventDefault();
+
+                    $(this).prevAll().removeClass('selected');
+                    $(this).nextAll().removeClass('selected');
+                    $(this).addClass('selected');
+
+                   // $(this).addClass('selected');
                     $('#messageRecepient').val($(this).attr('tab'));
                     $('#reciever_email').val($(this).attr('tab2'));
                     $('#reciever_name').val($(this).attr('tab3'));
@@ -300,6 +323,7 @@
             });
 
         function callUsersMessages(data){
+
             var str = '';
             $.each(data.data, function(k,v) {
                console.log(v.userid,userid_log);

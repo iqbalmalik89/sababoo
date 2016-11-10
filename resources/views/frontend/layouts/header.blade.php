@@ -69,9 +69,15 @@
                                 </ul>
 
                             </li>
-                            
 
-                            
+                            <li>
+                                <a href="/user_view_message">Messages</a>
+
+
+                            </li>
+
+
+
 
 
                         </ul>

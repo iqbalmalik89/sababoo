@@ -6495,6 +6495,10 @@ h6.heading {
     padding: 10px 0 9px;
     position: relative;
 }
+.listing-online-div ul li.selected{ background:#f0f1f1}
+
+.listing-online-div ul li.selected h3{ color:#1896cd}
+
 .listing-pic {
     background: #ddd none repeat scroll 0 0;
     border-radius: 100px;
