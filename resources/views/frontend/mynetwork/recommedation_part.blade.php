@@ -8,6 +8,7 @@
         <span style="margin: 0px 0px 0px 49px;"> Data not Found..</span>
         <?php  }
         else{
+
             foreach($user_suggestion['data'] as $suggestion){
 
          ?>
@@ -51,6 +52,8 @@
                         <div data-toggle="modal" href="#recModal_<?php echo $suggestion->id;?>" class=" btn-primary" onclick="">
                             Recommend
                         </div>
+
+
                     </div>
 
                 </a>

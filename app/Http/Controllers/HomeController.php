@@ -77,9 +77,6 @@ class HomeController extends Controller
             $tradesman = Tradesman::where('userid', '=' , $this->logged_user->id)->firstOrFail();
             $education = Education::where(array('userid'=> $this->logged_user->id))->get();
             $certification = Certification::where(array('userid'=> $this->logged_user->id))->get();
-
-
-
             return view('frontend.tradesman.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'tradesman'=>$tradesman,'education'=>$education,'certification'=>$certification,'user_files'=>$user_files));
 
         }

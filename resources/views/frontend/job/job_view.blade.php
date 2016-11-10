@@ -83,11 +83,17 @@
 											</li>
 											<?php }?>
 
+
+
 									</ul>
-									
+
+
 									<div class="job-detail-company-overview mt-15 clearfix">
 									
 										<h3>Employer overview</h3>
+										<h4><a data-toggle="modal" href="/send_message/<?php echo $user_array['userid'];?>" class=" btn btn-primary btn-hidden btn-small">Message</a>
+
+										</h4>
 										<?php
 										// dd($userinfo->image);
 										//$user_image = "user_images/01.jpg";

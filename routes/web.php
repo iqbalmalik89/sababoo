@@ -119,6 +119,17 @@ Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController
  Route::match(['get', 'post'], '/comments/send_comment_email', ['uses' => 'UI\CommentController@sendCommentEmail']);
 
 
+/*************************************CHAT**********************************************************************/
+ Route::match(['get', 'post'], ' /send_message/{id}', ['uses' => 'UI\ChatController@index']);
+ Route::match(['get', 'post'], ' /user_send_message', ['uses' => 'UI\ChatController@SendMessage']);
+ Route::match(['get', 'post'], ' /user_view_message', ['uses' => 'UI\ChatController@viewMessages']);
+ Route::match(['get', 'post'], ' /user_view_message_jason', ['uses' => 'UI\ChatController@viewMessagesJason']);
+ Route::match(['get', 'post'], ' /chat/get_users_message', ['uses' => 'UI\ChatController@getUserMessageById']);
+ Route::match(['get', 'post'], ' /chat/save_user_messages', ['uses' => 'UI\ChatController@saveUserMessage']);
+
+
+
+
 
 
 
