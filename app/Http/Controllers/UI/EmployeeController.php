@@ -117,6 +117,8 @@ class EmployeeController extends Controller
 
          $this->UserServiceProvider = new UserServiceProvider();
 
+         $this->logged_user = Auth::user();
+
          $basic_emp_info = $this->employeeServiceProvider->getBasicEmpProfile($id);
 
 
@@ -142,7 +144,7 @@ class EmployeeController extends Controller
          $recoms = $this->networkServiceProvider->getUsersAllRecommendation($basic_emp_info->userid);
 
 
-         return view('frontend.employee.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'exp'=>$exp,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms ,'user_files'=>$user_files));
+         return view('frontend.employee.view_profile',array('logged_user'=> $this->logged_user,'basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'exp'=>$exp,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms ,'user_files'=>$user_files));
     }
 
     public function resumeUpload(Request $request){

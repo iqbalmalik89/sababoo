@@ -21,7 +21,7 @@
 
                 <ol class="breadcrumb-list booking-step">
                     <li><a href="/home">Home</a></li>
-                    <li><a href="">Employee</a></li>
+                    <li><a href="">Professional</a></li>
                     <li><span>View Profile</span></li>
                 </ol>
 
@@ -101,6 +101,13 @@
                                     <h4 class="heading">Industry:</h4>
                                     <?php echo  $industry->name;?>
                                 </li>
+                                <?php }?>
+
+                                <?php
+
+                                if($logged_user->id != $basic_user_info->id){?>
+
+                                <li> <h4><a data-toggle="modal" href="/send_message/<?php echo $basic_user_info->id;?>" class=" btn btn-primary btn-hidden btn-small">Message</a></li>
                                 <?php }?>
                             </ul>
 

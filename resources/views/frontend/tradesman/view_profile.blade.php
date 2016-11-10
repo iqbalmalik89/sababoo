@@ -8,7 +8,7 @@
 ?>
 @extends('frontend.layouts.master')
 
-@section('title', 'View Tradesman')
+@section('title', 'View Sabman')
 @section('description', 'Share your jobs with sababo,Sababoo is a job portal')
 @section('keywords', 'Sababoo,  Sababoo Tradesman, Sababoo Job Recuritment,Sababoo Employer,Sababoo Employee','Sababoo employee view','sababoo tradesman ')
 
@@ -21,7 +21,7 @@
 
         <ol class="breadcrumb-list booking-step">
             <li><a href="/home">Home</a></li>
-            <li><a href="">Tradesman</a></li>
+            <li><a href="">Sabman</a></li>
             <li><span>View Profile</span></li>
         </ol>
 
@@ -29,6 +29,7 @@
 
 </div>
 <!-- end breadcrumb -->
+
 
 <div class="section sm">
 
@@ -94,6 +95,15 @@
                             <?php echo  $industry->name;?>
                         </li>
                         <?php }?>
+
+
+
+                        <?php
+
+                        if($logged_user->id != $basic_user_info->id){?>
+
+                        <li> <h4><a data-toggle="modal" href="/send_message/<?php echo $basic_user_info->id;?>" class=" btn btn-primary btn-hidden btn-small">Message</a></li>
+                       <?php }?>
                     </ul>
 
 
@@ -111,7 +121,7 @@
                     <h3>Introduce my self</h3>
 
 
-                    <h4>Tradesman</h4>
+                    <h4>Sabman</h4>
                     <p><?php echo $basic_emp_info->background;?></p>
 
                     <div class="row">

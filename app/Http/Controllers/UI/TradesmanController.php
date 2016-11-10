@@ -54,6 +54,9 @@ class TradesmanController extends Controller
 
     public function viewTradesman($id){
 
+       $this->logged_user = Auth::user();
+
+
         $basic_emp_info = $this->tradesmanServiceProvider->getBasicTradesmanProfile($id);
 
         if($basic_emp_info==null){
@@ -72,7 +75,7 @@ class TradesmanController extends Controller
         $certification =  $this->userServiceProvider->getCertifcation($basic_emp_info->userid);
         $this->networkServiceProvider = new NetworkServiceProvider();
         $recoms = $this->networkServiceProvider->getUsersAllRecommendation($basic_emp_info->userid);
-       return view('frontend.tradesman.view_profile',array('basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms,'user_files'=>$user_files));
+       return view('frontend.tradesman.view_profile',array('logged_user'=>$this->logged_user ,'basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms,'user_files'=>$user_files));
     }
 
 

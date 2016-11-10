@@ -94,6 +94,15 @@
                             <?php echo  $industry->name;?>
                         </li>
                         <?php }?>
+                        <li>
+                            <?php  if($logged_user->id != $basic_user_info->id){?>
+                            <a data-toggle="modal" href="/send_message/<?php echo $basic_user_info->id;?>" class=" btn btn-primary btn-hidden btn-small">Message</a>
+                            <?php }?>
+
+                        </li>
+
+
+
                     </ul>
 
 
@@ -167,6 +176,8 @@
                             <?php }?>
 
                         </div>
+
+
 
                         @include('frontend.employee.view_files',['user_files'=>$user_files])
 
