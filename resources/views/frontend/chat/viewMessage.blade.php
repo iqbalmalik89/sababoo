@@ -219,7 +219,7 @@
 
 
 
-                $chat.append('<div class="yours"> <div class="blue-chat">'+msg+'</div> <div class="time f-right">'+hours+':'+minutes+ format+'</div> </div>');
+                $chat.append('<div class="your"> <div class="blue-chat">'+msg+'</div> <div class="time f-right">'+hours+':'+minutes+ format+'</div> </div>');
 
                 pageURI = '/chat/save_user_messages';
                 request_data = {userid:userid.val(),send_to_user_id:$('#messageRecepient').val(),message:msg}
@@ -290,12 +290,20 @@
 
 
             // On msg typing
-            $( "#message" ).keyup( function() {
+            $( "#message" ).keyup( function(event) {
                 //console.log('clientside keyup');
                 var nameVal = $('#reciever_name').val();
                // var msg = $( "#message" ).val();
 
                 socket.emit( 'typing', { name: $('#reciever_name').val()} );
+
+
+                if (event.which == 13) {
+                    event.preventDefault();
+                    $messageForm.submit();
+                }
+
+
             });
 
             var typingClear = false;
