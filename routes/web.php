@@ -126,6 +126,7 @@ Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController
  Route::match(['get', 'post'], ' /user_view_message_jason', ['uses' => 'UI\ChatController@viewMessagesJason']);
  Route::match(['get', 'post'], ' /chat/get_users_message', ['uses' => 'UI\ChatController@getUserMessageById']);
  Route::match(['get', 'post'], ' /chat/save_user_messages', ['uses' => 'UI\ChatController@saveUserMessage']);
+ Route::match(['get', 'post'], '/chat/get_logged_user_message', ['uses' => 'UI\ChatController@getLoggedUserMessage']);
 
 
 

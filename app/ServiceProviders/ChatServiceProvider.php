@@ -132,15 +132,33 @@ class ChatServiceProvider
         $matchThese = ['user_messages.status'=>1,'user_messages.receiver_id'=>$post_data['userid'],'user_messages.userid'=>$post_data['sender_id']];
         $matchThese1 = ['user_messages.receiver_id'=>$post_data['sender_id'],'user_messages.userid'=>$post_data['userid']];
         $usr_message = DB::table('user_messages')
-            ->select('user_messages.userid as userid','user_messages.id as id','user_messages.subject as subject','user_messages.message as message','user_messages.read_status as read_status')
+            ->select('user_messages.userid as userid','user_messages.id as id','user_messages.subject as subject','user_messages.message as message','user_messages.read_status as read_status','user_messages.created_at as create_msg')
             ->where($matchThese)
             ->orWhere($matchThese1)
             ->OrderBy('user_messages.created_at', 'ASC')
             ->get();
+
         return $usr_message;
     }
 
-    public function saveUserMessage($post_data){
+
+    public function getLoggedUserMessage($data){
+
+        try {
+
+            $matchThese = ['user_messages.status'=>1,'receiver_id'=>$data['userid'],'user_messages.read_status'=>1];
+
+            $usr_message = DB::table('user_messages')
+                ->select('user_messages.id as id','user_messages.subject as subject','user_messages.message as message','user_messages.read_status as read_status','users.id as userid','users.email as email','users.first_name as first_name','users.last_name as last_name')
+                ->join('users', 'user_messages.userid', '=','users.id' )
+                ->where($matchThese)
+                ->OrderBy('user_messages.created_at', 'ASC')
+                ->get()->count();
+            return array('code'=>200,'status'=>'ok','data'=>$usr_message);
+        }catch (\Exception $e) {
+            return ['code' => 1000, 'status' => 'error', 'msg' => $e->getMessage()];
+        }
+
 
     }
 

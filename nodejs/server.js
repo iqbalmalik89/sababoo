@@ -64,9 +64,11 @@ io.on('connection', function (socket) {
     /*On Disconnet User*/
     socket.on('disconnect', function() {
         //console.log(userDetails[socket.id] + ' user disconnedted');
-        //delete(userDetails[socket.id]);
+        delete(userDetails[socket.id]);
 
-        if(!socket.email) return ;
+        //if(!socket.email) return ;
+        console.log(users[socket.email]+ ' user disconnedted');
+
         delete(users[socket.email]);
 
            // users.splice(users.indexOf(socket.email),1);
@@ -134,12 +136,12 @@ io.on('connection', function (socket) {
 
 
     /*New Message Count */
-   /* socket.on( 'new_count_message', function( data ) {
+    socket.on( 'new_count_message', function( data ) {
         io.sockets.emit( 'new_count_message', {
             new_count_message: data.new_count_message
 
         });
-    });*/
+    });
 
 
     socket.on( 'typing', function( data ) {

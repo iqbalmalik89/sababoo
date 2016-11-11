@@ -27,14 +27,14 @@
     <div id="load">Please wait ...</div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav nav-pills pull-right" role="tablist">
-            <li role="presentation"><a href="#">New messages <span class="badge" id="new_count_message"><?php echo $update_count_message;?></span></a></li>
+            <li role="presentation" style="display: none;"><a href="/user_view_message">New messages <span class="badge" id="new_count_message"><?php echo $update_count_message;?></span></a></li>
         </ul>
     </div>
 
     <audio id="notif_audio">
-        <source src="{!! asset('sounds/notify.ogg') !!}" type="audio/ogg">
-        <source src="{!! asset('sounds/notify.mp3') !!}" type="audio/mpeg">
-        <source src="{!! asset('sounds/notify.wav') !!}" type="audio/wav">
+        <source src="{{asset('assets/frontend/sounds/notify.ogg')}}" type="audio/ogg">
+        <source src="{{asset('assets/frontend/sounds/notify.mp3')}}" type="audio/mpeg">
+        <source src="{{asset('assets/frontend/sounds/notify.wav')}}" type="audio/wav">
     </audio>
 
 
@@ -154,8 +154,15 @@
     <script type="text/javascript" src="{{asset('assets/frontend/node_modules/socket.io/node_modules/socket.io-client/socket.io.js')}}"></script>
     <script>
 
+        var currentTime = new Date()
+        var hours = currentTime.getHours()
+        var minutes = currentTime.getMinutes()
+        var format ="AM";
+        if(hours>11)
+        {format="PM";}
 
-            $("#load").hide();
+
+        $("#load").hide();
 
 
            // var socket = io.connect( );
@@ -210,7 +217,9 @@
 
               // $chat.append('<b>'+username.val()+':</b>'+msg+ "<br/>");
 
-                $chat.append('<div class="me"> <div class="gry-chat">'+msg+'</div> <div class="time f-left">11:00pm</div> </div>');
+
+
+                $chat.append('<div class="yours"> <div class="blue-chat">'+msg+'</div> <div class="time f-right">'+hours+':'+minutes+ format+'</div> </div>');
 
                 pageURI = '/chat/save_user_messages';
                 request_data = {userid:userid.val(),send_to_user_id:$('#messageRecepient').val(),message:msg}
@@ -230,10 +239,28 @@
                 //alert(data);
                 //$chat.append('<b>'+data.rec_name+':</b>'+data.message+ "<br/>");
                 //$chat.append('<b>'+data.rec_name+':</b>'+data.message+ "<br/>");
-                $chat.append('<div class="your"> <div class="blue-chat">'+data.message+'</div> <div class="time f-left">11:00pm</div> </div>');
+                $('#notif_audio')[0].play();
+                $chat.append('<div class="me"> <div class="gry-chat">'+data.message+'</div> <div class="time f-left">'+hours+':'+minutes+ format+'</div> </div>');
+
+                 // Check users first message if yes than reload page
+                pageURI = '/chat/get_logged_user_message';
+                request_data = {userid:userid_log}
+                mainAjax('', request_data, 'POST',CallLoggedUser);
+
+
+
+                //$chat.append('<div class="your"> <div class="blue-chat">'+data.message+'</div> <div class="time f-left">11:00pm</div> </div>');
 
 
             });
+
+            function CallLoggedUser(data){
+                    $('#new_count_message').html(data.data);
+                if(data.data<=1){
+                    location.reload();
+                }
+
+            }
 
             socket.on('whisper',function(data){
                 $chat.append('<b>'+data.email+':</b>'+data.msg+ "<br/>");
@@ -285,12 +312,12 @@
 
             //NEW MESSAGE COUNT
 
-            /*socket.on( 'new_count_message', function( data ) {
+            socket.on( 'new_count_message', function( data ) {
                 alert(data.new_count_message)
 
                 $( "#new_count_message" ).html( data.new_count_message );
                 $('#notif_audio')[0].play();
-            });*/
+            });
 
 
 
@@ -324,16 +351,18 @@
 
         function callUsersMessages(data){
 
+            console.log(data);
+
             var str = '';
             $.each(data.data, function(k,v) {
                console.log(v.userid,userid_log);
                 if(v.userid==userid_log){
                     //str+='<span class="left" style="float:left">'+v.message+"</span><br>";
-                    str+='<div class="me"> <div class="gry-chat">'+v.message+'</div> <div class="time f-left">11:00pm</div> </div>';
+                    str+='<div class="your"> <div class="blue-chat">'+v.message+'</div> <div class="time f-right">'+v.create_msg+'</div> </div>';
                 }else{
                    // alert(v.message);
                     //str+='<span class="right"  style="float:right">'+v.message+"</span><br>";
-                    str+='<div class="your"> <div class="blue-chat">'+ v.message+'</div> <div class="time f-left">11:00pm</div> </div>';
+                    str+='<div class="me"> <div class="gry-chat">'+ v.message+'</div> <div class="time f-left">'+v.create_msg+'</div> </div>';
                 }
 
 

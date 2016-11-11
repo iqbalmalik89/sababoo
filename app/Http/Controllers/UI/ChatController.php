@@ -86,6 +86,12 @@ class ChatController extends Controller
         $post_data = $request->all();
         return $this->chatServiceProvider->SaveMessage($post_data);
     }
+    public function getLoggedUserMessage(Request $request){
+        $this->logged_user = Auth::user();
+        $post_data = $request->all();
+        return $this->chatServiceProvider->getLoggedUserMessage($post_data);
+
+    }
 
 
 
