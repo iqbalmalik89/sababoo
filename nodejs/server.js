@@ -144,10 +144,10 @@ io.on('connection', function (socket) {
     });
 
 
-    socket.on( 'typing', function( data ) {
+   /* socket.on( 'typing', function( data ) {
         console.log( 'User is typing ' + socket.name );
         io.sockets.emit( 'typing', { name: data.name} );
-    });
+    });*/
 
 
 

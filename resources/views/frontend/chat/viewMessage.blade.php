@@ -221,6 +221,8 @@
 
                 $chat.append('<div class="your"> <div class="blue-chat">'+msg+'</div> <div class="time f-right">'+hours+':'+minutes+ format+'</div> </div>');
 
+                $("#message_app").scrollTop($("#message_app")[0].scrollHeight);
+
                 pageURI = '/chat/save_user_messages';
                 request_data = {userid:userid.val(),send_to_user_id:$('#messageRecepient').val(),message:msg}
                 mainAjax('', request_data, 'POST',callUsersSendMessages);
@@ -239,10 +241,12 @@
                 //alert(data);
                 //$chat.append('<b>'+data.rec_name+':</b>'+data.message+ "<br/>");
                 //$chat.append('<b>'+data.rec_name+':</b>'+data.message+ "<br/>");
+
                 $('#notif_audio')[0].play();
                 $chat.append('<div class="me"> <div class="gry-chat">'+data.message+'</div> <div class="time f-left">'+hours+':'+minutes+ format+'</div> </div>');
+                $("#message_app").scrollTop($("#message_app")[0].scrollHeight);
 
-                 // Check users first message if yes than reload page
+                // Check users first message if yes than reload page
                 pageURI = '/chat/get_logged_user_message';
                 request_data = {userid:userid_log}
                 mainAjax('', request_data, 'POST',CallLoggedUser);
@@ -295,7 +299,7 @@
                 var nameVal = $('#reciever_name').val();
                // var msg = $( "#message" ).val();
 
-                socket.emit( 'typing', { name: $('#reciever_name').val()} );
+              //  socket.emit( 'typing', { name: $('#reciever_name').val()} );
 
 
                 if (event.which == 13) {
@@ -306,7 +310,7 @@
 
             });
 
-            var typingClear = false;
+          /*  var typingClear = false;
             socket.on( 'typing', function( data ) {
                 //console.log('received typing at clientside from ' + data.name);
                 $( "#typing_text" ).html( data.name + ' is typing...' );
@@ -314,7 +318,7 @@
                 typingClear = setTimeout(function() {
                     $( "#typing_text" ).html( '' );
                 }, 3000);
-            });
+            });*/
 
 
 
@@ -358,9 +362,10 @@
             });
 
         function callUsersMessages(data){
-
-            console.log(data);
-
+            //var message_app
+            //$('#message_app').scrollDown = $('#message_app').scrollHeight;
+             //  var mssg =  $('.chating-section');
+               //  mssg.scrollTop(mssg[0].scrollHeight);
             var str = '';
             $.each(data.data, function(k,v) {
                console.log(v.userid,userid_log);
@@ -377,6 +382,11 @@
             });
 
             $('#message_app').html(str);
+
+           // $('.chating-section').scrollTop = $('.chating-section').scrollHeight;
+            $("#message_app").scrollTop($("#message_app")[0].scrollHeight);
+
+
         }
 
        function callUsersSendMessages(data){
