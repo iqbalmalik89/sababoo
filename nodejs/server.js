@@ -12,6 +12,9 @@ var connectedUsers = 0;
 var userDetails = {};
 
 
+
+
+
 var server = app.listen(3000);
 var io = require('socket.io').listen(server);
 
@@ -39,13 +42,13 @@ io.on('connection', function (socket) {
             socket.email=data;
             console.log("connected to user :"+socket.email);
             users[socket.email]=socket;
+            userDetails[socket.email];
             //users.push(socket.email);
             updateEmails();
-
-
         }
-
+        // console.log(users[socket.email]);
     });
+
 
     //console.log('User Connected!!',connections.length);
     //socket.on(socket.id).emit('userData', {username: socket.userName});
@@ -61,15 +64,26 @@ io.on('connection', function (socket) {
 
     }
 
+    /**
+     * Helper function for escaping input strings
+     */
+    function htmlEntities(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+
     /*On Disconnet User*/
     socket.on('disconnect', function() {
         //console.log(userDetails[socket.id] + ' user disconnedted');
-        delete(userDetails[socket.id]);
+        console.log(socket.email+ ' user disconnedted');
+        console.log(socket.id+ ' user disconnedted');
+
+        //delete(userDetails[socket.id]);
 
         //if(!socket.email) return ;
-        console.log(users[socket.email]+ ' user disconnedted');
-
-        delete(users[socket.email]);
+        delete(socket.id);
+        delete users[socket.email];
 
            // users.splice(users.indexOf(socket.email),1);
         updateEmails();
@@ -90,10 +104,13 @@ io.on('connection', function (socket) {
         console.log(data);
         //io.sockets.emit( 'new_message', {email: data.email,msg: data.msg,});
         //sockets[data.email].emit( 'new_message', {email: data.email,msg: data.msg,});
-        users[data.email].emit("new_message",{message:data.msg,from:data.from,rec_name:data.sender_name});
+        users[data.email].emit("new_message",{message:data.msg,from:data.from,rec_name:data.sender_name,sender_id:data.sender_id,sender_image:data.sender_image});
 
 
     });
+
+
+
 
 
 
@@ -144,10 +161,15 @@ io.on('connection', function (socket) {
     });
 
 
-   /* socket.on( 'typing', function( data ) {
+    socket.on( 'typing', function( data ) {
         console.log( 'User is typing ' + socket.name );
         io.sockets.emit( 'typing', { name: data.name} );
-    });*/
+    });
+
+    socket.on('notifyUser', function(user){
+        io.emit('notifyUser', user);
+    });
+
 
 
 

@@ -71,7 +71,7 @@
                             </li>
 
                             <li>
-                                <a href="/user_view_message">Messages</a>
+                                <a href="/user_view_message">Messages<span id="msg_notification"></span></a>
 
 
                             </li>
@@ -310,3 +310,33 @@
             <!-- end Forget Password Modal -->
             
         </header>
+        <audio id="notif_audio">
+            <source src="{{asset('assets/frontend/sounds/notify.ogg')}}" type="audio/ogg">
+            <source src="{{asset('assets/frontend/sounds/notify.mp3')}}" type="audio/mpeg">
+            <source src="{{asset('assets/frontend/sounds/notify.wav')}}" type="audio/wav">
+        </audio>
+
+
+        <script type="text/javascript" src="{{asset('assets/frontend/node_modules/socket.io/node_modules/socket.io-client/socket.io.js')}}"></script>
+        <script>
+            var email = '<?php echo Auth::user()->email;?>'
+            // var socket = io.connect( );
+            var url = '<?php echo env('URL');?>:3000'
+            //alert(url);
+
+            var socket = new io.connect(url, {
+                'reconnection': true,
+                'reconnectionDelay': 1000,
+                'reconnectionDelayMax' : 5000,
+                'reconnectionAttempts': 5
+            });
+            socket.emit('new user',email ,function(data){
+
+                // $('.send_user_list').trigger('click');
+               // $( ".send_user_list" ).first().trigger('click');
+            });
+
+
+
+
+        </script>

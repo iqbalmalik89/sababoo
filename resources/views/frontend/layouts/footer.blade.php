@@ -106,3 +106,64 @@
                 </div>
             
             </footer>
+
+            <script>
+
+                socket.on('new_message',function(data){
+                    //alert(data);
+                    //$chat.append('<b>'+data.rec_name+':</b>'+data.message+ "<br/>");
+                    //$chat.append('<b>'+data.rec_name+':</b>'+data.message+ "<br/>");
+                    console.log(data);
+                    $('#msg_notification').html('*');
+                    $('#notif_audio')[0].play();
+
+                    //console.log($('#user_side_bar_'+from_email).length);
+
+                    if(data.sender_id!=undefined){
+                        if($('#user_side_bar_list #user_side_bar_'+data.sender_id).length==0){
+
+                            var str_li = '';
+                            str_li= '<li class="send_user_list" id="user_side_bar_'+data.sender_id+'" class="send_user_list" tab="'+data.sender_id+'" tab2="'+data.from+'"  tab3="'+data.rec_name+'" tab4="msg_id" tab5="'+data.sender_image+'">';
+                            str_li+='<div class="blue-circle"></div>';
+                            str_li+='<div class="listing-pic">';
+                            str_li+='<img id="employee_image_1" class="img-circle" alt="image" src="/user_images/'+data.sender_image+'">';
+                            str_li+='</div>';
+                            str_li+='<h3>'+data.rec_name+'..';
+                            str_li+='<span>';
+                            str_li+='<p class="summary" id="summary">'+data.message+'</p></span></h3>';
+                            str_li+='<a href="#"><i class="fa fa-times-circle-o"></i></a> </li>';
+                            $('#user_side_bar_list').append(str_li);
+                        }
+
+                        $('#user_side_bar_'+data.sender_id).find('#summary').html(data.message);
+
+                    }
+
+                    // user_side_bar_list
+                    //$('.chating-section').attr('id', 'message_app_'+data.sender_id);
+                    $('#message_app_'+data.sender_id).append('<div class="me"> <div class="gry-chat">'+data.message+'</div> <div class="time f-left">'+hours+':'+minutes+ format+'</div> </div>');
+
+                    //$chat.append('<div class="me"> <div class="gry-chat">'+data.message+'</div> <div class="time f-left">'+hours+':'+minutes+ format+'</div> </div>');
+                    $("#message_app_"+data.sender_id).scrollTop($("#message_app_"+data.sender_id).scrollHeight);
+
+                    // Check users first message if yes than reload page
+                    pageURI = '/chat/get_logged_user_message';
+                    request_data = {userid:userid_log}
+                    mainAjax('', request_data, 'POST',CallLoggedUser);
+
+
+
+                    //$chat.append('<div class="your"> <div class="blue-chat">'+data.message+'</div> <div class="time f-left">11:00pm</div> </div>');
+
+
+                });
+
+                function CallLoggedUser(data){
+                    $('#new_count_message').html(data.data);
+                    if(data.data<=1){
+                        location.reload();
+                    }
+
+                }
+
+            </script>

@@ -67,6 +67,8 @@
                     <input type="hidden" name="email" id="email" value=" <?php echo $send_to_user->email;?> ">
                     <input type="hidden" name="sender_email" id="sender_email" value=" <?php echo $logged_user->email;?> ">
                     <input type="hidden" name="sender_name" id="sender_name" value=" <?php echo $logged_user->first_name;?> ">
+                    <input type="hidden" name="sender_id" id="sender_id" value="<?php echo $logged_user->id;?>">
+                    <input type="hidden" name="sender_image" id="sender_image" value="<?php echo $logged_user->image;?>">
                 </fieldset>
             </form>
         </div>
@@ -87,13 +89,18 @@
             'reconnectionAttempts': 5
         });*/
 
-        var socket = new io.connect(url, {
+       /* var socket = new io.connect(url, {
          'reconnection': true,
          'reconnectionDelay': 1000,
          'reconnectionDelayMax' : 5000,
          'reconnectionAttempts': 5
-         });
+         });*/
 
+       /* socket.emit('new user',$('#sender_email').val() ,function(data){
+
+            // $('.send_user_list').trigger('click');
+            $( ".send_user_list" ).first().trigger('click');
+        });*/
 
         $("#submit").click(function(){
             $( "#load" ).show();
@@ -133,7 +140,10 @@
                        /* socket.emit('new_count_message', {
                             new_count_message: data.new_count_message
                         });*/
-                     socket.emit('new_message', {email: $.trim($('#email').val()),msg:msg,from: $.trim($('#sender_email').val()),sender_name: $.trim($('#sender_name').val())});
+                     socket.emit('new_message', {email: $.trim($('#email').val()),msg:msg,from: $.trim($('#sender_email').val()),sender_name: $.trim($('#sender_name').val()),sender_id:$('#sender_id').val(),sender_image:$('#sender_image').val()});
+
+
+
                         window.location = "/user_view_message";
 
                        /* socket.emit('new_message', {

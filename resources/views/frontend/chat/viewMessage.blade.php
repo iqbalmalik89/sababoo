@@ -31,11 +31,6 @@
         </ul>
     </div>
 
-    <audio id="notif_audio">
-        <source src="{{asset('assets/frontend/sounds/notify.ogg')}}" type="audio/ogg">
-        <source src="{{asset('assets/frontend/sounds/notify.mp3')}}" type="audio/mpeg">
-        <source src="{{asset('assets/frontend/sounds/notify.wav')}}" type="audio/wav">
-    </audio>
 
 
 
@@ -59,12 +54,12 @@
                                 <input name="" type="text" placeholder="Search ">
                                 <span><i class="fa fa-times-circle-o" ></i></span> </div>
                             <div class="listing-online-div">
-                                <ul>
+                                <ul id="user_side_bar_list">
 
                                     <?php foreach($sender_data as $single_user){
                                            // dd($single_user);
                                     ?>
-                                        <li class="send_user_list" tab="<?php echo $single_user->userid;?>" tab2="<?php echo  $single_user->email;;?>"  tab3="<?php echo  $single_user->first_name;;?>" tab4="<?php echo  $single_user->msg_id;?>" tab5="<?php echo  $single_user->image;?>">
+                                        <li id="user_side_bar_<?php echo $single_user->userid;?>" class="send_user_list" tab="<?php echo $single_user->userid;?>" tab2="<?php echo  $single_user->email;;?>"  tab3="<?php echo  $single_user->first_name;;?>" tab4="<?php echo  $single_user->msg_id;?>" tab5="<?php echo  $single_user->image;?>">
                                         <div class="blue-circle"></div>
                                         <div class="listing-pic">
 
@@ -86,10 +81,10 @@
                                         </div>
                                         <h3><?php echo $single_user->first_name;?>..
                                             <span>
-                                                <p class="summary"></p>
+                                                <p class="summary" id="summary"> </p>
                                             </span>
                                         </h3>
-                                        <a href="#"><i class="fa fa-times-circle-o"></i></a> </li>
+                                        <a href="#"></a> </li>
 
                                     <?php  }?>
                                      </ul>
@@ -169,19 +164,20 @@
             var url = '<?php echo env('URL');?>:3000'
             //alert(url);
 
-            var socket = new io.connect(url, {
+          /*  var socket = new io.connect(url, {
                 'reconnection': true,
                 'reconnectionDelay': 1000,
                 'reconnectionDelayMax' : 5000,
                 'reconnectionAttempts': 5
-            });
+            });*/
 
 
-            socket.emit('new user',$('#email').val() ,function(data){
+       /* socket.emit('new user',$('#email').val() ,function(data){
 
                // $('.send_user_list').trigger('click');
-                $( ".send_user_list" ).first().trigger('click');
-            });
+              // $( ".send_user_list" ).first().trigger('click');
+            });*/
+
 
 
             var $messageForm=$('#messageForm');
@@ -207,21 +203,18 @@
                 var nameVal = $( "#nameInput" ).val();
                 var msg = $message.val();
                 var messageRecepient = $('#reciever_email').val();
+                var recp_id =$('#messageRecepient').val();
                 //socket.emit( 'send message', { sender_id: userid.val(), message: msg, recepient: messageRecepient } );
                // socket.emit( 'send message', msg ,messageRecepient,function(data){
                     // add stuff later
                // });
 
-               socket.emit('new_message', {email: messageRecepient,msg:msg,from:sender_email.val(),sender_name:username.val()});
+               socket.emit('new_message', {email: messageRecepient,msg:msg,from:sender_email.val(),sender_name:username.val(),sender_id:userid_log});
 
 
               // $chat.append('<b>'+username.val()+':</b>'+msg+ "<br/>");
-
-
-
-                $chat.append('<div class="your"> <div class="blue-chat">'+msg+'</div> <div class="time f-right">'+hours+':'+minutes+ format+'</div> </div>');
-
-                $("#message_app").scrollTop($("#message_app")[0].scrollHeight);
+                $("#message_app_"+recp_id).append('<div class="your"> <div class="blue-chat">'+msg+'</div> <div class="time f-right">'+hours+':'+minutes+ format+'</div> </div>');
+              //  $("#message_app_"+recp_id).scrollTop($("#message_app")[0].scrollHeight);
 
                 pageURI = '/chat/save_user_messages';
                 request_data = {userid:userid.val(),send_to_user_id:$('#messageRecepient').val(),message:msg}
@@ -237,34 +230,6 @@
 
             });
 
-            socket.on('new_message',function(data){
-                //alert(data);
-                //$chat.append('<b>'+data.rec_name+':</b>'+data.message+ "<br/>");
-                //$chat.append('<b>'+data.rec_name+':</b>'+data.message+ "<br/>");
-
-                $('#notif_audio')[0].play();
-                $chat.append('<div class="me"> <div class="gry-chat">'+data.message+'</div> <div class="time f-left">'+hours+':'+minutes+ format+'</div> </div>');
-                $("#message_app").scrollTop($("#message_app")[0].scrollHeight);
-
-                // Check users first message if yes than reload page
-                pageURI = '/chat/get_logged_user_message';
-                request_data = {userid:userid_log}
-                mainAjax('', request_data, 'POST',CallLoggedUser);
-
-
-
-                //$chat.append('<div class="your"> <div class="blue-chat">'+data.message+'</div> <div class="time f-left">11:00pm</div> </div>');
-
-
-            });
-
-            function CallLoggedUser(data){
-                    $('#new_count_message').html(data.data);
-                if(data.data<=1){
-                    location.reload();
-                }
-
-            }
 
             socket.on('whisper',function(data){
                 $chat.append('<b>'+data.email+':</b>'+data.msg+ "<br/>");
@@ -293,14 +258,26 @@
 
 
 
+        function notifyTyping() {
+            var user = $('#username').val();
+            socket.emit('notifyUser', user);
+        }
+        socket.on('notifyUser', function(user){
+            var me = $('#username').val();
+            if(user != me) {
+                $('#typing_text').text(user + ' is typing ...');
+            }
+            setTimeout(function(){ $('#typing_text').text(''); }, 10000);;
+        });
+
             // On msg typing
             $( "#message" ).keyup( function(event) {
                 //console.log('clientside keyup');
                 var nameVal = $('#reciever_name').val();
                // var msg = $( "#message" ).val();
 
-              //  socket.emit( 'typing', { name: $('#reciever_name').val()} );
-
+              // socket.emit( 'typing', { name: $('#reciever_name').val()} );
+                notifyTyping();
 
                 if (event.which == 13) {
                     event.preventDefault();
@@ -310,16 +287,18 @@
 
             });
 
-          /*  var typingClear = false;
+           /*var typingClear = false;
             socket.on( 'typing', function( data ) {
-                //console.log('received typing at clientside from ' + data.name);
-                $( "#typing_text" ).html( data.name + ' is typing...' );
+                console.log(data,$('#username').val());
+                    if(data==$('#username').val()){
+                        $( "#typing_text" ).html( data.name + ' is typing...' );
+                    }
                 clearTimeout(typingClear);
                 typingClear = setTimeout(function() {
                     $( "#typing_text" ).html( '' );
                 }, 3000);
-            });*/
-
+            });
+*/
 
 
             //NEW MESSAGE COUNT
@@ -337,27 +316,39 @@
 
             $(document).ready(function(){
                // var loged_userid=  $('#userid').val();
-                $('.send_user_list').click(function(e){
+                $('#msg_notification').html('');
+
+                $(document).on("click", '.send_user_list', function(e) {
+
                     e.preventDefault();
+
 
                     $(this).prevAll().removeClass('selected');
                     $(this).nextAll().removeClass('selected');
                     $(this).addClass('selected');
 
-                   // $(this).addClass('selected');
+                    // $(this).addClass('selected');
                     $('#messageRecepient').val($(this).attr('tab'));
                     $('#reciever_email').val($(this).attr('tab2'));
                     $('#reciever_name').val($(this).attr('tab3'));
                     var sender_id = $(this).attr('tab');
-
                     $('#sender_username').html($(this).attr('tab3')+'..');
+
+                    $('#user_side_bar_'+sender_id).find('#summary').html('');
 
                     $('#sender_image').attr('src','user_images/'+$(this).attr('tab5'));
                     pageURI = '/chat/get_users_message';
                     request_data = {sender_id:sender_id}
                     mainAjax('', request_data, 'POST',callUsersMessages);
-
                 });
+
+                $('.send_user_list').first().trigger("click");
+
+
+
+                /* $('.send_user_list').click(function(e){
+
+                 });*/
 
             });
 
@@ -366,8 +357,11 @@
             //$('#message_app').scrollDown = $('#message_app').scrollHeight;
              //  var mssg =  $('.chating-section');
                //  mssg.scrollTop(mssg[0].scrollHeight);
+            console.log(data);
             var str = '';
+            var userid= 0;
             $.each(data.data, function(k,v) {
+                userid= v.userid;
                console.log(v.userid,userid_log);
                 if(v.userid==userid_log){
                     //str+='<span class="left" style="float:left">'+v.message+"</span><br>";
@@ -380,11 +374,11 @@
 
 
             });
+            $('.chating-section').attr('id', 'message_app_'+userid);
+            $('#message_app_'+ userid).html(str);
 
-            $('#message_app').html(str);
-
-           // $('.chating-section').scrollTop = $('.chating-section').scrollHeight;
-            $("#message_app").scrollTop($("#message_app")[0].scrollHeight);
+           //$('.chating-section').scrollTop = $('.chating-section').scrollHeight;
+          $("#message_app_"+userid).scrollTop($("#message_app_"+userid)[0].scrollHeight);
 
 
         }
