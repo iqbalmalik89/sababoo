@@ -113,7 +113,7 @@
                     //alert(data);
                     //$chat.append('<b>'+data.rec_name+':</b>'+data.message+ "<br/>");
                     //$chat.append('<b>'+data.rec_name+':</b>'+data.message+ "<br/>");
-                    console.log(data);
+                 //   console.log(data);
                     $('#msg_notification').html('*');
                     $('#notif_audio')[0].play();
 

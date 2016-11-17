@@ -211,9 +211,9 @@
 
                socket.emit('new_message', {email: messageRecepient,msg:msg,from:sender_email.val(),sender_name:username.val(),sender_id:userid_log});
 
-
               // $chat.append('<b>'+username.val()+':</b>'+msg+ "<br/>");
                $("#message_app_"+recp_id).append('<div class="your"> <div class="blue-chat">'+msg+'</div> <div class="time f-right">'+hours+':'+minutes+ format+'</div> </div>');
+                $("#message_app_"+recp_id).scrollTop($("#message_app_"+recp_id)[0].scrollHeight);
                //alert(recp_id);
 
                 //$('.chating-section').scrollTop($(".chating-section")[0].scrollHeight);
@@ -339,10 +339,44 @@
 
                     $('#user_side_bar_'+sender_id).find('#summary').html('');
 
+                     $('.chating-section').removeAttr('id');
+                    $('.chating-section').attr('id', 'message_app_'+sender_id);
+
+
                     $('#sender_image').attr('src','user_images/'+$(this).attr('tab5'));
                     pageURI = '/chat/get_users_message';
                     request_data = {sender_id:sender_id}
-                    mainAjax('', request_data, 'POST',callUsersMessages);
+                    //mainAjax('', request_data, 'POST',callUsersMessages);
+                    mainAjax('', request_data, 'POST',function(data){
+                        if(data)
+                        {
+                            var str = '';
+                            var userid= 0;
+                            $.each(data.data, function(k,v) {
+                                userid= v.userid;
+                              //  console.log(v.userid,userid_log);
+                                if(v.userid==userid_log){
+                                    //str+='<span class="left" style="float:left">'+v.message+"</span><br>";
+                                    str+='<div class="your"> <div class="blue-chat">'+v.message+'</div> <div class="time f-right">'+v.create_msg+'</div> </div>';
+                                }else{
+                                    // alert(v.message);
+                                    //str+='<span class="right"  style="float:right">'+v.message+"</span><br>";
+                                    str+='<div class="me"> <div class="gry-chat">'+ v.message+'</div> <div class="time f-left">'+v.create_msg+'</div> </div>';
+                                }
+
+
+                            });
+                            // $('.chating-section').attr('id', 'message_app_'+userid);
+                            $('#message_app_'+ sender_id).html(str);
+                            //alert(userid);
+
+                            //$('.chating-section').scrollTop = $('.chating-section').scrollHeight;
+                            $("#message_app_"+sender_id).scrollTop($("#message_app_"+sender_id)[0].scrollHeight);
+                        }
+
+
+                    });
+
                 });
 
                 $('.send_user_list').first().trigger("click");
@@ -377,8 +411,9 @@
 
 
             });
-            $('.chating-section').attr('id', 'message_app_'+userid);
+           // $('.chating-section').attr('id', 'message_app_'+userid);
             $('#message_app_'+ userid).html(str);
+            alert(userid);
 
            //$('.chating-section').scrollTop = $('.chating-section').scrollHeight;
           $("#message_app_"+userid).scrollTop($("#message_app_"+userid)[0].scrollHeight);
