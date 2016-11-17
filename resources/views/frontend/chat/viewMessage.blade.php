@@ -214,7 +214,10 @@
 
               // $chat.append('<b>'+username.val()+':</b>'+msg+ "<br/>");
                $("#message_app_"+recp_id).append('<div class="your"> <div class="blue-chat">'+msg+'</div> <div class="time f-right">'+hours+':'+minutes+ format+'</div> </div>');
-               $("#message_app_"+recp_id).scrollTop($("#message_app_"+recp_id)[0].scrollHeight);
+               //alert(recp_id);
+
+                //$('.chating-section').scrollTop($(".chating-section")[0].scrollHeight);
+
 
                 pageURI = '/chat/save_user_messages';
                 request_data = {userid:userid.val(),send_to_user_id:$('#messageRecepient').val(),message:msg}
