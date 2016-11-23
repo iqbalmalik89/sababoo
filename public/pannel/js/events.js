@@ -59,6 +59,16 @@ $('#profile_password_submit_btn').click(function(e){
     Sababoo.App.User.updatePassword();
 });
 
+$('#job_remove_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Jobs.remove();
+});
+
+$('#job_status_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Jobs.updateStatus();
+});
+
 $('#profile_submit_btn').click(function(e){
     e.preventDefault();
     Sababoo.App.User.updateAccount();

@@ -926,7 +926,7 @@ Sababoo.App.User = (function() {
 			var jsonResponse = $.parseJSON(jqXHR.responseText);
 			var error = 'An error occurred while updating user status.';
 			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
-				error = data.error.messages[0];
+				error = jsonResponse.error.messages[0];
 			}
 			$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
 			    $(this).html('');
@@ -1163,16 +1163,28 @@ Sababoo.App.Jobs = (function(){
 					var is_active = '';
 					var statusText = 'N/A';
 
+					if (typeof job.industry_name != 'undefined' && typeof job.industry_name !== null && job.industry_name!='' ) {
+						job.industry_name = job.industry_name;
+					} else {
+						job.industry_name = 'N/A';									
+					}
+
 					if (typeof job.name != 'undefined' && typeof job.name !== null && job.name!='' ) {
 						job.name = job.name;
 					} else {
 						job.name = 'N/A';									
 					}
 
-					if (typeof job.email != 'undefined' && typeof job.email !== null && job.email!='' ) {
-						job.email = job.email;
+					if (typeof job.type != 'undefined' && typeof job.type !== null && job.type!='' ) {
+						job.type = job.type;
+						if (job.type == 'full_time') {
+							job.type = 'Full Time';
+						} else if (job.type == 'part_time') {
+							job.type = 'Part Time';
+						}
+						
 					} else {
-						job.email = 'N/A';									
+						job.type = 'N/A';									
 					}
 					
 					if (typeof job.is_active != 'undefined' && typeof job.is_active !== null ) {
@@ -1192,7 +1204,9 @@ Sababoo.App.Jobs = (function(){
 					html += '<tr>\
                                 <td class="highlight"> '+job.id+' </td>\
                                 <td class="hidden-xs"> '+job.name+' </td>\
-                                <td> '+job.email+' </td>\
+                                <td> '+job.industry_name+' </td>\
+                                <td> '+job.type+' </td>\
+                                <td> '+job.salary+' </td>\
                                 <td> '+statusText+' </td>\
                                 <td>\
                                     <a href="'+config.getAppUrl()+'/job?id='+job.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
@@ -1281,8 +1295,140 @@ Sababoo.App.Jobs = (function(){
 		});		
 	};
 
+	var remove = function (){
+		var id = $('#hidden_action_job_id').val();
+		$('#job_remove_btn').addClass('prevent-click');
+		$('#remove_submit_loader').show();
+
+		var request = $.ajax({
+			url: jobApiUrl+'/remove',
+			data: {id:id},
+			type: 'delete',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			
+			$('#remove_submit_loader').hide();
+			if (data.success) {
+				var html = 'Job has been deleted successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#remove_msg_div').removeClass('alert-danger');
+		 		$('#remove_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#job_remove_btn').removeClass('prevent-click');
+				    $('#removeConfirmation').modal('hide');
+				    Sababoo.App.Jobs.list();	
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while deleting this job.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#job_remove_btn').removeClass('prevent-click');
+				$('#remove_msg_div').removeClass('alert-success');
+				$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+				    $(this).html('');
+				    $('#remove_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#job_remove_btn').removeClass('prevent-click');
+			$('#remove_submit_loader').hide();
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while deleting this job.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	var updateStatus = function (){
+		
+		var jsonData = {};
+		jsonData.id = $('#hidden_action_job_id').val();
+		jsonData.status = $('#hidden_action_job_status').val();
+
+		var request = $.ajax({
+			url: jobApiUrl+'/update-status',
+			data: jsonData,
+			type: 'put',
+			dataType:'json'
+		});
+
+		$('#job_status_btn').addClass('prevent-click');
+		$('#status_submit_loader').show();
+
+		request.done(function(data){
+			
+			$('#status_submit_loader').hide();
+			
+			if (data.success) {
+				var html = 'Status has been updates successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#status_msg_div').removeClass('alert-danger');
+		 		$('#status_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#job_status_btn').removeClass('prevent-click');
+				    $('#updateStatusConfirmation').modal('hide');
+				    Sababoo.App.Jobs.list();		
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while updating job status.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#job_status_btn').removeClass('prevent-click');
+				$('#status_msg_div').removeClass('alert-success');
+				$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $('#status_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#job_status_btn').removeClass('prevent-click');
+			$('#status_submit_loader').hide();
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while updating job status.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
 	return {
-		list:list
+		list:list,
+		updateStatus:updateStatus,
+		remove:remove
 	}
 }());
 

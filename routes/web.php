@@ -169,6 +169,8 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 
 	// Jobs Routes
 	Route::get('/job/list',['as'=>'job:list', 'uses'=>'JobController@all']);
+	Route::put('/job/update-status',['as'=>'job.update-status', 'uses'=>'JobController@updateStatus']);
+	Route::delete('/job/remove',['as'=>'job.remove', 'uses'=>'JobController@remove']);
 });
 
 

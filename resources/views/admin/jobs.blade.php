@@ -107,7 +107,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        <a href="javascript:;" id="user_remove_btn"><button type="button" class="btn green">Yes</button></a>
+        <a href="javascript:;" id="job_remove_btn"><button type="button" class="btn green">Yes</button></a>
         <img class="button_spinners" src="{{URL::to('pannel/images/loader.gif')}}" id="remove_submit_loader">
       </div>
     </div>
@@ -127,11 +127,11 @@
       
       <div class="modal-body">
         <div class="msg_divs alert" id="status_msg_div"></div>
-        <p>Are you sure you want to <span id="update_status_text"></span> this user?</p>
+        <p>Are you sure you want to <span id="update_status_text"></span> this job?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        <a href="javascript:;" id="user_status_btn"><button type="button" class="btn green">Yes</button></a>
+        <a href="javascript:;" id="job_status_btn"><button type="button" class="btn green">Yes</button></a>
         <img class="button_spinners" src="{{URL::to('pannel/images/loader.gif')}}" id="status_submit_loader">
       </div>
     </div>
