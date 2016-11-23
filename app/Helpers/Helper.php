@@ -49,5 +49,46 @@ class Helper
         }
     }
 
-   
+    /**
+    * Paginate records
+    *
+    * @param $data array to display pagination block
+    * @param $paginate obj on which paginate method is called
+    *
+    * @author By : Bushra Naz
+    */
+    public static function paginator($data, $paginate) {
+
+        $data['pagination'] = [];
+        $data['pagination']['to'] = $paginate->firstItem();
+        $data['pagination']['from'] = $paginate->lastItem();
+        $data['pagination']['total'] = $paginate->total();
+        $data['pagination']['current'] = $paginate->currentPage();
+        $data['pagination']['first'] = 1;
+        $data['pagination']['last'] = $paginate->lastPage();
+
+        if($paginate->hasMorePages()) {
+            if ( $paginate->currentPage() == 1) {
+                $data['pagination']['previous'] = 0;
+                $data['pagination']['prev'] = 0;
+            } else {
+                $data['pagination']['previous'] = $paginate->currentPage()-1;
+                $data['pagination']['prev'] = $paginate->currentPage()-1;
+            }
+            $data['pagination']['next'] = $paginate->currentPage()+1;
+        } else {
+            $data['pagination']['previous'] = $paginate->currentPage()-1;
+            $data['pagination']['prev'] = $paginate->currentPage()-1;
+
+            $data['pagination']['next'] =  -1;
+        }
+        if ($paginate->lastPage() > 1) {
+            $data['pagination']['pages'] = range(1,$paginate->lastPage());
+        } else {
+            $data['pagination']['pages'] = [1];
+        }
+
+        // return data
+        return $data;
+    }
 }

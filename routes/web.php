@@ -131,8 +131,45 @@ Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController
 
 
 
+/****** Admin Routes ******/
+Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], function(){
+    Route::get('/',['uses'=>'HomeController@showLogin'])->middleware(['acl.admin.guest']);
+	Route::get('/activation', ['uses'=>'HomeController@showActivation']);
+	Route::get('/recover-password', ['uses'=>'HomeController@showRecover']);
+	Route::get('/404', ['uses'=>'HomeController@showNotFound']);
+	Route::get('/401', ['uses'=>'HomeController@showUnAuthorized']);
+
+	Route::get('/users',['uses'=>'HomeController@showUsers'])->middleware(['acl.admin']);
+	Route::get('/user',['uses'=>'HomeController@showUser'])->middleware(['acl.admin']);
+	Route::get('/user-profile',['uses'=>'HomeController@showUserProfile'])->middleware(['acl.admin']);
+
+	Route::get('/jobs',['uses'=>'HomeController@showJobs'])->middleware(['acl.admin']);
+});
 
 
+// API Routes
+Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], function(){
+
+	// User Authentication Routes
+	Route::post('/user/login',['as'=>'user.login', 'uses'=>'UserController@login']);
+	Route::post('/user/logout',['as'=>'user.logout', 'uses'=>'UserController@logout']);
+	Route::put('/user/create-password',['uses'=>'UserController@createPassword']);
+	Route::post('/user/forgot-password',['uses'=>'UserController@forgotPassword']);
+	Route::put('/user/reset-password',['uses'=>'UserController@resetPassword']);
+
+	// User Routes
+	Route::get('/user/view',['as'=>'user:view', 'uses'=>'UserController@view']);
+	Route::get('/user/list',['as'=>'user:list', 'uses'=>'UserController@all']);
+	Route::post('/user/create',['as'=>'user:create', 'uses'=>'UserController@create']);
+	Route::put('/user/update',['as'=>'user:update', 'uses'=>'UserController@update']);
+	Route::put('/user/update-status',['as'=>'user.update-status', 'uses'=>'UserController@updateStatus']);
+	Route::delete('/user/remove',['as'=>'user.remove', 'uses'=>'UserController@remove']);
+	Route::put('/user/update-password',['as'=>'user.update-password', 'uses'=>'UserController@updatePassword']);
+	Route::put('/user/update-account',['as'=>'user.update-account', 'uses'=>'UserController@updatePersonalInfo']);
+
+	// Jobs Routes
+	Route::get('/job/list',['as'=>'job:list', 'uses'=>'JobController@all']);
+});
 
 
 });
