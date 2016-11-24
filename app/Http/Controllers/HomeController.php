@@ -42,12 +42,12 @@ class HomeController extends Controller
     public function showHome()
     {
 
-        $this->logged_user = Auth::user();
-
-        if(Auth::user()==null) {
+        if (Auth::guard('admin_users')->user() != NULL) {
+            return redirect('job/user_job_list');
+        } else if(Auth::user()==null) {
             return view('frontend.site.unauth_home');
         }
-
+        $this->logged_user = Auth::user();
         $matchThese = ['status'=>1];
         $matchTheseFile = ['status'=>1,'userid'=>$this->logged_user->id];
         $industry = Industry::where($matchThese)->get();
@@ -85,10 +85,22 @@ class HomeController extends Controller
 
      public function index()
     {
-         if(Auth::user()!=null) {
-             return view('frontend.site.home');
+         if (Auth::guard('admin_users')->user() != NULL) {
+            return redirect('job/user_job_list');
+         } else if(Auth::user()!=null) {
+            return view('frontend.site.home');
          }
         return view('frontend.site.unauth_home');
+    }
+
+    public function showLogin()
+    {
+         if (Auth::guard('admin_users')->user() != NULL) {
+            return redirect('job/user_job_list');
+         } else if(Auth::user()==null) {
+            return view('frontend.auth.login');
+         }
+        return view('frontend.auth.login');
     }
 
 }

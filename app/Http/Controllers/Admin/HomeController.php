@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
 use \Validator, \Session;
@@ -85,16 +85,16 @@ class HomeController extends Controller {
     /* for users listing */
  	public function showUsers(Request $request) {
         $title  = 'Sababoo | Admin | Users';
-        //$logged_in_user   = Auth::user();
-        $logged_in_user = Session::get('sa_user');
+        $logged_in_user   = Auth::guard('admin_users')->user();
+        //$logged_in_user = Session::get('sa_user');
         return view('admin.users',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
     }
 
     /* for add/update user */
     public function showUser(Request $request) {
         $title = 'Sababoo | Admin | User';
-        //$logged_in_user   = Auth::user();
-        $logged_in_user = Session::get('sa_user');
+        $logged_in_user   = Auth::guard('admin_users')->user();
+        //$logged_in_user = Session::get('sa_user');
         $input = $request->only('id');
         $user_id = 0;
         $user = NULL;
@@ -111,16 +111,16 @@ class HomeController extends Controller {
     /* for user's profule update */
     public function showUserProfile(Request $request) {
         $title = 'Sababoo | Admin | Profile';
-        //$logged_in_user   = Auth::user();
-        $logged_in_user = Session::get('sa_user');
+        $logged_in_user   = Auth::guard('admin_users')->user();
+        //$logged_in_user = Session::get('sa_user');
         return view('admin.user-profile',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
     }
 
     /* for jobs listing */
     public function showJobs(Request $request) {
         $title  = 'Sababoo | Admin | Jobs';
-        //$logged_in_user   = Auth::user();
-        $logged_in_user = Session::get('sa_user');
+        $logged_in_user   = Auth::guard('admin_users')->user();
+        //$logged_in_user = Session::get('sa_user');
         return view('admin.jobs',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
     }
 }

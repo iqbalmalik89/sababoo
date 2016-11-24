@@ -1,7 +1,18 @@
 
+<?php
+    $isAdminUser = false;
+    $adminUser = NULL;
+    $socketEmail = '';
+    if (Auth::guard('admin_users')->user() != NULL) {
+        $isAdminUser = true;
+        $adminUser = Auth::guard('admin_users')->user();
+        $socketEmail = $adminUser->email;
+    } else if (Auth::user() != NULL){
+        $socketEmail = Auth::user()->email;
+    }
+?>
 
-
-        <header id="header">
+<header id="header">
    <meta charset="utf-8"/>
         <meta name="csrf-token" content="{{ csrf_token() }}">
      
@@ -19,21 +30,27 @@
                     <div id="navbar" class="navbar-nav-wrapper navbar-arrow">
                     
                         <ul class="nav navbar-nav" id="responsive-menu">
-                        
-                            <li>
+                            <?php
+                                if ($isAdminUser == false) {
+                            ?>
+                                <li>
                             
-                                <a href="/home">Home</a>
-<!--                                 <ul>
-                                    <li><a href="index.html">Home - Default</a></li>
-                                    <li><a href="index-02.html">Home - 02</a></li>
-                                    <li><a href="index-03.html">Home - 03</a></li>
-                                    <li><a href="index-04.html">Home - 04</a></li>
-                                    <li><a href="index-05.html">Home - 05</a></li>
-                                    <li><a href="index-06.html">Home - 06</a></li>
-                                    <li><a href="index-07.html">Home - 07</a></li>
-                                </ul> -->
-                                
-                            </li>
+                                    <a href="/home">Home</a>
+                                    <!-- <ul>
+                                        <li><a href="index.html">Home - Default</a></li>
+                                        <li><a href="index-02.html">Home - 02</a></li>
+                                        <li><a href="index-03.html">Home - 03</a></li>
+                                        <li><a href="index-04.html">Home - 04</a></li>
+                                        <li><a href="index-05.html">Home - 05</a></li>
+                                        <li><a href="index-06.html">Home - 06</a></li>
+                                        <li><a href="index-07.html">Home - 07</a></li>
+                                    </ul> -->
+                                    
+                                </li>
+                            <?php
+                                }
+                            ?>
+                            
                             
                             <li>
                                 <a href="#_">Job</a>
@@ -56,6 +73,11 @@
                                 </ul> -->
                             </li>
 
+                            <?php
+                                if ($isAdminUser == false) {
+                            ?>
+
+
                             <li>
                                 <a href="#_">My Network</a>
 
@@ -75,7 +97,9 @@
 
 
                             </li>
-
+                            <?php
+                                }
+                            ?>
 
 
 
@@ -84,12 +108,20 @@
                 
                     </div><!--/.nav-collapse -->
 
-                    <div class="nav-mini-wrapper">
-                        <ul class="nav-mini sign-in">
-                            <li><a data-toggle="modal" href="/auth/logout">Logout</a></li>
-                            
-                        </ul>
-                    </div>
+                    <?php
+                        //if ($isAdminUser == false) {
+                    ?>
+                        <div class="nav-mini-wrapper">
+                            <ul class="nav-mini sign-in">
+                                <li><a data-toggle="modal" href="/auth/logout">Logout</a></li>
+                                
+                            </ul>
+                        </div>
+                    <?php
+                        //}
+                    ?>
+
+                    
                 
                 </div>
                 
@@ -319,7 +351,7 @@
 
         <script type="text/javascript" src="{{asset('assets/frontend/node_modules/socket.io/node_modules/socket.io-client/socket.io.js')}}"></script>
         <script>
-            var email = '<?php echo Auth::user()->email;?>'
+            var email = '<?php echo $socketEmail;?>'
             // var socket = io.connect( );
             var url = '<?php echo env('URL');?>:3000'
             //alert(url);

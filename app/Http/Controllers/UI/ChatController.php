@@ -28,26 +28,43 @@ class ChatController extends Controller
     private $userServiceProvider;
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
         $this->userServiceProvider = new UserServiceProvider();
         $this->chatServiceProvider = new ChatServiceProvider();
     }
 
     public function index($id){
-
+        if (Auth::guard('admin_users')->user() != NULL) {
+            return redirect('job/user_job_list');
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         $send_to_user  = User::where('id', '=' , $id)->firstOrFail();
-        $logged_user = $this->logged_user = Auth::user();
         return view('frontend.chat.sendMessage',['send_to_user'=>$send_to_user,'logged_user'=>$logged_user]);
     }
     public function SendMessage(Request $request){
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+            return redirect('job/user_job_list');
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         $post_data = $request->all();
         $post_data['userid']=$this->logged_user->id;
         return  $this->chatServiceProvider->SaveMessage($post_data);
     }
 
     public function viewMessages(Request$request){
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+            return redirect('job/user_job_list');
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         $all_messages =   $this->chatServiceProvider->getMessage($this->logged_user->id);
         $update_count_message = $this->chatServiceProvider->countUnreadMessage($this->logged_user->id);
         $user_rec   =  $this->chatServiceProvider->getUserList($this->logged_user->id);
@@ -70,29 +87,50 @@ class ChatController extends Controller
         return view('frontend.chat.viewMessage',['all_messages'=>$all_messages,'update_count_message'=>$update_count_message,'userinfo'=>$this->logged_user,'sender_data'=> $user_list]);
      }
     public function viewMessagesJason(Request $request){
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+            return redirect('job/user_job_list');
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         $get_unread_message = $this->chatServiceProvider->countUnreadMessage($this->logged_user->id);
         return json_encode($get_unread_message);
     }
     public function getUserMessageById(Request $request){
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+            return redirect('job/user_job_list');
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         $post_data = $request->all();
         $post_data['userid']=$this->logged_user->id;
         return array('code'=>200, 'status'=>'ok','data'=>$this->chatServiceProvider->getUserMessageById($post_data));
     }
 
     public function saveUserMessage(Request $request){
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+            return redirect('job/user_job_list');
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         $post_data = $request->all();
         return $this->chatServiceProvider->SaveMessage($post_data);
     }
     public function getLoggedUserMessage(Request $request){
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+            return redirect('job/user_job_list');
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         $post_data = $request->all();
         return $this->chatServiceProvider->getLoggedUserMessage($post_data);
 
     }
-
-
-
 }

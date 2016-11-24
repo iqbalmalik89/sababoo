@@ -6,7 +6,14 @@
 
 @section('content')
 
-
+<?php
+    $isAdminUser = false;
+    $adminUser = NULL;
+    if (Auth::guard('admin_users')->user() != NULL) {
+        $isAdminUser = true;
+        $adminUser = Auth::guard('admin_users')->user();
+    }
+?>
         <!-- start Main Wrapper -->
 <div class="main-wrapper">
 
@@ -16,7 +23,13 @@
         <div class="container">
 
             <ol class="breadcrumb-list booking-step">
+                <?php
+                    if ($isAdminUser == false) {
+                ?>
                 <li><a href="/home">Home</a></li>
+                <?php
+                    }
+                ?>
                 <li><a href="/job">Job</a></li>
                 <li><span>Browse Jobs</span></li>
             </ol>

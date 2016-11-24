@@ -389,8 +389,8 @@ class UserController extends Controller {
             return response()->json($output);
         } else  {
 
-            //Auth::logout();
-            Session::flush('sa_user');
+            Auth::guard('admin_users')->logout();
+            //Session::flush('sa_user');
             return ['response'=>['code'=>200,'messages'=>['You have successfully logged out.']]];
 
         }

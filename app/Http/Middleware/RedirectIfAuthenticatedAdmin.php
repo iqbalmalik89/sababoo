@@ -17,8 +17,8 @@ class RedirectIfAuthenticatedAdmin
     public function handle($request, Closure $next)
     {
             
-        //$loggedInUser = Auth::user();
-        $loggedInUser = Session::get('sa_user');
+        $loggedInUser = Auth::guard('admin_users')->user();
+        //$loggedInUser = Session::get('sa_user');
         if ($loggedInUser != NULL) {
             if ($loggedInUser->is_admin == 0) {
                 

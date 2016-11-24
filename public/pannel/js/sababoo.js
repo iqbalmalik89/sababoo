@@ -10,10 +10,12 @@ Sababoo.Config = (function(){
 	if(window.location.host == 'localhost'){
 		var apiUrl = window.location.protocol+'//'+window.location.host+'/sababoo/public/api/';
 		var appUrl = window.location.protocol+'//'+window.location.host+'/sababoo/public/admin';
+		var siteUrl = window.location.protocol+'//'+window.location.host+'/sababoo/public';
 		var imageUrl = window.location.protocol+'//'+window.location.host+'/sababoo/public/pannel/images/';
 	} else {
 		var apiUrl = window.location.protocol+'//'+window.location.host+'/api/';
 		var appUrl = window.location.protocol+'//'+window.location.host+'/admin';
+		var siteUrl = window.location.protocol+'//'+window.location.host+'';
 		var imageUrl = window.location.protocol+'//'+window.location.host+'/pannel/images/';
 	}
 
@@ -23,6 +25,9 @@ Sababoo.Config = (function(){
 	var getAppUrl = function(){
 		return appUrl;
 	};
+	var getSiteUrl = function(){
+		return siteUrl;
+	};
 	var getImageUrl = function(){
 		return imageUrl;
 	};
@@ -30,6 +35,7 @@ Sababoo.Config = (function(){
 	return {
 		getApiUrl:getApiUrl,
 		getAppUrl:getAppUrl,
+		getSiteUrl:getSiteUrl,
 		getImageUrl:getImageUrl
 	}
 }());
@@ -1209,7 +1215,7 @@ Sababoo.App.Jobs = (function(){
                                 <td> '+job.salary+' </td>\
                                 <td> '+statusText+' </td>\
                                 <td>\
-                                    <a href="'+config.getAppUrl()+'/job?id='+job.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                    <a href="'+config.getSiteUrl()+'/job/post?id='+job.id+'" target="_blank" class="btn btn-outline btn-circle dark btn-sm black">\
                                         <i class="fa fa-edit"></i> Edit </a>\
                                     <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_job" data-id="'+job.id+'">\
                                         <i class="fa fa-trash-o"></i> Delete </a>\
@@ -1254,7 +1260,7 @@ Sababoo.App.Jobs = (function(){
 			$('.general-pagination-click').unbind('click').bind('click',function(e){
 				e.preventDefault();
 				var page  = $(this).data('page');
-				Sababoo.App.Job.list(page);
+				Sababoo.App.Jobs.list(page);
 		    });
 
 		    $('.delete_job').unbind('click').bind('click',function(e){

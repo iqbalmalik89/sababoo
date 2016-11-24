@@ -22,9 +22,9 @@ Route::get('/ui/activate', 'RegisterController@activateUser');
 
 /*LOGIN ROUTE*/
 
-Route::get('/login', function () {
+/*Route::get('/login', function () {
     return view('frontend.auth.login');
-});
+});*/
 
 Route::post('auth/login', 'UI\Auth\AuthController@postLogin');
 Route::get('auth/logout', 'UI\Auth\AuthController@getLogout');
@@ -36,7 +36,7 @@ Route::match(['get', 'post'], '/ui/forgotpw', ['uses' => 'ForgotPasswordControll
 
 
 //Auth::routes();
-
+Route::get('/login', 'HomeController@showLogin');
 Route::get('/', 'HomeController@index');
 
 Route::group(['middleware' => ['web']], function () {
@@ -147,7 +147,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 });
 
 
-// API Routes
+// Admin API Routes
 Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], function(){
 
 	// User Authentication Routes

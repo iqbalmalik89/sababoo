@@ -4,6 +4,7 @@ namespace App\Data\Repositories;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AdminUser;
 use App\Helpers\Helper;
@@ -276,7 +277,16 @@ class UserRepository {
 
 							//Auth::loginUsingId($user->id, true);
 
-							Session::put('sa_user', $user);
+							//Session::put('sa_user', $user);
+							if (Auth::guard('admin_users')->attempt($input, false)) {
+         
+					            $auth = true;
+					            $user = Auth::guard('admin_users')->user();
+					            $user->save();
+
+            					Auth::logout();
+						    }
+
 							/*$response = Auth::attempt($input);
 							if ($response) {
 								Auth::login(Auth::user(), true);
