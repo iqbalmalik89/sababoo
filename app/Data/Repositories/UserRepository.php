@@ -221,6 +221,13 @@ class UserRepository {
 
 		if ($user != NULL) {
 			$user->is_active = $input['status'];
+
+			if ($user->is_active == 1) {
+				$user->status = 1;
+			} else {
+				$user->status = 2;
+			}
+			
 			$user->updated_at = Carbon::now();
 			if ($user->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);

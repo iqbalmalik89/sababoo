@@ -144,6 +144,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 	Route::get('/user-profile',['uses'=>'HomeController@showUserProfile'])->middleware(['acl.admin']);
 
 	Route::get('/jobs',['uses'=>'HomeController@showJobs'])->middleware(['acl.admin']);
+	Route::get('/job',['uses'=>'HomeController@showJob'])->middleware(['acl.admin']);
 });
 
 

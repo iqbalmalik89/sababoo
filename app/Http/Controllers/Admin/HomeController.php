@@ -10,8 +10,11 @@ use \Validator, \Session;
 class HomeController extends Controller {
 
     public $user_repo;
+    public $job_repo;
+
     public function __construct() {
         $this->user_repo = app()->make('UserRepository');
+        $this->job_repo = app()->make('JobRepository');
 
     }
 
@@ -102,6 +105,10 @@ class HomeController extends Controller {
             $user_id = $input['id'];
             $user = $this->user_repo->findById($user_id);
         }
+
+        if ($user == NULL) {
+            return redirect('/admin/404');
+        }
         return view('admin.user',['title'=>$title, 
                             'user_id' => $user_id, 
                             'user'=>$user,
@@ -122,5 +129,27 @@ class HomeController extends Controller {
         $logged_in_user   = Auth::guard('admin_users')->user();
         //$logged_in_user = Session::get('sa_user');
         return view('admin.jobs',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+    }
+
+    /* for individual job details */
+    public function showJob(Request $request) {
+        $title  = 'Sababoo | Admin | Job Details';
+        $logged_in_user   = Auth::guard('admin_users')->user();
+
+        $input = $request->only('id');
+        $job_id = 0;
+        $job = NULL;
+        if (isset($input['id']) && $input['id'] != '') {
+            $job_id = $input['id'];
+            $job = $this->job_repo->findById($job_id);
+        }
+        if ($job == NULL) {
+            return redirect('/admin/404');
+        }
+        //$logged_in_user = Session::get('sa_user');
+        return view('admin.job',['title'=>$title, 
+                                'job_id' => $job_id, 
+                                'job'=>$job,
+                                'logged_in_user'=>$logged_in_user]);
     }
 }

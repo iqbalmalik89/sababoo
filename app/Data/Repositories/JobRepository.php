@@ -71,7 +71,7 @@ class JobRepository {
 				Cache::forever($this->_cacheKey.$id,$data);			
 				
 			} else {
-				$data = NULL;
+				return NULL;
 			}
 		}
 

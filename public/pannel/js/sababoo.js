@@ -620,12 +620,12 @@ Sababoo.App.User = (function() {
 							statusText = 'Active';
 							is_active = 0;
 							archiveText = 'In-Activate';
-							archiveClass = 'green';
+							archiveClass = 'blue';
 						}else{
 							statusText = 'InActive';
 							is_active = 1;
 							archiveText = 'Activate';
-							archiveClass = 'blue';
+							archiveClass = 'green-jungle';
 						}
 					}
 					
@@ -1205,12 +1205,12 @@ Sababoo.App.Jobs = (function(){
 							statusText = 'Active';
 							is_active = 0;
 							archiveText = 'In-Activate';
-							archiveClass = 'green';
+							archiveClass = 'blue';
 						}else{
 							statusText = 'InActive';
 							is_active = 1;
 							archiveText = 'Activate';
-							archiveClass = 'blue';
+							archiveClass = 'green-jungle';
 						}
 					}
 					
@@ -1223,7 +1223,7 @@ Sababoo.App.Jobs = (function(){
                                 <td> '+job.salary+' </td>\
                                 <td> '+statusText+' </td>\
                                 <td>\
-                                	<a href="'+config.getAppUrl()+'/job?id='+job.id+'" target="_blank" class="btn btn-outline btn-circle dark btn-sm black">\
+                                	<a href="'+config.getAppUrl()+'/job?id='+job.id+'" target="_blank" class="btn btn-outline btn-circle yellow btn-sm">\
                                         <i class="fa fa-eye"></i> View </a>\
                                     <a href="'+config.getSiteUrl()+'/job/post?id='+job.id+'" target="_blank" class="btn btn-outline btn-circle dark btn-sm black">\
                                         <i class="fa fa-edit"></i> Edit </a>\
