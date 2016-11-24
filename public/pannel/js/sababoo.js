@@ -1155,6 +1155,7 @@ Sababoo.App.Jobs = (function(){
 				$('#jobs_list_head').html('<tr>\
 		                                        <th> ID </th>\
 		                                        <th> User Name </th>\
+		                                        <th> Job Title </th>\
 		                                        <th> Industry </th>\
 		                                        <th> Type </th>\
 		                                        <th> Salary </th>\
@@ -1179,6 +1180,12 @@ Sababoo.App.Jobs = (function(){
 						job.name = job.name;
 					} else {
 						job.name = 'N/A';									
+					}
+
+					if (typeof job.user_name != 'undefined' && typeof job.user_name !== null && job.user_name!='' ) {
+						job.user_name = job.user_name;
+					} else {
+						job.user_name = 'N/A';									
 					}
 
 					if (typeof job.type != 'undefined' && typeof job.type !== null && job.type!='' ) {
@@ -1209,12 +1216,15 @@ Sababoo.App.Jobs = (function(){
 					
 					html += '<tr>\
                                 <td class="highlight"> '+job.id+' </td>\
+                                <td class="hidden-xs"> '+job.user_name+' </td>\
                                 <td class="hidden-xs"> '+job.name+' </td>\
                                 <td> '+job.industry_name+' </td>\
                                 <td> '+job.type+' </td>\
                                 <td> '+job.salary+' </td>\
                                 <td> '+statusText+' </td>\
                                 <td>\
+                                	<a href="'+config.getAppUrl()+'/job?id='+job.id+'" target="_blank" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-eye"></i> View </a>\
                                     <a href="'+config.getSiteUrl()+'/job/post?id='+job.id+'" target="_blank" class="btn btn-outline btn-circle dark btn-sm black">\
                                         <i class="fa fa-edit"></i> Edit </a>\
                                     <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_job" data-id="'+job.id+'">\

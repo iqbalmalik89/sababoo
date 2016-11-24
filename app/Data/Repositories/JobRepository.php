@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\Model;
 use BusinessObject\JobPost;
+use BusinessObject\User;
 use BusinessObject\Industry;
+use App\Models\AdminUser;
 use App\Helpers\Helper;
 
 use \StdClass, Carbon\Carbon, \Session;
@@ -14,12 +16,17 @@ use \StdClass, Carbon\Carbon, \Session;
 class JobRepository {
 
 	public $job_model;
+	public $industry_model;
+	public $user_model;
+	public $admin_user_model;
 
 	protected $_cacheKey = 'job-'; 
 
-	public function __construct(JobPost $jobPost,Industry $industry){
-		$this->job_model 	= $jobPost;
-		$this->industry_model 	= $industry;
+	public function __construct(JobPost $jobPost,Industry $industry, User $user, AdminUser $adminUser){
+		$this->job_model 			= $jobPost;
+		$this->industry_model 		= $industry;
+		$this->user_model 			= $user;
+		$this->admin_user_model 	= $adminUser;
 	}
 
 	 /**
@@ -57,6 +64,7 @@ class JobRepository {
 				$data->status				= $job->status;
 				$data->terms				= $job->terms;
 				$data->is_active			= $job->is_active;
+				$data->is_admin_job			= $job->is_admin_job;
 				$data->created_at			= date('d M, Y', strtotime($job->created_at));
 				$data->updated_at			= date('d M, Y', strtotime($job->updated_at));
 
@@ -65,6 +73,27 @@ class JobRepository {
 			} else {
 				$data = NULL;
 			}
+		}
+
+		// to get user name
+		$data->user_name = '';
+		if ($data->is_admin_job == 1) {
+			$user = $this->admin_user_model->find($data->userid);
+			if ($user != NULL) {
+				$data->user_name = $user->name;
+			}
+		} else {
+			$user = $this->user_model->find($data->userid);
+			if ($user != NULL) {
+				$data->user_name = $user->first_name.' '.$user->last_name;
+			}
+		}
+
+		// to get industry name
+		$data->industry_name = '';
+		$industry = $this->industry_model->find($data->industry_id);
+		if ($industry != NULL) {
+			$data->industry_name = $industry->name;
 		}
 
 		return $data;

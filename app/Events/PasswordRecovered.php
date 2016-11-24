@@ -4,7 +4,7 @@ namespace App\Events;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Data\Models\User;
+use App\Models\AdminUser;
 
 class PasswordRecovered
 {
@@ -18,7 +18,7 @@ class PasswordRecovered
 
     public $user;
 
-    public function __construct(User $user)
+    public function __construct(AdminUser $user)
     {
         $this->user = $user;
     }
