@@ -324,4 +324,13 @@ class RoleRepository {
 			}
 		}
 	}
+
+	public function getRoleOperations($role_id){
+
+        $roleOperations = $this->permission_model->where('role_id', '=', $role_id)->where('is_allowed', '=', 1)->pluck('operation_id')->toArray();
+        if (empty($roleOperations)) {
+        	$roleOperations = [0];
+        }
+	    return $roleOperations;
+	}
 }

@@ -34,7 +34,7 @@ class NetworkController extends Controller
     public function myConnections(Request $request){
 
         if (Auth::guard('admin_users')->user() != NULL) {
-            return redirect('job/user_job_list');
+            $this->logged_user = Auth::guard('admin_users')->user();
         } else if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
@@ -65,7 +65,7 @@ class NetworkController extends Controller
     public function sendRecom(Request $request){
         $post_data = $request->all();
         if (Auth::guard('admin_users')->user() != NULL) {
-            return redirect('job/user_job_list');
+            $this->logged_user = Auth::guard('admin_users')->user();
         } else if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
@@ -86,7 +86,7 @@ class NetworkController extends Controller
 
     public function getRecom($id){
         if (Auth::guard('admin_users')->user() != NULL) {
-            return redirect('job/user_job_list');
+            $this->logged_user = Auth::guard('admin_users')->user();
         } else if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
@@ -100,7 +100,7 @@ class NetworkController extends Controller
     public function acceptRecom($id){
 
         if (Auth::guard('admin_users')->user() != NULL) {
-            return redirect('job/user_job_list');
+            $this->logged_user = Auth::guard('admin_users')->user();
         } else if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
@@ -111,7 +111,7 @@ class NetworkController extends Controller
     }
     public function rejectRecom($id){
         if (Auth::guard('admin_users')->user() != NULL) {
-            return redirect('job/user_job_list');
+            $this->logged_user = Auth::guard('admin_users')->user();
         } else if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {

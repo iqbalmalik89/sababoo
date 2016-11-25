@@ -27,11 +27,12 @@ class HomeController extends Controller
      * @return void
      */
     private $employeeServiceProvider;
-
+    private $user_repo;
     public function __construct()
     {
          //$this->middleware('auth');
         $this->employeeServiceProvider = new EmployeeServiceProvider();
+        $this->user_repo = app()->make('UserRepository');
     }
 
     /**
@@ -42,17 +43,18 @@ class HomeController extends Controller
     public function showHome()
     {
 
-        if (Auth::guard('admin_users')->user() != NULL) {
-            return redirect('job/user_job_list');
-        } else if(Auth::user()==null) {
+        if (Auth::guard('admin_users')->user() == NULL && Auth::user()==null) {
             return view('frontend.site.unauth_home');
+        } else if(Auth::user()!=null) {
+            $this->logged_user = Auth::user();
+        } else if (Auth::guard('admin_users')->user() != NULL) {
+            $this->logged_user = Auth::guard('admin_users')->user();
         }
-        $this->logged_user = Auth::user();
+        
         $matchThese = ['status'=>1];
         $matchTheseFile = ['status'=>1,'userid'=>$this->logged_user->id];
         $industry = Industry::where($matchThese)->get();
         $user_files = UserFiles::where($matchTheseFile)->get();
-
 
         if($this->logged_user->role=="employee"){
 
@@ -80,15 +82,23 @@ class HomeController extends Controller
             return view('frontend.tradesman.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'tradesman'=>$tradesman,'education'=>$education,'certification'=>$certification,'user_files'=>$user_files));
 
         }
+
+        else if($this->logged_user->is_admin==1){
+
+            $adminUser = $this->user_repo->findById($this->logged_user->id);
+
+            return view('frontend.admin_user.index',array('userinfo'=>$this->logged_user, 'adminUser'=>$adminUser));
+
+        }
         return view('frontend.site.home');
     }
 
      public function index()
     {
          if (Auth::guard('admin_users')->user() != NULL) {
-            return redirect('job/user_job_list');
+            return redirect('home');
          } else if(Auth::user()!=null) {
-            return view('frontend.site.home');
+            return redirect('home');
          }
         return view('frontend.site.unauth_home');
     }
@@ -96,9 +106,9 @@ class HomeController extends Controller
     public function showLogin()
     {
          if (Auth::guard('admin_users')->user() != NULL) {
-            return redirect('job/user_job_list');
-         } else if(Auth::user()==null) {
-            return view('frontend.auth.login');
+            return redirect('home');
+         } else if(Auth::user()!=null) {
+            return redirect('home');
          }
         return view('frontend.auth.login');
     }

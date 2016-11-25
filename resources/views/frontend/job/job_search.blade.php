@@ -23,14 +23,9 @@
         <div class="container">
 
             <ol class="breadcrumb-list booking-step">
-                <?php
-                    if ($isAdminUser == false) {
-                ?>
+                
                 <li><a href="/home">Home</a></li>
-                <?php
-                    }
-                ?>
-                <li><a href="/job">Job</a></li>
+                <li><a href="/job/user_job_list">Job</a></li>
                 <li><span>Browse Jobs</span></li>
             </ol>
 

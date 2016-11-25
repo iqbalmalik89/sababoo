@@ -3,13 +3,59 @@
     $isAdminUser = false;
     $adminUser = NULL;
     $socketEmail = '';
+    $roleOperations = [];
     if (Auth::guard('admin_users')->user() != NULL) {
         $isAdminUser = true;
         $adminUser = Auth::guard('admin_users')->user();
         $socketEmail = $adminUser->email;
+
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $roleRepo->getRoleOperations($adminUser->role_id);
+        
     } else if (Auth::user() != NULL){
         $socketEmail = Auth::user()->email;
     }
+
+    // apply permission wise view for admin users
+    $job_create = '';
+    $job_view = '';
+    $job_search = '';
+    $job_all = '';
+
+    $network_view = '';
+    $chat_view = '';
+    if ($isAdminUser == true) {
+        // for job create permission                         permission id = 1
+        if (!in_array(1, $roleOperations)) {
+            $job_create = 'hide';
+        }
+
+        // for job view permission                         permission id = 4
+        if (!in_array(4, $roleOperations)) {
+            $job_view = 'hide';
+        }
+
+        // for job search permission                         permission id = 5
+        if (!in_array(5, $roleOperations)) {
+            $job_search = 'hide';
+        }
+
+        if (!in_array(1, $roleOperations) && !in_array(4, $roleOperations) && !in_array(5, $roleOperations)) {
+            $job_all = 'hide';
+        }
+
+        // for network view permission                         permission id = 9
+        if (!in_array(9, $roleOperations)) {
+            $network_view = 'hide';
+        }
+
+        // for chat view permission                         permission id = 14
+        if (!in_array(14, $roleOperations)) {
+            $chat_view = 'hide';
+        }
+    }
+    
+    
 ?>
 
 <header id="header">
@@ -30,35 +76,31 @@
                     <div id="navbar" class="navbar-nav-wrapper navbar-arrow">
                     
                         <ul class="nav navbar-nav" id="responsive-menu">
-                            <?php
-                                if ($isAdminUser == false) {
-                            ?>
-                                <li>
-                            
-                                    <a href="/home">Home</a>
-                                    <!-- <ul>
-                                        <li><a href="index.html">Home - Default</a></li>
-                                        <li><a href="index-02.html">Home - 02</a></li>
-                                        <li><a href="index-03.html">Home - 03</a></li>
-                                        <li><a href="index-04.html">Home - 04</a></li>
-                                        <li><a href="index-05.html">Home - 05</a></li>
-                                        <li><a href="index-06.html">Home - 06</a></li>
-                                        <li><a href="index-07.html">Home - 07</a></li>
-                                    </ul> -->
-                                    
-                                </li>
-                            <?php
-                                }
-                            ?>
-                            
                             
                             <li>
+                        
+                                <a href="/home">Home</a>
+                                <!-- <ul>
+                                    <li><a href="index.html">Home - Default</a></li>
+                                    <li><a href="index-02.html">Home - 02</a></li>
+                                    <li><a href="index-03.html">Home - 03</a></li>
+                                    <li><a href="index-04.html">Home - 04</a></li>
+                                    <li><a href="index-05.html">Home - 05</a></li>
+                                    <li><a href="index-06.html">Home - 06</a></li>
+                                    <li><a href="index-07.html">Home - 07</a></li>
+                                </ul> -->
+                                
+                            </li>
+                            
+                            
+                            
+                            <li class="{{$job_all}}">
                                 <a href="#_">Job</a>
 
                                 <ul>
-                                    <li><a href="/job/post">Job Post</a></li>
-                                    <li><a href="/job/user_job_list"> Job Lists</a></li>
-                                    <li><a href="/job/search_jobs"> Browse Jobs</a></li>
+                                    <li class="{{$job_create}}"><a href="/job/post">Job Post</a></li>
+                                    <li class="{{$job_view}}"><a href="/job/user_job_list"> Job Lists</a></li>
+                                    <li class="{{$job_search}}"><a href="/job/search_jobs"> Browse Jobs</a></li>
                                 </ul>
 <!--                                 <ul>
                                     <li><a href="job-detail.html">Detail</a></li>
@@ -73,12 +115,10 @@
                                 </ul> -->
                             </li>
 
-                            <?php
-                                if ($isAdminUser == false) {
-                            ?>
+                            
 
 
-                            <li>
+                            <li class="{{$network_view}}">
                                 <a href="#_">My Network</a>
 
                                 <ul>
@@ -92,14 +132,12 @@
 
                             </li>
 
-                            <li>
+                            <li class="{{$chat_view}}">
                                 <a href="/user_view_message">Messages<span id="msg_notification"></span></a>
 
 
                             </li>
-                            <?php
-                                }
-                            ?>
+                            
 
 
 
