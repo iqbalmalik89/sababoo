@@ -11,11 +11,12 @@ class HomeController extends Controller {
 
     public $user_repo;
     public $job_repo;
+    public $role_repo;
 
     public function __construct() {
         $this->user_repo = app()->make('UserRepository');
         $this->job_repo = app()->make('JobRepository');
-
+        $this->role_repo = app()->make('RoleRepository');
     }
 
  	public function showLogin(Request $request) {
@@ -104,11 +105,11 @@ class HomeController extends Controller {
         if (isset($input['id']) && $input['id'] != '') {
             $user_id = $input['id'];
             $user = $this->user_repo->findById($user_id);
+            if ($user == NULL) {
+                return redirect('/admin/404');
+            }
         }
 
-        if ($user == NULL) {
-            return redirect('/admin/404');
-        }
         return view('admin.user',['title'=>$title, 
                             'user_id' => $user_id, 
                             'user'=>$user,
@@ -142,14 +143,46 @@ class HomeController extends Controller {
         if (isset($input['id']) && $input['id'] != '') {
             $job_id = $input['id'];
             $job = $this->job_repo->findById($job_id);
+            if ($job == NULL) {
+                return redirect('/admin/404');
+            }
         }
-        if ($job == NULL) {
-            return redirect('/admin/404');
-        }
+        
         //$logged_in_user = Session::get('sa_user');
         return view('admin.job',['title'=>$title, 
                                 'job_id' => $job_id, 
                                 'job'=>$job,
+                                'logged_in_user'=>$logged_in_user]);
+    }
+
+    /* for roles listing */
+    public function showRoles(Request $request) {
+        $title  = 'Sababoo | Admin | Roles';
+        $logged_in_user   = Auth::guard('admin_users')->user();
+        //$logged_in_user = Session::get('sa_user');
+        return view('admin.roles',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+    }
+
+    /* for individual role view */
+    public function showRole(Request $request) {
+        $title  = 'Sababoo | Admin | Role';
+        $logged_in_user   = Auth::guard('admin_users')->user();
+
+        $input = $request->only('id');
+        $role_id = 0;
+        $role = NULL;
+        if (isset($input['id']) && $input['id'] != '') {
+            $role_id = $input['id'];
+            $role = $this->role_repo->findById($role_id);
+            if ($role == NULL) {
+                return redirect('/admin/404');
+            }
+        }
+        
+        //$logged_in_user = Session::get('sa_user');
+        return view('admin.role',['title'=>$title, 
+                                'role_id' => $role_id, 
+                                'role'=>$role,
                                 'logged_in_user'=>$logged_in_user]);
     }
 }

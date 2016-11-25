@@ -646,6 +646,7 @@ Sababoo.App.User = (function() {
 
 				});
 			} else {
+				$('#users_list_head').html('');
 				html  += '<div class="blank-data">\
                 	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
                     <h3>Nothing Here Yet.</h3>\
@@ -1154,8 +1155,8 @@ Sababoo.App.Jobs = (function(){
 
 				$('#jobs_list_head').html('<tr>\
 		                                        <th> ID </th>\
-		                                        <th> User Name </th>\
 		                                        <th> Job Title </th>\
+		                                        <th> User Name </th>\
 		                                        <th> Industry </th>\
 		                                        <th> Type </th>\
 		                                        <th> Salary </th>\
@@ -1216,14 +1217,14 @@ Sababoo.App.Jobs = (function(){
 					
 					html += '<tr>\
                                 <td class="highlight"> '+job.id+' </td>\
-                                <td class="hidden-xs"> '+job.user_name+' </td>\
                                 <td class="hidden-xs"> '+job.name+' </td>\
+                                <td class="hidden-xs"> '+job.user_name+' </td>\
                                 <td> '+job.industry_name+' </td>\
                                 <td> '+job.type+' </td>\
                                 <td> '+job.salary+' </td>\
                                 <td> '+statusText+' </td>\
                                 <td>\
-                                	<a href="'+config.getAppUrl()+'/job?id='+job.id+'" target="_blank" class="btn btn-outline btn-circle yellow btn-sm">\
+                                	<a href="'+config.getAppUrl()+'/job?id='+job.id+'" class="btn btn-outline btn-circle yellow btn-sm">\
                                         <i class="fa fa-eye"></i> View </a>\
                                     <a href="'+config.getSiteUrl()+'/job/post?id='+job.id+'" target="_blank" class="btn btn-outline btn-circle dark btn-sm black">\
                                         <i class="fa fa-edit"></i> Edit </a>\
@@ -1236,6 +1237,7 @@ Sababoo.App.Jobs = (function(){
 
 				});
 			} else {
+				$('#jobs_list_head').html('');
 				html  += '<div class="blank-data">\
                 	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
                     <h3>Nothing Here Yet.</h3>\
@@ -1445,6 +1447,488 @@ Sababoo.App.Jobs = (function(){
 		list:list,
 		updateStatus:updateStatus,
 		remove:remove
+	}
+}());
+
+/* Role Management */
+Sababoo.App.Role = (function() {
+
+	var config = Sababoo.Config;
+	var roleApiUrl = config.getApiUrl()+'role';
+
+	var list = function (page) {
+
+		$('.spinner-section').show();
+		var page 			= page || 1;
+		var pagination 		= true;
+		var filterByStatus 	= $('#filter_by_status').val() || '';
+		var keyword 		= $('#role_search_keyword').val() || '';
+		var limit 			= $('#role-list-limit').val() || 0;
+		var data 			= {};
+		var total_roles 	= $('#total_roles');
+
+		data.pagination 	= pagination;
+		data.page 			= page;
+		data.limit 			= limit;
+		data.keyword 		= keyword;
+		data.filterByStatus = filterByStatus;
+		
+		var request = $.ajax({
+			url: roleApiUrl+'/list?page='+page,
+			data:data,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			$('.spinner-section').hide();
+			var html = '';
+			var paginationShow = '';
+			var roles = data.data;
+			var classDisabledPrev = "";
+			var classDisabledNext = "";
+			var paginations = data.pagination;
+			total_roles.html(paginations.total);
+
+			if(roles.length > 0) {
+
+				$('#roles_list_head').html('<tr>\
+		                                        <th> ID </th>\
+		                                        <th> Title </th>\
+		                                        <th> Associated Users </th>\
+		                                        <th> Status </th>\
+		                                        <th> Action</th>\
+		                                    </tr>');
+
+				$(roles).each(function(index, role){
+
+					var archiveText = '-';	
+					var archiveClass = '';					
+					var is_active = '';
+					var statusText = 'N/A';
+
+					if (typeof role.title != 'undefined' && typeof role.title !== null && role.title!='' ) {
+						role.title = role.title;
+					} else {
+						role.title = 'N/A';									
+					}
+
+					if (typeof role.total_users != 'undefined' && typeof role.total_users !== null && role.total_users!='' ) {
+						role.total_users = role.total_users;
+					} else {
+						role.total_users = '0';									
+					}
+					
+					if (typeof role.is_active != 'undefined' && typeof role.is_active !== null ) {
+						if(role.is_active == 1){
+							statusText = 'Active';
+							is_active = 0;
+							archiveText = 'In-Activate';
+							archiveClass = 'blue';
+						}else{
+							statusText = 'InActive';
+							is_active = 1;
+							archiveText = 'Activate';
+							archiveClass = 'green-jungle';
+						}
+					}
+					
+					html += '<tr>\
+                                <td class="highlight"> '+role.id+' </td>\
+                                <td class="hidden-xs"> '+role.title+' </td>\
+                                <td> '+role.total_users+' </td>\
+                                <td> '+statusText+' </td>\
+                                <td>\
+                                    <a href="'+config.getAppUrl()+'/role?id='+role.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-edit"></i> Edit </a>\
+                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_role" data-id="'+role.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>\
+                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' role_status" data-id="'+role.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>\
+                                </td>\
+                            </tr>';
+
+				});
+			} else {
+				$('#roles_list_head').html('');
+				html  += '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>Nothing Here Yet.</h3>\
+                    <p>We couldn\'t find any record related to the defined criteria. Please try again later.</p></div>';
+			}
+
+			$('#roles_list').html(html);
+
+            if(data.pagination.current >= data.pagination.next && data.pagination.current==1) {
+				$('.general-pagination').hide();
+				$('.role-pagination-limit').hide();
+			} else {
+				if(data.pagination.current==data.pagination.first){
+					classDisabledPrev="disable";
+				}
+				if(data.pagination.current==data.pagination.last){
+					classDisabledNext="disable";
+				}
+				paginationShow+='<li >\
+								      <a class="general-pagination-click  '+classDisabledPrev+'" data-page='+paginations.previous+' href="javascript:;">Previous</a>\
+								    </li>';
+				paginationShow+= '<li >\
+								      <a class=" general-pagination-click '+classDisabledNext+'" data-page='+paginations.next+' href="javascript:;">Next</a>\
+								    </li>';
+				paginationShow+= '<li class="hidden-xs">Showing '+data.pagination.to+' - '+data.pagination.from+' of total '+data.pagination.total+' records</li>';
+
+				$('.general-pagination').html(paginationShow);
+				$('.general-pagination').show();
+				$('.general-pagination-limit').show();
+			}
+
+			$('.general-pagination-click').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var page  = $(this).data('page');
+				Sababoo.App.Role.list(page);
+		    });
+
+		    $('.delete_role').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var role_id  = $(this).attr('data-id');
+				$('#hidden_action_role_id').val(role_id);
+				$('#removeConfirmation').modal('show');
+		    });
+
+		    $('.role_status').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var role_id  = $(this).attr('data-id');
+				var status  = $(this).attr('data-status');
+				$('#hidden_action_role_id').val(role_id);
+				$('#hidden_action_role_status').val(status);
+
+				if (status == 1) {
+					$('#update_status_text').text('Activate');
+				} else if (status == 0) {
+					$('#update_status_text').text('In-Activate');
+				}
+				$('#updateStatusConfirmation').modal('show');
+		    });
+		});
+
+		request.fail(function(jqXHR, textStatus){
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while retrieving roles.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+
+			var html = '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>'+error+'</h3></div>';
+            $('#roles_list').html(html);
+		});		
+	};
+
+	var fetchModules = function(){
+			
+		var role_id = $('#updated_role_id').val();
+
+		var request = $.ajax({
+			url: roleApiUrl+'/list-modules',
+			data: {},
+			type: 'GET',
+			dataType:'json'
+		});
+		request.done(function(data){
+			
+			var data = data.data;
+			var html = '';
+			var custom_html = '';
+			if (data.length > 0) {
+				$(data).each(function(index, module){
+					
+					html += '<tr><td width="30%">'+module.name+'</td>';
+					if (module.operations.length > 0) {
+						html += '<td width="70%"><div class="row text-center">';
+						$(module.operations).each(function(index2, operation) {
+							var name = 'role_operations';
+							
+							custom_html = '';
+							if (operation.is_applied == 1) {
+								custom_html +='<div class="auto-grid role-checkbox">\
+	                                                <label title="'+operation.id+'" class="custom-checkbox-1"><input type="checkbox" class="'+name+'" name="'+name+'" value="'+operation.id+'" data-module_id="'+operation.module_id+'"></label>\
+	                                            </div>';
+							} else {
+								custom_html += '<div class="auto-grid"></div>';
+							}
+							
+							html += custom_html;
+				        });
+						html +='</div></td>';
+					} else {
+						html += '<td width="70%"><div class="row text-center">No Operation Found</div</td>';
+					}
+					
+				});
+				html += '</tr>';		
+			} else {
+				html += '<tr><td width="30%">No Module Found</td></tr>';
+			}
+			$('#modules_list').html(html);	
+			
+			if (role_id > 0) {
+				Sababoo.App.Role.view(role_id);
+			}
+		});
+	};
+
+	var create = function (){
+
+		var errors = [];
+		var role_id = $('#updated_role_id').val();
+		var title 	= $('#role_title');
+
+		if ($.trim(title.val()) == '') {
+			errors.push('Please enter title.');
+			title.parent().addClass('has-error');
+		} else {
+			title.parent().removeClass('has-error');	
+		}
+
+		var operations = [];
+    	$('.role_operations').each(function(){
+    		if ($(this).prop("checked")) {
+    			operations.push($(this).val());
+    		}
+    	});
+
+    	if (operations.length == 0) {
+    		errors.push('Please select atleast one operation.');
+    	}
+
+		if (errors.length < 1) {
+
+			var jsonData = {
+								id:role_id,
+								title:$.trim(title.val()),
+								operations:operations														
+							}
+
+			if (jsonData.id == 0) {
+				var request = $.ajax({
+					url: roleApiUrl+'/create',
+					data: jsonData,
+					type: 'post',
+					dataType:'json'
+				});
+			} else {
+				var request = $.ajax({	
+					url: roleApiUrl+'/update',
+					data: jsonData,
+					type: 'put',
+					dataType:'json'
+				});
+			}
+			
+			$('#role_submit_btn').addClass('prevent-click');
+			$('#submit_loader').show();
+
+			request.done(function(data){
+				
+				$('#submit_loader').hide();
+				if(data.success) {		 
+						$('#msg_div').removeClass('alert-danger');
+						$('#msg_div').html(data.success.messages[0]).addClass('alert-success').show().delay(2000).fadeOut(function()
+						{
+							window.location.href = config.getAppUrl()+'/roles';
+					    });		 	
+				} else if(data.error) {
+					$('#role_submit_btn').removeClass('prevent-click');
+					var message_error = data.error.messages[0];
+					$('#msg_div').removeClass('alert-success');
+					$('#msg_div').html(message_error).addClass('alert-danger').show();
+				}
+				
+			});
+
+			request.fail(function(jqXHR, textStatus){
+				$('#role_submit_btn').removeClass('prevent-click');
+				$('#submit_loader').hide();
+				var jsonResponse = $.parseJSON(jqXHR.responseText);
+				var error = 'An error occurred.';
+				if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+					error = jsonResponse.error.messages[0];
+				}
+				$('#msg_div').removeClass('alert-success');
+				$('#msg_div').html(error).addClass('alert-danger').show();
+			});	
+
+		} else {
+			$('#msg_div').removeClass('alert-success');
+			$('#msg_div').html(errors[0]).addClass('alert-danger').show();
+			$('#role_submit_btn').removeClass('prevent-click');
+			$('#submit_loader').hide();
+		}		
+	};
+
+	var view = function(id){
+        var jsonData = {id:id};
+		var request = $.ajax({
+			url: roleApiUrl+'/view',
+			data: jsonData,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.success(function(data){
+			$('#role_title').val(data.title)
+			$("input[name=role_operations]").prop('checked', false);
+			if (data.operations.length > 0) {
+				$(data.operations).each(function(index, operationId) {
+					$("input[name=role_operations][value="+operationId+"]").prop('checked', true);
+				});
+			} 
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			// do something
+		});
+    };
+
+	var remove = function (){
+		var id = $('#hidden_action_role_id').val();
+		$('#role_remove_btn').addClass('prevent-click');
+		$('#remove_submit_loader').show();
+
+		var request = $.ajax({
+			url: roleApiUrl+'/remove',
+			data: {id:id},
+			type: 'delete',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			
+			$('#remove_submit_loader').hide();
+			if (data.success) {
+				var html = 'Role has been deleted successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#remove_msg_div').removeClass('alert-danger');
+		 		$('#remove_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#role_remove_btn').removeClass('prevent-click');
+				    $('#removeConfirmation').modal('hide');
+				    Sababoo.App.Role.list();	
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while deleting this role.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#role_remove_btn').removeClass('prevent-click');
+				$('#remove_msg_div').removeClass('alert-success');
+				$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+				    $(this).html('');
+				    $('#remove_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#role_remove_btn').removeClass('prevent-click');
+			$('#remove_submit_loader').hide();
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while deleting this role.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	var updateStatus = function (){
+		
+		var jsonData = {};
+		jsonData.id = $('#hidden_action_role_id').val();
+		jsonData.status = $('#hidden_action_role_status').val();
+
+		var request = $.ajax({
+			url: roleApiUrl+'/update-status',
+			data: jsonData,
+			type: 'put',
+			dataType:'json'
+		});
+
+		$('#role_status_btn').addClass('prevent-click');
+		$('#status_submit_loader').show();
+
+		request.done(function(data){
+			
+			$('#status_submit_loader').hide();
+			
+			if (data.success) {
+				var html = 'Status has been updates successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#status_msg_div').removeClass('alert-danger');
+		 		$('#status_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#role_status_btn').removeClass('prevent-click');
+				    $('#updateStatusConfirmation').modal('hide');
+				    Sababoo.App.Role.list();		
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while updating role status.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#role_status_btn').removeClass('prevent-click');
+				$('#status_msg_div').removeClass('alert-success');
+				$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $('#status_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#role_status_btn').removeClass('prevent-click');
+			$('#status_submit_loader').hide();
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while updating role status.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	return {
+		list:list,
+		create:create,
+		remove:remove,
+		updateStatus:updateStatus,
+		fetchModules:fetchModules,
+		view:view
 	}
 }());
 

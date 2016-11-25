@@ -145,6 +145,9 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 
 	Route::get('/jobs',['uses'=>'HomeController@showJobs'])->middleware(['acl.admin']);
 	Route::get('/job',['uses'=>'HomeController@showJob'])->middleware(['acl.admin']);
+
+	Route::get('/roles',['uses'=>'HomeController@showRoles'])->middleware(['acl.admin']);
+	Route::get('/role',['uses'=>'HomeController@showRole'])->middleware(['acl.admin']);
 });
 
 
@@ -172,6 +175,15 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	Route::get('/job/list',['as'=>'job:list', 'uses'=>'JobController@all']);
 	Route::put('/job/update-status',['as'=>'job.update-status', 'uses'=>'JobController@updateStatus']);
 	Route::delete('/job/remove',['as'=>'job.remove', 'uses'=>'JobController@remove']);
+
+	// Role Routes
+	Route::get('/role/view',['as'=>'role:view', 'uses'=>'RoleController@view']);
+	Route::get('/role/list',['as'=>'role:list', 'uses'=>'RoleController@all']);
+	Route::post('/role/create',['as'=>'role:create', 'uses'=>'RoleController@create']);
+	Route::put('/role/update',['as'=>'role:update', 'uses'=>'RoleController@update']);
+	Route::put('/role/update-status',['as'=>'role.update-status', 'uses'=>'RoleController@updateStatus']);
+	Route::delete('/role/remove',['as'=>'role.remove', 'uses'=>'RoleController@remove']);
+	Route::get('/role/list-modules',['as'=>'role.list-modules', 'uses'=>'RoleController@fetchAllModules']);
 });
 
 

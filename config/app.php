@@ -175,6 +175,7 @@ return [
 
         App\Providers\UserRepositoryServiceProvider::class,
         App\Providers\JobRepositoryServiceProvider::class,
+        App\Providers\RoleRepositoryServiceProvider::class,
     ],
 
     /*

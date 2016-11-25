@@ -30,7 +30,9 @@
             <div>
                 <h3 class="page-title pull-left"> Job Details
                 </h3>
-
+                    <div class="form-actions pull-right margin-top-20px">
+                        <a href="{{URL::to('admin/jobs')}}"><button type="button" class="btn green"><i class="fa fa-arrow-left fa-fw"></i> Go Back To Jobs</button></a>
+                    </div>
             </div>
             
             <!-- END PAGE TITLE-->
@@ -46,7 +48,7 @@
                             <div class="caption">
                                 <i class="icon-bubbles font-dark hide"></i>
                                 <span class="caption-subject font-dark bold uppercase">{{$job->name}}</span>
-                                <span class="label label-sm label-{{($job->is_active == 1)?'success':'danger'}}">{{($job->is_active == 1)?'Active':'In-Active'}}</span>
+                                <span class="label label-sm label-{{($job->is_active == 1)?'success':'default'}}">{{($job->is_active == 1)?'Active':'In-Active'}}</span>
                             </div>
                             <span class="font-dark bold pull-right">{{$job->created_at}}</span>
                         </div>

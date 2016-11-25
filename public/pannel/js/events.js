@@ -59,6 +59,16 @@ $('#profile_password_submit_btn').click(function(e){
     Sababoo.App.User.updatePassword();
 });
 
+$('#profile_submit_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.User.updateAccount();
+});
+
+// job events
+$('#job-list-limit').change(function(){
+    Sababoo.App.Jobs.list();
+});
+
 $('#job_remove_btn').click(function(e){
     e.preventDefault();
     Sababoo.App.Jobs.remove();
@@ -69,8 +79,35 @@ $('#job_status_btn').click(function(e){
     Sababoo.App.Jobs.updateStatus();
 });
 
-$('#profile_submit_btn').click(function(e){
+$('#job_search_keyword').keypress(function(event){
+    if(event.which == '13'){
+        Sababoo.App.Jobs.list();
+    }
+});
+
+// Role events
+$('#role-list-limit').change(function(){
+    Sababoo.App.Role.list();
+});
+
+$('#role_submit_btn').click(function(e){
     e.preventDefault();
-    Sababoo.App.User.updateAccount();
+    Sababoo.App.Role.create();
+}); 
+
+$('#role_remove_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Role.remove();
+});
+
+$('#role_status_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Role.updateStatus();
+});
+
+$('#role_search_keyword').keypress(function(event){
+    if(event.which == '13'){
+        Sababoo.App.Role.list();
+    }
 });
 

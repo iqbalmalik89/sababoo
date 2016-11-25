@@ -19,7 +19,15 @@
   pointer-events: none;
 }
 
-
+.role-checkbox{
+  padding:0 5px;
+  font-size:11px;
+}
+.auto-grid {
+    width:14.2%;
+    float: left;
+    min-height: 1px;
+}
 .margin-top-5px{
   margin-top:5px;
 }

@@ -13,7 +13,14 @@
                 <div class="sidebar-toggler"> </div>
                 <!-- END SIDEBAR TOGGLER BUTTON -->
             </li>
-            
+            <li class="nav-item start <?php if($page=='roles' || $page=='role'){ echo "active";} ?>">
+                <a href="{{URL::to('admin/roles')}}" class="nav-link nav-toggle">
+                    <i class="icon-briefcase"></i>
+                    <span class="title">Roles Management</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
             <li class="nav-item start <?php if($page=='users' || $page=='user'){ echo "active";} ?>">
                 <a href="{{URL::to('admin/users')}}" class="nav-link nav-toggle">
                     <i class="icon-user"></i>
@@ -22,7 +29,7 @@
                     <!-- <span class="arrow open"></span> -->
                 </a>
             </li>
-            <li class="nav-item start <?php if($page=='jobs'){ echo "active";} ?>">
+            <li class="nav-item start <?php if($page=='jobs' || $page=='job'){ echo "active";} ?>">
                 <a href="{{URL::to('admin/jobs')}}" class="nav-link nav-toggle">
                     <i class="icon-briefcase"></i>
                     <span class="title">Jobs Management</span>
