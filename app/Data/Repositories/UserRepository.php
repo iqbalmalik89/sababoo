@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AdminUser;
+use App\Models\Role;
 use App\Helpers\Helper;
 use App\Events\Activation;
 use App\Events\PasswordRecovered;
@@ -16,11 +17,13 @@ use \StdClass, Carbon\Carbon, \Session;
 class UserRepository {
 
 	public $user_model;
+	public $role_model;
 
 	protected $_cacheKey = 'admin-user-'; 
 
-	public function __construct(AdminUser $adminUser){
+	public function __construct(AdminUser $adminUser, Role $role){
 		$this->user_model 	= $adminUser;
+		$this->role_model 	= $role;
 	}
 
 	 /**
@@ -48,6 +51,7 @@ class UserRepository {
 				$data->email 				= $user->email;
 				$data->password 			= $user->password;
 				$data->is_admin 			= $user->is_admin;
+				$data->role_id 				= $user->role_id;
 				$data->is_active 			= $user->is_active;
 				$data->activation_key		= $user->activation_key;
 				$data->activated_on			= $user->activated_on;
@@ -60,10 +64,16 @@ class UserRepository {
 				Cache::forever($this->_cacheKey.$id,$data);			
 				
 			} else {
-				$data = NULL;
+				return NULL;
 			}
 		}
 
+		// to get role title
+		$data->role_title = '';
+		$role = $this->role_model->find($data->role_id);
+		if ($role != NULL) {
+			$data->role_title = $role->name;
+		}
 		return $data;
 
 	}
@@ -90,6 +100,10 @@ class UserRepository {
 
 		if (isset($input['filter_by_status']) && $input['filter_by_status'] != '') {
 			$objectIds = $objectIds->where('is_active','=',$input['filter_by_status']);
+		}
+
+		if (isset($input['filter_by_role']) && $input['filter_by_role'] != 0) {
+			$objectIds = $objectIds->where('role_id','=',$input['filter_by_role']);
 		}
 
 		if(isset($input['limit']) && $input['limit'] != 0) {
@@ -138,6 +152,7 @@ class UserRepository {
 		$user 					= $this->user_model;
 		$user->name 			= $input['name']; 
 		$user->email  			= $input['email'];
+		$user->role_id  		= $input['role_id'];
 		$user->is_active   		= 1;
 		$user->is_admin   		= 1;
 		$user->activation_key 	= Hash::make(time());
@@ -166,6 +181,14 @@ class UserRepository {
 
 			if (isset($input['name']) && $input['name'] != '') {
 				$user->name = $input['name'];
+			}
+
+			if (isset($input['email']) && $input['email'] != '') {
+				$user->email = $input['email'];
+			}
+
+			if (isset($input['role_id']) && $input['role_id'] != 0) {
+				$user->role_id = $input['role_id'];
 			}
 
 			$user->updated_at   = Carbon::now();

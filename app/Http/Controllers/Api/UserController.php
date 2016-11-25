@@ -42,17 +42,20 @@ class UserController extends Controller {
      **/
     public function create(Request $request){
 
-        $input = $request->only('name','email');
+        $input = $request->only('name','email', 'role_id');
 
         $rules = [
                     'name'          =>  'required',
-                    'email'         =>  'required|email|unique:users,email'
+                    'email'         =>  'required|email|unique:users,email',
+                    'role_id'       =>  'required|exists:roles,id'
                 ];
         $messages = [
                 'name.required'     => 'Please enter name.',
                 'email.required'    => 'Please enter email address.',
                 'email.email'       => 'Please enter valid email address.',
-                'email.unique'      => 'This email is already present in the system, Please try a different one.'
+                'email.unique'      => 'This email is already present in the system, Please try a different one.',
+                'role_id.required'  => 'Please select role.',
+                'role_id.exists'    => 'Role not found.',
 
         ];
 
@@ -96,19 +99,22 @@ class UserController extends Controller {
      **/
     public function update(Request $request){
 
-        $input = $request->only('id', 'name', 'email');
+        $input = $request->only('id', 'name', 'email', 'role_id');
 
         $rules = [
                     'id'    =>  'required|exists:admin_users,id',
                     'name'  =>  'required',
                     'email' =>  'required|unique:admin_users,email,'.$input['id'],
+                    'role_id'    =>  'required|exists:roles,id',
                 ];
         $messages = [
                 'id.required'       => 'Please enter user id.',
                 'id.exists'         => 'User not found.',
                 'name.required'     => 'Please enter user name.',
                 'email.required'    => 'Please enter email address.',
-                'email.unique'      => 'This email is already present in the system, Please try a different one.'
+                'email.unique'      => 'This email is already present in the system, Please try a different one.',
+                'role_id.required'  => 'Please select role.',
+                'role_id.exists'    => 'Role not found.',
         ];
 
         $validator = Validator::make( $input, $rules, $messages);
@@ -284,7 +290,7 @@ class UserController extends Controller {
      **/
     public function all(Request $request) {
 
-        $input = $request->only('pagination','keyword','limit','filter_by_status');
+        $input = $request->only('pagination','keyword','limit','filter_by_status', 'filter_by_role');
 
         $rules = ['pagination' => 'required'];
 

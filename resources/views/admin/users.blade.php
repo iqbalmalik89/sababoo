@@ -34,6 +34,49 @@
                 <div class="pull-right margin-top-25px">
                     <div>
                         <label>Search: <input type="search" class="form-control input-sm input-small input-inline" placeholder="" aria-controls="sample_2" id="user_search_keyword"></label>
+
+                        <div class="margin-left-10px pull-right">
+                            <form>
+                                <div class="">
+                                    <select id="user_filter_by_role" class="bs-select form-control">
+                                        <?php
+                                            if (count($roles) > 0) {
+                                        ?>
+                                            <option value="0">Filter By Role</option>
+                                            <?php
+                                                foreach ($roles as $key => $role) {
+                                            ?>
+                                                <option value="{{$role->id}}">{{$role->name}}</option>
+                                            <?php
+                                                }
+                                            ?>
+                                        <?php
+                                            } else {
+                                        ?>
+                                            <option value="0">No Role Found</option>
+                                        <?php
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                                
+                            </form>
+                        </div>
+
+                        <div class="margin-left-10px pull-right">
+                            <form>
+                                <div class="">
+                                    <select id="user_filter_by_status" class="bs-select form-control">
+                                        
+                                        <option value="">Filter By Status</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">In-Active</option>
+                                   
+                                    </select>
+                                </div>
+                                
+                            </form>
+                        </div>
                     </div>
                 </div>
 

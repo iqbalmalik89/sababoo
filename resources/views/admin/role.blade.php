@@ -64,7 +64,7 @@
                                                         <div class="auto-grid role-checkbox">Create</div>
                                                         <div class="auto-grid role-checkbox">Update</div>
                                                         <div class="auto-grid role-checkbox">Delete</div>
-                                                        <div class="auto-grid role-checkbox">Listing</div>
+                                                        <div class="auto-grid role-checkbox">View</div>
                                                         <div class="auto-grid role-checkbox">Search</div>
                                                     </div>
                                                 </th>

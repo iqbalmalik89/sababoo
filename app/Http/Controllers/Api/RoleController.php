@@ -157,7 +157,7 @@ class RoleController extends Controller {
 	 **/
    	public function all(Request $request) {
   
-        $input = $request->only('pagination','keyword','limit');
+        $input = $request->only('pagination','keyword','limit', 'filter_by_status');
         $rules = [];
 
         $messages = [];

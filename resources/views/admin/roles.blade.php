@@ -34,6 +34,21 @@
                 <div class="pull-right margin-top-25px">
                     <div>
                         <label>Search: <input type="search" class="form-control input-sm input-small input-inline" placeholder="" aria-controls="sample_2" id="role_search_keyword"></label>
+
+                        <div class="margin-left-10px pull-right">
+                            <form>
+                                <div class="">
+                                    <select id="role_filter_by_status" class="bs-select form-control">
+                                        
+                                        <option value="">Filter By Status</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">In-Active</option>
+                                   
+                                    </select>
+                                </div>
+                                
+                            </form>
+                        </div>
                     </div>
                 </div>
 

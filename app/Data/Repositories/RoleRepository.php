@@ -98,6 +98,10 @@ class RoleRepository {
 			$roleIds = $roleIds->where('name','LIKE','%'.$input['keyword'].'%');
 		}
 
+		if (isset($input['filter_by_status']) && $input['filter_by_status'] != '') {
+			$roleIds = $roleIds->where('is_active','=',$input['filter_by_status']);
+		}
+		
 		if(isset($input['limit']) && $input['limit'] != 0) {
 			$perPage = $input['limit'];
 		}

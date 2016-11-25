@@ -33,6 +33,14 @@ $('#user-list-limit').change(function(){
     Sababoo.App.User.list();
 });
 
+$('#user_filter_by_role').change(function(){
+    Sababoo.App.User.list();
+});
+
+$('#user_filter_by_status').change(function(){
+    Sababoo.App.User.list();
+});
+
 $('#user_search_keyword').keypress(function(event){
     if(event.which == '13'){
         Sababoo.App.User.list();
@@ -69,6 +77,10 @@ $('#job-list-limit').change(function(){
     Sababoo.App.Jobs.list();
 });
 
+$('#job_filter_by_status').change(function(){
+    Sababoo.App.Jobs.list();
+});
+
 $('#job_remove_btn').click(function(e){
     e.preventDefault();
     Sababoo.App.Jobs.remove();
@@ -87,6 +99,10 @@ $('#job_search_keyword').keypress(function(event){
 
 // Role events
 $('#role-list-limit').change(function(){
+    Sababoo.App.Role.list();
+});
+
+$('#role_filter_by_status').change(function(){
     Sababoo.App.Role.list();
 });
 

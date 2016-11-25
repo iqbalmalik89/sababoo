@@ -5,18 +5,20 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-
+use App\Models\Role;
 use \Validator, \Session;
 class HomeController extends Controller {
 
     public $user_repo;
     public $job_repo;
     public $role_repo;
+    public $role_model;
 
-    public function __construct() {
+    public function __construct(Role $role) {
         $this->user_repo = app()->make('UserRepository');
         $this->job_repo = app()->make('JobRepository');
         $this->role_repo = app()->make('RoleRepository');
+        $this->role_model = $role;
     }
 
  	public function showLogin(Request $request) {
@@ -91,7 +93,8 @@ class HomeController extends Controller {
         $title  = 'Sababoo | Admin | Users';
         $logged_in_user   = Auth::guard('admin_users')->user();
         //$logged_in_user = Session::get('sa_user');
-        return view('admin.users',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+        $roles = $this->role_model->where('is_active', '=', 1)->get();
+        return view('admin.users',['title'=>$title, 'roles'=>$roles, 'logged_in_user'=>$logged_in_user]);
     }
 
     /* for add/update user */
@@ -110,9 +113,11 @@ class HomeController extends Controller {
             }
         }
 
+        $roles = $this->role_model->where('is_active', '=', 1)->get();
         return view('admin.user',['title'=>$title, 
                             'user_id' => $user_id, 
                             'user'=>$user,
+                            'roles'=>$roles,
                             'logged_in_user'=>$logged_in_user]);
     }
 

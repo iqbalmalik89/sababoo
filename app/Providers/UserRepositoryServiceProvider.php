@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 use App\Data\Repositories\UserRepository;
 use App\Models\AdminUser;
+use App\Models\Role;
 
 class UserRepositoryServiceProvider extends ServiceProvider
 {
@@ -27,7 +28,7 @@ class UserRepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('UserRepository', function(){
-            return new UserRepository(new AdminUser);
+            return new UserRepository(new AdminUser, new Role);
         });
     }
 }

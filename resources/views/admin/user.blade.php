@@ -64,6 +64,34 @@
                                             </span>
                                             <input type="email" class="form-control" placeholder="Enter Email Address" id="user_email" value="{{($user_id > 0)?$user->email:''}}"> </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label>Role</label>
+                                        <div class="margin-top-10">
+                                            <select class="bs-select form-control" id="user_role">
+                                            <?php
+                                                if (count($roles) > 0) {
+                                            ?>
+                                                <option value="0">Select Role</option>
+                                                <?php
+                                                    foreach ($roles as $key => $role) {
+                                                ?>
+                                                    <option value="{{$role->id}}">{{$role->name}}</option>
+                                                <?php
+                                                    }
+                                                ?>
+                                            <?php
+                                                } else {
+                                            ?>
+                                                <option value="0">No Role Found</option>
+                                            <?php
+                                                }
+                                            ?>
+                                            </select>
+                                        </div>
+                                        
+                                    </div>
+
                                 </div>
                                 <div class="form-actions right">
                                     <a href="javascript:;" id="user_submit_btn"><button type="button" class="btn green">Submit</button></a>

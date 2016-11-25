@@ -557,7 +557,8 @@ Sababoo.App.User = (function() {
 		$('.spinner-section').show();
 		var page 			= page || 1;
 		var pagination 		= true;
-		var filterByStatus 	= $('#filter_by_status').val() || '';
+		var filterByStatus 	= $('#user_filter_by_status').val() || '';
+		var filterByRole 	= $('#user_filter_by_role').val() || 0;
 		var keyword 		= $('#user_search_keyword').val() || '';
 		var limit 			= $('#user-list-limit').val() || 0;
 		var data 			= {};
@@ -567,7 +568,8 @@ Sababoo.App.User = (function() {
 		data.page 			= page;
 		data.limit 			= limit;
 		data.keyword 		= keyword;
-		data.filterByStatus = filterByStatus;
+		data.filter_by_status = filterByStatus;
+		data.filter_by_role = filterByRole;
 		
 		var request = $.ajax({
 			url: userApiUrl+'/list?page='+page,
@@ -592,6 +594,7 @@ Sababoo.App.User = (function() {
 		                                        <th> ID </th>\
 		                                        <th> Full Name </th>\
 		                                        <th> Email </th>\
+		                                        <th> Role </th>\
 		                                        <th> Status </th>\
 		                                        <th> Action</th>\
 		                                    </tr>');
@@ -614,6 +617,12 @@ Sababoo.App.User = (function() {
 					} else {
 						user.email = 'N/A';									
 					}
+
+					if (typeof user.role_title != 'undefined' && typeof user.role_title !== null && user.role_title!='' ) {
+						user.role_title = user.role_title;
+					} else {
+						user.role_title = 'N/A';									
+					}
 					
 					if (typeof user.is_active != 'undefined' && typeof user.is_active !== null ) {
 						if(user.is_active == 1){
@@ -633,6 +642,7 @@ Sababoo.App.User = (function() {
                                 <td class="highlight"> '+user.id+' </td>\
                                 <td class="hidden-xs"> '+user.name+' </td>\
                                 <td> '+user.email+' </td>\
+                                <td> '+user.role_title+' </td>\
                                 <td> '+statusText+' </td>\
                                 <td>\
                                     <a href="'+config.getAppUrl()+'/user?id='+user.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
@@ -728,6 +738,7 @@ Sababoo.App.User = (function() {
 		var user_id = $('#updated_user_id').val();
 		var name 	= $('#user_name');
 		var email 	= $('#user_email');
+		var role_id 	= $('#user_role');
 
 		if ($.trim(name.val()) == '') {
 			errors.push('Please enter full name.');
@@ -747,12 +758,20 @@ Sababoo.App.User = (function() {
 			}			
 		}
 
+		if ($.trim(role_id.val()) == 0) {
+			errors.push('Please select role.');
+			role_id.parent().parent().addClass('has-error');
+		} else {
+			role_id.parent().parent().removeClass('has-error');	
+		}
+
 		if (errors.length < 1) {
 
 			var jsonData = {
 								id:user_id,
 								name:$.trim(name.val()),
-								email:$.trim(email.val())																
+								email:$.trim(email.val()),
+								role_id:$.trim(role_id.val())																
 							}
 
 			if (jsonData.id == 0) {
@@ -1122,7 +1141,7 @@ Sababoo.App.Jobs = (function(){
 		$('.spinner-section').show();
 		var page 			= page || 1;
 		var pagination 		= true;
-		var filterByStatus 	= $('#filter_by_status').val() || '';
+		var filterByStatus 	= $('#job_filter_by_status').val() || '';
 		var keyword 		= $('#job_search_keyword').val() || '';
 		var limit 			= $('#job-list-limit').val() || 0;
 		var data 			= {};
@@ -1132,7 +1151,7 @@ Sababoo.App.Jobs = (function(){
 		data.page 			= page;
 		data.limit 			= limit;
 		data.keyword 		= keyword;
-		data.filterByStatus = filterByStatus;
+		data.filter_by_status = filterByStatus;
 		
 		var request = $.ajax({
 			url: jobApiUrl+'/list?page='+page,
@@ -1461,7 +1480,7 @@ Sababoo.App.Role = (function() {
 		$('.spinner-section').show();
 		var page 			= page || 1;
 		var pagination 		= true;
-		var filterByStatus 	= $('#filter_by_status').val() || '';
+		var filterByStatus 	= $('#role_filter_by_status').val() || '';
 		var keyword 		= $('#role_search_keyword').val() || '';
 		var limit 			= $('#role-list-limit').val() || 0;
 		var data 			= {};
@@ -1471,7 +1490,7 @@ Sababoo.App.Role = (function() {
 		data.page 			= page;
 		data.limit 			= limit;
 		data.keyword 		= keyword;
-		data.filterByStatus = filterByStatus;
+		data.filter_by_status = filterByStatus;
 		
 		var request = $.ajax({
 			url: roleApiUrl+'/list?page='+page,
