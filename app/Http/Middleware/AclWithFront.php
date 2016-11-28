@@ -6,7 +6,7 @@ use Closure;
 use App\Models\Role;
 use App\Models\Operation;
 use App\Models\Permission;
-use \Session;
+use Illuminate\Support\Facades\Auth;
 
 class AclWithFront
 {
@@ -17,91 +17,71 @@ class AclWithFront
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $route)
+    public function handle($request, Closure $next, $route, $is_api = false)
     {
 
-        // if (Session::has('icrmu_front')) {
+        $admin_user = Auth::guard('admin_users')->user();
 
-        //     \Log::info('Route: '.$route);
-        //     $preUser = Session::get('icrmu_front');
-        //     if (isset($preUser['access_token'])) {
-        //         $request->headers->set('Authorization', 'Bearer ' . $preUser['access_token']);
-        //     }
+        if ($admin_user != false) {
 
-        //     $token = JWTAuth::getToken();
+            if ($admin_user->is_admin == 1) {
+                
+                // for route permission
+                if($route == 'job.create') {
+                    $input = $request->only('id');
+                   
+                    if (isset($input['id']) && $input['id'] > 0) {
+                        $route = 'job.update';
+                    } else {
+                        $route = 'job.create';
+                    }
+                }
 
-        //     if ($token != false) {
+                $operation = Operation::where('route', '=', $route)->first();
 
-        //         $claims = JWTAuth::decode($token);
+                if ($operation != NULL) {
 
-        //         if ($claims != NULL) {
-        //             $roleId = $claims->get('role_id');
-        //             $userId = $claims->get('user_id');
+                    $isAllowed = Permission::where('operation_id','=',$operation->id)
+                                ->where('role_id','=',$admin_user->role_id)
+                                ->where('is_allowed','=',1)->count();
 
-        //             /*if ($roleId != Role::CEO && $roleId != Role::SALES_HEAD && $roleId != Role::SALES_AGENT) {
-        //                 abort(401);
-        //             }*/
-        //             if ($roleId == Role::ADMINISTRATOR) {
-        //                 \Log::info('Is Admin');
-        //                 abort(401);
-        //             } else {
-        //                 $userRole = UserRole::where('role_id', '!=', Role::ADMINISTRATOR)->where('user_id', '=', $userId)->first();
-        //                 if ($userRole == NULL) {
-        //                     \Log::info('Not An Admin');
-        //                     abort(401);
-        //                 } else {
-        //                     if ($route != 'inbox.view') {
-        //                          // for route permission
-        //                         $operation = Operation::where('route', '=', $route)->first();
+                    if($isAllowed < 1){
+                        // unauhtorized
+                        \Log::info('Not Allowed');
 
-        //                         if ($operation != NULL) {
+                        if ($is_api == true) {
+                            $code = 401;
+                            $output = ['error' => ['code'=>$code,'messages'=>['Operation not allowed.']]];
+                            return response()->json($output, $code);
+                        } else {
+                            abort(401);
+                        }
+                        
+                    }
+                    
+                } else {
+                    \Log::info('Operation Not Found');
+                    if ($is_api == true) {
+                        $code = 401;
+                        $output = ['error' => ['code'=>$code,'messages'=>['Operation not allowed.']]];
+                        return response()->json($output, $code);
+                    } else {
+                        abort(401);
+                    }
+                }                
+            } 
+ 
+        } else {
+            if ($is_api == true) {
+                $code = 401;
+                $output = ['error' => ['code'=>$code,'messages'=>['Operation not allowed.']]];
+                return response()->json($output, $code);
+            } else {
+                abort(401);
+            }
+        }
 
-        //                             // for report cant access
-        //                             if ($route == 'reports.view') {
-
-        //                                 $isCantAccessReports = Permission::where('operation_id','=',20)
-        //                                                                     ->where('role_id','=',$roleId)
-        //                                                                     ->where('is_allowed','=',1)->count();
-
-        //                                 if($isCantAccessReports > 0){
-        //                                     \Log::info('No Reports Access');
-        //                                     // unauhtorized
-        //                                     abort(401);
-        //                                 }
-        //                             } else {
-        //                                 $isAllowed = Permission::where('operation_id','=',$operation->id)
-        //                                             ->where('role_id','=',$roleId)
-        //                                             ->where('is_allowed','=',1)->count();
-
-        //                                 if($isAllowed < 1){
-        //                                     \Log::info('Not Allowed');
-        //                                     // unauhtorized
-        //                                     abort(401);
-        //                                 }
-        //                             }
-
-        //                         } else {
-        //                             \Log::info('Operation Not Found');
-        //                             abort(401);
-        //                         }
-        //                     }
-
-        //                 }
-        //             }
-
-        //         } else {
-        //             \Log::info('Token is Blank or False');
-        //             return redirect('/');
-        //         }
-        //     } else {
-
-        //         \Log::info('Token is Blank or False');
-        //         return redirect('/');
-        //     }
-
-        //     return $next($request);
-
-        // } 
+        return $next($request);
 
     }
 }

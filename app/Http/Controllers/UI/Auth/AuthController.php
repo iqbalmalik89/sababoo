@@ -130,7 +130,7 @@ class AuthController extends Controller
 
 
         } else if (Auth::guard('admin_users')->attempt($credentials, false)) {
-         
+                
                 $auth = true;
                 $user = Auth::guard('admin_users')->user();
                 $user->save();
