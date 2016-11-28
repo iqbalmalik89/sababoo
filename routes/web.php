@@ -22,9 +22,9 @@ Route::get('/ui/activate', 'RegisterController@activateUser');
 
 /*LOGIN ROUTE*/
 
-Route::get('/login', function () {
+/*Route::get('/login', function () {
     return view('frontend.auth.login');
-});
+});*/
 
 Route::post('auth/login', 'UI\Auth\AuthController@postLogin');
 Route::get('auth/logout', 'UI\Auth\AuthController@getLogout');
@@ -36,7 +36,7 @@ Route::match(['get', 'post'], '/ui/forgotpw', ['uses' => 'ForgotPasswordControll
 
 
 //Auth::routes();
-
+Route::get('/login', 'HomeController@showLogin');
 Route::get('/', 'HomeController@index');
 
 Route::group(['middleware' => ['web']], function () {
@@ -81,6 +81,10 @@ Route::match(['get', 'post'], '/tradesman/update_basic_info', ['uses' => 'UI\Tra
 Route::match(['get', 'post'], '/tradesman/view/{id}', ['uses' => 'UI\TradesmanController@viewTradesman']);
 
 
+    /********************************Admin User***********************************************/
+Route::match(['get', 'post'], '/admin_user/update_basic_info', ['uses' => 'UI\AdminUserController@updateBasicInfo']);
+
+
 
 
 
@@ -95,12 +99,12 @@ Route::match(['get', 'post'], '/user/delete_user_file', ['uses' => 'UI\UserContr
 Route::match(['get', 'post'], '/user/download_files/{file_id}', ['uses' => 'UI\UserController@DownloadFiles']);
 
 /************************************JOB POSTING *****************************************************/
-Route::match(['get', 'post'], '/job/post', ['uses' => 'UI\JobPostController@jobPost']);
-Route::match(['get', 'post'], '/job/job_create', ['uses' => 'UI\JobPostController@jobCreate']);
-Route::match(['get', 'post'], '/job/user_job_list', ['uses' => 'UI\JobPostController@userJobList']);
-Route::match(['get', 'post'], '/job/job_delete', ['uses' => 'UI\JobPostController@delJob']);
-Route::match(['get', 'post'], '/job/search_jobs', ['uses' => 'UI\JobPostController@searchJob']);
-Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController@viewJob']);
+Route::match(['get', 'post'], '/job/post', ['uses' => 'UI\JobPostController@jobPost'])/*->middleware(['acl.front:job.create,job.update'])*/;
+Route::match(['get', 'post'], '/job/job_create', ['uses' => 'UI\JobPostController@jobCreate'])/*->middleware(['acl.front:job.create'])*/;
+Route::match(['get', 'post'], '/job/user_job_list', ['uses' => 'UI\JobPostController@userJobList'])/*->middleware(['acl.front:job.list'])*/;
+Route::match(['get', 'post'], '/job/job_delete', ['uses' => 'UI\JobPostController@delJob'])/*->middleware(['acl.front:job.delete'])*/;
+Route::match(['get', 'post'], '/job/search_jobs', ['uses' => 'UI\JobPostController@searchJob'])/*->middleware(['acl.front:job.search'])*/;
+Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController@viewJob'])/*->middleware(['acl.front:job.view'])*/;
 
 
 /************************************NETWORK*********************************************************/
@@ -131,8 +135,60 @@ Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController
 
 
 
+/****** Admin Routes ******/
+Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], function(){
+    Route::get('/',['uses'=>'HomeController@showLogin'])->middleware(['acl.admin.guest']);
+	Route::get('/activation', ['uses'=>'HomeController@showActivation']);
+	Route::get('/recover-password', ['uses'=>'HomeController@showRecover']);
+	Route::get('/404', ['uses'=>'HomeController@showNotFound']);
+	Route::get('/401', ['uses'=>'HomeController@showUnAuthorized']);
+
+	Route::get('/users',['uses'=>'HomeController@showUsers'])->middleware(['acl.admin']);
+	Route::get('/user',['uses'=>'HomeController@showUser'])->middleware(['acl.admin']);
+	Route::get('/user-profile',['uses'=>'HomeController@showUserProfile'])->middleware(['acl.admin']);
+
+	Route::get('/jobs',['uses'=>'HomeController@showJobs'])->middleware(['acl.admin']);
+	Route::get('/job',['uses'=>'HomeController@showJob'])->middleware(['acl.admin']);
+
+	Route::get('/roles',['uses'=>'HomeController@showRoles'])->middleware(['acl.admin']);
+	Route::get('/role',['uses'=>'HomeController@showRole'])->middleware(['acl.admin']);
+});
 
 
+// Admin API Routes
+Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], function(){
+
+	// User Authentication Routes
+	Route::post('/user/login',['as'=>'user.login', 'uses'=>'UserController@login']);
+	Route::post('/user/logout',['as'=>'user.logout', 'uses'=>'UserController@logout']);
+	Route::put('/user/create-password',['uses'=>'UserController@createPassword']);
+	Route::post('/user/forgot-password',['uses'=>'UserController@forgotPassword']);
+	Route::put('/user/reset-password',['uses'=>'UserController@resetPassword']);
+
+	// User Routes
+	Route::get('/user/view',['as'=>'user:view', 'uses'=>'UserController@view']);
+	Route::get('/user/list',['as'=>'user:list', 'uses'=>'UserController@all']);
+	Route::post('/user/create',['as'=>'user:create', 'uses'=>'UserController@create']);
+	Route::put('/user/update',['as'=>'user:update', 'uses'=>'UserController@update']);
+	Route::put('/user/update-status',['as'=>'user.update-status', 'uses'=>'UserController@updateStatus']);
+	Route::delete('/user/remove',['as'=>'user.remove', 'uses'=>'UserController@remove']);
+	Route::put('/user/update-password',['as'=>'user.update-password', 'uses'=>'UserController@updatePassword']);
+	Route::put('/user/update-account',['as'=>'user.update-account', 'uses'=>'UserController@updatePersonalInfo']);
+
+	// Jobs Routes
+	Route::get('/job/list',['as'=>'job:list', 'uses'=>'JobController@all']);
+	Route::put('/job/update-status',['as'=>'job.update-status', 'uses'=>'JobController@updateStatus']);
+	Route::delete('/job/remove',['as'=>'job.remove', 'uses'=>'JobController@remove']);
+
+	// Role Routes
+	Route::get('/role/view',['as'=>'role:view', 'uses'=>'RoleController@view']);
+	Route::get('/role/list',['as'=>'role:list', 'uses'=>'RoleController@all']);
+	Route::post('/role/create',['as'=>'role:create', 'uses'=>'RoleController@create']);
+	Route::put('/role/update',['as'=>'role:update', 'uses'=>'RoleController@update']);
+	Route::put('/role/update-status',['as'=>'role.update-status', 'uses'=>'RoleController@updateStatus']);
+	Route::delete('/role/remove',['as'=>'role.remove', 'uses'=>'RoleController@remove']);
+	Route::get('/role/list-modules',['as'=>'role.list-modules', 'uses'=>'RoleController@fetchAllModules']);
+});
 
 
 });

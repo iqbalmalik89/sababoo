@@ -6,6 +6,14 @@
 
 
 @section('content')
+<?php
+    $isAdminUser = false;
+    $adminUser = NULL;
+    if (Auth::guard('admin_users')->user() != NULL) {
+        $isAdminUser = true;
+        $adminUser = Auth::guard('admin_users')->user();
+    }
+?>
 		<!-- start Main Wrapper -->
 <div class="main-wrapper">
 
@@ -15,8 +23,9 @@
 		<div class="container">
 
 			<ol class="breadcrumb-list booking-step">
+				
 				<li><a href="/home">Home</a></li>
-				<li><a href="/job">Job</a></li>
+				<li><a href="/job/user_job_list">Job</a></li>
 				<li><span>Post a Job</span></li>
 			</ol>
 
@@ -267,7 +276,16 @@
 										<?php
 											$content = "Post Your Job";
 											if(isset($job_data->id)){
-												$content = "Update Your Job";
+												if ($isAdminUser == 1) {
+													if($job_data->is_admin_job == 0){
+														$content = "Update User Job";	
+													} else {
+														$content = "Update Your Job";	
+													}
+												} else {
+													$content = "Update Your Job";	
+												}
+												
 											}
 										?>
 										<a id="post_job" href="#_" class="btn btn-primary btn-lg"><?php echo $content;?></a>

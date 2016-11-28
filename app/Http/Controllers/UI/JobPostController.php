@@ -38,14 +38,21 @@ class JobPostController extends Controller
     private $jobpostServiceProvider;
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->logged_user = Auth::user();
+        
         $this->jobpostServiceProvider = new JobPostServiceProvider();
     }
 
     public function jobPost(Request $request){
 
         $post_data=$request->all();
+
+        if (Auth::guard('admin_users')->user() != NULL) {
+          $this->logged_user = Auth::guard('admin_users')->user();
+        } else if (Auth::user() != NULL) {
+          $this->logged_user = Auth::user();
+        } else {
+          return redirect('login');
+        }
 
         $matchThese = ['status'=>1];
         $industry = Industry::where($matchThese)->get();
@@ -60,7 +67,14 @@ class JobPostController extends Controller
     public function jobCreate(Request $request){
 
         $post_data = $request->all();
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+          $this->logged_user = Auth::guard('admin_users')->user();
+        } else if (Auth::user() != NULL) {
+          $this->logged_user = Auth::user();
+        } else {
+          return redirect('login');
+        }
+        
         $validate_array = array(
             'title'         => "required",
             'location'      => "required",
@@ -75,14 +89,23 @@ class JobPostController extends Controller
         if($validation_res['code'] == 401){
             return $validation_res;
         }
+
         $post_data['userid']= $this->logged_user->id;
+        $post_data['is_admin']= $this->logged_user->is_admin;
 
         return  $this->jobpostServiceProvider->createJob($post_data);
 
     }
 
     public function userJobList(Request $request){
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+          $this->logged_user = Auth::guard('admin_users')->user();
+        } else if (Auth::user() != NULL) {
+          $this->logged_user = Auth::user();
+        } else {
+          return redirect('login');
+        }
+        
         $post_data = $request->all();
 
         $paging['page_num']  = $request->input('page_num', 1);
@@ -90,6 +113,7 @@ class JobPostController extends Controller
         $order_by['order']   = $request->input('order', 'asc');
         $order_by['sort_by'] = $request->input('orderby', '0');
         $filters['userid']   =  $this->logged_user->id;
+        $filters['is_admin']   =  $this->logged_user->is_admin;
         if((isset($post_data['name']))){
             $filters['name'] =   $post_data['name'];
         }
@@ -107,7 +131,13 @@ class JobPostController extends Controller
     }
 
     public function searchJob(Request $request){
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+          $this->logged_user = Auth::guard('admin_users')->user();
+        } else if (Auth::user() != NULL) {
+          $this->logged_user = Auth::user();
+        } else {
+          return redirect('login');
+        }
         $post_data = $request->all();
         $paging['page_num']  = $request->input('page_num', 1);
         $paging['page_size'] = $request->input('page_size', env('DEFAULT_PAGE_SIZE'));
@@ -132,6 +162,15 @@ class JobPostController extends Controller
      }
 
     public function viewJob($id){
+
+      if (Auth::guard('admin_users')->user() != NULL) {
+        $this->logged_user = Auth::guard('admin_users')->user();
+      } else if (Auth::user() != NULL) {
+        $this->logged_user = Auth::user();
+      } else {
+        return redirect('login');
+      }
+
         $this->networkServiceProvider = new NetworkServiceProvider();
         $this->commentServiceProvider = new CommentServiceProvider();
        if($id){
@@ -165,18 +204,6 @@ class JobPostController extends Controller
        }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

@@ -9,6 +9,7 @@
 
 namespace BusinessLogic;
 use Helper;
+use Illuminate\Support\Facades\Cache;
 use  BusinessObject\User;
 use  BusinessObject\Language;
 use  BusinessObject\JobPost;
@@ -38,8 +39,14 @@ class JobPostServiceProvider
             if(isset($data['experience'])){ 		    $job->experience 		        = $data['experience']; }
             if(isset($data['industry_id'])){ 		    $job->industry_id 		        = $data['industry_id']; }
             if(isset($data['all_terms'])){ 		        $job->terms 		            = $data['all_terms']; }
+
+            if ($job->is_admin_job == 1) {
+                if(isset($data['is_admin'])){               $job->is_admin_job              = $data['is_admin']; }    
+            }
+            
             $job->job_deadline_date 		= $job_deadline;
             $job->update();
+            Cache::forget('job-'.$job->id);
             return array(
                 'code' => '200',
                 'status' => 'ok',
@@ -62,6 +69,7 @@ class JobPostServiceProvider
         $job->industry_id     = $data['industry'];
         $job->job_deadline_date = $job_deadline;
         $job->terms 		  = $data['all_terms'];
+        $job->is_admin_job    = $data['is_admin'];
 
         $job->save();
         return array(
@@ -76,7 +84,7 @@ class JobPostServiceProvider
 
     public function userJobList($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
 
-        $matchThese = ["job_post.userid"=>$filters['userid'],"job_post.status" =>1];
+        $matchThese = ["job_post.userid"=>$filters['userid'],"job_post.is_active" =>1, "is_admin_job"=>$filters['is_admin']];
 
         $name = isset($filters['name'])?$filters['name']:'';
         $loc = isset($filters['location'])?$filters['location']:'';
@@ -138,14 +146,18 @@ class JobPostServiceProvider
 
     public function jobDelByJobId($jobid){
         $job = JobPost::find($jobid);
-        $job->status 	  = 2;
-        $job->update();
-        return array(
-            'code' => '200',
-            'status' => 'ok',
-            'msg' => "Job deleted successfully.",
+        /*$job->status      = 2;
+        $job->update();*/
+        if ($job != NULL) {
+            $job->delete();
+            return array(
+                'code' => '200',
+                'status' => 'ok',
+                'msg' => "Job deleted successfully.",
 
-        );
+            );
+        }
+        
     }
 
     public function allJobList($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){

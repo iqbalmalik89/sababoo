@@ -7,6 +7,18 @@
 
 @section('content')
 
+<?php
+    $isAdminUser = false;
+    $adminUser = NULL;
+    $roleOperations = [];
+    if (Auth::guard('admin_users')->user() != NULL) {
+        $isAdminUser = true;
+        $adminUser = Auth::guard('admin_users')->user();
+
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $roleRepo->getRoleOperations($adminUser->role_id);
+    }
+?>
 
         <!-- start Main Wrapper -->
 <div class="main-wrapper">
@@ -17,8 +29,9 @@
         <div class="container">
 
             <ol class="breadcrumb-list booking-step">
+                
                 <li><a href="/home">Home</a></li>
-                <li><a href="/job">Job</a></li>
+                <li><a href="/job/user_job_list">Job</a></li>
                 <li><span>My jobs</span></li>
             </ol>
 
@@ -147,8 +160,23 @@
 
                                     </div>
                                     <div class="GridLex-col-2_xs-4_xss-12" >
-                                        <span onclick="editJob(<?php echo $my_job->id;?>)">Edit</span>
-                                    |<span onclick="delJob(<?php echo $my_job->id;?>)">Delete</span>
+                                    <?php
+                                        $showUpdate = 'inline-block';
+                                        $showDelete = 'inline-block';
+                                        //for job update permission
+                                        if ($isAdminUser == true) {
+                                            if (!in_array(2, $roleOperations)) {
+                                                $showUpdate = 'none';
+                                            }
+
+                                            if (!in_array(3, $roleOperations)) {
+                                                $showDelete = 'none';
+                                            }
+                                        }
+                                    ?>
+
+                                    <span style="display:{{$showUpdate}};" onclick="editJob(<?php echo $my_job->id;?>)">Edit | </span>
+                                    <span style="display:{{$showDelete}};" onclick="delJob(<?php echo $my_job->id;?>)">Delete</span>
                                     </div>
 
 

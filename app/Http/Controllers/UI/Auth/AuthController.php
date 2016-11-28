@@ -62,11 +62,19 @@ class AuthController extends Controller
     }
 
     public function getLogout(){
-        Auth::logout();
 
-        Session::flush();
-        return redirect('/');
+        if (Auth::guard('admin_users')->user() != NULL) {
+            Auth::guard('admin_users')->logout();
 
+            //Session::flush();
+            return redirect('/admin');
+        } else if (Auth::user() != NULL) {
+            Auth::logout();
+
+            //Session::flush();
+            return redirect('/');
+        }
+    
     }
      public function getLogin()
     {
@@ -121,6 +129,11 @@ class AuthController extends Controller
                 $user->save();
 
 
+        } else if (Auth::guard('admin_users')->attempt($credentials, false)) {
+         
+                $auth = true;
+                $user = Auth::guard('admin_users')->user();
+                $user->save();
         }
  		
      if ($request->ajax()) {
@@ -134,7 +147,12 @@ class AuthController extends Controller
                 }
             }else{
 
-                 $url="/home";
+                if ($user->is_admin == 0) {
+                    $url="/home";
+                } else if ($user->is_admin == 1) {
+                    $url="/job/user_job_list";
+                }
+                 
                  Session::forget('redirect_url');
                  Auth::login($user);
 

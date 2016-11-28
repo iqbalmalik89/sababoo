@@ -25,14 +25,21 @@ class NetworkController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->logged_user = Auth::user();
+        /*$this->middleware('auth');
+        $this->logged_user = Auth::user();*/
         $this->networkServiceProvider = new NetworkServiceProvider();
 
     }
 
     public function myConnections(Request $request){
-        $this->logged_user = Auth::user();
+
+        if (Auth::guard('admin_users')->user() != NULL) {
+            $this->logged_user = Auth::guard('admin_users')->user();
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         $post_data = $request->all();
 
 
@@ -57,7 +64,13 @@ class NetworkController extends Controller
 
     public function sendRecom(Request $request){
         $post_data = $request->all();
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+            $this->logged_user = Auth::guard('admin_users')->user();
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         parse_str($post_data['frm_data'],$form_data);
         $validate_array = array(
             'message'         => "required",
@@ -72,7 +85,13 @@ class NetworkController extends Controller
      }
 
     public function getRecom($id){
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+            $this->logged_user = Auth::guard('admin_users')->user();
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         $get_user_rec = $this->networkServiceProvider->getRecommendation($this->logged_user->id,$id);
         $sender_data = User::where('id', '=' , $get_user_rec->sender_id)->firstOrFail();
         return view('frontend.mynetwork.read_recommendation',array('user_recom'=>$get_user_rec ,'sender_data'=>$sender_data));
@@ -80,12 +99,24 @@ class NetworkController extends Controller
 
     public function acceptRecom($id){
 
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+            $this->logged_user = Auth::guard('admin_users')->user();
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         $get_user_rec = $this->networkServiceProvider->acceptRecommendation($this->logged_user,$id);
         return redirect($get_user_rec);
     }
     public function rejectRecom($id){
-        $this->logged_user = Auth::user();
+        if (Auth::guard('admin_users')->user() != NULL) {
+            $this->logged_user = Auth::guard('admin_users')->user();
+        } else if (Auth::user() != NULL) {
+            $this->logged_user = Auth::user();
+        } else {
+            return redirect('login');
+        }
         $get_user_rec = $this->networkServiceProvider->rejectRecommendation($this->logged_user,$id);
         return redirect($get_user_rec);
     }
