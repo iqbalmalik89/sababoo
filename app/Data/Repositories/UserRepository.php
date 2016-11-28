@@ -58,8 +58,8 @@ class UserRepository {
 				$data->recover_password_key = $user->recover_password_key;
 				$data->last_logged_in		= $user->last_logged_in;
 				$data->attempts				= $user->attempts;
-				$data->created_at			= ($user->created_at->year == -1)?'0000-00-00 00:00:00':$user->created_at->toDateTimeString();
-				$data->updated_at			= ($user->updated_at->year == -1)?'0000-00-00 00:00:00':$user->updated_at->toDateTimeString();
+				$data->created_at			= date('d M, Y', strtotime($user->created_at));
+				$data->updated_at			= date('d M, Y', strtotime($user->updated_at));
 
 				Cache::forever($this->_cacheKey.$id,$data);			
 				
