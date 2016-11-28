@@ -10,12 +10,14 @@ use \Validator, \Session;
 class HomeController extends Controller {
 
     public $user_repo;
+    public $site_user_repo;
     public $job_repo;
     public $role_repo;
     public $role_model;
 
     public function __construct(Role $role) {
         $this->user_repo = app()->make('UserRepository');
+        $this->site_user_repo = app()->make('SiteUserRepository');
         $this->job_repo = app()->make('JobRepository');
         $this->role_repo = app()->make('RoleRepository');
         $this->role_model = $role;
@@ -127,6 +129,36 @@ class HomeController extends Controller {
         $logged_in_user   = Auth::guard('admin_users')->user();
         //$logged_in_user = Session::get('sa_user');
         return view('admin.user-profile',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+    }
+
+    /* for site users listing */
+    public function showSiteUsers(Request $request) {
+        $title  = 'Sababoo | Admin | Site Users';
+        $logged_in_user   = Auth::guard('admin_users')->user();
+        //$logged_in_user = Session::get('sa_user');
+        return view('admin.site-users',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+    }
+
+    /* for site user details */
+    public function showSiteUser(Request $request) {
+        $title = 'Sababoo | Admin | Site User';
+        $logged_in_user   = Auth::guard('admin_users')->user();
+        //$logged_in_user = Session::get('sa_user');
+        $input = $request->only('id');
+        $user_id = 0;
+        $user = NULL;
+        if (isset($input['id']) && $input['id'] != '') {
+            $user_id = $input['id'];
+            $user = $this->site_user_repo->findById($user_id);
+            if ($user == NULL) {
+                return redirect('/admin/404');
+            }
+        }
+
+        return view('admin.site-user',['title'=>$title, 
+                            'user_id' => $user_id, 
+                            'user'=>$user,
+                            'logged_in_user'=>$logged_in_user]);
     }
 
     /* for jobs listing */

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Data\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Data\Repositories\UserRepository;
 use Illuminate\Http\Request;

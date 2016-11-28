@@ -1130,6 +1130,325 @@ Sababoo.App.User = (function() {
 	}
 }());
 
+/* Site User Management */
+Sababoo.App.SiteUser = (function() {
+
+	var config = Sababoo.Config;
+	var siteUserApiUrl = config.getApiUrl()+'site-user';
+
+	var list = function (page) {
+
+		$('.spinner-section').show();
+		var page 			= page || 1;
+		var pagination 		= true;
+		var filterByStatus 	= $('#site_user_filter_by_status').val() || '';
+		var filterByRole 	= $('#site_user_filter_by_role').val() || '';
+		var keyword 		= $('#site_user_search_keyword').val() || '';
+		var limit 			= $('#site-user-list-limit').val() || 0;
+		var data 			= {};
+		var total_users 	= $('#total_users');
+
+		data.pagination 	= pagination;
+		data.page 			= page;
+		data.limit 			= limit;
+		data.keyword 		= keyword;
+		data.filter_by_status = filterByStatus;
+		data.filter_by_role = filterByRole;
+		
+		var request = $.ajax({
+			url: siteUserApiUrl+'/list?page='+page,
+			data:data,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			$('.spinner-section').hide();
+			var html = '';
+			var paginationShow = '';
+			var users = data.data;
+			var classDisabledPrev = "";
+			var classDisabledNext = "";
+			var paginations = data.pagination;
+			total_users.html(paginations.total);
+
+			if(users.length > 0) {
+
+				$('#site_users_list_head').html('<tr>\
+		                                        <th> ID </th>\
+		                                        <th> Full Name </th>\
+		                                        <th> Email </th>\
+		                                        <th> Industry </th>\
+		                                        <th> Role </th>\
+		                                        <th> Status </th>\
+		                                        <th> Action</th>\
+		                                    </tr>');
+
+				$(users).each(function(index, user){
+
+					var archiveText = '-';	
+					var archiveClass = '';					
+					var is_active = '';
+					var statusText = 'N/A';
+
+					if (typeof user.email != 'undefined' && typeof user.email !== null && user.email!='' ) {
+						user.email = user.email;
+					} else {
+						user.email = 'N/A';									
+					}
+
+					if (typeof user.industry_name != 'undefined' && typeof user.industry_name !== null && user.industry_name!='' ) {
+						user.industry_name = user.industry_name;
+					} else {
+						user.industry_name = 'N/A';									
+					}
+					
+					if (typeof user.status != 'undefined' && typeof user.status !== null ) {
+						if(user.status == 'enabled'){
+							statusText = 'Active';
+							is_active = 'disabled';
+							archiveText = 'In-Activate';
+							archiveClass = 'blue';
+						}else{
+							statusText = 'InActive';
+							is_active = 'enabled';
+							archiveText = 'Activate';
+							archiveClass = 'green-jungle';
+						}
+					}
+					
+					html += '<tr>\
+                                <td class="highlight"> '+user.id+' </td>\
+                                <td class="hidden-xs"> '+user.first_name+' '+user.last_name+' </td>\
+                                <td> '+user.email+' </td>\
+                                <td> '+user.industry_name+' </td>\
+                                <td> '+user.role+' </td>\
+                                <td> '+statusText+' </td>\
+                                <td>\
+                                    <a href="'+config.getAppUrl()+'/site-user?id='+user.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-eye"></i> View </a>\
+                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_user" data-id="'+user.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>\
+                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' user_status" data-id="'+user.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>\
+                                </td>\
+                            </tr>';
+
+				});
+			} else {
+				$('#site_users_list_head').html('');
+				html  += '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>Nothing Here Yet.</h3>\
+                    <p>We couldn\'t find any record related to the defined criteria. Please try again later.</p></div>';
+			}
+
+			$('#site_users_list').html(html);
+
+            if(data.pagination.current >= data.pagination.next && data.pagination.current==1) {
+				$('.general-pagination').hide();
+				$('.user-pagination-limit').hide();
+			} else {
+				if(data.pagination.current==data.pagination.first){
+					classDisabledPrev="disable";
+				}
+				if(data.pagination.current==data.pagination.last){
+					classDisabledNext="disable";
+				}
+				paginationShow+='<li >\
+								      <a class="general-pagination-click  '+classDisabledPrev+'" data-page='+paginations.previous+' href="javascript:;">Previous</a>\
+								    </li>';
+				paginationShow+= '<li >\
+								      <a class=" general-pagination-click '+classDisabledNext+'" data-page='+paginations.next+' href="javascript:;">Next</a>\
+								    </li>';
+				paginationShow+= '<li class="hidden-xs">Showing '+data.pagination.to+' - '+data.pagination.from+' of total '+data.pagination.total+' records</li>';
+
+				$('.general-pagination').html(paginationShow);
+				$('.general-pagination').show();
+				$('.general-pagination-limit').show();
+			}
+
+			$('.general-pagination-click').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var page  = $(this).data('page');
+				Sababoo.App.SiteUser.list(page);
+		    });
+
+		    $('.delete_user').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var user_id  = $(this).attr('data-id');
+				$('#hidden_action_user_id').val(user_id);
+				$('#removeConfirmation').modal('show');
+		    });
+
+		    $('.user_status').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var user_id  = $(this).attr('data-id');
+				var status  = $(this).attr('data-status');
+				$('#hidden_action_user_id').val(user_id);
+				$('#hidden_action_user_status').val(status);
+
+				if (status == 'enabled') {
+					$('#update_status_text').text('Activate');
+				} else if (status == 'disabled') {
+					$('#update_status_text').text('In-Activate');
+				}
+				$('#updateStatusConfirmation').modal('show');
+		    });
+		});
+
+		request.fail(function(jqXHR, textStatus){
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while retrieving users.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+
+			var html = '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>'+error+'</h3></div>';
+            $('#site_users_list').html(html);
+		});		
+	};
+
+	var remove = function (){
+		var id = $('#hidden_action_user_id').val();
+		$('#site_user_remove_btn').addClass('prevent-click');
+		$('#remove_submit_loader').show();
+
+		var request = $.ajax({
+			url: siteUserApiUrl+'/remove',
+			data: {id:id},
+			type: 'delete',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			
+			$('#remove_submit_loader').hide();
+			if (data.success) {
+				var html = 'User has been deleted successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#remove_msg_div').removeClass('alert-danger');
+		 		$('#remove_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#site_user_remove_btn').removeClass('prevent-click');
+				    $('#removeConfirmation').modal('hide');
+				    Sababoo.App.SiteUser.list();	
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while deleting this user.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#site_user_remove_btn').removeClass('prevent-click');
+				$('#remove_msg_div').removeClass('alert-success');
+				$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+				    $(this).html('');
+				    $('#remove_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#site_user_remove_btn').removeClass('prevent-click');
+			$('#remove_submit_loader').hide();
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while deleting this role.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	var updateStatus = function (){
+		
+		var jsonData = {};
+		jsonData.id = $('#hidden_action_user_id').val();
+		jsonData.status = $('#hidden_action_user_status').val();
+
+		var request = $.ajax({
+			url: siteUserApiUrl+'/update-status',
+			data: jsonData,
+			type: 'put',
+			dataType:'json'
+		});
+
+		$('#site_user_status_btn').addClass('prevent-click');
+		$('#status_submit_loader').show();
+
+		request.done(function(data){
+			
+			$('#status_submit_loader').hide();
+			
+			if (data.success) {
+				var html = 'Status has been updates successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#status_msg_div').removeClass('alert-danger');
+		 		$('#status_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#user_status_btn').removeClass('prevent-click');
+				    $('#updateStatusConfirmation').modal('hide');
+				    Sababoo.App.SiteUser.list();		
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while updating user status.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#site_user_status_btn').removeClass('prevent-click');
+				$('#status_msg_div').removeClass('alert-success');
+				$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $('#status_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#site_user_status_btn').removeClass('prevent-click');
+			$('#status_submit_loader').hide();
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while updating user status.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	return {
+		list:list,
+		remove:remove,
+		updateStatus:updateStatus
+	}
+}());
+
 /* Jobs Management */
 Sababoo.App.Jobs = (function(){
 

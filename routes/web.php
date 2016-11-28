@@ -152,6 +152,9 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 
 	Route::get('/roles',['uses'=>'HomeController@showRoles'])->middleware(['acl.admin']);
 	Route::get('/role',['uses'=>'HomeController@showRole'])->middleware(['acl.admin']);
+
+	Route::get('/site-users',['uses'=>'HomeController@showSiteUsers'])->middleware(['acl.admin']);
+	Route::get('/site-user',['uses'=>'HomeController@showSiteUser'])->middleware(['acl.admin']);
 });
 
 
@@ -174,6 +177,13 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	Route::delete('/user/remove',['as'=>'user.remove', 'uses'=>'UserController@remove']);
 	Route::put('/user/update-password',['as'=>'user.update-password', 'uses'=>'UserController@updatePassword']);
 	Route::put('/user/update-account',['as'=>'user.update-account', 'uses'=>'UserController@updatePersonalInfo']);
+
+	// Site User Routes
+	Route::get('/site-user/view',['as'=>'user:view', 'uses'=>'SiteUserController@view']);
+	Route::get('/site-user/list',['as'=>'site-user:list', 'uses'=>'SiteUserController@all']);
+	Route::put('/site-user/update',['as'=>'site-user:update', 'uses'=>'SiteUserController@update']);
+	Route::put('/site-user/update-status',['as'=>'site-user.update-status', 'uses'=>'SiteUserController@updateStatus']);
+	Route::delete('/site-user/remove',['as'=>'site-user.remove', 'uses'=>'SiteUserController@remove']);
 
 	// Jobs Routes
 	Route::get('/job/list',['as'=>'job:list', 'uses'=>'JobController@all']);
