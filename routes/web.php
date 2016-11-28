@@ -99,12 +99,12 @@ Route::match(['get', 'post'], '/user/delete_user_file', ['uses' => 'UI\UserContr
 Route::match(['get', 'post'], '/user/download_files/{file_id}', ['uses' => 'UI\UserController@DownloadFiles']);
 
 /************************************JOB POSTING *****************************************************/
-Route::match(['get', 'post'], '/job/post', ['uses' => 'UI\JobPostController@jobPost'])/*->middleware(['acl.front:job.create,job.update'])*/;
-Route::match(['get', 'post'], '/job/job_create', ['uses' => 'UI\JobPostController@jobCreate'])/*->middleware(['acl.front:job.create'])*/;
-Route::match(['get', 'post'], '/job/user_job_list', ['uses' => 'UI\JobPostController@userJobList'])/*->middleware(['acl.front:job.list'])*/;
-Route::match(['get', 'post'], '/job/job_delete', ['uses' => 'UI\JobPostController@delJob'])/*->middleware(['acl.front:job.delete'])*/;
-Route::match(['get', 'post'], '/job/search_jobs', ['uses' => 'UI\JobPostController@searchJob'])/*->middleware(['acl.front:job.search'])*/;
-Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController@viewJob'])/*->middleware(['acl.front:job.view'])*/;
+Route::match(['get', 'post'], '/job/post', ['uses' => 'UI\JobPostController@jobPost'])->middleware(['acl.front:job.create']);
+Route::match(['get', 'post'], '/job/job_create', ['uses' => 'UI\JobPostController@jobCreate'])->middleware(['acl.front:job.create']);
+Route::match(['get', 'post'], '/job/user_job_list', ['uses' => 'UI\JobPostController@userJobList'])->middleware(['acl.front:job.list']);
+Route::match(['get', 'post'], '/job/job_delete', ['uses' => 'UI\JobPostController@delJob'])->middleware(['acl.front:job.delete']);
+Route::match(['get', 'post'], '/job/search_jobs', ['uses' => 'UI\JobPostController@searchJob'])->middleware(['acl.front:job.search']);
+Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController@viewJob'])->middleware(['acl.front:job.view']);
 
 
 /************************************NETWORK*********************************************************/

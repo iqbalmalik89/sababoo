@@ -17,7 +17,7 @@
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
-                            <span>Add Role</span>
+                            <span>{{($role_id > 0)?'Modify':'Add'}} Role</span>
                         </li>
                     </ul>
 

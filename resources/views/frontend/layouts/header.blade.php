@@ -118,7 +118,7 @@
                             
 
 
-                            <li class="{{$network_view}}">
+                            <li class="">
                                 <a href="#_">My Network</a>
 
                                 <ul>
@@ -132,7 +132,7 @@
 
                             </li>
 
-                            <li class="{{$chat_view}}">
+                            <li class="">
                                 <a href="/user_view_message">Messages<span id="msg_notification"></span></a>
 
 

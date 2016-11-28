@@ -17,7 +17,7 @@
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
-                            <span>Add User</span>
+                            <span>{{($user_id > 0)?'Modify':'Add'}} User</span>
                         </li>
                     </ul>
 
