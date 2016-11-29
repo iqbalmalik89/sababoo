@@ -13,6 +13,10 @@ use BusinessObject\Tradesman;
 use BusinessObject\Education;
 use BusinessObject\UserSkill;
 use BusinessObject\Skill;
+use BusinessObject\Experience;
+use BusinessObject\Language;
+use BusinessObject\UserFiles;
+use BusinessObject\Certification;
 
 class SiteUserRepositoryServiceProvider extends ServiceProvider
 {
@@ -34,7 +38,7 @@ class SiteUserRepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('SiteUserRepository', function(){
-            return new SiteUserRepository(new User, new Industry, new Employee, new Employer, new Tradesman, new Education, new UserSkill, new Skill);
+            return new SiteUserRepository(new User, new Industry, new Employee, new Employer, new Tradesman, new Education, new UserSkill, new Skill, new Experience, new Language, new UserFiles, new Certification);
         });
     }
 }

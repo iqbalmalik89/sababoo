@@ -14,6 +14,10 @@ use BusinessObject\Tradesman;
 use BusinessObject\Education;
 use BusinessObject\UserSkill;
 use BusinessObject\Skill;
+use BusinessObject\Experience;
+use BusinessObject\Language;
+use BusinessObject\UserFiles;
+use BusinessObject\Certification;
 use App\Helpers\Helper;
 
 use \StdClass, Carbon\Carbon, \Session;
@@ -28,18 +32,26 @@ class SiteUserRepository {
 	public $education_model;
 	public $skills_model;
 	public $user_skills_model;
+	public $experience_model;
+	public $language_model;
+	public $user_files_model;
+	public $certification_model;
 
 	protected $_cacheKey = 'user-'; 
 
-	public function __construct(User $user, Industry $industry, Employee $employee, Employer $employer, Tradesman $tradesman, Education $education, UserSkill $user_skills, Skill $skills){
+	public function __construct(User $user, Industry $industry, Employee $employee, Employer $employer, Tradesman $tradesman, Education $education, UserSkill $user_skills, Skill $skills, Experience $experience, Language $language, UserFiles $userFile, Certification $certification){
 		$this->user_model 		= $user;
 		$this->industry_model 	= $industry;
 		$this->employee_model 	= $employee;
 		$this->employer_model 	= $employer;
 		$this->tradesman_model 	= $tradesman;
 		$this->education_model 	= $education;
-		$this->user_skills_model 	= $user_skills;
+		$this->user_skills_model = $user_skills;
 		$this->skills_model 	= $skills;
+		$this->experience_model = $experience;
+		$this->language_model = $language;
+		$this->user_files_model = $userFile;
+		$this->certification_model = $certification;
 	}
 
 	 /**
@@ -53,7 +65,7 @@ class SiteUserRepository {
 	 * @author Bushra Naz
 	 *
 	 **/
-	public function findById($id, $refresh = false) {
+	public function findById($id, $refresh = false, $allData = true) {
 
 		$data = Cache::get($this->_cacheKey.$id);
 
@@ -97,49 +109,59 @@ class SiteUserRepository {
 			$data->industry_name = $industry->name;
 		}
 
-		$data->employee = new StdClass;
-		$data->employer = new StdClass;
-		$data->tradesman = new StdClass;
-		if ($data->role == 'employee') {
-			$empData = $this->employee_model->where('userid', '=', $id)->first();
-			if ($empData != NULL) {
-				$data->employee = $empData;
-			}
+		if ($allData == true) {
 
-			$educationData = $this->education_model->where('userid', '=', $id)->get();
-
-			$eduArray = [];
-			if (count($educationData) > 0) {
-				foreach ($educationData as $key => $edData) {
-					$eduArray[] = $edData;
+			$data->user = new StdClass;
+			if ($data->role == 'employee' || $data->role == 'tradesman') {
+				$data->user->experiences = [];
+				// basic info
+				if ($data->role == 'employee') {
+					$empData = $this->employee_model->where('userid', '=', $id)->first();
+				} else if ($data->role == 'tradesman') {
+					$empData = $this->tradesman_model->where('userid', '=', $id)->first();
 				}
-			}
-			$data->employee->educations = $eduArray;
+				
+				if ($empData != NULL) {
+					$data->user = $empData;
 
-			$skillsData = $this->user_skills_model->where('user_id', '=', $id)->get();
-			$skillsArray = [];
-			if (count($skillsData) > 0) {
-				foreach ($skillsData as $key => $skill) {
-					$skillData = $this->skills_model->find($skill->skill_id);
-					if ($skillData != NULL) {
-						$skillsArray[] = $skillData;
+					// experience
+					$data->user->experiences = $this->experience_model->where('employee_id', '=', $empData->id)->where('status', '=', 1)->get();
+				}
+
+				// education
+				$data->user->educations = $this->education_model->where('userid', '=', $id)->get();
+
+				// skills
+				$skillsData = $this->user_skills_model->where('user_id', '=', $id)->get();
+				$skillsArray = [];
+				if (count($skillsData) > 0) {
+					foreach ($skillsData as $key => $skill) {
+						$skillData = $this->skills_model->find($skill->skill_id);
+						if ($skillData != NULL) {
+							$skillsArray[] = $skillData;
+						}
+						
 					}
-					
+				}
+				$data->user->skills = $skillsArray;
+
+				// Language
+				$data->user->languages = $this->language_model->where('user_id', '=', $id)->get();
+
+				// Certification
+				$data->user->certifications = $this->certification_model->where('userid', '=', $id)->get();
+
+			} else if ($data->role == 'employer') {
+				$empData = $this->employer_model->where('userid', '=', $id)->first();
+				if ($empData != NULL) {
+					$data->user = $empData;
 				}
 			}
-			$data->employee->skills = $skillsArray;
 
-		} else if ($data->role == 'employer') {
-			$empData = $this->employer_model->where('userid', '=', $id)->first();
-			if ($empData != NULL) {
-				$data->employer = $empData;
-			}
-		} else if ($data->role == 'tradesman') {
-			$empData = $this->tradesman_model->where('userid', '=', $id)->first();
-			if ($empData != NULL) {
-				$data->tradesman = $empData;
-			}
-		} 
+			// files
+			$data->user->files = $this->user_files_model->where('userid', '=', $id)->where('status', '=', 1)->get();
+		}
+		
 		return $data;
 
 	}
@@ -190,7 +212,7 @@ class SiteUserRepository {
 		if (count($objects) > 0) {
 			$i = 0;
 			foreach ($objects as $object) {
-				$objectData = $this->findById($object->id);
+				$objectData = $this->findById($object->id, false, false);
 				$data['data'][$i] = $objectData;			
 				$i++;
 			}
