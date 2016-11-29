@@ -71,14 +71,6 @@ class AclWithFront
                 }                
             } 
  
-        } else {
-            if ($is_api == true) {
-                $code = 401;
-                $output = ['error' => ['code'=>$code,'messages'=>['Operation not allowed.']]];
-                return response()->json($output, $code);
-            } else {
-                abort(401);
-            }
         }
 
         return $next($request);

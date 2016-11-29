@@ -73,7 +73,7 @@
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Description</span>
-                                                    <span class="mt-comment-text"> {{($job->description != '')?$job->description:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{($job->description != '')?strip_tags($job->description):'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Type</span>
@@ -93,7 +93,7 @@
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Requirement</span>
-                                                    <span class="mt-comment-text"> {{($job->requirement != '')?$job->requirement:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{($job->requirement != '')?strip_tags($job->requirement):'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Responsibilities</span>
