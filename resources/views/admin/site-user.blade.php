@@ -96,23 +96,23 @@
                                                     
                                                     <div class="mt-comment-info">
                                                         <span class="mt-comment-author" style="width:25%">Email</span>
-                                                        <span class="mt-comment-text"> {{($user->email != '')?$user->email:'N/A'}} </span>
+                                                        <span class="mt-comment-text"> {{(isset($user->email) && $user->email != '')?$user->email:'N/A'}} </span>
                                                     </div>
                                                     <div class="mt-comment-info">
                                                         <span class="mt-comment-author" style="width:25%">Industry</span>
-                                                        <span class="mt-comment-text"> {{($user->industry_name != '')?$user->industry_name:'N/A'}} </span>
+                                                        <span class="mt-comment-text"> {{(isset($user->industry_name) && $user->industry_name != '')?$user->industry_name:'N/A'}} </span>
                                                     </div>
                                                     <div class="mt-comment-info">
                                                         <span class="mt-comment-author" style="width:25%">Role</span>
-                                                        <span class="mt-comment-text"> {{($user->role != '')?$user->role:'N/A'}} </span>
+                                                        <span class="mt-comment-text"> {{(isset($user->role) && $user->role != '')?$user->role:'N/A'}} </span>
                                                     </div>
                                                     <div class="mt-comment-info">
                                                         <span class="mt-comment-author" style="width:25%">Location</span>
-                                                        <span class="mt-comment-text"> {{($user->address != '')?$user->address.', ':''}} {{($user->country != '')?$user->country.', ':''}} {{($user->postal_code != '')?$user->postal_code:''}}</span>
+                                                        <span class="mt-comment-text"> {{(isset($user->address) && $user->address != '')?$user->address.', ':''}} {{($user->country != '')?$user->country.', ':''}} {{($user->postal_code != '')?$user->postal_code:''}}</span>
                                                     </div>
                                                     <div class="mt-comment-info">
                                                         <span class="mt-comment-author" style="width:25%">Contact</span>
-                                                        <span class="mt-comment-text"> {{($user->phone_type != '')?$user->phone_type.', ':''}} {{($user->phone != '')?$user->phone:'N/A'}} </span>
+                                                        <span class="mt-comment-text"> {{(isset($user->phone_type) && $user->phone_type != '')?$user->phone_type.', ':''}} {{($user->phone != '')?$user->phone:'N/A'}} </span>
                                                     </div>
 
                                                     <?php
@@ -120,22 +120,22 @@
                                                     ?>
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Professional Heading</span>
-                                                            <span class="mt-comment-text"> {{($user->user->professional_heading != '')?$user->user->professional_heading:'N/A'}} </span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->professional_heading) && $user->user->professional_heading != '')?$user->user->professional_heading:'N/A'}} </span>
                                                         </div>
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Summary</span>
-                                                            <span class="mt-comment-text"> {{($user->user->summary != '')?$user->user->summary:'N/A'}} </span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->summary) && $user->user->summary != '')?$user->user->summary:'N/A'}} </span>
                                                         </div>
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Interests & Hobbies</span>
-                                                            <span class="mt-comment-text"> {{($user->user->interests != '')?$user->user->interests:'N/A'}} </span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->interests) && $user->user->interests != '')?$user->user->interests:'N/A'}} </span>
                                                         </div>
 
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Resume</span>
                                                             <span class="mt-comment-text"> 
                                                             <?php
-                                                                if ($user->user->resume_name != '') {
+                                                                if (isset($user->user->resume_name) && $user->user->resume_name != '') {
                                                             ?>
                                                                 <a href="{{url('employee/download_resume/'.$user->user->resume_name)}}" target="_blank">{{$user->user->resume_title}}</a>
                                                             <?php
@@ -152,12 +152,12 @@
                                                     ?>
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Company Name</span>
-                                                            <span class="mt-comment-text"> {{($user->user->company_name != '')?$user->user->company_name:'N/A'}} </span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->company_name) && $user->user->company_name != '')?$user->user->company_name:'N/A'}} </span>
                                                         </div>
 
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Background</span>
-                                                            <span class="mt-comment-text"> {{($user->user->description != '')?$user->user->description:'N/A'}} </span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->description) && $user->user->description != '')?$user->user->description:'N/A'}} </span>
                                                         </div>
                                                         
                                                     <?php
@@ -165,11 +165,11 @@
                                                     ?>
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Background</span>
-                                                            <span class="mt-comment-text"> {{($user->user->background != '')?$user->user->background:'N/A'}} </span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->background) && $user->user->background != '')?$user->user->background:'N/A'}} </span>
                                                         </div>
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Interests & Hobbies</span>
-                                                            <span class="mt-comment-text"> {{($user->user->interests != '')?$user->user->interests:'N/A'}} </span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->interests) && $user->user->interests != '')?$user->user->interests:'N/A'}} </span>
                                                         </div>
                                                     <?php
                                                         }
@@ -380,34 +380,34 @@
                                                         
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Name</span>
-                                                            <span class="mt-comment-text"> {{($user->user->company_name != '')?$user->user->company_name:'N/A'}}</span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->company_name) && $user->user->company_name != '')?$user->user->company_name:'N/A'}}</span>
                                                         </div>
 
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Background</span>
-                                                            <span class="mt-comment-text"> {{($user->user->description != '')?$user->user->description:'N/A'}}</span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->description) && $user->user->description != '')?$user->user->description:'N/A'}}</span>
                                                         </div>
 
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Services</span>
-                                                            <span class="mt-comment-text"> {{($user->user->services != '')?$user->user->services:'N/A'}}</span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->services) && $user->user->services != '')?$user->user->services:'N/A'}}</span>
                                                         </div>
 
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Expertise</span>
-                                                            <span class="mt-comment-text"> {{($user->user->expertise != '')?$user->user->expertise:'N/A'}}</span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->expertise) && $user->user->expertise != '')?$user->user->expertise:'N/A'}}</span>
                                                         </div>
 
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">People</span>
-                                                            <span class="mt-comment-text"> {{($user->user->people != '')?$user->user->people:'N/A'}}</span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->people) && $user->user->people != '')?$user->user->people:'N/A'}}</span>
                                                         </div>
 
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Website</span>
                                                             <span class="mt-comment-text">
                                                                 <?php
-                                                                    if ($user->user->website != '') {
+                                                                    if (isset($user->user->website) && $user->user->website != '') {
                                                                 ?>
                                                                     <a href="{{'http://'.$user->user->website}}" target="_blank">{{$user->user->website}}</a>
                                                                 <?php
@@ -422,7 +422,7 @@
 
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Established In</span>
-                                                            <span class="mt-comment-text"> {{($user->user->establish_in != '')?$user->user->establish_in:'N/A'}}</span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->establish_in) && $user->user->establish_in != '')?$user->user->establish_in:'N/A'}}</span>
                                                         </div>
                                                           
                                                     </div>

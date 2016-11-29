@@ -120,7 +120,6 @@ class SiteUserRepository {
 				} else if ($data->role == 'tradesman') {
 					$empData = $this->tradesman_model->where('userid', '=', $id)->first();
 				}
-				
 				if ($empData != NULL) {
 					$data->user = $empData;
 
