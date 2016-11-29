@@ -174,6 +174,7 @@ return [
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
         App\Providers\UserRepositoryServiceProvider::class,
+        App\Providers\SiteUserRepositoryServiceProvider::class,
         App\Providers\JobRepositoryServiceProvider::class,
         App\Providers\RoleRepositoryServiceProvider::class,
     ],

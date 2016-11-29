@@ -22,11 +22,24 @@
                 </a>
             </li>
             <li class="nav-item start <?php if($page=='users' || $page=='user'){ echo "active";} ?>">
-                <a href="{{URL::to('admin/users')}}" class="nav-link nav-toggle">
+                <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-user"></i>
                     <span class="title">User Management</span>
                     <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
+                    <span class="arrow open"></span>
+                    <ul class="sub-menu">
+                        <li class="nav-item  <?php if($page=='users' || $page=='user'){ echo "active";} ?> open">
+                            <a href="{{URL::to('admin/users')}}" class="nav-link ">
+                                <span class="title">Admin Users</span>
+                            </a>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="{{URL::to('admin/site-users')}}" class="nav-link ">
+                                <span class="title">Site Users</span>
+                            </a>
+                        </li>
+                        
+                    </ul>
                 </a>
             </li>
             <li class="nav-item start <?php if($page=='jobs' || $page=='job'){ echo "active";} ?>">

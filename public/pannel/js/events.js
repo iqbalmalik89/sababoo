@@ -72,6 +72,35 @@ $('#profile_submit_btn').click(function(e){
     Sababoo.App.User.updateAccount();
 });
 
+// site users
+$('#site-user-list-limit').change(function(){
+    Sababoo.App.SiteUser.list();
+});
+
+$('#site_user_filter_by_role').change(function(){
+    Sababoo.App.SiteUser.list();
+});
+
+$('#site_user_filter_by_status').change(function(){
+    Sababoo.App.SiteUser.list();
+});
+
+$('#site_user_search_keyword').keypress(function(event){
+    if(event.which == '13'){
+        Sababoo.App.SiteUser.list();
+    }
+});
+
+$('#site_user_remove_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.SiteUser.remove();
+});
+
+$('#site_user_status_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.SiteUser.updateStatus();
+});
+
 // job events
 $('#job-list-limit').change(function(){
     Sababoo.App.Jobs.list();

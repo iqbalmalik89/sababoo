@@ -17,46 +17,29 @@
                         <i class="fa fa-circle"></i>
                     </li>
                     <li>
-                        <span>Admin Users</span>
+                        <span>Site Users</span>
                     </li>
                 </ul>
-
-                <div class="form-actions pull-right margin-top-5px margin-bottom-5px">
-                    <a href="{{URL::to('admin/user')}}"><button type="button" class="btn green"><i class="fa fa-plus fa-fw"></i>Add User</button></a>
-                </div>
             </div>
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
             <div>
-                <h3 class="page-title pull-left"> Users
+                <h3 class="page-title pull-left"> Site Users
                     <small>(<span id="total_users"></span>)</small>
                 </h3>
                 <div class="pull-right margin-top-25px">
                     <div>
-                        <label>Search: <input type="search" class="form-control input-sm input-small input-inline" placeholder="" aria-controls="sample_2" id="user_search_keyword"></label>
+                        <label>Search: <input type="search" class="form-control input-sm input-small input-inline" placeholder="" aria-controls="sample_2" id="site_user_search_keyword"></label>
 
                         <div class="margin-left-10px pull-right">
                             <form>
                                 <div class="">
-                                    <select id="user_filter_by_role" class="bs-select form-control">
-                                        <?php
-                                            if (count($roles) > 0) {
-                                        ?>
-                                            <option value="0">Filter By Role</option>
-                                            <?php
-                                                foreach ($roles as $key => $role) {
-                                            ?>
-                                                <option value="{{$role->id}}">{{$role->name}}</option>
-                                            <?php
-                                                }
-                                            ?>
-                                        <?php
-                                            } else {
-                                        ?>
-                                            <option value="0">No Role Found</option>
-                                        <?php
-                                            }
-                                        ?>
+                                    <select id="site_user_filter_by_role" class="bs-select form-control">
+                                        
+                                        <option value="">Filter By Role</option>
+                                        <option value="employee">Employee</option>
+                                        <option value="employer">Employer</option>
+                                        <option value="tradesman">Tradesman</option>
                                     </select>
                                 </div>
                                 
@@ -66,11 +49,11 @@
                         <div class="margin-left-10px pull-right">
                             <form>
                                 <div class="">
-                                    <select id="user_filter_by_status" class="bs-select form-control">
+                                    <select id="site_user_filter_by_status" class="bs-select form-control">
                                         
                                         <option value="">Filter By Status</option>
-                                        <option value="1">Active</option>
-                                        <option value="0">In-Active</option>
+                                        <option value="enabled">Active</option>
+                                        <option value="disabled">In-Active</option>
                                    
                                     </select>
                                 </div>
@@ -91,10 +74,10 @@
                 <div class="portlet-body">
                     <div class="table-scrollable">
                         <table class="table table-striped table-bordered table-advance table-hover">
-                            <thead id="users_list_head">
+                            <thead id="site_users_list_head">
                                 
                             </thead>
-                            <tbody id="users_list">
+                            <tbody id="site_users_list">
                                                                     
                             </tbody>
                         </table>
@@ -112,7 +95,7 @@
                     <div class="pull-right general-limit-div">
                         <form>
                             <div class="">
-                                <select class="bs-select form-control" id="user-list-limit">
+                                <select class="bs-select form-control" id="site-user-list-limit">
                                     <option value="5">Show 5 users per page</option>
                                     <option value="10" selected="selected">Show 10 users per page</option>
                                     <option value="15">Show 15 users per page</option>
@@ -150,7 +133,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        <a href="javascript:;" id="user_remove_btn"><button type="button" class="btn green">Yes</button></a>
+        <a href="javascript:;" id="site_user_remove_btn"><button type="button" class="btn green">Yes</button></a>
         <img class="button_spinners" src="{{URL::to('pannel/images/loader.gif')}}" id="remove_submit_loader">
       </div>
     </div>
@@ -174,7 +157,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        <a href="javascript:;" id="user_status_btn"><button type="button" class="btn green">Yes</button></a>
+        <a href="javascript:;" id="site_user_status_btn"><button type="button" class="btn green">Yes</button></a>
         <img class="button_spinners" src="{{URL::to('pannel/images/loader.gif')}}" id="status_submit_loader">
       </div>
     </div>
@@ -188,7 +171,7 @@
 @section('scripts')
 <script type="text/javascript">
 $(document).ready(function() {
-    Sababoo.App.User.list();
+    Sababoo.App.SiteUser.list();
 });
 </script> 
 @endsection
