@@ -156,3 +156,64 @@ $('#role_search_keyword').keypress(function(event){
     }
 });
 
+
+// Skills events
+$('#skill-list-limit').change(function(){
+    Sababoo.App.Skills.list();
+});
+
+$('#skill_filter_by_status').change(function(){
+    Sababoo.App.Skills.list();
+});
+
+$('#skill_submit_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Skills.create();
+}); 
+
+$('#skill_remove_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Skills.remove();
+});
+
+$('#skill_status_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Skills.updateStatus();
+});
+
+$('#skill_search_keyword').keypress(function(event){
+    if(event.which == '13'){
+        Sababoo.App.Skills.list();
+    }
+});
+
+// Industries events
+$('#industry-list-limit').change(function(){
+    Sababoo.App.Industry.list();
+});
+
+$('#industry_filter_by_status').change(function(){
+    Sababoo.App.Industry.list();
+});
+
+$('#industry_submit_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Industry.create();
+}); 
+
+$('#industry_remove_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Industry.remove();
+});
+
+$('#industry_status_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Industry.updateStatus();
+});
+
+$('#industry_search_keyword').keypress(function(event){
+    if(event.which == '13'){
+        Sababoo.App.Industry.list();
+    }
+});
+

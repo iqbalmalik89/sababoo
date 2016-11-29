@@ -147,14 +147,20 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 	Route::get('/user',['uses'=>'HomeController@showUser'])->middleware(['acl.admin']);
 	Route::get('/user-profile',['uses'=>'HomeController@showUserProfile'])->middleware(['acl.admin']);
 
+	Route::get('/site-users',['uses'=>'HomeController@showSiteUsers'])->middleware(['acl.admin']);
+	Route::get('/site-user',['uses'=>'HomeController@showSiteUser'])->middleware(['acl.admin']);
+
 	Route::get('/jobs',['uses'=>'HomeController@showJobs'])->middleware(['acl.admin']);
 	Route::get('/job',['uses'=>'HomeController@showJob'])->middleware(['acl.admin']);
 
 	Route::get('/roles',['uses'=>'HomeController@showRoles'])->middleware(['acl.admin']);
 	Route::get('/role',['uses'=>'HomeController@showRole'])->middleware(['acl.admin']);
 
-	Route::get('/site-users',['uses'=>'HomeController@showSiteUsers'])->middleware(['acl.admin']);
-	Route::get('/site-user',['uses'=>'HomeController@showSiteUser'])->middleware(['acl.admin']);
+	Route::get('/skills',['uses'=>'HomeController@showSkills'])->middleware(['acl.admin']);
+	Route::get('/skill',['uses'=>'HomeController@showSkill'])->middleware(['acl.admin']);
+
+	Route::get('/industries',['uses'=>'HomeController@showIndustries'])->middleware(['acl.admin']);
+	Route::get('/industry',['uses'=>'HomeController@showIndustry'])->middleware(['acl.admin']);
 });
 
 
@@ -198,6 +204,22 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	Route::put('/role/update-status',['as'=>'role.update-status', 'uses'=>'RoleController@updateStatus']);
 	Route::delete('/role/remove',['as'=>'role.remove', 'uses'=>'RoleController@remove']);
 	Route::get('/role/list-modules',['as'=>'role.list-modules', 'uses'=>'RoleController@fetchAllModules']);
+
+	// Skills Routes
+	Route::get('/skill/view',['as'=>'skill:view', 'uses'=>'SkillsController@view']);
+	Route::get('/skill/list',['as'=>'skill:list', 'uses'=>'SkillsController@all']);
+	Route::post('/skill/create',['as'=>'skill:create', 'uses'=>'SkillsController@create']);
+	Route::put('/skill/update',['as'=>'skill:update', 'uses'=>'SkillsController@update']);
+	Route::put('/skill/update-status',['as'=>'skill.update-status', 'uses'=>'SkillsController@updateStatus']);
+	Route::delete('/skill/remove',['as'=>'skill.remove', 'uses'=>'SkillsController@remove']);
+
+	// Industries Routes
+	Route::get('/industry/view',['as'=>'industry:view', 'uses'=>'IndustryController@view']);
+	Route::get('/industry/list',['as'=>'industry:list', 'uses'=>'IndustryController@all']);
+	Route::post('/industry/create',['as'=>'industry:create', 'uses'=>'IndustryController@create']);
+	Route::put('/industry/update',['as'=>'industry:update', 'uses'=>'IndustryController@update']);
+	Route::put('/industry/update-status',['as'=>'industry.update-status', 'uses'=>'IndustryController@updateStatus']);
+	Route::delete('/industry/remove',['as'=>'industry.remove', 'uses'=>'IndustryController@remove']);
 });
 
 

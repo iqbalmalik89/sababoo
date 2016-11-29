@@ -61,51 +61,51 @@
                                             <div class="mt-comment-body">
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Job Title</span>
-                                                    <span class="mt-comment-text"> {{($job->name != '')?$job->name:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->name) && $job->name != '')?$job->name:'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">User</span>
-                                                    <span class="mt-comment-text"> {{($job->user_name != '')?$job->user_name:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->user_name) && $job->user_name != '')?$job->user_name:'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Industry</span>
-                                                    <span class="mt-comment-text"> {{($job->industry_name != '')?$job->industry_name:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->industry_name) && $job->industry_name != '')?$job->industry_name:'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Description</span>
-                                                    <span class="mt-comment-text"> {{($job->description != '')?$job->description:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->description) && $job->description != '')?strip_tags($job->description):'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Type</span>
-                                                    <span class="mt-comment-text"> {{($job->type == 'full_time')?'Full Time':'Part Time'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->type) && $job->type == 'full_time')?'Full Time':'Part Time'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Location</span>
-                                                    <span class="mt-comment-text"> {{($job->location != '')?$job->location:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->location) && $job->location != '')?$job->location:'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Salary</span>
-                                                    <span class="mt-comment-text"> {{($job->salary != '')?$job->salary:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->salary) && $job->salary != '')?$job->salary:'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Deadline Date</span>
-                                                    <span class="mt-comment-text"> {{($job->job_deadline_date != '')?$job->job_deadline_date:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->job_deadline_date) && $job->job_deadline_date != '')?$job->job_deadline_date:'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Requirement</span>
-                                                    <span class="mt-comment-text"> {{($job->requirement != '')?$job->requirement:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->requirement) && $job->requirement != '')?strip_tags($job->requirement):'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Responsibilities</span>
-                                                    <span class="mt-comment-text"> {{($job->responsibilities != '')?$job->responsibilities:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->responsibilities) && $job->responsibilities != '')?$job->responsibilities:'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Experience</span>
-                                                    <span class="mt-comment-text"> {{($job->experience != '')?$job->experience:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->experience) && $job->experience != '')?$job->experience:'N/A'}} </span>
                                                 </div>
                                                 <div class="mt-comment-info">
                                                     <span class="mt-comment-author" style="width:25%">Terms</span>
-                                                    <span class="mt-comment-text"> {{($job->terms != '')?$job->terms:'N/A'}} </span>
+                                                    <span class="mt-comment-text"> {{(isset($job->terms) && $job->terms != '')?$job->terms:'N/A'}} </span>
                                                 </div>
 
                                                 

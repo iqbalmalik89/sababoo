@@ -13,6 +13,9 @@ class HomeController extends Controller {
     public $site_user_repo;
     public $job_repo;
     public $role_repo;
+    public $skill_repo;
+    public $industry_repo;
+
     public $role_model;
 
     public function __construct(Role $role) {
@@ -20,6 +23,8 @@ class HomeController extends Controller {
         $this->site_user_repo = app()->make('SiteUserRepository');
         $this->job_repo = app()->make('JobRepository');
         $this->role_repo = app()->make('RoleRepository');
+        $this->skill_repo = app()->make('SkillsRepository');
+        $this->industry_repo = app()->make('IndustryRepository');
         $this->role_model = $role;
     }
 
@@ -220,6 +225,68 @@ class HomeController extends Controller {
         return view('admin.role',['title'=>$title, 
                                 'role_id' => $role_id, 
                                 'role'=>$role,
+                                'logged_in_user'=>$logged_in_user]);
+    }
+
+    /* for skills listing */
+    public function showSkills(Request $request) {
+        $title  = 'Sababoo | Admin | Skills';
+        $logged_in_user   = Auth::guard('admin_users')->user();
+        //$logged_in_user = Session::get('sa_user');
+        return view('admin.skills',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+    }
+
+    /* for individual skill view */
+    public function showSkill(Request $request) {
+        $title  = 'Sababoo | Admin | Skill';
+        $logged_in_user   = Auth::guard('admin_users')->user();
+
+        $input = $request->only('id');
+        $skill_id = 0;
+        $skill = NULL;
+        if (isset($input['id']) && $input['id'] != '') {
+            $skill_id = $input['id'];
+            $skill = $this->skill_repo->findById($skill_id);
+            if ($skill == NULL) {
+                return redirect('/admin/404');
+            }
+        }
+        
+        //$logged_in_user = Session::get('sa_user');
+        return view('admin.skill',['title'=>$title, 
+                                'skill_id' => $skill_id, 
+                                'skill'=>$skill,
+                                'logged_in_user'=>$logged_in_user]);
+    }
+
+    /* for industries listing */
+    public function showIndustries(Request $request) {
+        $title  = 'Sababoo | Admin | Industries';
+        $logged_in_user   = Auth::guard('admin_users')->user();
+        //$logged_in_user = Session::get('sa_user');
+        return view('admin.industries',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+    }
+
+    /* for individual industry view */
+    public function showIndustry(Request $request) {
+        $title  = 'Sababoo | Admin | Industry';
+        $logged_in_user   = Auth::guard('admin_users')->user();
+
+        $input = $request->only('id');
+        $industry_id = 0;
+        $industry = NULL;
+        if (isset($input['id']) && $input['id'] != '') {
+            $industry_id = $input['id'];
+            $industry = $this->industry_repo->findById($industry_id);
+            if ($industry == NULL) {
+                return redirect('/admin/404');
+            }
+        }
+        
+        //$logged_in_user = Session::get('sa_user');
+        return view('admin.industry',['title'=>$title, 
+                                'industry_id' => $industry_id, 
+                                'industry'=>$industry,
                                 'logged_in_user'=>$logged_in_user]);
     }
 }

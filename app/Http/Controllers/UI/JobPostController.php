@@ -116,9 +116,13 @@ class JobPostController extends Controller
         $filters['is_admin']   =  $this->logged_user->is_admin;
         if((isset($post_data['name']))){
             $filters['name'] =   $post_data['name'];
+        } else {
+          $filters['name'] = '';
         }
         if((isset($post_data['location']))){
             $filters['location'] =   $post_data['location'];
+        } else {
+          $filters['location'] = '';
         }
         $my_jobs=  $this->jobpostServiceProvider->userJobList($filters,$order_by,$paging);
 

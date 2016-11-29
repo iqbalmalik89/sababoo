@@ -21,19 +21,19 @@
                     <!-- <span class="arrow open"></span> -->
                 </a>
             </li>
-            <li class="nav-item start <?php if($page=='users' || $page=='user'){ echo "active";} ?>">
+            <li class="nav-item start <?php if($page=='users' || $page=='user' || $page=='site-users' || $page=='site-user'){ echo "active";} ?>">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-user"></i>
                     <span class="title">User Management</span>
                     <span class="selected"></span>
                     <span class="arrow open"></span>
                     <ul class="sub-menu">
-                        <li class="nav-item  <?php if($page=='users' || $page=='user'){ echo "active";} ?> open">
+                        <li class="nav-item  <?php if($page=='users' || $page=='user'){ echo "active open";} ?>">
                             <a href="{{URL::to('admin/users')}}" class="nav-link ">
                                 <span class="title">Admin Users</span>
                             </a>
                         </li>
-                        <li class="nav-item  ">
+                        <li class="nav-item  <?php if($page=='site-users' || $page=='site-user'){ echo "active open";} ?> ">
                             <a href="{{URL::to('admin/site-users')}}" class="nav-link ">
                                 <span class="title">Site Users</span>
                             </a>
@@ -46,6 +46,22 @@
                 <a href="{{URL::to('admin/jobs')}}" class="nav-link nav-toggle">
                     <i class="icon-briefcase"></i>
                     <span class="title">Jobs Management</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
+            <li class="nav-item start <?php if($page=='skills' || $page=='skill'){ echo "active";} ?>">
+                <a href="{{URL::to('admin/skills')}}" class="nav-link nav-toggle">
+                    <i class="icon-diamond"></i>
+                    <span class="title">Skills Management</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
+            <li class="nav-item start <?php if($page=='industries' || $page=='industry'){ echo "active";} ?>">
+                <a href="{{URL::to('admin/industries')}}" class="nav-link nav-toggle">
+                    <i class="icon-layers"></i>
+                    <span class="title">Industries Management</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
                 </a>

@@ -316,11 +316,20 @@ class RoleRepository {
 		$role = $this->role_model->find($input['id']);
 
 		if ($role != NULL) {
-			$role->is_active = $input['status'];			
+			$role->is_active = $input['status'];	
+
+			if ($role->is_active == 0) {
+				// to check for associated users
+				$associatedUsers = $this->admin_user_model->where('role_id', '=', $input['id'])->count();
+				if($associatedUsers > 0) {
+					return 'cannot_inactivate';
+				} 
+			}
+			
 			$role->updated_at = Carbon::now();
 			if ($role->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
-				return true;
+				return 'success';
 			}
 		}
 	}
