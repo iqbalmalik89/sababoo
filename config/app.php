@@ -177,6 +177,8 @@ return [
         App\Providers\SiteUserRepositoryServiceProvider::class,
         App\Providers\JobRepositoryServiceProvider::class,
         App\Providers\RoleRepositoryServiceProvider::class,
+        App\Providers\SkillsRepositoryServiceProvider::class,
+        App\Providers\IndustryRepositoryServiceProvider::class,
     ],
 
     /*

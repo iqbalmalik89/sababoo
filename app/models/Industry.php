@@ -29,5 +29,5 @@ class Industry extends Model implements AuthenticatableContract,
      * @var string
      */
     protected $table = 'industry';
-
+    public $timestamps = false;  
 }

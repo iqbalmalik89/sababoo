@@ -2277,3 +2277,825 @@ Sababoo.App.Role = (function() {
 	}
 }());
 
+/* Skills Management */
+Sababoo.App.Skills = (function() {
+
+	var config = Sababoo.Config;
+	var skillApiUrl = config.getApiUrl()+'skill';
+
+	var list = function (page) {
+
+		$('.spinner-section').show();
+		var page 			= page || 1;
+		var pagination 		= true;
+		var filterByStatus 	= $('#skill_filter_by_status').val() || '';
+		var keyword 		= $('#skill_search_keyword').val() || '';
+		var limit 			= $('#skill-list-limit').val() || 0;
+		var data 			= {};
+		var total_skills 	= $('#total_skills');
+
+		data.pagination 	= pagination;
+		data.page 			= page;
+		data.limit 			= limit;
+		data.keyword 		= keyword;
+		data.filter_by_status = filterByStatus;
+		
+		var request = $.ajax({
+			url: skillApiUrl+'/list?page='+page,
+			data:data,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			$('.spinner-section').hide();
+			var html = '';
+			var paginationShow = '';
+			var skills = data.data;
+			var classDisabledPrev = "";
+			var classDisabledNext = "";
+			var paginations = data.pagination;
+			total_skills.html(paginations.total);
+
+			if(skills.length > 0) {
+
+				$('#skills_list_head').html('<tr>\
+		                                        <th> ID </th>\
+		                                        <th> Title </th>\
+		                                        <th> Associated Users </th>\
+		                                        <th> Status </th>\
+		                                        <th> Action</th>\
+		                                    </tr>');
+
+				$(skills).each(function(index, skill){
+
+					var archiveText = '-';	
+					var archiveClass = '';					
+					var is_active = '';
+					var statusText = 'N/A';
+
+					if (typeof skill.skill != 'undefined' && typeof skill.skill !== null && skill.skill!='' ) {
+						skill.skill = skill.skill;
+					} else {
+						skill.skill = 'N/A';									
+					}
+
+					if (typeof skill.total_users != 'undefined' && typeof skill.total_users !== null && skill.total_users!='' ) {
+						skill.total_users = skill.total_users;
+					} else {
+						skill.total_users = '0';									
+					}
+					
+					if (typeof skill.status != 'undefined' && typeof skill.status !== null ) {
+						if(skill.status == 'enable'){
+							statusText = 'Active';
+							is_active = 'disable';
+							archiveText = 'In-Activate';
+							archiveClass = 'blue';
+						}else if (skill.status == 'disable'){
+							statusText = 'InActive';
+							is_active = 'enable';
+							archiveText = 'Activate';
+							archiveClass = 'green-jungle';
+						}
+					}
+					
+					html += '<tr>\
+                                <td class="highlight"> '+skill.id+' </td>\
+                                <td class="hidden-xs"> '+skill.skill+' </td>\
+                                <td> '+skill.total_users+' </td>\
+                                <td> '+statusText+' </td>\
+                                <td>\
+                                    <a href="'+config.getAppUrl()+'/skill?id='+skill.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-edit"></i> Edit </a>\
+                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_skill" data-id="'+skill.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>\
+                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' skill_status" data-id="'+skill.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>\
+                                </td>\
+                            </tr>';
+
+				});
+			} else {
+				$('#skills_list_head').html('');
+				html  += '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>Nothing Here Yet.</h3>\
+                    <p>We couldn\'t find any record related to the defined criteria. Please try again later.</p></div>';
+			}
+
+			$('#skills_list').html(html);
+
+            if(data.pagination.current >= data.pagination.next && data.pagination.current==1) {
+				$('.general-pagination').hide();
+				$('.skill-pagination-limit').hide();
+			} else {
+				if(data.pagination.current==data.pagination.first){
+					classDisabledPrev="disable";
+				}
+				if(data.pagination.current==data.pagination.last){
+					classDisabledNext="disable";
+				}
+				paginationShow+='<li >\
+								      <a class="general-pagination-click  '+classDisabledPrev+'" data-page='+paginations.previous+' href="javascript:;">Previous</a>\
+								    </li>';
+				paginationShow+= '<li >\
+								      <a class=" general-pagination-click '+classDisabledNext+'" data-page='+paginations.next+' href="javascript:;">Next</a>\
+								    </li>';
+				paginationShow+= '<li class="hidden-xs">Showing '+data.pagination.to+' - '+data.pagination.from+' of total '+data.pagination.total+' records</li>';
+
+				$('.general-pagination').html(paginationShow);
+				$('.general-pagination').show();
+				$('.general-pagination-limit').show();
+			}
+
+			$('.general-pagination-click').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var page  = $(this).data('page');
+				Sababoo.App.Skills.list(page);
+		    });
+
+		    $('.delete_skill').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var skill_id  = $(this).attr('data-id');
+				$('#hidden_action_skill_id').val(skill_id);
+				$('#removeConfirmation').modal('show');
+		    });
+
+		    $('.skill_status').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var skill_id  = $(this).attr('data-id');
+				var status  = $(this).attr('data-status');
+				$('#hidden_action_skill_id').val(skill_id);
+				$('#hidden_action_skill_status').val(status);
+
+				if (status == 'enable') {
+					$('#update_status_text').text('Activate');
+				} else if (status == 'disable') {
+					$('#update_status_text').text('In-Activate');
+				}
+				$('#updateStatusConfirmation').modal('show');
+		    });
+		});
+
+		request.fail(function(jqXHR, textStatus){
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while retrieving skills.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+
+			var html = '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>'+error+'</h3></div>';
+            $('#skills_list').html(html);
+		});		
+	};
+
+	var create = function (){
+
+		var errors = [];
+		var skill_id = $('#updated_skill_id').val();
+		var title 	= $('#skill_title');
+
+		if ($.trim(title.val()) == '') {
+			errors.push('Please enter title.');
+			title.parent().addClass('has-error');
+		} else {
+			title.parent().removeClass('has-error');	
+		}
+
+		if (errors.length < 1) {
+
+			var jsonData = {
+								id:skill_id,
+								title:$.trim(title.val())														
+							}
+
+			if (jsonData.id == 0) {
+				var request = $.ajax({
+					url: skillApiUrl+'/create',
+					data: jsonData,
+					type: 'post',
+					dataType:'json'
+				});
+			} else {
+				var request = $.ajax({	
+					url: skillApiUrl+'/update',
+					data: jsonData,
+					type: 'put',
+					dataType:'json'
+				});
+			}
+			
+			$('#skill_submit_btn').addClass('prevent-click');
+			$('#submit_loader').show();
+
+			request.done(function(data){
+				
+				$('#submit_loader').hide();
+				if(data.success) {		 
+						$('#msg_div').removeClass('alert-danger');
+						$('#msg_div').html(data.success.messages[0]).addClass('alert-success').show().delay(2000).fadeOut(function()
+						{
+							window.location.href = config.getAppUrl()+'/skills';
+					    });		 	
+				} else if(data.error) {
+					$('#skill_submit_btn').removeClass('prevent-click');
+					var message_error = data.error.messages[0];
+					$('#msg_div').removeClass('alert-success');
+					$('#msg_div').html(message_error).addClass('alert-danger').show();
+				}
+				
+			});
+
+			request.fail(function(jqXHR, textStatus){
+				$('#skill_submit_btn').removeClass('prevent-click');
+				$('#submit_loader').hide();
+				var jsonResponse = $.parseJSON(jqXHR.responseText);
+				var error = 'An error occurred.';
+				if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+					error = jsonResponse.error.messages[0];
+				}
+				$('#msg_div').removeClass('alert-success');
+				$('#msg_div').html(error).addClass('alert-danger').show();
+			});	
+
+		} else {
+			$('#msg_div').removeClass('alert-success');
+			$('#msg_div').html(errors[0]).addClass('alert-danger').show();
+			$('#skill_submit_btn').removeClass('prevent-click');
+			$('#submit_loader').hide();
+		}		
+	};
+
+	var view = function(id){
+        var jsonData = {id:id};
+		var request = $.ajax({
+			url: skillApiUrl+'/view',
+			data: jsonData,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.success(function(data){
+			$('#skill_title').val(data.skill)
+			
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			// do something
+		});
+    };
+
+	var remove = function (){
+		var id = $('#hidden_action_skill_id').val();
+		$('#skill_remove_btn').addClass('prevent-click');
+		$('#remove_submit_loader').show();
+
+		var request = $.ajax({
+			url: skillApiUrl+'/remove',
+			data: {id:id},
+			type: 'delete',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			
+			$('#remove_submit_loader').hide();
+			if (data.success) {
+				var html = 'Skill has been deleted successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#remove_msg_div').removeClass('alert-danger');
+		 		$('#remove_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#skill_remove_btn').removeClass('prevent-click');
+				    $('#removeConfirmation').modal('hide');
+				    Sababoo.App.Skills.list();	
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while deleting this skill.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#skill_remove_btn').removeClass('prevent-click');
+				$('#remove_msg_div').removeClass('alert-success');
+				$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+				    $(this).html('');
+				    $('#remove_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#skill_remove_btn').removeClass('prevent-click');
+			$('#remove_submit_loader').hide();
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while deleting this skill.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	var updateStatus = function (){
+		
+		var jsonData = {};
+		jsonData.id = $('#hidden_action_skill_id').val();
+		jsonData.status = $('#hidden_action_skill_status').val();
+
+		var request = $.ajax({
+			url: skillApiUrl+'/update-status',
+			data: jsonData,
+			type: 'put',
+			dataType:'json'
+		});
+
+		$('#skill_status_btn').addClass('prevent-click');
+		$('#status_submit_loader').show();
+
+		request.done(function(data){
+			
+			$('#status_submit_loader').hide();
+			
+			if (data.success) {
+				var html = 'Status has been updates successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#status_msg_div').removeClass('alert-danger');
+		 		$('#status_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#skill_status_btn').removeClass('prevent-click');
+				    $('#updateStatusConfirmation').modal('hide');
+				    Sababoo.App.Skills.list();		
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while updating skill status.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#skill_status_btn').removeClass('prevent-click');
+				$('#status_msg_div').removeClass('alert-success');
+				$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $('#status_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#skill_status_btn').removeClass('prevent-click');
+			$('#status_submit_loader').hide();
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while updating skill status.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	return {
+		list:list,
+		create:create,
+		remove:remove,
+		updateStatus:updateStatus,
+		view:view
+	}
+}());
+
+/* Industries Management */
+Sababoo.App.Industry = (function() {
+
+	var config = Sababoo.Config;
+	var industryApiUrl = config.getApiUrl()+'industry';
+
+	var list = function (page) {
+
+		$('.spinner-section').show();
+		var page 			= page || 1;
+		var pagination 		= true;
+		var filterByStatus 	= $('#industry_filter_by_status').val() || '';
+		var keyword 		= $('#industry_search_keyword').val() || '';
+		var limit 			= $('#industry-list-limit').val() || 0;
+		var data 			= {};
+		var total_industries 	= $('#total_industries');
+
+		data.pagination 	= pagination;
+		data.page 			= page;
+		data.limit 			= limit;
+		data.keyword 		= keyword;
+		data.filter_by_status = filterByStatus;
+		
+		var request = $.ajax({
+			url: industryApiUrl+'/list?page='+page,
+			data:data,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			$('.spinner-section').hide();
+			var html = '';
+			var paginationShow = '';
+			var industries = data.data;
+			var classDisabledPrev = "";
+			var classDisabledNext = "";
+			var paginations = data.pagination;
+			total_industries.html(paginations.total);
+
+			if(industries.length > 0) {
+
+				$('#industries_list_head').html('<tr>\
+		                                        <th> ID </th>\
+		                                        <th> Name </th>\
+		                                        <th> Associated Users </th>\
+		                                        <th> Status </th>\
+		                                        <th> Action</th>\
+		                                    </tr>');
+
+				$(industries).each(function(index, industry){
+
+					var archiveText = '-';	
+					var archiveClass = '';					
+					var is_active = '';
+					var statusText = 'N/A';
+
+					if (typeof industry.name != 'undefined' && typeof industry.name !== null && industry.name!='' ) {
+						industry.name = industry.name;
+					} else {
+						industry.name = 'N/A';									
+					}
+
+					if (typeof industry.total_users != 'undefined' && typeof industry.total_users !== null && industry.total_users!='' ) {
+						industry.total_users = industry.total_users;
+					} else {
+						industry.total_users = '0';									
+					}
+					
+					if (typeof industry.status != 'undefined' && typeof industry.status !== null ) {
+						if(industry.status == 1){
+							statusText = 'Active';
+							is_active = 2;
+							archiveText = 'In-Activate';
+							archiveClass = 'blue';
+						}else if (industry.status == 2){
+							statusText = 'InActive';
+							is_active = 1;
+							archiveText = 'Activate';
+							archiveClass = 'green-jungle';
+						}
+					}
+					
+					html += '<tr>\
+                                <td class="highlight"> '+industry.id+' </td>\
+                                <td class="hidden-xs"> '+industry.name+' </td>\
+                                <td> '+industry.total_users+' </td>\
+                                <td> '+statusText+' </td>\
+                                <td>\
+                                    <a href="'+config.getAppUrl()+'/industry?id='+industry.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-edit"></i> Edit </a>\
+                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_industry" data-id="'+industry.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>\
+                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' industry_status" data-id="'+industry.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>\
+                                </td>\
+                            </tr>';
+
+				});
+			} else {
+				$('#industries_list_head').html('');
+				html  += '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>Nothing Here Yet.</h3>\
+                    <p>We couldn\'t find any record related to the defined criteria. Please try again later.</p></div>';
+			}
+
+			$('#industries_list').html(html);
+
+            if(data.pagination.current >= data.pagination.next && data.pagination.current==1) {
+				$('.general-pagination').hide();
+				$('.industry-pagination-limit').hide();
+			} else {
+				if(data.pagination.current==data.pagination.first){
+					classDisabledPrev="disable";
+				}
+				if(data.pagination.current==data.pagination.last){
+					classDisabledNext="disable";
+				}
+				paginationShow+='<li >\
+								      <a class="general-pagination-click  '+classDisabledPrev+'" data-page='+paginations.previous+' href="javascript:;">Previous</a>\
+								    </li>';
+				paginationShow+= '<li >\
+								      <a class=" general-pagination-click '+classDisabledNext+'" data-page='+paginations.next+' href="javascript:;">Next</a>\
+								    </li>';
+				paginationShow+= '<li class="hidden-xs">Showing '+data.pagination.to+' - '+data.pagination.from+' of total '+data.pagination.total+' records</li>';
+
+				$('.general-pagination').html(paginationShow);
+				$('.general-pagination').show();
+				$('.general-pagination-limit').show();
+			}
+
+			$('.general-pagination-click').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var page  = $(this).data('page');
+				Sababoo.App.Industry.list(page);
+		    });
+
+		    $('.delete_industry').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var industry_id  = $(this).attr('data-id');
+				$('#hidden_action_industry_id').val(industry_id);
+				$('#removeConfirmation').modal('show');
+		    });
+
+		    $('.industry_status').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var industry_id  = $(this).attr('data-id');
+				var status  = $(this).attr('data-status');
+				$('#hidden_action_industry_id').val(industry_id);
+				$('#hidden_action_industry_status').val(status);
+
+				if (status == 1) {
+					$('#update_status_text').text('Activate');
+				} else if (status == 2) {
+					$('#update_status_text').text('In-Activate');
+				}
+				$('#updateStatusConfirmation').modal('show');
+		    });
+		});
+
+		request.fail(function(jqXHR, textStatus){
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while retrieving industries.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+
+			var html = '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>'+error+'</h3></div>';
+            $('#industries_list').html(html);
+		});		
+	};
+
+	var create = function (){
+
+		var errors = [];
+		var industry_id = $('#updated_industry_id').val();
+		var name 	= $('#industry_name');
+
+		if ($.trim(name.val()) == '') {
+			errors.push('Please enter name.');
+			name.parent().addClass('has-error');
+		} else {
+			name.parent().removeClass('has-error');	
+		}
+
+		if (errors.length < 1) {
+
+			var jsonData = {
+								id:industry_id,
+								name:$.trim(name.val())														
+							}
+
+			if (jsonData.id == 0) {
+				var request = $.ajax({
+					url: industryApiUrl+'/create',
+					data: jsonData,
+					type: 'post',
+					dataType:'json'
+				});
+			} else {
+				var request = $.ajax({	
+					url: industryApiUrl+'/update',
+					data: jsonData,
+					type: 'put',
+					dataType:'json'
+				});
+			}
+			
+			$('#industry_submit_btn').addClass('prevent-click');
+			$('#submit_loader').show();
+
+			request.done(function(data){
+				
+				$('#submit_loader').hide();
+				if(data.success) {		 
+						$('#msg_div').removeClass('alert-danger');
+						$('#msg_div').html(data.success.messages[0]).addClass('alert-success').show().delay(2000).fadeOut(function()
+						{
+							window.location.href = config.getAppUrl()+'/industries';
+					    });		 	
+				} else if(data.error) {
+					$('#industry_submit_btn').removeClass('prevent-click');
+					var message_error = data.error.messages[0];
+					$('#msg_div').removeClass('alert-success');
+					$('#msg_div').html(message_error).addClass('alert-danger').show();
+				}
+				
+			});
+
+			request.fail(function(jqXHR, textStatus){
+				$('#industry_submit_btn').removeClass('prevent-click');
+				$('#submit_loader').hide();
+				var jsonResponse = $.parseJSON(jqXHR.responseText);
+				var error = 'An error occurred.';
+				if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+					error = jsonResponse.error.messages[0];
+				}
+				$('#msg_div').removeClass('alert-success');
+				$('#msg_div').html(error).addClass('alert-danger').show();
+			});	
+
+		} else {
+			$('#msg_div').removeClass('alert-success');
+			$('#msg_div').html(errors[0]).addClass('alert-danger').show();
+			$('#industry_submit_btn').removeClass('prevent-click');
+			$('#submit_loader').hide();
+		}		
+	};
+
+	var view = function(id){
+        var jsonData = {id:id};
+		var request = $.ajax({
+			url: industryApiUrl+'/view',
+			data: jsonData,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.success(function(data){
+			$('#industry_name').val(data.name)
+			
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			// do something
+		});
+    };
+
+	var remove = function (){
+		var id = $('#hidden_action_industry_id').val();
+		$('#industry_remove_btn').addClass('prevent-click');
+		$('#remove_submit_loader').show();
+
+		var request = $.ajax({
+			url: industryApiUrl+'/remove',
+			data: {id:id},
+			type: 'delete',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			
+			$('#remove_submit_loader').hide();
+			if (data.success) {
+				var html = 'Industry has been deleted successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#remove_msg_div').removeClass('alert-danger');
+		 		$('#remove_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#industry_remove_btn').removeClass('prevent-click');
+				    $('#removeConfirmation').modal('hide');
+				    Sababoo.App.Industry.list();	
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while deleting this industry.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#industry_remove_btn').removeClass('prevent-click');
+				$('#remove_msg_div').removeClass('alert-success');
+				$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+				    $(this).html('');
+				    $('#remove_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#industry_remove_btn').removeClass('prevent-click');
+			$('#remove_submit_loader').hide();
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while deleting this industry.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	var updateStatus = function (){
+		
+		var jsonData = {};
+		jsonData.id = $('#hidden_action_industry_id').val();
+		jsonData.status = $('#hidden_action_industry_status').val();
+
+		var request = $.ajax({
+			url: industryApiUrl+'/update-status',
+			data: jsonData,
+			type: 'put',
+			dataType:'json'
+		});
+
+		$('#industry_status_btn').addClass('prevent-click');
+		$('#status_submit_loader').show();
+
+		request.done(function(data){
+			
+			$('#status_submit_loader').hide();
+			
+			if (data.success) {
+				var html = 'Status has been updates successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#status_msg_div').removeClass('alert-danger');
+		 		$('#status_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#industry_status_btn').removeClass('prevent-click');
+				    $('#updateStatusConfirmation').modal('hide');
+				    Sababoo.App.Industry.list();		
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while updating industry status.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#industry_status_btn').removeClass('prevent-click');
+				$('#status_msg_div').removeClass('alert-success');
+				$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $('#status_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#industry_status_btn').removeClass('prevent-click');
+			$('#status_submit_loader').hide();
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while updating industry status.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	return {
+		list:list,
+		create:create,
+		remove:remove,
+		updateStatus:updateStatus,
+		view:view
+	}
+}());
+

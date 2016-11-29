@@ -50,6 +50,22 @@
                     <!-- <span class="arrow open"></span> -->
                 </a>
             </li>
+            <li class="nav-item start <?php if($page=='skills' || $page=='skill'){ echo "active";} ?>">
+                <a href="{{URL::to('admin/skills')}}" class="nav-link nav-toggle">
+                    <i class="icon-diamond"></i>
+                    <span class="title">Skills Management</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
+            <li class="nav-item start <?php if($page=='industries' || $page=='industry'){ echo "active";} ?>">
+                <a href="{{URL::to('admin/industries')}}" class="nav-link nav-toggle">
+                    <i class="icon-layers"></i>
+                    <span class="title">Industries Management</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
             <li class="nav-item start <?php if($page=='user-profile'){ echo "active";} ?>">
                 <a href="{{URL::to('admin/user-profile')}}" class="nav-link nav-toggle">
                     <i class="icon-users"></i>
