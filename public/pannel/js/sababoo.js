@@ -1203,6 +1203,13 @@ Sababoo.App.SiteUser = (function() {
 						user.industry_name = 'N/A';									
 					}
 					
+					if (user.role == 'employee') {
+						user.role = 'Professional';
+					} else if (user.role == 'employer') {
+						user.role = 'Employer';
+					} else if (user.role == 'tradesman') {
+						user.role = 'Sabman';
+					}
 					if (typeof user.status != 'undefined' && typeof user.status !== null ) {
 						if(user.status == 'enabled'){
 							statusText = 'Active';

@@ -37,9 +37,9 @@
                                     <select id="site_user_filter_by_role" class="bs-select form-control">
                                         
                                         <option value="">Filter By Role</option>
-                                        <option value="employee">Employee</option>
+                                        <option value="employee">Professional</option>
                                         <option value="employer">Employer</option>
-                                        <option value="tradesman">Tradesman</option>
+                                        <option value="tradesman">Sabman</option>
                                     </select>
                                 </div>
                                 
