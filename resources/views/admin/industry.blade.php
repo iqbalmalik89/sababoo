@@ -48,7 +48,7 @@
                                 <div class="form-body">
 
                                     <div class="form-group">
-                                        <label>Namw</label>
+                                        <label>Name</label>
                                         <div class="input-group margin-top-10">
                                             <span class="input-group-addon">
                                                 <i class="fa fa-user"></i>

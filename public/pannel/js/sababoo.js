@@ -12,11 +12,13 @@ Sababoo.Config = (function(){
 		var appUrl = window.location.protocol+'//'+window.location.host+'/sababoo/public/admin';
 		var siteUrl = window.location.protocol+'//'+window.location.host+'/sababoo/public';
 		var imageUrl = window.location.protocol+'//'+window.location.host+'/sababoo/public/pannel/images/';
+		var docUrl = window.location.protocol+'//'+window.location.host+'/sababoo/Docs/';
 	} else {
 		var apiUrl = window.location.protocol+'//'+window.location.host+'/api/';
 		var appUrl = window.location.protocol+'//'+window.location.host+'/admin';
 		var siteUrl = window.location.protocol+'//'+window.location.host+'';
 		var imageUrl = window.location.protocol+'//'+window.location.host+'/pannel/images/';
+		var docUrl = window.location.protocol+'//'+window.location.host+'/Docs/';
 	}
 
 	var getApiUrl = function(){
@@ -31,12 +33,16 @@ Sababoo.Config = (function(){
 	var getImageUrl = function(){
 		return imageUrl;
 	};
+	var getDocUrl = function(){
+		return docUrl;
+	};
 
 	return {
 		getApiUrl:getApiUrl,
 		getAppUrl:getAppUrl,
 		getSiteUrl:getSiteUrl,
-		getImageUrl:getImageUrl
+		getImageUrl:getImageUrl,
+		getDocUrl:getDocUrl
 	}
 }());
 
