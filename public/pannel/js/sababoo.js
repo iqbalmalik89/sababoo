@@ -6,6 +6,8 @@ var localStorage;
 var localStorageData = localStorage.getItem('sababoo_admin');
 var jsonLocalStorageData = JSON.parse(localStorageData);
 
+var hidden_operations = JSON.parse($('#hidden_operations').val());
+
 Sababoo.Config = (function(){
 	if(window.location.host == 'localhost'){
 		var apiUrl = window.location.protocol+'//'+window.location.host+'/sababoo/public/api/';
@@ -644,6 +646,29 @@ Sababoo.App.User = (function() {
 						}
 					}
 					
+					var can_update = '';
+					if ($.inArray(6, hidden_operations) > -1) {
+						can_update = '<a href="'+config.getAppUrl()+'/user?id='+user.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-edit"></i> Edit </a>';
+					} else {
+						can_update = '';
+					}
+
+					var can_update_status = '';
+					if ($.inArray(6, hidden_operations) > -1) {
+						can_update_status = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' user_status" data-id="'+user.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>';
+					} else {
+						can_update_status = '';
+					}
+
+					var can_delete = '';
+					if ($.inArray(7, hidden_operations) > -1) {
+						can_delete = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_user" data-id="'+user.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>';
+					} else {
+						can_delete = '';
+					}
 					html += '<tr>\
                                 <td class="highlight"> '+user.id+' </td>\
                                 <td class="hidden-xs"> '+user.name+' </td>\
@@ -651,12 +676,9 @@ Sababoo.App.User = (function() {
                                 <td> '+user.role_title+' </td>\
                                 <td> '+statusText+' </td>\
                                 <td>\
-                                    <a href="'+config.getAppUrl()+'/user?id='+user.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
-                                        <i class="fa fa-edit"></i> Edit </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_user" data-id="'+user.id+'">\
-                                        <i class="fa fa-trash-o"></i> Delete </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' user_status" data-id="'+user.id+'" data-status="'+is_active+'">\
-                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>\
+                                    '+can_update+'\
+                                    '+can_delete+'\
+                                    '+can_update_status+'\
                                 </td>\
                             </tr>';
 
@@ -1230,6 +1252,30 @@ Sababoo.App.SiteUser = (function() {
 						}
 					}
 					
+					var can_update = '';
+					if ($.inArray(10, hidden_operations) > -1) {
+						can_update = '<a href="'+config.getAppUrl()+'/site-user?id='+user.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-eye"></i> View </a>';
+					} else {
+						can_update = '';
+					}
+
+					var can_update_status = '';
+					if ($.inArray(10, hidden_operations) > -1) {
+						can_update_status = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' user_status" data-id="'+user.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>';
+					} else {
+						can_update_status = '';
+					}
+
+					var can_delete = '';
+					if ($.inArray(11, hidden_operations) > -1) {
+						can_delete = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_user" data-id="'+user.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>';
+					} else {
+						can_delete = '';
+					}
+
 					html += '<tr>\
                                 <td class="highlight"> '+user.id+' </td>\
                                 <td class="hidden-xs"> '+user.first_name+' '+user.last_name+' </td>\
@@ -1238,12 +1284,9 @@ Sababoo.App.SiteUser = (function() {
                                 <td> '+user.role+' </td>\
                                 <td> '+statusText+' </td>\
                                 <td>\
-                                    <a href="'+config.getAppUrl()+'/site-user?id='+user.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
-                                        <i class="fa fa-eye"></i> View </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_user" data-id="'+user.id+'">\
-                                        <i class="fa fa-trash-o"></i> Delete </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' user_status" data-id="'+user.id+'" data-status="'+is_active+'">\
-                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>\
+                                    '+can_update+'\
+                                    '+can_delete+'\
+                                    '+can_update_status+'\
                                 </td>\
                             </tr>';
 
@@ -1566,6 +1609,30 @@ Sababoo.App.Jobs = (function(){
 						}
 					}
 					
+					var can_update = '';
+					if ($.inArray(14, hidden_operations) > -1) {
+						can_update = '<a href="'+config.getSiteUrl()+'/job/post?id='+job.id+'" target="_blank" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-edit"></i> Edit </a>';
+					} else {
+						can_update = '';
+					}
+
+					var can_update_status = '';
+					if ($.inArray(14, hidden_operations) > -1) {
+						can_update_status = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' job_status" data-id="'+job.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>';
+					} else {
+						can_update_status = '';
+					}
+
+					var can_delete = '';
+					if ($.inArray(15, hidden_operations) > -1) {
+						can_delete = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_job" data-id="'+job.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>';
+					} else {
+						can_delete = '';
+					}
+
 					html += '<tr>\
                                 <td class="highlight"> '+job.id+' </td>\
                                 <td class="hidden-xs"> '+job.name+' </td>\
@@ -1577,12 +1644,9 @@ Sababoo.App.Jobs = (function(){
                                 <td>\
                                 	<a href="'+config.getAppUrl()+'/job?id='+job.id+'" class="btn btn-outline btn-circle yellow btn-sm">\
                                         <i class="fa fa-eye"></i> View </a>\
-                                    <a href="'+config.getSiteUrl()+'/job/post?id='+job.id+'" target="_blank" class="btn btn-outline btn-circle dark btn-sm black">\
-                                        <i class="fa fa-edit"></i> Edit </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_job" data-id="'+job.id+'">\
-                                        <i class="fa fa-trash-o"></i> Delete </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' job_status" data-id="'+job.id+'" data-status="'+is_active+'">\
-                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>\
+                                    '+can_update+'\
+                                    '+can_delete+'\
+                                    '+can_update_status+'\
                                 </td>\
                             </tr>';
 
@@ -1884,18 +1948,39 @@ Sababoo.App.Role = (function() {
 						}
 					}
 					
+					var can_update = '';
+					if ($.inArray(2, hidden_operations) > -1) {
+						can_update = '<a href="'+config.getAppUrl()+'/role?id='+role.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-edit"></i> Edit </a>';
+					} else {
+						can_update = '';
+					}
+
+					var can_update_status = '';
+					if ($.inArray(2, hidden_operations) > -1) {
+						can_update_status = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' role_status" data-id="'+role.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>';
+					} else {
+						can_update_status = '';
+					}
+
+					var can_delete = '';
+					if ($.inArray(3, hidden_operations) > -1) {
+						can_delete = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_role" data-id="'+role.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>';
+					} else {
+						can_delete = '';
+					}
+
 					html += '<tr>\
                                 <td class="highlight"> '+role.id+' </td>\
                                 <td class="hidden-xs"> '+role.title+' </td>\
                                 <td> '+role.total_users+' </td>\
                                 <td> '+statusText+' </td>\
                                 <td>\
-                                    <a href="'+config.getAppUrl()+'/role?id='+role.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
-                                        <i class="fa fa-edit"></i> Edit </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_role" data-id="'+role.id+'">\
-                                        <i class="fa fa-trash-o"></i> Delete </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' role_status" data-id="'+role.id+'" data-status="'+is_active+'">\
-                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>\
+                                    '+can_update+'\
+                                    '+can_delete+'\
+                                    '+can_update_status+'\
                                 </td>\
                             </tr>';
 
@@ -2366,18 +2451,39 @@ Sababoo.App.Skills = (function() {
 						}
 					}
 					
+					var can_update = '';
+					if ($.inArray(18, hidden_operations) > -1) {
+						can_update = '<a href="'+config.getAppUrl()+'/skill?id='+skill.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-edit"></i> Edit </a>';
+					} else {
+						can_update = '';
+					}
+
+					var can_update_status = '';
+					if ($.inArray(18, hidden_operations) > -1) {
+						can_update_status = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' skill_status" data-id="'+skill.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>';
+					} else {
+						can_update_status = '';
+					}
+
+					var can_delete = '';
+					if ($.inArray(19, hidden_operations) > -1) {
+						can_delete = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_skill" data-id="'+skill.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>';
+					} else {
+						can_delete = '';
+					}
+
 					html += '<tr>\
                                 <td class="highlight"> '+skill.id+' </td>\
                                 <td class="hidden-xs"> '+skill.skill+' </td>\
                                 <td> '+skill.total_users+' </td>\
                                 <td> '+statusText+' </td>\
                                 <td>\
-                                    <a href="'+config.getAppUrl()+'/skill?id='+skill.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
-                                        <i class="fa fa-edit"></i> Edit </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_skill" data-id="'+skill.id+'">\
-                                        <i class="fa fa-trash-o"></i> Delete </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' skill_status" data-id="'+skill.id+'" data-status="'+is_active+'">\
-                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>\
+                                    '+can_update+'\
+                                    '+can_delete+'\
+                                    '+can_update_status+'\
                                 </td>\
                             </tr>';
 
@@ -2777,18 +2883,39 @@ Sababoo.App.Industry = (function() {
 						}
 					}
 					
+					var can_update = '';
+					if ($.inArray(22, hidden_operations) > -1) {
+						can_update = '<a href="'+config.getAppUrl()+'/industry?id='+industry.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-edit"></i> Edit </a>';
+					} else {
+						can_update = '';
+					}
+
+					var can_update_status = '';
+					if ($.inArray(22, hidden_operations) > -1) {
+						can_update_status = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' industry_status" data-id="'+industry.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>';
+					} else {
+						can_update_status = '';
+					}
+
+					var can_delete = '';
+					if ($.inArray(23, hidden_operations) > -1) {
+						can_delete = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_industry" data-id="'+industry.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>';
+					} else {
+						can_delete = '';
+					}
+
 					html += '<tr>\
                                 <td class="highlight"> '+industry.id+' </td>\
                                 <td class="hidden-xs"> '+industry.name+' </td>\
                                 <td> '+industry.total_users+' </td>\
                                 <td> '+statusText+' </td>\
                                 <td>\
-                                    <a href="'+config.getAppUrl()+'/industry?id='+industry.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
-                                        <i class="fa fa-edit"></i> Edit </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_industry" data-id="'+industry.id+'">\
-                                        <i class="fa fa-trash-o"></i> Delete </a>\
-                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' industry_status" data-id="'+industry.id+'" data-status="'+is_active+'">\
-                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>\
+                                    '+can_update+'\
+                                    '+can_delete+'\
+                                    '+can_update_status+'\
                                 </td>\
                             </tr>';
 

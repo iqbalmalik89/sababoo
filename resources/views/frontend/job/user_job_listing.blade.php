@@ -165,11 +165,11 @@
                                         $showDelete = 'inline-block';
                                         //for job update permission
                                         if ($isAdminUser == true) {
-                                            if (!in_array(2, $roleOperations)) {
+                                            if (!in_array(14, $roleOperations)) {
                                                 $showUpdate = 'none';
                                             }
 
-                                            if (!in_array(3, $roleOperations)) {
+                                            if (!in_array(15, $roleOperations)) {
                                                 $showDelete = 'none';
                                             }
                                         }
