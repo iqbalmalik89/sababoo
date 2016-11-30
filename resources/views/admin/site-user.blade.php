@@ -137,7 +137,7 @@
                                                             <?php
                                                                 if (isset($user->user->resume_name) && $user->user->resume_name != '') {
                                                             ?>
-                                                                <a href="{{url('employee/download_resume/'.$user->user->resume_name)}}" target="_blank">{{$user->user->resume_title}}</a>
+                                                                <a href="{{env('CV_UPLOAD_PATH').'/'.$user->user->resume_name}}" target="_blank">{{$user->user->resume_title}}</a>
                                                             <?php
                                                                 } else {
                                                             ?>
@@ -197,10 +197,11 @@
                                                             ?>
                                                                 <div class="mt-comment-info">
                                                                     <span class="mt-comment-author" style="width:25%">{{$education->degree.', '}} {{$education->field_study}}</span>
-                                                                    <span class="mt-comment-text"> {{($education->year_from != '')?$education->year_from:''}} - {{($education->year_to != '')?$education->year_to:''}} from {{($education->school_name != '')?$education->school_name:''}}</span>
+                                                                    <span class="mt-comment-text"> {{($education->year_from != '')?$education->year_from:''}} - {{($education->year_to != '')?$education->year_to:''}} from <span class="caption-subject font-blue-madison bold">{{($education->school_name != '')?$education->school_name:''}}</span></span>
 
                                                                     <br/><span class="mt-comment-text"> {{($education->description != '')?$education->description:''}} </span>
                                                                 </div>
+                                                                <hr/>
                                                             <?php
                                                                 }
                                                             } else {
@@ -261,9 +262,7 @@
                                                             ?>
                                                                 <div class="mt-comment-info">
                                                                     <span class="mt-comment-author" style="width:25%"> {{($certification->name != '')?$certification->name:'N/A'}}</span>
-                                                                    <span class="mt-comment-text"> {{($certification->authority != '')?$certification->authority:'N/A'}}</span>
-                                                                    <br/>
-                                                                    <span class="mt-comment-text"> {{($certification->date_from != '')?$certification->date_from:''}} - {{($certification->present == '1')?'Present':$certification->date_to}} </span>
+                                                                    <span class="mt-comment-text"> {{($certification->date_from != '')?$certification->date_from:''}} - {{($certification->present == '1')?'Present':$certification->date_to}} at <span class="caption-subject font-blue-madison bold">{{($certification->authority != '')?$certification->authority:'N/A'}}</span></span>
                                                                     <br/>
 
                                                                     <span class="mt-comment-text">
@@ -280,6 +279,7 @@
                                                                         ?>
                                                                     </span>
                                                                 </div>
+                                                                <hr/>
 
                                                             <?php
                                                                 }
@@ -310,13 +310,14 @@
                                                             ?>
                                                                 <div class="mt-comment-info">
                                                                     <span class="mt-comment-author" style="width:25%">{{$experience->job_position}} </span>
-                                                                    <span class="mt-comment-text"> {{($experience->date_from != '')?$experience->date_from:''}} - {{($experience->current == '1')?'Present':$experience->date_to}} at {{($experience->company_name != '')?$experience->company_name:''}}</span>
+                                                                    <span class="mt-comment-text"> {{($experience->date_from != '')?$experience->date_from:''}} - {{($experience->current == '1')?'Present':$experience->date_to}} at <span class="caption-subject font-blue-madison bold">{{($experience->company_name != '')?$experience->company_name:''}}</span></span>
 
                                                                     <br/>
 
                                                                     <span class="mt-comment-text" style="text-align: center;">{{($experience->description != '')?'"'.$experience->description.'"':''}}</span>
                                                                     <br/>
                                                                 </div>
+                                                                <hr/>
                                                             <?php
                                                                 }
                                                             } else {
@@ -385,17 +386,17 @@
 
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Background</span>
-                                                            <span class="mt-comment-text"> {{(isset($user->user->description) && $user->user->description != '')?$user->user->description:'N/A'}}</span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->description) && $user->user->description != '')?strip_tags($user->user->description):'N/A'}}</span>
                                                         </div>
 
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Services</span>
-                                                            <span class="mt-comment-text"> {{(isset($user->user->services) && $user->user->services != '')?$user->user->services:'N/A'}}</span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->services) && $user->user->services != '')?strip_tags($user->user->services):'N/A'}}</span>
                                                         </div>
 
                                                         <div class="mt-comment-info">
                                                             <span class="mt-comment-author" style="width:25%">Expertise</span>
-                                                            <span class="mt-comment-text"> {{(isset($user->user->expertise) && $user->user->expertise != '')?$user->user->expertise:'N/A'}}</span>
+                                                            <span class="mt-comment-text"> {{(isset($user->user->expertise) && $user->user->expertise != '')?strip_tags($user->user->expertise):'N/A'}}</span>
                                                         </div>
 
                                                         <div class="mt-comment-info">
@@ -450,7 +451,7 @@
                                                                 <?php
                                                                     if ($file->name != '') {
                                                                 ?>
-                                                                    <a href="{{url('employee/download_resume/'.$file->name)}}" target="_blank">{{$file->title}}</a>
+                                                                    <a href="{{env('FILE_UPLOAD_PATH').'/user_files/'.$file->name}}" target="_blank">{{$file->title}}</a>
                                                                 <?php
                                                                     } else {
                                                                 ?>

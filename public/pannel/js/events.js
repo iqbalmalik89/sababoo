@@ -217,3 +217,9 @@ $('#industry_search_keyword').keypress(function(event){
     }
 });
 
+$('#cv_download_btn').click(function(e){
+    e.preventDefault();
+    var cv_name = $(this).attr('data-name');
+    $('#cv_iframe').attr('src', Sababoo.Config.getDocUrl()+'users_cv/'+cv_name)
+});
+
