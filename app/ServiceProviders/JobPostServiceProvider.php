@@ -199,7 +199,35 @@ class JobPostServiceProvider
     }
 
 
+    public function applyJob($data){
 
+       $job_post = JobPost::where(array('id'=>$data['job_id']))->first();
+       $receiver_data = User::where(array('id'=>$job_post->userid))->first();
+       $sender_data = User::where(array('id'=>$data['user_id']))->first();
+       #$data['to']  = $receiver_data->email;
+
+       $subject = "Sababoo's - Application on your posted job by " . $sender_data->email;
+       $from = "noreply@sababoo.com";
+
+       $data = [
+           "from"           => $from,
+           "to"             => $receiver_data->email,
+           "subject"        => $subject,
+           "sender_email"   => $sender_data->email,
+           "cover_message"  =>$data['cover_message'],
+           "SERVER_PATH"    => env('URL'),
+           "job_id"         =>  $data['job_id']
+
+       ];
+
+       $mail_response = Helper::sendEmail(
+           $data,
+           ['email_templates/job_apply_html', 'email_templates/job_apply_text']
+       );
+
+
+
+   }
 
 
 

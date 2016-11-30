@@ -168,7 +168,7 @@
 
 													<div class="bg-light padding-30">
 													
-														<form>
+														<form id="jop_apply_form">
 														
 
 															<hr class="mt-15">
@@ -178,7 +178,7 @@
 																<div class="col-sm-12 col-md-6">
 																	<div class="form-group">
 																		<label>Your covering message for <?php echo ucfirst($job->name);?></label>
-																		<textarea class="form-control" rows="6"></textarea>
+																		<textarea class="form-control" rows="6" name="cover_message" id="cover_message"></textarea>
 																	</div>
 																</div>
 																
@@ -189,7 +189,7 @@
 																		<label class="font13" for="q1_radio-1">Yes</label>
 																	</div>
 																	<div class="radio-block">
-																		<input id="q1_radio-2" name="q1_radio" type="radio" class="radio" value="First Choice" />
+																		<input id="q1_radio-2" name="q1_radio" type="radio" class="radio" value="Second Choice" />
 																		<label class="font13" for="q1_radio-2">no</label>
 																	</div>
 																</div>
@@ -201,7 +201,7 @@
 																		<label class="font13" for="q2_radio-1">Yes</label>
 																	</div>
 																	<div class="radio-block">
-																		<input id="q2_radio-2" name="q2_radio" type="radio" class="radio" value="First Choice" />
+																		<input id="q2_radio-2" name="q2_radio" type="radio" class="radio" value="Second Choice" />
 																		<label class="font13" for="q2_radio-2">no</label>
 																	</div>
 																</div>
@@ -213,15 +213,15 @@
 																		<label class="font13" for="q3_checkbox-1">Assurance perpetual</label>
 																	</div>
 																	<div class="checkbox-block">
-																		<input id="q3_checkbox-2" name="q3_checkbox" type="checkbox" class="checkbox" value="First Choice" />
+																		<input id="q3_checkbox-2" name="q3_checkbox" type="checkbox" class="checkbox" value="Second Choice" />
 																		<label class="font13" for="q3_checkbox-2">Entire its the did figure</label>
 																	</div>
 																	<div class="checkbox-block">
-																		<input id="q3_checkbox-3" name="q3_checkbox" type="checkbox" class="checkbox" value="First Choice" />
+																		<input id="q3_checkbox-3" name="q3_checkbox" type="checkbox" class="checkbox" value="Third Choice" />
 																		<label class="font13" for="q3_checkbox-3">Shade being under his bed</label>
 																	</div>
 																	<div class="checkbox-block">
-																		<input id="q3_checkbox-4" name="q3_checkbox" type="checkbox" class="checkbox" value="First Choice" />
+																		<input id="q3_checkbox-4" name="q3_checkbox" type="checkbox" class="checkbox" value="Fourth Choice" />
 																		<label class="font13" for="q3_checkbox-4">Pleasant horrible but confined</label>
 																	</div>
 																</div>
@@ -237,7 +237,7 @@
 															
 															<p class="font12 line16">Manor we shall merit by chief wound no or would. Oh towards between subject passage sending mention or it. Sight happy do burst fruit to woody begin at. <a href="#">Assurance perpetual</a> he in oh determine as. The year paid met him does eyes same. Own marianne improved sociable not out. Thing do sight blush mr an. Celebrated am announcing <a href="#">delightful remarkably</a> we in literature it solicitude. Design use say <a href="#">piqued any</a> gay supply. Front sex match vexed her those great.</p>
 															
-															<button class="btn btn-primary">Send Application</button>
+															<button class="btn btn-primary" id="apply_for_job">Send Application</button>
 															
 														</form>
 													
@@ -283,6 +283,22 @@ if(isset($user->image) && $user->image!=''){
 	$(document).ready(function () {
 
 	});
+
+	$('#apply_for_job').click(function(){
+		//apply_job();
+	});
+	function apply_job(){
+		var message=$.trim($('#cover_message').text());
+		if(message){
+
+			html = '';
+			pageURI = '/job/apply';
+			request_data = {job_id:job_id, cover_message:cover_message}
+			mainAjax('', request_data, 'POST',fillData);
+
+		}
+
+	}
 
 	function status_comment(jobid){
 		var comment=$.trim($('#new_comment_add'+jobid).val());

@@ -105,6 +105,7 @@ Route::match(['get', 'post'], '/job/user_job_list', ['uses' => 'UI\JobPostContro
 Route::match(['get', 'post'], '/job/job_delete', ['uses' => 'UI\JobPostController@delJob'])->middleware(['acl.front:job.delete']);
 Route::match(['get', 'post'], '/job/search_jobs', ['uses' => 'UI\JobPostController@searchJob'])->middleware(['acl.front:job.list']);
 Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController@viewJob'])->middleware(['acl.front:job.list']);
+Route::match(['get', 'post'], '/job/apply', ['uses' => 'UI\JobPostController@applyJob']);
 
 
 /************************************NETWORK*********************************************************/

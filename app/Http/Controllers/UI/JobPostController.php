@@ -211,7 +211,17 @@ class JobPostController extends Controller
 
     }
 
+    public function applyJob(Request $request){
+      if (Auth::guard('admin_users')->user() != NULL) {
+        $this->logged_user = Auth::guard('admin_users')->user();
+      } else if (Auth::user() != NULL) {
+        $this->logged_user = Auth::user();
+      }
+      $post_data= $request->all();
+      $post_data['user_id']=$this->logged_user->id;
+     return $this->JobPostServiceProvider->applyJob($post_data);
 
+    }
 }
 
 
