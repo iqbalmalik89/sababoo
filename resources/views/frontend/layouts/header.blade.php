@@ -89,6 +89,7 @@
                                     <li class="{{$job_create}}"><a href="/job/post">Job Post</a></li>
                                     <li class="{{$job_view}}"><a href="/job/user_job_list"> Job Lists</a></li>
                                     <li class="{{$job_search}}"><a href="/job/search_jobs"> Browse Jobs</a></li>
+                                    <li class="{{$job_search}}"><a href="/job/user_applied_jobs"> Applied Jobs</a></li>
                                 </ul>
 <!--                                 <ul>
                                     <li><a href="job-detail.html">Detail</a></li>

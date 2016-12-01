@@ -133,6 +133,43 @@ class JobPostServiceProvider
         return $job;
      }
 
+     public function userAppliedJobs($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
+
+        $matchThese = [];
+
+        $name = isset($filters['name'])?$filters['name']:'';
+        $loc = isset($filters['location'])?$filters['location']:'';
+
+      $str = '';
+      foreach($matchThese as $key=>$value){
+
+            if($key =='job_post.location'){
+                $str.="job_post.location LIKE '%$value%' and ";
+            }
+         elseif($key =='job_post.name'){
+              $str.="job_post.name LIKE '%$value%' and ";
+          }else{
+                $str.=" '$key'= '$value' and " ;
+
+            }
+
+      }
+
+
+        $job = DB::table('job_post')
+            ->select('job_post.id as id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','applied_jobs.id as aj_id','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message')
+            ->join('applied_jobs', 'job_post.id', '=','applied_jobs.job_id' )
+            ->where($matchThese)
+            ->Where("job_post.name", "LIKE", "%$name%")
+            ->Where("job_post.location", "LIKE", "%$loc%")
+            ->OrderBy('applied_jobs.created_at', 'DESC')
+        //dd( count($job) );
+        ->paginate($paging['page_size']);
+  //dd(DB::getQueryLog());
+        
+        return $job;
+     }
+
 
     public function getJobByJobId($jobid){
         $matchThese = ['job_post.id'=>$jobid];

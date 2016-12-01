@@ -14,6 +14,6 @@
 <p>{{$cover_message}}</p>
 
 
-{{$SERVER_PATH}}/job/applied-jobs
+{{$SERVER_PATH}}/job/user_applied_jobs
 <p>If link is not clickable, copy and paste it into the browser's address bar.</p>
 <p>Thank you for choosing Sababoo!</p>
