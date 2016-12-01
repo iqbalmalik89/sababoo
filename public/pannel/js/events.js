@@ -16,6 +16,18 @@ $('#sign-in-btn').click(function(){
     Sababoo.App.User.login();
 });
 
+$('#user-login-email').keypress(function(event){
+    if(event.which == '13'){
+        Sababoo.App.User.login();
+    }
+});
+
+$('#user-login-password').keypress(function(event){
+    if(event.which == '13'){
+        Sababoo.App.User.login();
+    }
+});
+
 $('#user-logout').click(function(){
     Sababoo.App.User.logout();
 });
