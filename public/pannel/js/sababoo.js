@@ -6,7 +6,13 @@ var localStorage;
 var localStorageData = localStorage.getItem('sababoo_admin');
 var jsonLocalStorageData = JSON.parse(localStorageData);
 
-var hidden_operations = JSON.parse($('#hidden_operations').val());
+var hidden_operations_value = $('#hidden_operations').val();
+if (typeof hidden_operations_value != 'undefined') {
+	var hidden_operations = JSON.parse(hidden_operations_value);
+} else {
+	var hidden_operations = [];
+}
+
 
 Sababoo.Config = (function(){
 	if(window.location.host == 'localhost'){

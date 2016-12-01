@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use App\Models\AppliedJob;
 use \Validator, \Session;
 class HomeController extends Controller {
 
@@ -17,8 +18,9 @@ class HomeController extends Controller {
     public $industry_repo;
 
     public $role_model;
+    public $applied_job_model;
 
-    public function __construct(Role $role) {
+    public function __construct(Role $role, AppliedJob $applied_job) {
         $this->user_repo = app()->make('UserRepository');
         $this->site_user_repo = app()->make('SiteUserRepository');
         $this->job_repo = app()->make('JobRepository');
@@ -26,6 +28,7 @@ class HomeController extends Controller {
         $this->skill_repo = app()->make('SkillsRepository');
         $this->industry_repo = app()->make('IndustryRepository');
         $this->role_model = $role;
+        $this->applied_job_model = $applied_job;
     }
 
  	public function showLogin(Request $request) {
@@ -190,11 +193,29 @@ class HomeController extends Controller {
         $input = $request->only('id');
         $job_id = 0;
         $job = NULL;
+        $finalApplied = [];
         if (isset($input['id']) && $input['id'] != '') {
             $job_id = $input['id'];
             $job = $this->job_repo->findById($job_id);
             if ($job == NULL) {
                 return redirect('/admin/404');
+            } else {
+                $applied_jobs = $this->applied_job_model->where('job_id', '=', $job->id)->get();
+                
+                if (count($applied_jobs) > 0) {
+                    $finalApplied = [];
+                    $i = 0;
+                    foreach ($applied_jobs as $key => $applied_job) {
+                        $userData = $this->site_user_repo->findById($applied_job->user_id, false, false);
+                        if ($userData != NULL) {
+                            $finalApplied[$i]['id'] = $applied_job->job_id;
+                            $finalApplied[$i]['message'] = $applied_job->message;
+                            $finalApplied[$i]['user_name'] = $userData->first_name.' '.$userData->last_name;
+                            $finalApplied[$i]['applied_on'] = date('d m, Y', strtotime($applied_job->created_at));
+                            $i++;
+                        }
+                    }
+                }
             }
         }
         
@@ -202,6 +223,7 @@ class HomeController extends Controller {
         return view('admin.job',['title'=>$title, 
                                 'job_id' => $job_id, 
                                 'job'=>$job,
+                                'applied_jobs'=>$finalApplied,
                                 'logged_in_user'=>$logged_in_user]);
     }
 
