@@ -100,8 +100,12 @@ class HomeController extends Controller {
         $title  = 'Sababoo | Admin | Users';
         $logged_in_user   = Auth::guard('admin_users')->user();
         //$logged_in_user = Session::get('sa_user');
+
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+
         $roles = $this->role_model->where('is_active', '=', 1)->get();
-        return view('admin.users',['title'=>$title, 'roles'=>$roles, 'logged_in_user'=>$logged_in_user]);
+        return view('admin.users',['title'=>$title, 'roles'=>$roles, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
     }
 
     /* for add/update user */
@@ -141,7 +145,9 @@ class HomeController extends Controller {
         $title  = 'Sababoo | Admin | Site Users';
         $logged_in_user   = Auth::guard('admin_users')->user();
         //$logged_in_user = Session::get('sa_user');
-        return view('admin.site-users',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+        return view('admin.site-users',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
     }
 
     /* for site user details */
@@ -171,7 +177,9 @@ class HomeController extends Controller {
         $title  = 'Sababoo | Admin | Jobs';
         $logged_in_user   = Auth::guard('admin_users')->user();
         //$logged_in_user = Session::get('sa_user');
-        return view('admin.jobs',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+        return view('admin.jobs',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
     }
 
     /* for individual job details */
@@ -202,7 +210,9 @@ class HomeController extends Controller {
         $title  = 'Sababoo | Admin | Roles';
         $logged_in_user   = Auth::guard('admin_users')->user();
         //$logged_in_user = Session::get('sa_user');
-        return view('admin.roles',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+        return view('admin.roles',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
     }
 
     /* for individual role view */
@@ -233,7 +243,9 @@ class HomeController extends Controller {
         $title  = 'Sababoo | Admin | Skills';
         $logged_in_user   = Auth::guard('admin_users')->user();
         //$logged_in_user = Session::get('sa_user');
-        return view('admin.skills',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+        return view('admin.skills',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
     }
 
     /* for individual skill view */
@@ -264,7 +276,9 @@ class HomeController extends Controller {
         $title  = 'Sababoo | Admin | Industries';
         $logged_in_user   = Auth::guard('admin_users')->user();
         //$logged_in_user = Session::get('sa_user');
-        return view('admin.industries',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+        return view('admin.industries',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
     }
 
     /* for individual industry view */

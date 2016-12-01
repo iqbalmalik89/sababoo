@@ -178,6 +178,7 @@ class JobPostController extends Controller
         $this->networkServiceProvider = new NetworkServiceProvider();
         $this->commentServiceProvider = new CommentServiceProvider();
        if($id){
+
            $job =  $this->jobpostServiceProvider->getJobByJobId($id);
            $user = User::where('id', '=' , $job->userid)->firstOrFail();
            $job_comments =$this->commentServiceProvider->getJobComments($id);
@@ -200,16 +201,27 @@ class JobPostController extends Controller
                $user_array['name']= $td_ob->company_name;
                $user_array['desc']= $td_ob->description;
            }
+
            $user_array['url'] =$this->networkServiceProvider->getViewUrl($user);
            $user_array['image'] =$job->image;
            $user_array['userid'] =$user->id;
 
-           return view('frontend.job.job_view',array('job'=>$job,'user_array'=>$user_array,'user'=> $this->logged_user = Auth::user(),'job_comments'=>$job_comments));
+           return view('frontend.job.job_view',array('job'=>$job,'user_array'=>$user_array,'user'=> $this->logged_user,'job_comments'=>$job_comments));
        }
 
     }
 
+    public function applyJob(Request $request){
+      if (Auth::guard('admin_users')->user() != NULL) {
+        $this->logged_user = Auth::guard('admin_users')->user();
+      } else if (Auth::user() != NULL) {
+        $this->logged_user = Auth::user();
+      }
+      $post_data= $request->all();
+      $post_data['user_id']=$this->logged_user->id;
+     return $this->JobPostServiceProvider->applyJob($post_data);
 
+    }
 }
 
 

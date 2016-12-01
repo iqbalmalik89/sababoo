@@ -1,3 +1,13 @@
+<?php
+    $roleOperations = [];
+    if (Auth::guard('admin_users')->user() != NULL) {
+        $adminUser = Auth::guard('admin_users')->user();
+
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $roleRepo->getRoleOperations($adminUser->role_id);
+        
+    } 
+?>
 <!-- BEGIN HEADER -->
 <div class="page-header navbar navbar-fixed-top">
     <!-- BEGIN HEADER INNER -->
@@ -49,3 +59,4 @@
 <!-- END HEADER & CONTENT DIVIDER -->
 
 <input type="hidden" value="{{$logged_in_user->id}}" id="hidden_user_id"/>
+<input type="hidden" value="{{json_encode($roleOperations)}}" id="hidden_operations"/>

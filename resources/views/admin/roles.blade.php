@@ -21,9 +21,16 @@
                     </li> -->
                 </ul>
 
-                <div class="form-actions pull-right margin-top-5px margin-bottom-5px">
-                    <a href="{{URL::to('admin/role')}}"><button type="button" class="btn green"><i class="fa fa-plus fa-fw"></i>Add Role</button></a>
-                </div>
+                <?php
+                    if (in_array(1, $roleOperations)) {
+                ?>
+                    <div class="form-actions pull-right margin-top-5px margin-bottom-5px">
+                        <a href="{{URL::to('admin/role')}}"><button type="button" class="btn green"><i class="fa fa-plus fa-fw"></i>Add Role</button></a>
+                    </div>
+                <?php
+                    }
+                ?>
+                
             </div>
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->

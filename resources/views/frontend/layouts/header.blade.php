@@ -22,36 +22,24 @@
     $job_search = '';
     $job_all = '';
 
-    $network_view = '';
-    $chat_view = '';
     if ($isAdminUser == true) {
-        // for job create permission                         permission id = 1
-        if (!in_array(1, $roleOperations)) {
+        // for job create permission                         permission id = 13
+        if (!in_array(13, $roleOperations)) {
             $job_create = 'hide';
         }
 
-        // for job view permission                         permission id = 4
-        if (!in_array(4, $roleOperations)) {
+        // for job view permission                         permission id = 16
+        if (!in_array(16, $roleOperations)) {
             $job_view = 'hide';
         }
 
-        // for job search permission                         permission id = 5
-        if (!in_array(5, $roleOperations)) {
+        // for job search permission                         permission id = 16
+        if (!in_array(16, $roleOperations)) {
             $job_search = 'hide';
         }
 
-        if (!in_array(1, $roleOperations) && !in_array(4, $roleOperations) && !in_array(5, $roleOperations)) {
+        if (!in_array(13, $roleOperations) && !in_array(16, $roleOperations)) {
             $job_all = 'hide';
-        }
-
-        // for network view permission                         permission id = 9
-        if (!in_array(9, $roleOperations)) {
-            $network_view = 'hide';
-        }
-
-        // for chat view permission                         permission id = 14
-        if (!in_array(14, $roleOperations)) {
-            $chat_view = 'hide';
         }
     }
     
@@ -118,7 +106,7 @@
                             
 
 
-                            <li class="{{$network_view}}">
+                            <li class="">
                                 <a href="#_">My Network</a>
 
                                 <ul>
@@ -132,7 +120,7 @@
 
                             </li>
 
-                            <li class="{{$chat_view}}">
+                            <li class="">
                                 <a href="/user_view_message">Messages<span id="msg_notification"></span></a>
 
 

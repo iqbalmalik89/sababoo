@@ -20,10 +20,15 @@
                         <span>Dashboard</span>
                     </li> -->
                 </ul>
-
-                <div class="form-actions pull-right margin-top-5px margin-bottom-5px">
-                    <a href="{{URL::to('admin/industry')}}"><button type="button" class="btn green"><i class="fa fa-plus fa-fw"></i>Add Industry</button></a>
-                </div>
+                <?php
+                    if (in_array(21, $roleOperations)) {
+                ?>
+                    <div class="form-actions pull-right margin-top-5px margin-bottom-5px">
+                        <a href="{{URL::to('admin/industry')}}"><button type="button" class="btn green"><i class="fa fa-plus fa-fw"></i>Add Industry</button></a>
+                    </div>
+                <?php
+                    }
+                ?>
             </div>
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
