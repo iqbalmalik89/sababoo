@@ -250,6 +250,8 @@ class JobPostServiceProvider
        $checkJob = AppliedJob::where('user_id', '=', $post_data['user_id'])->where('job_id', '=', $post_data['job_id'])->first();
        if ($checkJob == NULL) {
 
+          $job_post->job_deadline_date = date('Y-m-d', strtotime($job_post->job_deadline_date));
+            
           if ($currentDate <= $job_post->job_deadline_date ) {
 
             $subject = "Sababoo's - Application on your posted job by " . $sender_data->email;
