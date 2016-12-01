@@ -13,7 +13,7 @@ class Helper
         try {
            
             $mail_status = Mail::send($template, $mail_data, function ($message) use ($mail_data) {
-//$mail_data['from']
+                //$mail_data['from']
                 $message->from('jasonbourne501@gmail.com');
                 if (env('TEST_EMAIL', false)) {
                     $message->to(env('TEST_EMAIL', false))->subject($mail_data['subject']);
@@ -41,6 +41,7 @@ class Helper
             return $response;
 
         } catch (\Exception $e) {
+            
             return [
               'code' => 1000,
               'status' => 'error',

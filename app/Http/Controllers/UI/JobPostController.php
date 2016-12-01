@@ -165,7 +165,7 @@ class JobPostController extends Controller
         return view('frontend.job.job_search',array('all_jobs'=>$all_jobs));
      }
 
-    public function viewJob($id){
+    public function viewJob(Request $request, $id){
 
       if (Auth::guard('admin_users')->user() != NULL) {
         $this->logged_user = Auth::guard('admin_users')->user();
@@ -178,35 +178,44 @@ class JobPostController extends Controller
         $this->networkServiceProvider = new NetworkServiceProvider();
         $this->commentServiceProvider = new CommentServiceProvider();
        if($id){
+            $post_data = $request->all();
 
-           $job =  $this->jobpostServiceProvider->getJobByJobId($id);
+            $job =  $this->jobpostServiceProvider->getJobByJobId($id);
            $user = User::where('id', '=' , $job->userid)->firstOrFail();
-           $job_comments =$this->commentServiceProvider->getJobComments($id);
 
-           $user_array=array();
-           if($job->role=='tradesman'){
-               $td_ob = Tradesman::where('userid', '=' , $job->userid)->firstOrFail();
-               $user_array['name']= $job->first_name." ".$job->last_name;
-               $user_array['desc']= $td_ob->background;
-           }
+            if (count($post_data) > 0) {
+              $post_data['user_id'] = $this->logged_user->id;
+              $post_data['job_id']  = $job->id;
+              return $this->jobpostServiceProvider->applyJob($post_data);
+
+            } else {
+                $job_comments =$this->commentServiceProvider->getJobComments($id);
+
+                 $user_array=array();
+                 if($job->role=='tradesman'){
+                     $td_ob = Tradesman::where('userid', '=' , $job->userid)->firstOrFail();
+                     $user_array['name']= $job->first_name." ".$job->last_name;
+                     $user_array['desc']= $td_ob->background;
+                 }
 
 
-           if($job->role=='employee'){
-               $td_ob = Employee::where('userid', '=' , $job->userid)->firstOrFail();
-               $user_array['name']= $job->first_name." ".$job->last_name;
-               $user_array['desc']= $td_ob->summary;
-           }
-           if($job->role=='employer'){
-               $td_ob = Employer::where('userid', '=' , $job->userid)->firstOrFail();
-               $user_array['name']= $td_ob->company_name;
-               $user_array['desc']= $td_ob->description;
-           }
+                 if($job->role=='employee'){
+                     $td_ob = Employee::where('userid', '=' , $job->userid)->firstOrFail();
+                     $user_array['name']= $job->first_name." ".$job->last_name;
+                     $user_array['desc']= $td_ob->summary;
+                 }
+                 if($job->role=='employer'){
+                     $td_ob = Employer::where('userid', '=' , $job->userid)->firstOrFail();
+                     $user_array['name']= $td_ob->company_name;
+                     $user_array['desc']= $td_ob->description;
+                 }
 
-           $user_array['url'] =$this->networkServiceProvider->getViewUrl($user);
-           $user_array['image'] =$job->image;
-           $user_array['userid'] =$user->id;
+                 $user_array['url'] =$this->networkServiceProvider->getViewUrl($user);
+                 $user_array['image'] =$job->image;
+                 $user_array['userid'] =$user->id;
 
-           return view('frontend.job.job_view',array('job'=>$job,'user_array'=>$user_array,'user'=> $this->logged_user,'job_comments'=>$job_comments));
+                 return view('frontend.job.job_view',array('job'=>$job,'user_array'=>$user_array,'user'=> $this->logged_user,'job_comments'=>$job_comments));
+            }
        }
 
     }
@@ -219,7 +228,7 @@ class JobPostController extends Controller
       }
       $post_data= $request->all();
       $post_data['user_id']=$this->logged_user->id;
-     return $this->JobPostServiceProvider->applyJob($post_data);
+     return $this->jobpostServiceProvider->applyJob($post_data);
 
     }
 }

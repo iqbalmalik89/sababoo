@@ -172,7 +172,7 @@
 														
 
 															<hr class="mt-15">
-															
+
 															<div class="row">
 															
 																<div class="col-sm-12 col-md-6">
@@ -185,11 +185,11 @@
 																<div class="col-sm-12 col-md-12 mb-15">
 																	<p class="mb-5">Effects present letters inquiry no an removed or friends?</p>
 																	<div class="radio-block">
-																		<input id="q1_radio-1" name="q1_radio" type="radio" class="radio" value="First Choice" />
+																		<input id="q1_radio-1" name="q1_radio" type="radio" class="radio" value="First Choice" style="display:block;opacity:1;"/>
 																		<label class="font13" for="q1_radio-1">Yes</label>
 																	</div>
 																	<div class="radio-block">
-																		<input id="q1_radio-2" name="q1_radio" type="radio" class="radio" value="Second Choice" />
+																		<input id="q1_radio-2" name="q1_radio" type="radio" class="radio" value="Second Choice" style="display:block;opacity:1;"/>
 																		<label class="font13" for="q1_radio-2">no</label>
 																	</div>
 																</div>
@@ -197,11 +197,11 @@
 																<div class="col-sm-12 col-md-12 mb-15">
 																	<p class="mb-5">My possible peculiar together to. Desire so better am cannot he up before points. Remember mistaken opinions it pleasure of debating?</p>
 																	<div class="radio-block">
-																		<input id="q2_radio-1" name="q2_radio" type="radio" class="radio" value="First Choice" />
+																		<input id="q2_radio-1" name="q2_radio" type="radio" class="radio" value="First Choice" style="display:block;opacity:1;"/>
 																		<label class="font13" for="q2_radio-1">Yes</label>
 																	</div>
 																	<div class="radio-block">
-																		<input id="q2_radio-2" name="q2_radio" type="radio" class="radio" value="Second Choice" />
+																		<input id="q2_radio-2" name="q2_radio" type="radio" class="radio" value="Second Choice" style="display:block;opacity:1;"/>
 																		<label class="font13" for="q2_radio-2">no</label>
 																	</div>
 																</div>
@@ -209,19 +209,19 @@
 																<div class="col-sm-12 col-md-12 mb-15">
 																	<p class="mb-5">Bringing so sociable felicity supplied mr. September suspicion far him two acuteness perfectly?</p>
 																	<div class="checkbox-block">
-																		<input id="q3_checkbox-1" name="q3_checkbox" type="checkbox" class="checkbox" value="First Choice" />
+																		<input id="q3_checkbox-1" name="q3_checkbox_1" type="checkbox" class="checkbox" value="First Choice" style="display:block;opacity:1;"/>
 																		<label class="font13" for="q3_checkbox-1">Assurance perpetual</label>
 																	</div>
 																	<div class="checkbox-block">
-																		<input id="q3_checkbox-2" name="q3_checkbox" type="checkbox" class="checkbox" value="Second Choice" />
+																		<input id="q3_checkbox-2" name="q3_checkbox_2" type="checkbox" class="checkbox" value="Second Choice" style="display:block;opacity:1;"/>
 																		<label class="font13" for="q3_checkbox-2">Entire its the did figure</label>
 																	</div>
 																	<div class="checkbox-block">
-																		<input id="q3_checkbox-3" name="q3_checkbox" type="checkbox" class="checkbox" value="Third Choice" />
+																		<input id="q3_checkbox-3" name="q3_checkbox_3" type="checkbox" class="checkbox" value="Third Choice" style="display:block;opacity:1;"/>
 																		<label class="font13" for="q3_checkbox-3">Shade being under his bed</label>
 																	</div>
 																	<div class="checkbox-block">
-																		<input id="q3_checkbox-4" name="q3_checkbox" type="checkbox" class="checkbox" value="Fourth Choice" />
+																		<input id="q3_checkbox-4" name="q3_checkbox_4" type="checkbox" class="checkbox" value="Fourth Choice" style="display:block;opacity:1;"/>
 																		<label class="font13" for="q3_checkbox-4">Pleasant horrible but confined</label>
 																	</div>
 																</div>
@@ -237,8 +237,8 @@
 															
 															<p class="font12 line16">Manor we shall merit by chief wound no or would. Oh towards between subject passage sending mention or it. Sight happy do burst fruit to woody begin at. <a href="#">Assurance perpetual</a> he in oh determine as. The year paid met him does eyes same. Own marianne improved sociable not out. Thing do sight blush mr an. Celebrated am announcing <a href="#">delightful remarkably</a> we in literature it solicitude. Design use say <a href="#">piqued any</a> gay supply. Front sex match vexed her those great.</p>
 															
-															<button class="btn btn-primary" id="apply_for_job">Send Application</button>
-															
+																<input type="button" class="btn btn-primary" id="apply_for_job" value="Send Application" ></input>
+																<div class="alert" style="display:block; margin-top:10px;" id="msg_frm_job_apply"></div>
 														</form>
 													
 													</div>
@@ -285,17 +285,44 @@ if(isset($user->image) && $user->image!=''){
 	});
 
 	$('#apply_for_job').click(function(){
-		//apply_job();
+		apply_job();
 	});
 	function apply_job(){
-		var message=$.trim($('#cover_message').text());
-		if(message){
+		var message=$.trim($('#cover_message').val());
+		var q1_answer=$("input[name=q1_radio]:checked").val();
+		var q2_answer=$("input[name=q2_radio]:checked").val();
+		var q3_checkbox_1=$("input[name=q3_checkbox_1]").prop('checked');
+		var q3_checkbox_2=$("input[name=q3_checkbox_2]").prop('checked');
+		var q3_checkbox_3=$("input[name=q3_checkbox_3]").prop('checked');
+		var q3_checkbox_4=$("input[name=q3_checkbox_4]").prop('checked');
 
+		var errors = [];
+		if (message == ''){
+			errors.push('Please enter cover message.');
+			$('#cover_message').parent().addClass('has-error');
+		} else {
+			$('#cover_message').parent().removeClass('has-error');
+		}
+
+		if(errors.length < 1){
+			$('#cover_message').parent().addClass('has-error');
 			html = '';
 			pageURI = '/job/apply';
-			request_data = {job_id:job_id, cover_message:cover_message}
-			mainAjax('', request_data, 'POST',fillData);
+			request_data = {job_id:job_id, cover_message:message, q1_answer:q1_answer, q2_answer:q2_answer, q3_checkbox_1:q3_checkbox_1, q3_checkbox_2:q3_checkbox_2, q3_checkbox_3:q3_checkbox_3,  q3_checkbox_4:q3_checkbox_4}
+			mainAjax('', request_data, 'POST', fillForm);
+			
+			function fillForm(data){
+				if(data.status == 'ok')
+				{
+					$('#msg_frm_job_apply').removeClass('alert-danger').addClass('alert-success').show().html(data.msg).delay(4000).fadeOut();
+					window.location = "/job/view/"+job_id;
+				}else if (data.status == 'error') {
+					$('#msg_frm_job_apply').addClass('alert-danger').html(data.msg).show();
+				}
+			} 
 
+		} else {
+			$('#msg_frm_job_apply').addClass('alert-danger').html(errors[0]).show();
 		}
 
 	}
