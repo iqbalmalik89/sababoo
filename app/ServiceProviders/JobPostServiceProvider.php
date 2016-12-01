@@ -220,7 +220,7 @@ class JobPostServiceProvider
 
              $data = [
                  "from"           => $from,
-                 "to"             => 'nazbushi@gmail.com'/*$receiver_data->email*/,
+                 "to"             => $receiver_data->email,
                  "subject"        => $subject,
                  "sender_email"   => $sender_data->email,
                  "post_data"      =>$post_data,
