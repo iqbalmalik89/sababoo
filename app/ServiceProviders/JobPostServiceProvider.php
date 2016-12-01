@@ -223,10 +223,11 @@ class JobPostServiceProvider
                  "to"             => $receiver_data->email,
                  "subject"        => $subject,
                  "sender_email"   => $sender_data->email,
-                 "post_data"      =>$post_data,
                  "SERVER_PATH"    => env('URL'),
                  "job_id"         =>  $post_data['job_id'],
-                 "user_id"         =>  $post_data['user_id']
+                 "user_id"         =>  $post_data['user_id'],
+                 "job_name"       =>  $job_post->name,
+                 "cover_message"       =>  $post_data['cover_message']
 
              ];
 
@@ -238,6 +239,7 @@ class JobPostServiceProvider
              $jobApply = new AppliedJob;
              $jobApply->job_id = $data['job_id'];
              $jobApply->user_id = $data['user_id'];
+             $jobApply->message = $post_data['cover_message'];
              $jobApply->save();
 
              return array(

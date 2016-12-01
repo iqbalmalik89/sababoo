@@ -238,6 +238,7 @@
 															<p class="font12 line16">Manor we shall merit by chief wound no or would. Oh towards between subject passage sending mention or it. Sight happy do burst fruit to woody begin at. <a href="#">Assurance perpetual</a> he in oh determine as. The year paid met him does eyes same. Own marianne improved sociable not out. Thing do sight blush mr an. Celebrated am announcing <a href="#">delightful remarkably</a> we in literature it solicitude. Design use say <a href="#">piqued any</a> gay supply. Front sex match vexed her those great.</p>
 															
 																<input type="button" class="btn btn-primary" id="apply_for_job" value="Send Application" ></input>
+																<img class="button_spinners" style="display:none" src="{{URL::to('pannel/images/loader.gif')}}" id="submit_loader">
 																<div class="alert" style="display:block; margin-top:10px;" id="msg_frm_job_apply"></div>
 														</form>
 													
@@ -309,9 +310,12 @@ if(isset($user->image) && $user->image!=''){
 			html = '';
 			pageURI = '/job/apply';
 			request_data = {job_id:job_id, cover_message:message, q1_answer:q1_answer, q2_answer:q2_answer, q3_checkbox_1:q3_checkbox_1, q3_checkbox_2:q3_checkbox_2, q3_checkbox_3:q3_checkbox_3,  q3_checkbox_4:q3_checkbox_4}
+
+			$('#submit_loader').show();
 			mainAjax('', request_data, 'POST', fillForm);
 			
 			function fillForm(data){
+				$('#submit_loader').hide();
 				if(data.status == 'ok')
 				{
 					$('#msg_frm_job_apply').removeClass('alert-danger').addClass('alert-success').show().html(data.msg).delay(4000).fadeOut();
