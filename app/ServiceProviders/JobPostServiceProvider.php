@@ -165,7 +165,7 @@ class JobPostServiceProvider
             ->OrderBy('applied_jobs.created_at', 'DESC')
         //dd( count($job) );
         ->paginate($paging['page_size']);
-  //dd(DB::getQueryLog());
+        //dd(DB::getQueryLog());
         
         return $job;
      }
