@@ -50,7 +50,7 @@
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-user"></i>
                                                     </span>
-                                                    <input type="text" class="form-control" placeholder="Enter Full Name" id="profile_name" value="{{$logged_in_user->name}}"> 
+                                                    <input type="text" class="form-control" placeholder="Enter Full Name" id="profile_name" value="{{$logged_in_user->first_name}}"> 
                                                 </div> 
                                             </div>
                                             <div class="margiv-top-10">
@@ -101,7 +101,6 @@
 @section('scripts')
 <script type="text/javascript">
 $(document).ready(function() {
-    CK.App.User.list();
 });
 </script> 
 @endsection

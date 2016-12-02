@@ -1,7 +1,7 @@
 <?php
     $roleOperations = [];
-    if (Auth::guard('admin_users')->user() != NULL) {
-        $adminUser = Auth::guard('admin_users')->user();
+    if (Auth::user() != NULL) {
+        $adminUser = Auth::user();
 
         $roleRepo = app()->make('RoleRepository');
         $roleOperations = $roleRepo->getRoleOperations($adminUser->role_id);
@@ -31,7 +31,7 @@
                 <li class="dropdown dropdown-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <img alt="" class="img-circle" src="{{URL::to('pannel/assets/layouts/layout/img/avatar.png')}}" />
-                        <span class="username username-hide-on-mobile"> {{$logged_in_user->name}} </span>
+                        <span class="username username-hide-on-mobile"> {{$logged_in_user->first_name}} </span>
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">

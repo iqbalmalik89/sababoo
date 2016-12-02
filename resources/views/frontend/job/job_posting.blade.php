@@ -9,9 +9,16 @@
 <?php
     $isAdminUser = false;
     $adminUser = NULL;
-    if (Auth::guard('admin_users')->user() != NULL) {
-        $isAdminUser = true;
-        $adminUser = Auth::guard('admin_users')->user();
+    $roleOperations = [];
+    if (Auth::user() != NULL) {
+        $adminUser = Auth::user();
+        if ($adminUser->is_admin == 1) {
+            $isAdminUser = true;
+        
+            //$roleRepo = app()->make('RoleRepository');
+            //$roleOperations = $roleRepo->getRoleOperations($adminUser->role_id);
+        }
+        
     }
 ?>
 		<!-- start Main Wrapper -->

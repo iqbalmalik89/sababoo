@@ -34,9 +34,7 @@ class ChatController extends Controller
     }
 
     public function index($id){
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');
@@ -45,9 +43,7 @@ class ChatController extends Controller
         return view('frontend.chat.sendMessage',['send_to_user'=>$send_to_user,'logged_user'=>$logged_user]);
     }
     public function SendMessage(Request $request){
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');
@@ -58,9 +54,7 @@ class ChatController extends Controller
     }
 
     public function viewMessages(Request$request){
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');
@@ -87,9 +81,7 @@ class ChatController extends Controller
         return view('frontend.chat.viewMessage',['all_messages'=>$all_messages,'update_count_message'=>$update_count_message,'userinfo'=>$this->logged_user,'sender_data'=> $user_list]);
      }
     public function viewMessagesJason(Request $request){
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');
@@ -98,9 +90,7 @@ class ChatController extends Controller
         return json_encode($get_unread_message);
     }
     public function getUserMessageById(Request $request){
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');
@@ -111,9 +101,7 @@ class ChatController extends Controller
     }
 
     public function saveUserMessage(Request $request){
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');
@@ -122,9 +110,7 @@ class ChatController extends Controller
         return $this->chatServiceProvider->SaveMessage($post_data);
     }
     public function getLoggedUserMessage(Request $request){
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');

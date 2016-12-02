@@ -20,7 +20,7 @@ class AclWithFront
     public function handle($request, Closure $next, $route, $is_api = false)
     {
 
-        $admin_user = Auth::guard('admin_users')->user();
+        $admin_user = Auth::user();
 
         if ($admin_user != false) {
 

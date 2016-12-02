@@ -30,7 +30,7 @@ class AdminUserController extends Controller
 
     public function updateBasicInfo(Request $request){
         $post_data = $request->all();
-        $this->logged_user = Auth::guard('admin_users')->user();
+        $this->logged_user = Auth::user();
         $validate_array = array(
             'name'         => "required|regex:/^[\pL\s.']+$/u"
         );
@@ -45,7 +45,7 @@ class AdminUserController extends Controller
 
     public function viewAdminUser($id){
 
-       $this->logged_user = Auth::guard('admin_users')->user();
+       $this->logged_user = Auth::user();
 
 
         $basic_emp_info = $this->adminUserServiceProvider->getBasicAdminProfile($id);

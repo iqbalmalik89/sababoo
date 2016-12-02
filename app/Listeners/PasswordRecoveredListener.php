@@ -34,8 +34,8 @@ class PasswordRecoveredListener
             $this->mailer->send('admin.emails.forgot-password', ['user' => $user], function ($m) use ($user) {
                 
                 $m->subject('Recover Password');
-                $m->to($user->email, $user->name);
-                $m->to('nazbushi@gmail.com', $user->name);
+                $m->to($user->email, $user->first_name);
+                $m->to('nazbushi@gmail.com', $user->first_name);
                 
             });
 

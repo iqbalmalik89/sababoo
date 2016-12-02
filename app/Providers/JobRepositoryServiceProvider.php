@@ -8,7 +8,6 @@ use App\Data\Repositories\JobRepository;
 use BusinessObject\JobPost;
 use BusinessObject\User;
 use BusinessObject\Industry;
-use App\Models\AdminUser;
 
 class JobRepositoryServiceProvider extends ServiceProvider
 {
@@ -30,7 +29,7 @@ class JobRepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('JobRepository', function(){
-            return new JobRepository(new JobPost, new Industry, new User, new AdminUser);
+            return new JobRepository(new JobPost, new Industry, new User);
         });
     }
 }

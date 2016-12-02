@@ -46,9 +46,7 @@ class JobPostController extends Controller
 
         $post_data=$request->all();
 
-        if (Auth::guard('admin_users')->user() != NULL) {
-          $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+         if (Auth::user() != NULL) {
           $this->logged_user = Auth::user();
         } else {
           return redirect('login');
@@ -67,9 +65,7 @@ class JobPostController extends Controller
     public function jobCreate(Request $request){
 
         $post_data = $request->all();
-        if (Auth::guard('admin_users')->user() != NULL) {
-          $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
           $this->logged_user = Auth::user();
         } else {
           return redirect('login');
@@ -98,9 +94,7 @@ class JobPostController extends Controller
     }
 
     public function userJobList(Request $request){
-        if (Auth::guard('admin_users')->user() != NULL) {
-          $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
           $this->logged_user = Auth::user();
         } else {
           return redirect('login');
@@ -130,9 +124,7 @@ class JobPostController extends Controller
     }
 
     public function userAppliedJobs(Request $request){
-        if (Auth::guard('admin_users')->user() != NULL) {
-          $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
           $this->logged_user = Auth::user();
         } else {
           return redirect('login');
@@ -167,9 +159,7 @@ class JobPostController extends Controller
     }
 
     public function searchJob(Request $request){
-        if (Auth::guard('admin_users')->user() != NULL) {
-          $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
           $this->logged_user = Auth::user();
         } else {
           return redirect('login');
@@ -199,9 +189,7 @@ class JobPostController extends Controller
 
     public function viewJob(Request $request, $id){
 
-      if (Auth::guard('admin_users')->user() != NULL) {
-        $this->logged_user = Auth::guard('admin_users')->user();
-      } else if (Auth::user() != NULL) {
+      if (Auth::user() != NULL) {
         $this->logged_user = Auth::user();
       } else {
         return redirect('login');
@@ -253,9 +241,7 @@ class JobPostController extends Controller
     }
 
     public function applyJob(Request $request){
-      if (Auth::guard('admin_users')->user() != NULL) {
-        $this->logged_user = Auth::guard('admin_users')->user();
-      } else if (Auth::user() != NULL) {
+      if (Auth::user() != NULL) {
         $this->logged_user = Auth::user();
       }
       $post_data= $request->all();

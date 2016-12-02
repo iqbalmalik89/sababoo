@@ -566,7 +566,7 @@ Sababoo.App.User = (function() {
 		}
 	};
 
-	var list = function (page) {
+	var listAdmin = function (page) {
 
 		$('.spinner-section').show();
 		var page 			= page || 1;
@@ -584,6 +584,7 @@ Sababoo.App.User = (function() {
 		data.keyword 		= keyword;
 		data.filter_by_status = filterByStatus;
 		data.filter_by_role = filterByRole;
+		data.is_admin 		= 1;
 		
 		var request = $.ajax({
 			url: userApiUrl+'/list?page='+page,
@@ -638,15 +639,15 @@ Sababoo.App.User = (function() {
 						user.role_title = 'N/A';									
 					}
 					
-					if (typeof user.is_active != 'undefined' && typeof user.is_active !== null ) {
-						if(user.is_active == 1){
+					if (typeof user.status != 'undefined' && typeof user.status !== null ) {
+						if(user.status == 'enabled'){
 							statusText = 'Active';
-							is_active = 0;
+							is_active = 'disabled';
 							archiveText = 'In-Activate';
 							archiveClass = 'blue';
 						}else{
 							statusText = 'InActive';
-							is_active = 1;
+							is_active = 'enabled';
 							archiveText = 'Activate';
 							archiveClass = 'green-jungle';
 						}
@@ -766,411 +767,7 @@ Sababoo.App.User = (function() {
 		});		
 	};
 
-	var create = function (){
-
-		var errors = [];
-		var user_id = $('#updated_user_id').val();
-		var name 	= $('#user_name');
-		var email 	= $('#user_email');
-		var role_id 	= $('#user_role');
-
-		if ($.trim(name.val()) == '') {
-			errors.push('Please enter full name.');
-			name.parent().addClass('has-error');
-		} else {
-			name.parent().removeClass('has-error');	
-		}
-
-		if ($.trim(email.val()) == '') {
-			errors.push('Please enter email.');
-			email.parent().addClass('has-error');
-		} else {
-			if(!Sababoo.App.isEmail(email.val())){
-				errors.push('Please enter valid email address.');
-			} else {
-				email.parent().removeClass('has-error');
-			}			
-		}
-
-		if ($.trim(role_id.val()) == 0) {
-			errors.push('Please select role.');
-			role_id.parent().parent().addClass('has-error');
-		} else {
-			role_id.parent().parent().removeClass('has-error');	
-		}
-
-		if (errors.length < 1) {
-
-			var jsonData = {
-								id:user_id,
-								name:$.trim(name.val()),
-								email:$.trim(email.val()),
-								role_id:$.trim(role_id.val())																
-							}
-
-			if (jsonData.id == 0) {
-				var request = $.ajax({
-					url: userApiUrl+'/create',
-					data: jsonData,
-					type: 'post',
-					dataType:'json'
-				});
-			} else {
-				var request = $.ajax({	
-					url: userApiUrl+'/update',
-					data: jsonData,
-					type: 'put',
-					dataType:'json'
-				});
-			}
-			
-			$('#user_submit_btn').addClass('prevent-click');
-			$('#submit_loader').show();
-
-			request.done(function(data){
-				
-				$('#submit_loader').hide();
-				if(data.success) {		 
-						$('#msg_div').removeClass('alert-danger');
-						$('#msg_div').html(data.success.messages[0]).addClass('alert-success').show().delay(2000).fadeOut(function()
-						{
-							window.location.href = config.getAppUrl()+'/users';
-					    });		 	
-				} else if(data.error) {
-					$('#user_submit_btn').removeClass('prevent-click');
-					var message_error = data.error.messages[0];
-					$('#msg_div').removeClass('alert-success');
-					$('#msg_div').html(message_error).addClass('alert-danger').show();
-				}
-				
-			});
-
-			request.fail(function(jqXHR, textStatus){
-				$('#user_submit_btn').removeClass('prevent-click');
-				$('#submit_loader').hide();
-				var jsonResponse = $.parseJSON(jqXHR.responseText);
-				var error = 'An error occurred.';
-				if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
-					error = jsonResponse.error.messages[0];
-				}
-				$('#msg_div').removeClass('alert-success');
-				$('#msg_div').html(error).addClass('alert-danger').show();
-			});	
-
-		} else {
-			$('#msg_div').removeClass('alert-success');
-			$('#msg_div').html(errors[0]).addClass('alert-danger').show();
-			$('#user_submit_btn').removeClass('prevent-click');
-			$('#submit_loader').hide();
-		}		
-	};
-
-	var remove = function (){
-		var id = $('#hidden_action_user_id').val();
-		$('#user_remove_btn').addClass('prevent-click');
-		$('#remove_submit_loader').show();
-
-		var request = $.ajax({
-			url: userApiUrl+'/remove',
-			data: {id:id},
-			type: 'delete',
-			dataType:'json'
-		});
-
-		request.done(function(data){
-			
-			$('#remove_submit_loader').hide();
-			if (data.success) {
-				var html = 'User has been deleted successfully.';
-				
-				if (data.success.messages && data.success.messages.length > 0 ) {
-					html = data.success.messages[0];
-				}
-
-				$('#remove_msg_div').removeClass('alert-danger');
-		 		$('#remove_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
-				    $(this).html('');
-				    $(this).removeClass('alert-success');
-				    $('#user_remove_btn').removeClass('prevent-click');
-				    $('#removeConfirmation').modal('hide');
-				    Sababoo.App.User.list();	
-			    });
-
-			} else if (data.error) {
-
-				var error = 'An error occurred while deleting this user.';
-				if (data.error.messages && data.error.messages.length > 0) {
-					error = data.error.messages[0];
-				}
-				$('#user_remove_btn').removeClass('prevent-click');
-				$('#remove_msg_div').removeClass('alert-success');
-				$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
-				    $(this).html('');
-				    $('#remove_msg_div').removeClass('alert-danger');
-				});
-			}
-				
-		});
-
-		request.fail(function(jqXHR, textStatus){
-			$('#user_remove_btn').removeClass('prevent-click');
-			$('#remove_submit_loader').hide();
-
-			var jsonResponse = $.parseJSON(jqXHR.responseText);
-			var error = 'An error occurred while deleting this role.';
-			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
-				error = jsonResponse.error.messages[0];
-			}
-			$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
-			    $(this).html('');
-			    $(this).removeClass('alert-danger');
-			});
-		});		
-	};
-
-	var updateStatus = function (){
-		
-		var jsonData = {};
-		jsonData.id = $('#hidden_action_user_id').val();
-		jsonData.status = $('#hidden_action_user_status').val();
-
-		var request = $.ajax({
-			url: userApiUrl+'/update-status',
-			data: jsonData,
-			type: 'put',
-			dataType:'json'
-		});
-
-		$('#user_status_btn').addClass('prevent-click');
-		$('#status_submit_loader').show();
-
-		request.done(function(data){
-			
-			$('#status_submit_loader').hide();
-			
-			if (data.success) {
-				var html = 'Status has been updates successfully.';
-				
-				if (data.success.messages && data.success.messages.length > 0 ) {
-					html = data.success.messages[0];
-				}
-
-				$('#status_msg_div').removeClass('alert-danger');
-		 		$('#status_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
-				    $(this).html('');
-				    $(this).removeClass('alert-success');
-				    $('#user_status_btn').removeClass('prevent-click');
-				    $('#updateStatusConfirmation').modal('hide');
-				    Sababoo.App.User.list();		
-			    });
-
-			} else if (data.error) {
-
-				var error = 'An error occurred while updating user status.';
-				if (data.error.messages && data.error.messages.length > 0) {
-					error = data.error.messages[0];
-				}
-				$('#user_status_btn').removeClass('prevent-click');
-				$('#status_msg_div').removeClass('alert-success');
-				$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
-				    $(this).html('');
-				    $('#status_msg_div').removeClass('alert-danger');
-				});
-			}
-				
-		});
-
-		request.fail(function(jqXHR, textStatus){
-			$('#user_status_btn').removeClass('prevent-click');
-			$('#status_submit_loader').hide();
-			var jsonResponse = $.parseJSON(jqXHR.responseText);
-			var error = 'An error occurred while updating user status.';
-			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
-				error = jsonResponse.error.messages[0];
-			}
-			$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
-			    $(this).html('');
-			    $(this).removeClass('alert-danger');
-			});
-		});		
-	};
-
-	var updatePassword = function (){
-		var errors = [];
-
-		var old_password 		= $('#old_password');
-		var new_password 		= $('#new_password');
-		var confirm_password 	= $('#confirm_password');
-			
-		if ($.trim(old_password.val()) == '') {
-			errors.push('Please enter current password.');
-			old_password.parent().addClass('has-error');    
-		}else{
-			old_password.parent().removeClass('has-error');
-		}
-
-		if ($.trim(new_password.val()) == '') {
-			errors.push('Please enter new password.');
-			new_password.parent().addClass('has-error');    
-		}else{
-			new_password.parent().removeClass('has-error');
-		}
-
-		if ($.trim(confirm_password.val()) == '') {
-			errors.push('Please enter confirm password.');
-			confirm_password.parent().addClass('has-error');    
-		}else{
-			confirm_password.parent().removeClass('has-error');
-		}
-
-		if($.trim(new_password.val()) != $.trim(confirm_password.val()) ){
-			errors.push('Password does not match.');
-		} else {
-			if($.trim(new_password.val()).length < 6){
-				errors.push('Password must be atleast 6 characters long.');
-			}
-		}
-	
-		if (errors.length < 1 ) {
-
-			var jsonData = {};
-			jsonData.old_password = $.trim(old_password.val());
-			jsonData.new_password = $.trim(confirm_password.val());
-
-			var request = $.ajax({	
-				url: userApiUrl+'/update-password',
-				data: jsonData,
-				type: 'PUT',
-				dataType:'json'
-			});
-            	
-            $('#profile_password_submit_btn').addClass('prevent-click');
-            $('#profile_password_submit_loader').show();
-			request.done(function(data){
-				$('#profile_password_submit_loader').hide();
-				if(data.success) {		
-					$('#save_account_password_msg').removeClass('alert-danger show-alert-message');
-					$('#save_account_password_msg').html(data.success.messages[0]).addClass('alert-success').show().delay(2000).fadeOut(function() {
-						$(this).html('');
-				    	$(this).removeClass('alert-danger');
-				    	$('#profile_password_submit_btn').removeClass('prevent-click');
-				    	new_password.val('');
-				    	old_password.val('');
-				    	confirm_password.val('');
-				    });		
-				} else if(data.error) {
-					$('#profile_password_submit_btn').removeClass('prevent-click');
-					var message_error = data.error.messages[0];
-					$('#save_account_password_msg').removeClass('alert-success');
-					$('#save_account_password_msg').html(message_error).addClass('alert-danger').show();
-				}
-				
-			});
-
-			request.fail(function(jqXHR, textStatus){
-				$('#profile_password_submit_btn').removeClass('prevent-click');
-				$('#profile_password_submit_loader').hide();
-
-				var jsonResponse = $.parseJSON(jqXHR.responseText);
-				var error = 'An error occurred while updating password.';
-				if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
-					error = jsonResponse.error.messages[0];
-				}
-				$('#save_account_password_msg').html(error).addClass('alert-danger').show();
-			});
-
-		} else {
-			$('#profile_password_submit_btn').removeClass('prevent-click');
-			$('#save_account_password_msg').removeClass('alert-success');
-			$('#save_account_password_msg').html(errors[0]).addClass('alert-danger').show();
-		}		
-	};
-
-	var updateAccount = function (){
-		var errors = [];
-
-		var name 		= $('#profile_name');
-			
-		if ($.trim(name.val()) == '') {
-			errors.push('Please enter full name.');
-			name.parent().addClass('has-error');    
-		}else{
-			name.parent().removeClass('has-error');
-		}
-
-		if (errors.length < 1 ) {
-
-			var jsonData = {};
-			jsonData.name = $.trim(name.val());
-
-			var request = $.ajax({	
-				url: userApiUrl+'/update-account',
-				data: jsonData,
-				type: 'PUT',
-				dataType:'json'
-			});
-            	
-            $('#profile_submit_btn').addClass('prevent-click');
-            $('#profile_submit_loader').show();
-			request.done(function(data){
-				$('#profile_submit_loader').hide();
-				if(data.success) {		
-					$('#profile_msg').removeClass('alert-danger show-alert-message');
-					$('#profile_msg').html(data.success.messages[0]).addClass('alert-success').show().delay(2000).fadeOut(function() {
-						$(this).html('');
-				    	$(this).removeClass('alert-danger');
-				    	$('#profile_submit_btn').removeClass('prevent-click');
-				    });		
-				} else if(data.error) {
-					$('#profile_submit_btn').removeClass('prevent-click');
-					var message_error = data.error.messages[0];
-					$('#profile_msg').removeClass('alert-success');
-					$('#profile_msg').html(message_error).addClass('alert-danger').show();
-				}
-				
-			});
-
-			request.fail(function(jqXHR, textStatus){
-				$('#profile_submit_btn').removeClass('prevent-click');
-				$('#profile_submit_loader').hide();
-
-				var jsonResponse = $.parseJSON(jqXHR.responseText);
-				var error = 'An error occurred while updating profile information.';
-				if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
-					error = jsonResponse.error.messages[0];
-				}
-				$('#profile_msg').html(error).addClass('alert-danger').show();
-			});
-
-		} else {
-			$('#profile_submit_btn').removeClass('prevent-click');
-			$('#profile_msg').removeClass('alert-success');
-			$('#profile_msg').html(errors[0]).addClass('alert-danger').show();
-		}		
-	};
-
-	return {
-		createPassword:createPassword,
-		forgotPassword:forgotPassword,
-		resetPassword:resetPassword,
-		list:list,
-		create:create,
-		remove:remove,
-		updateStatus:updateStatus,
-		login:login,
-		logout:logout,
-		updatePassword:updatePassword,
-		updateAccount:updateAccount
-	}
-}());
-
-/* Site User Management */
-Sababoo.App.SiteUser = (function() {
-
-	var config = Sababoo.Config;
-	var siteUserApiUrl = config.getApiUrl()+'site-user';
-
-	var list = function (page) {
+	var listSite = function (page) {
 
 		$('.spinner-section').show();
 		var page 			= page || 1;
@@ -1188,9 +785,10 @@ Sababoo.App.SiteUser = (function() {
 		data.keyword 		= keyword;
 		data.filter_by_status = filterByStatus;
 		data.filter_by_role = filterByRole;
+		data.is_admin = 0;
 		
 		var request = $.ajax({
-			url: siteUserApiUrl+'/list?page='+page,
+			url: userApiUrl+'/list?page='+page,
 			data:data,
 			type: 'GET',
 			dataType:'json'
@@ -1374,13 +972,113 @@ Sababoo.App.SiteUser = (function() {
 		});		
 	};
 
+	var create = function (){
+
+		var errors = [];
+		var user_id = $('#updated_user_id').val();
+		var name 	= $('#user_name');
+		var email 	= $('#user_email');
+		var role_id 	= $('#user_role');
+
+		if ($.trim(name.val()) == '') {
+			errors.push('Please enter full name.');
+			name.parent().addClass('has-error');
+		} else {
+			name.parent().removeClass('has-error');	
+		}
+
+		if ($.trim(email.val()) == '') {
+			errors.push('Please enter email.');
+			email.parent().addClass('has-error');
+		} else {
+			if(!Sababoo.App.isEmail(email.val())){
+				errors.push('Please enter valid email address.');
+			} else {
+				email.parent().removeClass('has-error');
+			}			
+		}
+
+		if ($.trim(role_id.val()) == 0) {
+			errors.push('Please select role.');
+			role_id.parent().parent().addClass('has-error');
+		} else {
+			role_id.parent().parent().removeClass('has-error');	
+		}
+
+		if (errors.length < 1) {
+
+			var jsonData = {
+								id:user_id,
+								name:$.trim(name.val()),
+								email:$.trim(email.val()),
+								role_id:$.trim(role_id.val())																
+							}
+
+			if (jsonData.id == 0) {
+				var request = $.ajax({
+					url: userApiUrl+'/create',
+					data: jsonData,
+					type: 'post',
+					dataType:'json'
+				});
+			} else {
+				var request = $.ajax({	
+					url: userApiUrl+'/update',
+					data: jsonData,
+					type: 'put',
+					dataType:'json'
+				});
+			}
+			
+			$('#user_submit_btn').addClass('prevent-click');
+			$('#submit_loader').show();
+
+			request.done(function(data){
+				
+				$('#submit_loader').hide();
+				if(data.success) {		 
+						$('#msg_div').removeClass('alert-danger');
+						$('#msg_div').html(data.success.messages[0]).addClass('alert-success').show().delay(2000).fadeOut(function()
+						{
+							window.location.href = config.getAppUrl()+'/users';
+					    });		 	
+				} else if(data.error) {
+					$('#user_submit_btn').removeClass('prevent-click');
+					var message_error = data.error.messages[0];
+					$('#msg_div').removeClass('alert-success');
+					$('#msg_div').html(message_error).addClass('alert-danger').show();
+				}
+				
+			});
+
+			request.fail(function(jqXHR, textStatus){
+				$('#user_submit_btn').removeClass('prevent-click');
+				$('#submit_loader').hide();
+				var jsonResponse = $.parseJSON(jqXHR.responseText);
+				var error = 'An error occurred.';
+				if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+					error = jsonResponse.error.messages[0];
+				}
+				$('#msg_div').removeClass('alert-success');
+				$('#msg_div').html(error).addClass('alert-danger').show();
+			});	
+
+		} else {
+			$('#msg_div').removeClass('alert-success');
+			$('#msg_div').html(errors[0]).addClass('alert-danger').show();
+			$('#user_submit_btn').removeClass('prevent-click');
+			$('#submit_loader').hide();
+		}		
+	};
+
 	var remove = function (){
+		var is_admin = $('#is_admin_hidden').val();
 		var id = $('#hidden_action_user_id').val();
 		$('#site_user_remove_btn').addClass('prevent-click');
 		$('#remove_submit_loader').show();
 
 		var request = $.ajax({
-			url: siteUserApiUrl+'/remove',
+			url: userApiUrl+'/remove',
 			data: {id:id},
 			type: 'delete',
 			dataType:'json'
@@ -1402,7 +1100,11 @@ Sababoo.App.SiteUser = (function() {
 				    $(this).removeClass('alert-success');
 				    $('#site_user_remove_btn').removeClass('prevent-click');
 				    $('#removeConfirmation').modal('hide');
-				    Sababoo.App.SiteUser.list();	
+				    if (is_admin == 1) {
+				    	Sababoo.App.User.listAdmin();	
+				    } else {
+				    	Sababoo.App.User.listSite();
+				    }
 			    });
 
 			} else if (data.error) {
@@ -1438,13 +1140,13 @@ Sababoo.App.SiteUser = (function() {
 	};
 
 	var updateStatus = function (){
-		
+		var is_admin = $('#is_admin_hidden').val();
 		var jsonData = {};
 		jsonData.id = $('#hidden_action_user_id').val();
 		jsonData.status = $('#hidden_action_user_status').val();
 
 		var request = $.ajax({
-			url: siteUserApiUrl+'/update-status',
+			url: userApiUrl+'/update-status',
 			data: jsonData,
 			type: 'put',
 			dataType:'json'
@@ -1470,7 +1172,11 @@ Sababoo.App.SiteUser = (function() {
 				    $(this).removeClass('alert-success');
 				    $('#user_status_btn').removeClass('prevent-click');
 				    $('#updateStatusConfirmation').modal('hide');
-				    Sababoo.App.SiteUser.list();		
+				    if (is_admin == 1) {
+				    	Sababoo.App.User.listAdmin();	
+				    } else {
+				    	Sababoo.App.User.listSite();
+				    }		
 			    });
 
 			} else if (data.error) {
@@ -1504,10 +1210,173 @@ Sababoo.App.SiteUser = (function() {
 		});		
 	};
 
+	var updatePassword = function (){
+		var errors = [];
+
+		var old_password 		= $('#old_password');
+		var new_password 		= $('#new_password');
+		var confirm_password 	= $('#confirm_password');
+			
+		if ($.trim(old_password.val()) == '') {
+			errors.push('Please enter current password.');
+			old_password.parent().addClass('has-error');    
+		}else{
+			old_password.parent().removeClass('has-error');
+		}
+
+		if ($.trim(new_password.val()) == '') {
+			errors.push('Please enter new password.');
+			new_password.parent().addClass('has-error');    
+		}else{
+			new_password.parent().removeClass('has-error');
+		}
+
+		if ($.trim(confirm_password.val()) == '') {
+			errors.push('Please enter confirm password.');
+			confirm_password.parent().addClass('has-error');    
+		}else{
+			confirm_password.parent().removeClass('has-error');
+		}
+
+		if($.trim(new_password.val()) != $.trim(confirm_password.val()) ){
+			errors.push('Password does not match.');
+		} else {
+			if($.trim(new_password.val()).length < 6){
+				errors.push('Password must be atleast 6 characters long.');
+			}
+		}
+	
+		if (errors.length < 1 ) {
+
+			var jsonData = {};
+			jsonData.old_password = $.trim(old_password.val());
+			jsonData.new_password = $.trim(confirm_password.val());
+
+			var request = $.ajax({	
+				url: userApiUrl+'/update-password',
+				data: jsonData,
+				type: 'PUT',
+				dataType:'json'
+			});
+            	
+            $('#profile_password_submit_btn').addClass('prevent-click');
+            $('#profile_password_submit_loader').show();
+			request.done(function(data){
+				$('#profile_password_submit_loader').hide();
+				if(data.success) {		
+					$('#save_account_password_msg').removeClass('alert-danger show-alert-message');
+					$('#save_account_password_msg').html(data.success.messages[0]).addClass('alert-success').show().delay(2000).fadeOut(function() {
+						$(this).html('');
+				    	$(this).removeClass('alert-danger');
+				    	$('#profile_password_submit_btn').removeClass('prevent-click');
+				    	new_password.val('');
+				    	old_password.val('');
+				    	confirm_password.val('');
+				    });		
+				} else if(data.error) {
+					$('#profile_password_submit_btn').removeClass('prevent-click');
+					var message_error = data.error.messages[0];
+					$('#save_account_password_msg').removeClass('alert-success');
+					$('#save_account_password_msg').html(message_error).addClass('alert-danger').show();
+				}
+				
+			});
+
+			request.fail(function(jqXHR, textStatus){
+				$('#profile_password_submit_btn').removeClass('prevent-click');
+				$('#profile_password_submit_loader').hide();
+
+				var jsonResponse = $.parseJSON(jqXHR.responseText);
+				var error = 'An error occurred while updating password.';
+				if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+					error = jsonResponse.error.messages[0];
+				}
+				$('#save_account_password_msg').html(error).addClass('alert-danger').show();
+			});
+
+		} else {
+			$('#profile_password_submit_btn').removeClass('prevent-click');
+			$('#save_account_password_msg').removeClass('alert-success');
+			$('#save_account_password_msg').html(errors[0]).addClass('alert-danger').show();
+		}		
+	};
+
+	var updateAccount = function (){
+		var errors = [];
+
+		var name 		= $('#profile_name');
+			
+		if ($.trim(name.val()) == '') {
+			errors.push('Please enter full name.');
+			name.parent().addClass('has-error');    
+		}else{
+			name.parent().removeClass('has-error');
+		}
+
+		if (errors.length < 1 ) {
+
+			var jsonData = {};
+			jsonData.name = $.trim(name.val());
+
+			var request = $.ajax({	
+				url: userApiUrl+'/update-account',
+				data: jsonData,
+				type: 'PUT',
+				dataType:'json'
+			});
+            	
+            $('#profile_submit_btn').addClass('prevent-click');
+            $('#profile_submit_loader').show();
+			request.done(function(data){
+				$('#profile_submit_loader').hide();
+				if(data.success) {		
+					$('#profile_msg').removeClass('alert-danger show-alert-message');
+					$('#profile_msg').html(data.success.messages[0]).addClass('alert-success').show().delay(2000).fadeOut(function() {
+						$(this).html('');
+				    	$(this).removeClass('alert-danger');
+				    	$('#profile_submit_btn').removeClass('prevent-click');
+				    });		
+				} else if(data.error) {
+					$('#profile_submit_btn').removeClass('prevent-click');
+					var message_error = data.error.messages[0];
+					$('#profile_msg').removeClass('alert-success');
+					$('#profile_msg').html(message_error).addClass('alert-danger').show();
+				}
+				
+			});
+
+			request.fail(function(jqXHR, textStatus){
+				$('#profile_submit_btn').removeClass('prevent-click');
+				$('#profile_submit_loader').hide();
+
+				var jsonResponse = $.parseJSON(jqXHR.responseText);
+				var error = 'An error occurred while updating profile information.';
+				if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+					error = jsonResponse.error.messages[0];
+				}
+				$('#profile_msg').html(error).addClass('alert-danger').show();
+			});
+
+		} else {
+			$('#profile_submit_btn').removeClass('prevent-click');
+			$('#profile_msg').removeClass('alert-success');
+			$('#profile_msg').html(errors[0]).addClass('alert-danger').show();
+		}		
+	};
+
 	return {
-		list:list,
+		createPassword:createPassword,
+		forgotPassword:forgotPassword,
+		resetPassword:resetPassword,
+		listAdmin:listAdmin,
+		listSite:listSite,
+		create:create,
 		remove:remove,
-		updateStatus:updateStatus
+		updateStatus:updateStatus,
+		login:login,
+		logout:logout,
+		updatePassword:updatePassword,
+		updateAccount:updateAccount
 	}
 }());
 

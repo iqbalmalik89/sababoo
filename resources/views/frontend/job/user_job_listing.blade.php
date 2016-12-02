@@ -11,12 +11,15 @@
     $isAdminUser = false;
     $adminUser = NULL;
     $roleOperations = [];
-    if (Auth::guard('admin_users')->user() != NULL) {
-        $isAdminUser = true;
-        $adminUser = Auth::guard('admin_users')->user();
-
-        $roleRepo = app()->make('RoleRepository');
-        $roleOperations = $roleRepo->getRoleOperations($adminUser->role_id);
+    if (Auth::user() != NULL) {
+        $adminUser = Auth::user();
+        if ($adminUser->is_admin == 1) {
+            $isAdminUser = true;
+        
+            $roleRepo = app()->make('RoleRepository');
+            $roleOperations = $roleRepo->getRoleOperations($adminUser->role_id);
+        }
+        
     }
 ?>
 

@@ -16,10 +16,10 @@ class AclWithAdmin
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $route, $is_api = false)
+    public function handle($request, Closure $next, $route)
     {
        
-        $loggedInUser = Auth::guard('admin_users')->user();
+        $loggedInUser = Auth::user();
         //$loggedInUser = Session::get('sa_user');
         if ($loggedInUser != NULL) {
             

@@ -7,7 +7,7 @@ use App\Models\Role;
 use App\Models\Permission;
 use App\Models\Operation;
 use App\Models\Module;
-use App\Models\AdminUser;
+use BusinessObject\User;
 use App\Data\Repositories\RoleRepository;
 
 class RoleRepositoryServiceProvider extends ServiceProvider
@@ -30,7 +30,7 @@ class RoleRepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('RoleRepository', function(){
-            return new RoleRepository(new Role, new Permission, new Operation, new Module, new AdminUser);
+            return new RoleRepository(new Role, new Permission, new Operation, new Module, new User);
         });
     }
 }
