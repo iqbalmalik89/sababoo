@@ -6,14 +6,12 @@
 ?>
 
 Hello
-You receive comments on your job
+You receive an application on your {{$job_name}} job
 
 From {{$sender_email}}
 {{$cover_message}}
 
-To view the comment please click url link.
-
-{{$SERVER_PATH}}/job/view/{{$job_id}}
+{{$SERVER_PATH}}/job/user_applied_jobs
 If link is not clickable, copy and paste it into the browser's address bar.
 
 Thank you for choosing Sababoo!

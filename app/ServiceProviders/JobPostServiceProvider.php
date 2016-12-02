@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Cache;
 use  BusinessObject\User;
 use  BusinessObject\Language;
 use  BusinessObject\JobPost;
+use  App\Models\AppliedJob;
 use Validator;
 use DB;
 
@@ -84,7 +85,7 @@ class JobPostServiceProvider
 
     public function userJobList($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
 
-        $matchThese = ["job_post.userid"=>$filters['userid'],"job_post.is_active" =>1, "is_admin_job"=>$filters['is_admin']];
+        $matchThese = ["job_post.userid"=>$filters['userid'],"job_post.is_active" =>1, "is_admin_job"=>$filters['is_admin'], "deleted_at"=>NULL];
 
         $name = isset($filters['name'])?$filters['name']:'';
         $loc = isset($filters['location'])?$filters['location']:'';
@@ -129,6 +130,43 @@ class JobPostServiceProvider
         ->paginate($paging['page_size']);
   //dd(DB::getQueryLog());
 
+        return $job;
+     }
+
+     public function userAppliedJobs($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
+
+        $matchThese = [];
+
+        $name = isset($filters['name'])?$filters['name']:'';
+        $loc = isset($filters['location'])?$filters['location']:'';
+
+      $str = '';
+      foreach($matchThese as $key=>$value){
+
+            if($key =='job_post.location'){
+                $str.="job_post.location LIKE '%$value%' and ";
+            }
+         elseif($key =='job_post.name'){
+              $str.="job_post.name LIKE '%$value%' and ";
+          }else{
+                $str.=" '$key'= '$value' and " ;
+
+            }
+
+      }
+
+
+        $job = DB::table('job_post')
+            ->select('job_post.id as id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','applied_jobs.id as aj_id','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message')
+            ->join('applied_jobs', 'job_post.id', '=','applied_jobs.job_id' )
+            ->where($matchThese)
+            ->Where("job_post.name", "LIKE", "%$name%")
+            ->Where("job_post.location", "LIKE", "%$loc%")
+            ->OrderBy('applied_jobs.created_at', 'DESC')
+        //dd( count($job) );
+        ->paginate($paging['page_size']);
+        //dd(DB::getQueryLog());
+        
         return $job;
      }
 
@@ -181,7 +219,7 @@ class JobPostServiceProvider
 
 
 
-        $matchThese = ["job_post.status" =>1];
+        $matchThese = ["job_post.status" =>1, "job_post.is_active" =>1, "job_post.deleted_at" =>NULL];
         $job = DB::table('job_post')
             ->select('job_post.id as id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','job_post.created_at','industry.id as ind_id','industry.name as ind_name')
             ->join('industry', 'job_post.industry_id', '=','industry.id' )
@@ -199,33 +237,75 @@ class JobPostServiceProvider
     }
 
 
-    public function applyJob($data){
+    public function applyJob($post_data){
 
-       $job_post = JobPost::where(array('id'=>$data['job_id']))->first();
+      $currentDate = date('Y-m-d');
+
+       $job_post = JobPost::where(array('id'=>$post_data['job_id']))->first();
+       
        $receiver_data = User::where(array('id'=>$job_post->userid))->first();
-       $sender_data = User::where(array('id'=>$data['user_id']))->first();
+       $sender_data = User::where(array('id'=>$post_data['user_id']))->first();
        #$data['to']  = $receiver_data->email;
 
-       $subject = "Sababoo's - Application on your posted job by " . $sender_data->email;
-       $from = "noreply@sababoo.com";
+       $checkJob = AppliedJob::where('user_id', '=', $post_data['user_id'])->where('job_id', '=', $post_data['job_id'])->first();
+       if ($checkJob == NULL) {
 
-       $data = [
-           "from"           => $from,
-           "to"             => $receiver_data->email,
-           "subject"        => $subject,
-           "sender_email"   => $sender_data->email,
-           "cover_message"  =>$data['cover_message'],
-           "SERVER_PATH"    => env('URL'),
-           "job_id"         =>  $data['job_id']
+          $job_post->job_deadline_date = date('Y-m-d', strtotime($job_post->job_deadline_date));
+            
+          if ($currentDate <= $job_post->job_deadline_date ) {
 
-       ];
+            $subject = "Sababoo's - Application on your posted job by " . $sender_data->email;
+            $from = "noreply@sababoo.com";
 
-       $mail_response = Helper::sendEmail(
-           $data,
-           ['email_templates/job_apply_html', 'email_templates/job_apply_text']
-       );
+             $data = [
+                 "from"           => $from,
+                 "to"             => $receiver_data->email,
+                 "subject"        => $subject,
+                 "sender_email"   => $sender_data->email,
+                 "SERVER_PATH"    => env('URL'),
+                 "job_id"         =>  $post_data['job_id'],
+                 "user_id"         =>  $post_data['user_id'],
+                 "job_name"       =>  $job_post->name,
+                 "cover_message"       =>  $post_data['cover_message']
 
+             ];
 
+             $mail_response = Helper::sendEmail(
+                 $data,
+                 ['email_templates/job_apply_html', 'email_templates/job_apply_text']
+             );
+
+             $jobApply = new AppliedJob;
+             $jobApply->job_id = $data['job_id'];
+             $jobApply->user_id = $data['user_id'];
+             $jobApply->message = $post_data['cover_message'];
+             $jobApply->save();
+
+             return array(
+                  'code' => '200',
+                  'status' => 'ok',
+                  'msg' => "Job application has been subimtted successfully.",
+              );
+
+         } else {
+
+            return array(
+                  'code' => '406',
+                  'status' => 'error',
+                  'msg' => "Job has been expired, you cannot apply now.",
+
+              );
+         }  
+
+       } else {
+          return array(
+                  'code' => '409',
+                  'status' => 'error',
+                  'msg' => "You have already applied for this job.",
+
+              );
+       }
+           
 
    }
 

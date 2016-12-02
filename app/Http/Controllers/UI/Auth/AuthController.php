@@ -67,7 +67,7 @@ class AuthController extends Controller
             Auth::guard('admin_users')->logout();
 
             //Session::flush();
-            return redirect('/admin');
+            return redirect('/');
         } else if (Auth::user() != NULL) {
             Auth::logout();
 
