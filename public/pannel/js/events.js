@@ -42,20 +42,20 @@ $('#reset_btn').click(function(){
 
 // user management events
 $('#user-list-limit').change(function(){
-    Sababoo.App.User.list();
+    Sababoo.App.User.listAdmin();
 });
 
 $('#user_filter_by_role').change(function(){
-    Sababoo.App.User.list();
+    Sababoo.App.User.listAdmin();
 });
 
 $('#user_filter_by_status').change(function(){
-    Sababoo.App.User.list();
+    Sababoo.App.User.listAdmin();
 });
 
 $('#user_search_keyword').keypress(function(event){
     if(event.which == '13'){
-        Sababoo.App.User.list();
+        Sababoo.App.User.listAdmin();
     }
 });
 
@@ -86,31 +86,31 @@ $('#profile_submit_btn').click(function(e){
 
 // site users
 $('#site-user-list-limit').change(function(){
-    Sababoo.App.SiteUser.list();
+    Sababoo.App.User.listSite();
 });
 
 $('#site_user_filter_by_role').change(function(){
-    Sababoo.App.SiteUser.list();
+    Sababoo.App.User.listSite();
 });
 
 $('#site_user_filter_by_status').change(function(){
-    Sababoo.App.SiteUser.list();
+    Sababoo.App.User.listSite();
 });
 
 $('#site_user_search_keyword').keypress(function(event){
     if(event.which == '13'){
-        Sababoo.App.SiteUser.list();
+        Sababoo.App.User.listSite();
     }
 });
 
 $('#site_user_remove_btn').click(function(e){
     e.preventDefault();
-    Sababoo.App.SiteUser.remove();
+    Sababoo.App.User.remove();
 });
 
 $('#site_user_status_btn').click(function(e){
     e.preventDefault();
-    Sababoo.App.SiteUser.updateStatus();
+    Sababoo.App.User.updateStatus();
 });
 
 // job events

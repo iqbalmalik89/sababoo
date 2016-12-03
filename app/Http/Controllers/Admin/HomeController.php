@@ -11,7 +11,6 @@ use \Validator, \Session;
 class HomeController extends Controller {
 
     public $user_repo;
-    public $site_user_repo;
     public $job_repo;
     public $role_repo;
     public $skill_repo;
@@ -22,7 +21,6 @@ class HomeController extends Controller {
 
     public function __construct(Role $role, AppliedJob $applied_job) {
         $this->user_repo = app()->make('UserRepository');
-        $this->site_user_repo = app()->make('SiteUserRepository');
         $this->job_repo = app()->make('JobRepository');
         $this->role_repo = app()->make('RoleRepository');
         $this->skill_repo = app()->make('SkillsRepository');
@@ -101,7 +99,7 @@ class HomeController extends Controller {
     /* for users listing */
  	public function showUsers(Request $request) {
         $title  = 'Sababoo | Admin | Users';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
         //$logged_in_user = Session::get('sa_user');
 
         $roleRepo = app()->make('RoleRepository');
@@ -114,7 +112,7 @@ class HomeController extends Controller {
     /* for add/update user */
     public function showUser(Request $request) {
         $title = 'Sababoo | Admin | User';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
         //$logged_in_user = Session::get('sa_user');
         $input = $request->only('id');
         $user_id = 0;
@@ -138,7 +136,7 @@ class HomeController extends Controller {
     /* for user's profule update */
     public function showUserProfile(Request $request) {
         $title = 'Sababoo | Admin | Profile';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
         //$logged_in_user = Session::get('sa_user');
         return view('admin.user-profile',['title'=>$title, 'logged_in_user'=>$logged_in_user]);
     }
@@ -146,7 +144,7 @@ class HomeController extends Controller {
     /* for site users listing */
     public function showSiteUsers(Request $request) {
         $title  = 'Sababoo | Admin | Site Users';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
         //$logged_in_user = Session::get('sa_user');
         $roleRepo = app()->make('RoleRepository');
         $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
@@ -156,14 +154,14 @@ class HomeController extends Controller {
     /* for site user details */
     public function showSiteUser(Request $request) {
         $title = 'Sababoo | Admin | Site User';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
         //$logged_in_user = Session::get('sa_user');
         $input = $request->only('id');
         $user_id = 0;
         $user = NULL;
         if (isset($input['id']) && $input['id'] != '') {
             $user_id = $input['id'];
-            $user = $this->site_user_repo->findById($user_id);
+            $user = $this->user_repo->findById($user_id);
             if ($user == NULL) {
                 return redirect('/admin/404');
             }
@@ -178,7 +176,7 @@ class HomeController extends Controller {
     /* for jobs listing */
     public function showJobs(Request $request) {
         $title  = 'Sababoo | Admin | Jobs';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
         //$logged_in_user = Session::get('sa_user');
         $roleRepo = app()->make('RoleRepository');
         $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
@@ -188,7 +186,7 @@ class HomeController extends Controller {
     /* for individual job details */
     public function showJob(Request $request) {
         $title  = 'Sababoo | Admin | Job Details';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
 
         $input = $request->only('id');
         $job_id = 0;
@@ -206,7 +204,7 @@ class HomeController extends Controller {
                     $finalApplied = [];
                     $i = 0;
                     foreach ($applied_jobs as $key => $applied_job) {
-                        $userData = $this->site_user_repo->findById($applied_job->user_id, false, false);
+                        $userData = $this->user_repo->findById($applied_job->user_id, false, false);
                         if ($userData != NULL) {
                             $finalApplied[$i]['id'] = $applied_job->job_id;
                             $finalApplied[$i]['message'] = $applied_job->message;
@@ -230,7 +228,7 @@ class HomeController extends Controller {
     /* for roles listing */
     public function showRoles(Request $request) {
         $title  = 'Sababoo | Admin | Roles';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
         //$logged_in_user = Session::get('sa_user');
         $roleRepo = app()->make('RoleRepository');
         $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
@@ -240,7 +238,7 @@ class HomeController extends Controller {
     /* for individual role view */
     public function showRole(Request $request) {
         $title  = 'Sababoo | Admin | Role';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
 
         $input = $request->only('id');
         $role_id = 0;
@@ -263,7 +261,7 @@ class HomeController extends Controller {
     /* for skills listing */
     public function showSkills(Request $request) {
         $title  = 'Sababoo | Admin | Skills';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
         //$logged_in_user = Session::get('sa_user');
         $roleRepo = app()->make('RoleRepository');
         $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
@@ -273,7 +271,7 @@ class HomeController extends Controller {
     /* for individual skill view */
     public function showSkill(Request $request) {
         $title  = 'Sababoo | Admin | Skill';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
 
         $input = $request->only('id');
         $skill_id = 0;
@@ -296,7 +294,7 @@ class HomeController extends Controller {
     /* for industries listing */
     public function showIndustries(Request $request) {
         $title  = 'Sababoo | Admin | Industries';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
         //$logged_in_user = Session::get('sa_user');
         $roleRepo = app()->make('RoleRepository');
         $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
@@ -306,7 +304,7 @@ class HomeController extends Controller {
     /* for individual industry view */
     public function showIndustry(Request $request) {
         $title  = 'Sababoo | Admin | Industry';
-        $logged_in_user   = Auth::guard('admin_users')->user();
+        $logged_in_user   = Auth::user();
 
         $input = $request->only('id');
         $industry_id = 0;

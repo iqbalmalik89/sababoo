@@ -4,7 +4,7 @@
 
 </head>
 <body>
-Hi, <?php echo $user->name; ?>
+Hi, <?php echo $user->first_name; ?>
 <br/>
 <br/>
 Congratulations! Your account has been successfully created.
@@ -13,7 +13,7 @@ Congratulations! Your account has been successfully created.
 Please click the link below to activate your account:
 <br/>
 <br/>
-<a href="<?php echo URL::to('/admin/activation?code='.$user->activation_key);?>">Click Here</a>
+<a href="<?php echo URL::to('/admin/activation?code='.$user->activation_token);?>">Click Here</a>
 <br/>
 <br/>
 Regards,

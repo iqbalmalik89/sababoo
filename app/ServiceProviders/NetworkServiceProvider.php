@@ -78,7 +78,7 @@ class NetworkServiceProvider
     }
     public function getViewUrl($user){
 
-       // print_r($user->id);
+       //print_r($user->id);die();
 
         if($user->role=='employee'){
            $employee = Employee::where('userid', '=' , $user->id)->firstOrFail();
@@ -111,7 +111,7 @@ class NetworkServiceProvider
             'sender_last_name'=>$data['sender_last_name'],
 
         ];
-//dd($data);
+        //dd($data);
         $mail_response = Helper::sendEmail(
             $data,
             ['email_templates/recommendation_html', 'email_templates/recommendation_text']
@@ -162,9 +162,10 @@ class NetworkServiceProvider
             ->where('role','!=','employer')
             ->where('status','=', 'enabled')
             ->Where("email", "LIKE", "%".$name."%")
+            ->Where("role","=", $role)
+            ->where('is_admin', '=', 0)
             ->orWhere("first_name","LIKE", "%".$name."%")
             ->orWhere("last_name","LIKE", "%".$name."%")
-            ->Where("role","=", $role)
             ->OrderBy('created_at', 'DESC')
             ->limit(20)
             ->get();
@@ -174,6 +175,7 @@ class NetworkServiceProvider
             $data = User::where('id', '!=', $filter['id'])
                 ->where('status', '=', 'enabled')
                 ->where('role', '!=', 'employer')
+                ->where('is_admin', '=', 0)
                 ->OrderBy('created_at', 'DESC')
                 ->limit(20)
                 ->get();

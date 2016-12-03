@@ -4,8 +4,8 @@
     $page = array_pop($page);
 
     $roleOperations = [];
-    if (Auth::guard('admin_users')->user() != NULL) {
-        $adminUser = Auth::guard('admin_users')->user();
+    if (Auth::user() != NULL) {
+        $adminUser = Auth::user();
 
         $roleRepo = app()->make('RoleRepository');
         $roleOperations = $roleRepo->getRoleOperations($adminUser->role_id);

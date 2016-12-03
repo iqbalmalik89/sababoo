@@ -33,9 +33,7 @@ class NetworkController extends Controller
 
     public function myConnections(Request $request){
 
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');
@@ -64,9 +62,7 @@ class NetworkController extends Controller
 
     public function sendRecom(Request $request){
         $post_data = $request->all();
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');
@@ -85,9 +81,7 @@ class NetworkController extends Controller
      }
 
     public function getRecom($id){
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');
@@ -99,9 +93,7 @@ class NetworkController extends Controller
 
     public function acceptRecom($id){
 
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');
@@ -110,9 +102,7 @@ class NetworkController extends Controller
         return redirect($get_user_rec);
     }
     public function rejectRecom($id){
-        if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             $this->logged_user = Auth::user();
         } else {
             return redirect('login');

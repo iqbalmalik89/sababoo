@@ -6,8 +6,20 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AdminUser;
+use BusinessObject\User;
 use App\Models\Role;
+use BusinessObject\Industry;
+use BusinessObject\Employee;
+use BusinessObject\Employer;
+use BusinessObject\Tradesman;
+use BusinessObject\Education;
+use BusinessObject\UserSkill;
+use BusinessObject\Skill;
+use BusinessObject\Experience;
+use BusinessObject\Language;
+use BusinessObject\UserFiles;
+use BusinessObject\Certification;
+
 use App\Helpers\Helper;
 use App\Events\Activation;
 use App\Events\PasswordRecovered;
@@ -18,12 +30,34 @@ class UserRepository {
 
 	public $user_model;
 	public $role_model;
+	public $industry_model;
+	public $employee_model;
+	public $employer_model;
+	public $tradesman_model;
+	public $education_model;
+	public $skills_model;
+	public $user_skills_model;
+	public $experience_model;
+	public $language_model;
+	public $user_files_model;
+	public $certification_model;
 
-	protected $_cacheKey = 'admin-user-'; 
+	protected $_cacheKey = 'user-'; 
 
-	public function __construct(AdminUser $adminUser, Role $role){
-		$this->user_model 	= $adminUser;
+	public function __construct(User $user, Role $role, Industry $industry, Employee $employee, Employer $employer, Tradesman $tradesman, Education $education, UserSkill $user_skills, Skill $skills, Experience $experience, Language $language, UserFiles $userFile, Certification $certification){
+		$this->user_model 	= $user;
 		$this->role_model 	= $role;
+		$this->industry_model 	= $industry;
+		$this->employee_model 	= $employee;
+		$this->employer_model 	= $employer;
+		$this->tradesman_model 	= $tradesman;
+		$this->education_model 	= $education;
+		$this->user_skills_model = $user_skills;
+		$this->skills_model 	= $skills;
+		$this->experience_model = $experience;
+		$this->language_model = $language;
+		$this->user_files_model = $userFile;
+		$this->certification_model = $certification;
 	}
 
 	 /**
@@ -37,7 +71,7 @@ class UserRepository {
 	 * @author Bushra Naz
 	 *
 	 **/
-	public function findById($id, $refresh = false) {
+	public function findById($id, $refresh = false, $allData = false) {
 
 		$data = Cache::get($this->_cacheKey.$id);
 
@@ -47,20 +81,29 @@ class UserRepository {
 
 				$data 						= new StdClass;
 				$data->id 					= $user->id;
-				$data->name 				= $user->name;
+				$data->name 				= $user->first_name;
+				$data->first_name 			= $user->first_name;
+				$data->last_name 			= $user->last_name;
 				$data->email 				= $user->email;
 				$data->password 			= $user->password;
 				$data->is_admin 			= $user->is_admin;
+				$data->role 				= $user->role;
 				$data->role_id 				= $user->role_id;
-				$data->is_active 			= $user->is_active;
-				$data->activation_key		= $user->activation_key;
-				$data->activated_on			= $user->activated_on;
+				$data->industry_id 			= $user->industry_id;
+				$data->status 				= $user->status;
+				$data->activation_token		= $user->activation_token;
 				$data->recover_password_key = $user->recover_password_key;
-				$data->last_logged_in		= $user->last_logged_in;
-				$data->attempts				= $user->attempts;
+				$data->country				= $user->country;
+				$data->address				= $user->address;
+				$data->phone				= $user->phone;
+				$data->phone_type			= $user->phone_type;
+				$data->image				= $user->image;
+				$data->postal_code			= $user->postal_code;
+				$data->remember_token		= $user->remember_token;
+				$data->verified_string		= $user->verified_string;
 				$data->created_at			= date('d M, Y', strtotime($user->created_at));
 				$data->updated_at			= date('d M, Y', strtotime($user->updated_at));
-
+				
 				Cache::forever($this->_cacheKey.$id,$data);			
 				
 			} else {
@@ -74,6 +117,66 @@ class UserRepository {
 		if ($role != NULL) {
 			$data->role_title = $role->name;
 		}
+
+		// to get industry name
+		$data->industry_name = '';
+		$industry = $this->industry_model->find($data->industry_id);
+		if ($industry != NULL) {
+			$data->industry_name = $industry->name;
+		}
+
+		if ($allData == true) {
+
+			$data->user = new StdClass;
+			if ($data->role == 'employee' || $data->role == 'tradesman') {
+				$data->user->experiences = [];
+				// basic info
+				if ($data->role == 'employee') {
+					$empData = $this->employee_model->where('userid', '=', $id)->first();
+				} else if ($data->role == 'tradesman') {
+					$empData = $this->tradesman_model->where('userid', '=', $id)->first();
+				}
+				if ($empData != NULL) {
+					$data->user = $empData;
+
+					// experience
+					$data->user->experiences = $this->experience_model->where('employee_id', '=', $empData->id)->where('status', '=', 1)->get();
+				}
+
+				// education
+				$data->user->educations = $this->education_model->where('userid', '=', $id)->get();
+
+				// skills
+				$skillsData = $this->user_skills_model->where('user_id', '=', $id)->get();
+				$skillsArray = [];
+				if (count($skillsData) > 0) {
+					foreach ($skillsData as $key => $skill) {
+						$skillData = $this->skills_model->find($skill->skill_id);
+						if ($skillData != NULL) {
+							$skillsArray[] = $skillData;
+						}
+						
+					}
+				}
+				$data->user->skills = $skillsArray;
+
+				// Language
+				$data->user->languages = $this->language_model->where('user_id', '=', $id)->get();
+
+				// Certification
+				$data->user->certifications = $this->certification_model->where('userid', '=', $id)->get();
+
+			} else if ($data->role == 'employer') {
+				$empData = $this->employer_model->where('userid', '=', $id)->first();
+				if ($empData != NULL) {
+					$data->user = $empData;
+				}
+			}
+
+			// files
+			$data->user->files = $this->user_files_model->where('userid', '=', $id)->where('status', '=', 1)->get();
+		}
+
 		return $data;
 
 	}
@@ -92,20 +195,32 @@ class UserRepository {
 	public function findByAll($pagination = false, $perPage = 10, array $input = []) {
 
 		// to get all users except admin user
-		$objectIds = $this->user_model->where('is_admin', '=', 1);
-				
-		if (isset($input['keyword']) && $input['keyword'] != '') {
-			$objectIds = $objectIds->where('name','LIKE','%'.$input['keyword'].'%');
-		}
+		if (isset($input['is_admin']) && $input['is_admin'] == 1) {
 
+			$objectIds = $this->user_model->where('is_admin', '=', 1)->where('status', '!=', 'delete');
+
+			if (isset($input['filter_by_role']) && $input['filter_by_role'] != 0) {
+				$objectIds = $objectIds->where('role_id','=',$input['filter_by_role']);
+			}
+
+		} else{
+
+			$objectIds = $this->user_model->where('is_admin', '=', 0)->where('status', '!=', 'delete');
+
+			if (isset($input['filter_by_role']) && $input['filter_by_role'] != '') {
+				$objectIds = $objectIds->where('role','=',$input['filter_by_role']);
+			}
+
+		}
+			
 		if (isset($input['filter_by_status']) && $input['filter_by_status'] != '') {
-			$objectIds = $objectIds->where('is_active','=',$input['filter_by_status']);
+			$objectIds = $objectIds->where('status','=',$input['filter_by_status']);
 		}
 
-		if (isset($input['filter_by_role']) && $input['filter_by_role'] != 0) {
-			$objectIds = $objectIds->where('role_id','=',$input['filter_by_role']);
+		if (isset($input['keyword']) && $input['keyword'] != '') {
+			$objectIds = $objectIds->where('first_name','LIKE','%'.$input['keyword'].'%')
+									->orwhere('last_name','LIKE','%'.$input['keyword'].'%');
 		}
-
 		if(isset($input['limit']) && $input['limit'] != 0) {
 			$perPage = $input['limit'];
 		}
@@ -123,7 +238,7 @@ class UserRepository {
 		if (count($objects) > 0) {
 			$i = 0;
 			foreach ($objects as $object) {
-				$objectData = $this->findById($object->id);
+				$objectData = $this->findById($object->id, false, false);
 				$data['data'][$i] = $objectData;			
 				$i++;
 			}
@@ -150,12 +265,13 @@ class UserRepository {
 	public function create(array $input = []) {
 
 		$user 					= $this->user_model;
-		$user->name 			= $input['name']; 
+		$user->first_name		= $input['name']; 
 		$user->email  			= $input['email'];
 		$user->role_id  		= $input['role_id'];
-		$user->is_active   		= 1;
+		$user->status   		= 'enabled';
 		$user->is_admin   		= 1;
-		$user->activation_key 	= Hash::make(time());
+		$user->activation_token	= Hash::make(time());
+		$user->verified_string  = 'unverified';
 		if($user->save()) {	
 			Event::fire(new Activation($user));
 			return true;
@@ -180,7 +296,7 @@ class UserRepository {
 		if ($user != NULL) {
 
 			if (isset($input['name']) && $input['name'] != '') {
-				$user->name = $input['name'];
+				$user->first_name = $input['name'];
 			}
 
 			if (isset($input['email']) && $input['email'] != '') {
@@ -219,7 +335,9 @@ class UserRepository {
 
 		$user = $this->user_model->find($id);
 		if ($user != NULL) {
-			$user->delete();
+			$user->status = 'delete';
+			$user->save();
+			//$user->delete();
 			Cache::forget($this->_cacheKey.$id);
 			return true;
 		} else {
@@ -243,14 +361,7 @@ class UserRepository {
 		$user = $this->user_model->find($input['id']);
 
 		if ($user != NULL) {
-			$user->is_active = $input['status'];
-
-			if ($user->is_active == 1) {
-				$user->status = 1;
-			} else {
-				$user->status = 2;
-			}
-			
+			$user->status = $input['status'];
 			$user->updated_at = Carbon::now();
 			if ($user->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
@@ -264,7 +375,7 @@ class UserRepository {
 		$data = $this->user_model->where($attribute,'=', $value)->first(['id']);
 
 		if ($data != NULL) {
-			$data = $this->findById($data->id);
+			$data = $this->findById($data->id, false, false);
 		}
 
 		return $data;
@@ -292,9 +403,9 @@ class UserRepository {
 
 			if ($canLogin == true) {
 
-				if ($userExists->activated_on != NULL) {
+				if ($userExists->verified_string == 'verified') {
 					// check if active or inactive
-					if ($userExists->is_active == 1) {
+					if ($userExists->status == 'enabled') {
 
 						// validate User
 						if(Hash::check($input['password'],$userExists->password)) {
@@ -308,13 +419,11 @@ class UserRepository {
 							//Auth::loginUsingId($user->id, true);
 
 							//Session::put('sa_user', $user);
-							if (Auth::guard('admin_users')->attempt($input, false)) {
+							if (Auth::attempt($input, false)) {
          
 					            $auth = true;
-					            $user = Auth::guard('admin_users')->user();
+					            $user = Auth::user();
 					            $user->save();
-
-            					Auth::logout();
 						    }
 
 							/*$response = Auth::attempt($input);
@@ -322,8 +431,6 @@ class UserRepository {
 								Auth::login(Auth::user(), true);
 							}*/
 							
-							$this->user_model->where('id', '=', $user->id)->update(['last_logged_in'=> Carbon::now()]);
-
 							Cache::forget($this->_cacheKey.$user->id);
 
 							// return response 200
@@ -358,7 +465,7 @@ class UserRepository {
 		if($user != NULL) {
 			$user->password = Hash::make($password);
 			//$user->activation_key = '';
-			$user->activated_on = Carbon::now();
+			$user->verified_string = 'verified';
 			$user->save();
 			Cache::forget($this->_cacheKey.$id);
 			return true;
@@ -451,7 +558,7 @@ class UserRepository {
 		if ($userAccount != NULL) {
 
 			if (isset($input['name']) && $input['name'] != '') {
-				$userAccount->name  = $input['name'];
+				$userAccount->first_name  = $input['name'];
 			}
 			
 			if ($userAccount->save()) {

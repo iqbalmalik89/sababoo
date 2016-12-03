@@ -9,7 +9,7 @@
 
 namespace BusinessLogic;
 use Helper;
-use  App\Models\AdminUser;
+use  BusinessObject\User;
 use Illuminate\Support\Facades\Cache;
 use Validator;
 use DB;
@@ -28,10 +28,10 @@ class AdminUserServiceProvider{
 
     }
     public function update($userArray){
-        $adminUser = AdminUser::find($userArray['id']);
-        if(isset($userArray['name'])){       $adminUser->name      = $userArray['name']; }
+        $adminUser = User::find($userArray['id']);
+        if(isset($userArray['name'])){       $adminUser->first_name      = $userArray['name']; }
         $adminUser->update();
-        Cache::forget('admin-user-'.$userArray['id']);
+        Cache::forget('user-'.$userArray['id']);
     }
 
     public function getBasicAdminProfile($id){

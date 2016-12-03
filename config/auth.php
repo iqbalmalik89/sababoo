@@ -44,11 +44,11 @@ return [
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
-        ],
+        ]/*,
         'admin_users' => [
             'driver' => 'session',
             'provider' => 'admin_users',
-        ],
+        ],*/
     ],
 
     /*

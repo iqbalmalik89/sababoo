@@ -4,7 +4,7 @@
 
 </head>
 <body>
-Hi, <?php echo $user->name; ?>
+Hi, <?php echo $user->first_name; ?>
 <br/>
 <br/>
 To reset your password please click the following link.

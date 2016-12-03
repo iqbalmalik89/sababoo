@@ -167,11 +167,12 @@
 
 <input type="hidden" value="0" id="hidden_action_user_id"/>
 <input type="hidden" value="0" id="hidden_action_user_status"/>
+<input type="hidden" value="0" id="is_admin_hidden"/>
 @endsection
 @section('scripts')
 <script type="text/javascript">
 $(document).ready(function() {
-    Sababoo.App.SiteUser.list();
+    Sababoo.App.User.listSite();
 });
 </script> 
 @endsection

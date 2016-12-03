@@ -28,14 +28,14 @@ class ActivationListener {
     public function handle(Activation $event)
     {
         $user = $event->user;
-        $user->name = $user->name;
+        $user->first_name = $user->first_name;
 
         try {
             $this->mailer->send('emails.activation', ['user' => $user], function ($m) use ($user) {
             
                 $m->subject('Account Activation');
-                $m->to($user->email, $user->name);
-                $m->to('nazbushi@gmail.com', $user->name);
+                $m->to($user->email, $user->first_name);
+                $m->to('nazbushi@gmail.com', $user->first_name);
         
             });
         } catch (\Exception $e) {

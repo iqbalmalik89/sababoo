@@ -101,9 +101,9 @@ class UserController extends Controller {
         $input = $request->only('id', 'name', 'email', 'role_id');
 
         $rules = [
-                    'id'    =>  'required|exists:admin_users,id',
+                    'id'    =>  'required|exists:users,id',
                     'name'  =>  'required',
-                    'email' =>  'required|unique:admin_users,email,'.$input['id'],
+                    'email' =>  'required|unique:users,email,'.$input['id'],
                     'role_id'    =>  'required|exists:roles,id',
                 ];
         $messages = [
@@ -158,15 +158,15 @@ class UserController extends Controller {
         $input = $request->only('id', 'status');
 
         // define validation rules
-        $rules = ['id'      => 'required | exists:admin_users,id',
-                  'status'  => 'required |in:1,0',
+        $rules = ['id'      => 'required | exists:users,id',
+                  'status'  => 'required |in:enabled,disabled',
                 ];
 
         $messages = [
                 'id.required'           => 'Please enter user id.',
                 'id.exists'             => 'User not found.',
                 'status.required'       => 'Please enter status.',
-                'status.in'             => 'Status can only be 0 or 1.'
+                'status.in'             => 'Status can only be enabled or disabled.'
         ];
 
         $validator = Validator::make($input,$rules, $messages);
@@ -203,7 +203,7 @@ class UserController extends Controller {
 
         $input = $request->only('id');
 
-        $rules = ['id' => 'required|exists:admin_users,id'];
+        $rules = ['id' => 'required|exists:users,id'];
 
         $messages = ['id.required'      => 'Please enter user id.',
                     'id.exists'         => 'Usder not found.'
@@ -249,7 +249,7 @@ class UserController extends Controller {
         $input = $request->only('id');
 
         $rules = [
-                    'id'=>'required|exists:admin_users,id'
+                    'id'=>'required|exists:users,id'
                 ];
         $messages = [
                 'id.required'   => 'Please enter user id.',
@@ -289,9 +289,11 @@ class UserController extends Controller {
      **/
     public function all(Request $request) {
 
-        $input = $request->only('pagination','keyword','limit','filter_by_status', 'filter_by_role');
+        $input = $request->only('pagination','keyword','limit','filter_by_status', 'filter_by_role', 'is_admin');
 
-        $rules = ['pagination' => 'required'];
+        $rules = ['pagination' => 'required',
+                    'is_admin' => 'required'
+                    ];
 
         $messages = [];
 
@@ -330,7 +332,7 @@ class UserController extends Controller {
 
         $input = $request->only('email','password','is_admin');
 
-        $rules = ['email'           => 'required|exists:admin_users,email',
+        $rules = ['email'           => 'required|exists:users,email',
                   'password'        => 'required',
                   'is_admin'        => 'required|in:1,0'];
 
@@ -394,7 +396,7 @@ class UserController extends Controller {
             return response()->json($output);
         } else  {
 
-            Auth::guard('admin_users')->logout();
+            Auth::logout();
             //Session::flush('sa_user');
             return ['response'=>['code'=>200,'messages'=>['You have successfully logged out.']]];
 

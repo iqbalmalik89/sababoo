@@ -146,7 +146,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 
 	Route::get('/users',['uses'=>'HomeController@showUsers'])->middleware(['acl.admin:admin_user.list']);
 	Route::get('/user',['uses'=>'HomeController@showUser'])->middleware(['acl.admin:admin_user.create']);
-	Route::get('/user-profile',['uses'=>'HomeController@showUserProfile'])->middleware(['acl.admin']);
+	Route::get('/user-profile',['uses'=>'HomeController@showUserProfile'])->middleware(['acl.admin:admin_user.update']);
 
 	Route::get('/site-users',['uses'=>'HomeController@showSiteUsers'])->middleware(['acl.admin:site_user.list']);
 	Route::get('/site-user',['uses'=>'HomeController@showSiteUser'])->middleware(['acl.admin:site_user.create']);

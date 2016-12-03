@@ -63,15 +63,10 @@ class AuthController extends Controller
 
     public function getLogout(){
 
-        if (Auth::guard('admin_users')->user() != NULL) {
-            Auth::guard('admin_users')->logout();
-
-            //Session::flush();
-            return redirect('/');
-        } else if (Auth::user() != NULL) {
+        if (Auth::user() != NULL) {
             Auth::logout();
 
-            //Session::flush();
+            Session::flush();
             return redirect('/');
         }
     
@@ -129,11 +124,6 @@ class AuthController extends Controller
                 $user->save();
 
 
-        } else if (Auth::guard('admin_users')->attempt($credentials, false)) {
-                
-                $auth = true;
-                $user = Auth::guard('admin_users')->user();
-                $user->save();
         }
  		
      if ($request->ajax()) {
@@ -147,11 +137,7 @@ class AuthController extends Controller
                 }
             }else{
 
-                if ($user->is_admin == 0) {
-                    $url="/home";
-                } else if ($user->is_admin == 1) {
-                    $url="/job/user_job_list";
-                }
+                $url="/home";
                  
                  Session::forget('redirect_url');
                  Auth::login($user);

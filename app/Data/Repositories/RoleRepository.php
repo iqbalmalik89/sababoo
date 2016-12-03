@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Role;
-use App\Models\AdminUser;
+use BusinessObject\User;
 use App\Models\Operation;
 use App\Models\Module;
 use App\Models\Permission;
@@ -22,17 +22,17 @@ class RoleRepository {
 	public $permission_model;
 	public $operation_model;
 	public $module_model;
-	public $admin_user_model;
+	public $user_model;
 
 	protected $_cacheKey = 'role-'; 
 
-	public function __construct(Role $role, Permission $permissionModel, Operation $operationModel, Module $module, AdminUser $adminUser){
+	public function __construct(Role $role, Permission $permissionModel, Operation $operationModel, Module $module, User $user){
 
 		$this->role_model 		= $role;
 		$this->permission_model = $permissionModel;
 		$this->operation_model 	= $operationModel;
 		$this->module_model 	= $module;
-		$this->admin_user_model = $adminUser;
+		$this->user_model = $user;
 	}
 
 	 /**
@@ -65,7 +65,7 @@ class RoleRepository {
 			}
 		} 
 		// to get total associated users
-		$associatedUsers 		= $this->admin_user_model->where('role_id', '=', $id)->count();
+		$associatedUsers 		= $this->user_model->where('role_id', '=', $id)->count();
 		$data->total_users 		=	$associatedUsers;
 		$roleOperations			= 	$this->permission_model->where('role_id', '=', $data->id)->where('is_allowed', '=', 1)->get();
 		$operations = [];
@@ -244,7 +244,7 @@ class RoleRepository {
 		$role = $this->role_model->find($id);
 		if($role != NULL){
 			// to check for associated users
-			$associatedUsers = $this->admin_user_model->where('role_id', '=', $id)->count();
+			$associatedUsers = $this->user_model->where('role_id', '=', $id)->count();
 			if($associatedUsers > 0) {
 				return 'cannot_delete';
 			} else {
@@ -320,7 +320,7 @@ class RoleRepository {
 
 			if ($role->is_active == 0) {
 				// to check for associated users
-				$associatedUsers = $this->admin_user_model->where('role_id', '=', $input['id'])->count();
+				$associatedUsers = $this->user_model->where('role_id', '=', $input['id'])->count();
 				if($associatedUsers > 0) {
 					return 'cannot_inactivate';
 				} 

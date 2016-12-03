@@ -4,16 +4,16 @@
     $adminUser = NULL;
     $socketEmail = '';
     $roleOperations = [];
-    if (Auth::guard('admin_users')->user() != NULL) {
-        $isAdminUser = true;
-        $adminUser = Auth::guard('admin_users')->user();
+    if (Auth::user() != NULL){
+        $adminUser = Auth::user();
         $socketEmail = $adminUser->email;
 
-        $roleRepo = app()->make('RoleRepository');
-        $roleOperations = $roleRepo->getRoleOperations($adminUser->role_id);
+        if ($adminUser->is_admin == 1) {
+            $isAdminUser = true;
         
-    } else if (Auth::user() != NULL){
-        $socketEmail = Auth::user()->email;
+            $roleRepo = app()->make('RoleRepository');
+            $roleOperations = $roleRepo->getRoleOperations($adminUser->role_id);
+        }
     }
 
     // apply permission wise view for admin users

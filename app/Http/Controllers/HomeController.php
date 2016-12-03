@@ -43,13 +43,11 @@ class HomeController extends Controller
     public function showHome()
     {
 
-        if (Auth::guard('admin_users')->user() == NULL && Auth::user()==null) {
+        if (Auth::user()==null) {
             return view('frontend.site.unauth_home');
-        } else if(Auth::user()!=null) {
+        } else {
             $this->logged_user = Auth::user();
-        } else if (Auth::guard('admin_users')->user() != NULL) {
-            $this->logged_user = Auth::guard('admin_users')->user();
-        }
+        } 
         
         $matchThese = ['status'=>1];
         $matchTheseFile = ['status'=>1,'userid'=>$this->logged_user->id];
@@ -95,9 +93,7 @@ class HomeController extends Controller
 
      public function index()
     {
-         if (Auth::guard('admin_users')->user() != NULL) {
-            return redirect('home');
-         } else if(Auth::user()!=null) {
+         if(Auth::user()!=null) {
             return redirect('home');
          }
         return view('frontend.site.unauth_home');
@@ -105,9 +101,7 @@ class HomeController extends Controller
 
     public function showLogin()
     {
-         if (Auth::guard('admin_users')->user() != NULL) {
-            return redirect('home');
-         } else if(Auth::user()!=null) {
+         if(Auth::user()!=null) {
             return redirect('home');
          }
         return view('frontend.auth.login');

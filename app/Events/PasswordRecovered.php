@@ -4,7 +4,7 @@ namespace App\Events;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Models\AdminUser;
+use BusinessObject\User;
 
 class PasswordRecovered
 {

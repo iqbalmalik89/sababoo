@@ -4,7 +4,7 @@ namespace App\Events;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Data\Models\User;
+use BusinessObject\User;
 
 class Activation {
     use SerializesModels;
