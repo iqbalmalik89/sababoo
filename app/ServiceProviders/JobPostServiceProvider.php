@@ -140,26 +140,28 @@ class JobPostServiceProvider
         $name = isset($filters['name'])?$filters['name']:'';
         $loc = isset($filters['location'])?$filters['location']:'';
 
-      $str = '';
-      foreach($matchThese as $key=>$value){
+        $userID = $filters['userid'];
+        $str = '';
+        foreach($matchThese as $key=>$value){
 
-            if($key =='job_post.location'){
-                $str.="job_post.location LIKE '%$value%' and ";
-            }
-         elseif($key =='job_post.name'){
-              $str.="job_post.name LIKE '%$value%' and ";
-          }else{
-                $str.=" '$key'= '$value' and " ;
+              if($key =='job_post.location'){
+                  $str.="job_post.location LIKE '%$value%' and ";
+              }
+           elseif($key =='job_post.name'){
+                $str.="job_post.name LIKE '%$value%' and ";
+            }else{
+                  $str.=" '$key'= '$value' and " ;
 
-            }
+              }
 
-      }
+        }
 
 
         $job = DB::table('job_post')
             ->select('job_post.id as id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','applied_jobs.id as aj_id','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message')
             ->join('applied_jobs', 'job_post.id', '=','applied_jobs.job_id' )
             ->where($matchThese)
+            ->Where("applied_jobs.user_id", "=", "$userID")
             ->Where("job_post.name", "LIKE", "%$name%")
             ->Where("job_post.location", "LIKE", "%$loc%")
             ->OrderBy('applied_jobs.created_at', 'DESC')
@@ -170,6 +172,44 @@ class JobPostServiceProvider
         return $job;
      }
 
+     public function jobProposalsList($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
+
+        $matchThese = [];
+
+        $name = isset($filters['name'])?$filters['name']:'';
+        $loc = isset($filters['location'])?$filters['location']:'';
+
+        $job_id = $filters['job_id'];
+        $str = '';
+        foreach($matchThese as $key=>$value){
+
+              if($key =='job_post.location'){
+                  $str.="job_post.location LIKE '%$value%' and ";
+              }
+           elseif($key =='job_post.name'){
+                $str.="job_post.name LIKE '%$value%' and ";
+            }else{
+                  $str.=" '$key'= '$value' and " ;
+
+              }
+
+        }
+
+
+        $job = DB::table('job_post')
+            ->select('job_post.id as id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','applied_jobs.id as aj_id','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message','applied_jobs.cost as aj_cost','applied_jobs.user_id as aj_userid','applied_jobs.is_awarded as is_awarded')
+            ->join('applied_jobs', 'job_post.id', '=','applied_jobs.job_id' )
+            ->where($matchThese)
+            ->Where("job_post.id", "=", "$job_id")
+            ->Where("job_post.name", "LIKE", "%$name%")
+            ->Where("job_post.location", "LIKE", "%$loc%")
+            ->OrderBy('applied_jobs.created_at', 'DESC')
+        //dd( count($job) );
+        ->paginate($paging['page_size']);
+        //dd(DB::getQueryLog());
+        
+        return $job;
+     }
 
     public function getJobByJobId($jobid){
         $matchThese = ['job_post.id'=>$jobid];
@@ -279,6 +319,7 @@ class JobPostServiceProvider
              $jobApply->job_id = $data['job_id'];
              $jobApply->user_id = $data['user_id'];
              $jobApply->message = $post_data['cover_message'];
+             $jobApply->cost = $post_data['extra_cost'];
              $jobApply->save();
 
              return array(
