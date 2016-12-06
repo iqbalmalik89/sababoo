@@ -102,6 +102,7 @@ io.on('connection', function (socket) {
 
     socket.on( 'new_message', function( data ) {
         console.log(data);
+        console.log('User email',data.email);
         //io.sockets.emit( 'new_message', {email: data.email,msg: data.msg,});
         //sockets[data.email].emit( 'new_message', {email: data.email,msg: data.msg,});
         users[data.email].emit("new_message",{message:data.msg,from:data.from,rec_name:data.sender_name,sender_id:data.sender_id,sender_image:data.sender_image});
