@@ -182,6 +182,13 @@
 																	</div>
 																</div>
 																
+																<div class="col-sm-12 col-md-6">
+																	<div class="form-group">
+																		<label>Your demanding cost?</label>
+																		<input type="text" class="form-control" rows="6" name="extra_cost" id="extra_cost"></input>
+																	</div>
+																</div>
+
 																<div class="col-sm-12 col-md-12 mb-15">
 																	<p class="mb-5">Effects present letters inquiry no an removed or friends?</p>
 																	<div class="radio-block">
@@ -290,6 +297,7 @@ if(isset($user->image) && $user->image!=''){
 	});
 	function apply_job(){
 		var message=$.trim($('#cover_message').val());
+		var extra_cost=$.trim($('#extra_cost').val());
 		var q1_answer=$("input[name=q1_radio]:checked").val();
 		var q2_answer=$("input[name=q2_radio]:checked").val();
 		var q3_checkbox_1=$("input[name=q3_checkbox_1]").prop('checked');
@@ -305,11 +313,18 @@ if(isset($user->image) && $user->image!=''){
 			$('#cover_message').parent().removeClass('has-error');
 		}
 
+		if (extra_cost == ''){
+			errors.push('Please enter cost.');
+			$('#extra_cost').parent().addClass('has-error');
+		} else {
+			$('#extra_cost').parent().removeClass('has-error');
+		}
+
 		if(errors.length < 1){
 			$('#cover_message').parent().addClass('has-error');
 			html = '';
 			pageURI = '/job/apply';
-			request_data = {job_id:job_id, cover_message:message, q1_answer:q1_answer, q2_answer:q2_answer, q3_checkbox_1:q3_checkbox_1, q3_checkbox_2:q3_checkbox_2, q3_checkbox_3:q3_checkbox_3,  q3_checkbox_4:q3_checkbox_4}
+			request_data = {job_id:job_id, cover_message:message, q1_answer:q1_answer, q2_answer:q2_answer, q3_checkbox_1:q3_checkbox_1, q3_checkbox_2:q3_checkbox_2, q3_checkbox_3:q3_checkbox_3,  q3_checkbox_4:q3_checkbox_4, extra_cost:extra_cost}
 
 			$('#submit_loader').show();
 			mainAjax('', request_data, 'POST', fillForm);

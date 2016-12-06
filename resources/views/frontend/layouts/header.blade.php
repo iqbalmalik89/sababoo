@@ -1,18 +1,18 @@
 
 <?php
     $isAdminUser = false;
-    $adminUser = NULL;
+    $loggedInUser = NULL;
     $socketEmail = '';
     $roleOperations = [];
     if (Auth::user() != NULL){
-        $adminUser = Auth::user();
-        $socketEmail = $adminUser->email;
+        $loggedInUser = Auth::user();
+        $socketEmail = $loggedInUser->email;
 
-        if ($adminUser->is_admin == 1) {
+        if ($loggedInUser->is_admin == 1) {
             $isAdminUser = true;
         
             $roleRepo = app()->make('RoleRepository');
-            $roleOperations = $roleRepo->getRoleOperations($adminUser->role_id);
+            $roleOperations = $roleRepo->getRoleOperations($loggedInUser->role_id);
         }
     }
 

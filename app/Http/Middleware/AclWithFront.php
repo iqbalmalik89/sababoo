@@ -17,7 +17,7 @@ class AclWithFront
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $route, $is_api = false)
+    public function handle($request, Closure $next, $route = '', $is_api = false)
     {
 
         $admin_user = Auth::user();

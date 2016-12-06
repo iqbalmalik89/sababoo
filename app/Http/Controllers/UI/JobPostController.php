@@ -153,6 +153,37 @@ class JobPostController extends Controller
         return view ('frontend.job.user_applied_jobs',array('my_applied_jobs'=>$my_applied_jobs));
     }
 
+    public function jobProposalsList(Request $request){
+        if (Auth::user() != NULL) {
+          $this->logged_user = Auth::user();
+        } else {
+          return redirect('login');
+        }
+        
+        $input = $request->only('id');
+
+        $paging['page_num']  = $request->input('page_num', 1);
+        $paging['page_size'] = $request->input('page_size', env('DEFAULT_PAGE_SIZE'));
+        $order_by['order']   = $request->input('order', 'asc');
+        $order_by['sort_by'] = $request->input('orderby', '0');
+        $filters['userid']   =  $this->logged_user->id;
+        $filters['is_admin']   =  $this->logged_user->is_admin;
+        $filters['job_id']   =  $input['id'];
+        if((isset($post_data['name']))){
+            $filters['name'] =   $post_data['name'];
+        } else {
+          $filters['name'] = '';
+        }
+        if((isset($post_data['location']))){
+            $filters['location'] =   $post_data['location'];
+        } else {
+          $filters['location'] = '';
+        }
+        $job_proposals=  $this->jobpostServiceProvider->jobProposalsList($filters,$order_by,$paging);
+
+        return view ('frontend.job.job_proposals',array('job_proposals'=>$job_proposals));
+    }
+
     public function delJob(Request $request){
         $post_data = $request->all();
         return  $this->jobpostServiceProvider->jobDelByJobId($post_data['job_id']);
