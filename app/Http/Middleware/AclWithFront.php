@@ -8,7 +8,7 @@ use App\Models\Operation;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 
-class AclWithFront
+class aclwithfront
 {
     /**
      * Handle an incoming request.

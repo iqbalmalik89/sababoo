@@ -54,6 +54,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'acl.admin' => \App\Http\Middleware\AclWithAdmin::class,
         'acl.admin.guest' => \App\Http\Middleware\RedirectIfAuthenticatedAdmin::class,
-        'acl.front' => \App\Http\Middleware\AclWithFront::class,
+        'acl.front' => \App\Http\Middleware\aclwithfront::class,
     ];
 }
