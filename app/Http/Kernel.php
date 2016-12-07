@@ -56,6 +56,7 @@ class Kernel extends HttpKernel
         'acl.admin' => \App\Http\Middleware\AclWithAdmin::class,
         'acl.admin.guest' => \App\Http\Middleware\RedirectIfAuthenticatedAdmin::class,
         'acl.front' => \App\Http\Middleware\AclWithFront::class,
+        'auth.ui' => \App\Http\Middleware\AuthenticateUI::class,
 
     ];
 }
