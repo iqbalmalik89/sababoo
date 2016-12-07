@@ -108,7 +108,7 @@ Route::match(['get', 'post'], '/user/delete_user_file', ['uses' => 'UI\UserContr
 Route::match(['get', 'post'], '/user/download_files/{file_id}', ['uses' => 'UI\UserController@DownloadFiles']);
 
 /************************************JOB POSTING *****************************************************/
-Route::match(['get', 'post'], '/job/post', ['uses' => 'UI\JobPostController@jobPost'])->middleware(['acl.front:job.create']);
+Route::match(['get', 'post'], '/job/post', ['uses' => 'UI\JobPostController@jobPost'])->middleware(['acl.front']);
 Route::match(['get', 'post'], '/job/job_create', ['uses' => 'UI\JobPostController@jobCreate'])->middleware(['acl.front:job.create']);
 Route::match(['get', 'post'], '/job/user_job_list', ['uses' => 'UI\JobPostController@userJobList'])->middleware(['acl.front:job.list']);
 Route::match(['get', 'post'], '/job/job_delete', ['uses' => 'UI\JobPostController@delJob'])->middleware(['acl.front:job.delete']);
