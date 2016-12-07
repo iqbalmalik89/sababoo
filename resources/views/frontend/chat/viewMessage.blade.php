@@ -270,7 +270,7 @@
             if(user != me) {
                 $('#typing_text').text(user + ' is typing ...');
             }
-            setTimeout(function(){ $('#typing_text').text(''); }, 10000);;
+            setTimeout(function(){ $('#typing_text').text(''); }, 3000);;
         });
 
             // On msg typing
@@ -368,10 +368,12 @@
                             });
                             // $('.chating-section').attr('id', 'message_app_'+userid);
                             $('#message_app_'+ sender_id).html(str);
+                            $("#message_app_"+sender_id).scrollTop($("#message_app_"+sender_id)[0].scrollHeight);
+                            //$("html, body").animate({ scrollTop: $('#message_app_'+ sender_id).scrollTop() }, 1000);
+
                             //alert(userid);
 
                             //$('.chating-section').scrollTop = $('.chating-section').scrollHeight;
-                            $("#message_app_"+sender_id).scrollTop($("#message_app_"+sender_id)[0].scrollHeight);
                         }
 
 

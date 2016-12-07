@@ -38,7 +38,7 @@ class JobPostController extends Controller
     private $jobpostServiceProvider;
     public function __construct()
     {
-        
+
         $this->jobpostServiceProvider = new JobPostServiceProvider();
     }
 

@@ -116,6 +116,9 @@
                  //   console.log(data);
                     $('#msg_notification').html('*');
                     $('#notif_audio')[0].play();
+                    $("#message_app_"+data.sender_id).scrollTop($("#message_app_"+data.sender_id)[0].scrollHeight);
+                    $("#message_app_"+data.sender_id).animate({ scrollTop: $("#message_app_"+data.sender_id).scrollTop() }, 1000);
+
 
                     //console.log($('#user_side_bar_'+from_email).length);
 
@@ -138,13 +141,14 @@
                         $('#user_side_bar_'+data.sender_id).find('#summary').html(data.message);
 
                     }
-
                     // user_side_bar_list
                     //$('.chating-section').attr('id', 'message_app_'+data.sender_id);
-                    $('#message_app_'+data.sender_id).append('<div class="me"> <div class="gry-chat">'+data.message+'</div> <div class="time f-left">'+hours+':'+minutes+ format+'</div> </div>');
 
+                    $('#message_app_'+data.sender_id).append('<div class="me"> <div class="gry-chat">'+data.message+'</div> <div class="time f-left">'+hours+':'+minutes+ format+'</div> </div>');
+                    //$(".chating-section").scrollTop($("#message_app_"+data.sender_id).scrollHeight);
+                   // $(".chating-section").animate({ scrollTop: $(".chating-section").scrollTop() }, 1000);
+                  //  $('#message_app_'+data.sender_id).animate({ scrollTop: $("#message_app_"+data.sender_id).scrollTop() }, 1000);
                     //$chat.append('<div class="me"> <div class="gry-chat">'+data.message+'</div> <div class="time f-left">'+hours+':'+minutes+ format+'</div> </div>');
-                    $("#message_app_"+data.sender_id).scrollTop($("#message_app_"+data.sender_id).scrollHeight);
 
                     // Check users first message if yes than reload page
                     pageURI = '/chat/get_logged_user_message';

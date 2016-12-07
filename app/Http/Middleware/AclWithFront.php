@@ -8,8 +8,13 @@ use App\Models\Operation;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 
+
+
 class AclWithFront
 {
+
+
+
     /**
      * Handle an incoming request.
      *
@@ -21,10 +26,10 @@ class AclWithFront
     {
 
         $admin_user = Auth::user();
-
         if ($admin_user != false) {
 
             if ($admin_user->is_admin == 1) {
+
                 
                 // for route permission
                 if($route == 'job.create') {
