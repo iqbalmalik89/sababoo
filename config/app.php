@@ -225,6 +225,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Helper'    => 'App\Helpers\Helper',
+        'acl.admin.guest' => \App\Http\Middleware\RedirectIfAuthenticatedAdmin::class,
+        'acl.front' => \App\Http\Middleware\AclWithFront::class,
 
     ],
 
