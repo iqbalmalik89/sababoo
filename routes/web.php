@@ -135,6 +135,7 @@ Route::match(['get', 'post'], '/job/job_proposals', ['uses' => 'UI\JobPostContro
  Route::match(['get', 'post'], '/chat/get_logged_user_message', ['uses' => 'UI\ChatController@getLoggedUserMessage']);
 
 
+});
 
 
 /****** Admin Routes ******/
@@ -225,4 +226,3 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 });
 
 
-});
