@@ -30,6 +30,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             //\App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\AclWithFront::class
         ],
 
         'api' => [
@@ -54,6 +55,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'acl.admin' => \App\Http\Middleware\AclWithAdmin::class,
         'acl.admin.guest' => \App\Http\Middleware\RedirectIfAuthenticatedAdmin::class,
-        'acl.front' => '\App\Http\Middleware\AclWithFront',
+        'acl.front' => \App\Http\Middleware\AclWithFront::class,
     ];
 }
