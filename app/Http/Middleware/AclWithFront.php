@@ -11,15 +11,21 @@ use Illuminate\Support\Facades\Auth;
 
 class AclWithFront
 {
-
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
     public function handle($request, Closure $next, $route = '', $is_api = false)
     {
 
         $admin_user = Auth::user();
-
         if ($admin_user != false) {
 
             if ($admin_user->is_admin == 1) {
+
                 
                 // for route permission
                 if($route == 'job.create') {
