@@ -38,7 +38,8 @@ class JobPostController extends Controller
     private $jobpostServiceProvider;
     public function __construct()
     {
-        
+
+        $this->middleware('acl.front');
         $this->jobpostServiceProvider = new JobPostServiceProvider();
     }
 

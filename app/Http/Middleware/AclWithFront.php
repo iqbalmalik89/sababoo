@@ -8,15 +8,10 @@ use App\Models\Operation;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 
-class aclwithfront
+
+class AclWithFront
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
+
     public function handle($request, Closure $next, $route = '', $is_api = false)
     {
 
