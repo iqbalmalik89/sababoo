@@ -141,6 +141,8 @@
                                         <div class="job-location">
                                             <i class="fa fa-map-marker text-primary"></i> <?php echo ucwords($job_proposal->location);?>
                                         </div>
+                                        <div class=""> Cost: ${{$job_proposal->aj_cost}}
+                                        </div>
                                     </div>
 
                                     <div class="GridLex-col-2_xs-4_xss-12">
@@ -159,8 +161,6 @@
                                             }?></span>
 
 
-
-
                                     </div>
                                     <div class="GridLex-col-2_xs-4_xss-12" >
                                   
@@ -172,7 +172,28 @@
                                     <?php
                                         } else {
                                     ?>
-                                        <span onclick="submitPayment(<?php echo $job_proposal->aj_id;?>, <?php echo $job_proposal->aj_cost;?>)">Award</span>
+
+                                        <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                                            <input type="hidden" name="cmd" value="_cart">
+                                            <input type="hidden" name="upload" value="1">
+                                            <input type="hidden" name="business" value="nazbushi@gmail.com">
+                                                    <!-- Begin First Item -->
+                                            <input type="hidden" name="quantity_1" value="1">
+                                            <input type="hidden" name="item_name_1" value="{{$job_proposal->name}}">
+                                            <input type="hidden" name="item_number_1" value="{{$job_proposal->aj_id}}">
+                                            <input type="hidden" name="amount_1" value="{{$job_proposal->aj_cost}}">
+                                            <input type="hidden" name="shipping_1" value="0.05">
+                                            <input type="hidden" name="tax_1" value="0.05">
+                                                    <!-- End First Item -->
+                                                    
+                                            <input type="hidden" name="currency_code" value="USD">
+                                            <!--<input type="hidden" name="tax_cart" value="5.13"> -->
+                                            
+                                            <input type="submit" name="submit" value="Make Payment"/>
+
+                                            <!-- <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_cart_SM.gif" border="0" name="upload" alt="Make payments with PayPal - it's fast, free and secure!" width="87" height="23"> -->
+                                            </form>
+                                        <!-- <span onclick="submitPayment(<?php echo $job_proposal->aj_id;?>, <?php echo $job_proposal->aj_cost;?>)">Award</span> -->
                                     <?php
                                         }
                                     ?>
