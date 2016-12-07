@@ -197,7 +197,7 @@ class JobPostServiceProvider
 
 
         $job = DB::table('job_post')
-            ->select('job_post.id as id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','applied_jobs.id as aj_id','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message','applied_jobs.cost as aj_cost','applied_jobs.user_id as aj_userid','applied_jobs.is_awarded as is_awarded')
+            ->select('job_post.id as id','job_post.userid as user_id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','applied_jobs.id as aj_id','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message','applied_jobs.cost as aj_cost','applied_jobs.user_id as aj_userid','applied_jobs.is_awarded as is_awarded')
             ->join('applied_jobs', 'job_post.id', '=','applied_jobs.job_id' )
             ->where($matchThese)
             ->Where("job_post.id", "=", "$job_id")

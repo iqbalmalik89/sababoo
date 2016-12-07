@@ -50,6 +50,8 @@ Route::get('/', 'HomeController@index');
 Route::group(['middleware' => ['web']], function () {
 
 Route::get('/home', 'HomeController@showHome');
+Route::get('/success-payment', 'HomeController@showSuccessPayment');
+Route::get('/failure-payment', 'HomeController@showFailurePayment');
 
 /************************************EMPLOYEE********************************************/
 Route::get('/employee', 'EmployeeController@index');

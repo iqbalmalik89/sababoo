@@ -107,4 +107,15 @@ class HomeController extends Controller
         return view('frontend.auth.login');
     }
 
+    public function showSuccessPayment(Request $request)
+    {
+        print_r($request->all());die;
+        return view('frontend.payments.success');
+    }
+
+    public function showFailurePayment(Request $request)
+    {
+        return view('frontend.payments.failure');
+    }
+
 }

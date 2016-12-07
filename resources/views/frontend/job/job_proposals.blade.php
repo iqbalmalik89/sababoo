@@ -182,18 +182,21 @@
                                             <input type="hidden" name="item_name_1" value="{{$job_proposal->name}}">
                                             <input type="hidden" name="item_number_1" value="{{$job_proposal->aj_id}}">
                                             <input type="hidden" name="amount_1" value="{{$job_proposal->aj_cost}}">
-                                            <input type="hidden" name="shipping_1" value="0.05">
+                                            <!-- <input type="hidden" name="shipping_1" value="0.05"> -->
                                             <input type="hidden" name="tax_1" value="0.05">
+                                            <input type="hidden" name="job_id" value="{{$job_proposal->id}}">
+                                            <input type="hidden" name="user_id" value="{{$job_proposal->aj_userid}}">
+                                            <input type="hidden" name="payer_id" value="{{$job_proposal->user_id}}">
+                                            <input type="hidden" name="return" value="{{url('success-payment')}}" />
+                                             <input type="hidden" name="notify_url" value="{{url('success-payment')}}" />
+                                            <input type="hidden" name="cancel_return" value="{{url('failure-payment')}}" />
                                                     <!-- End First Item -->
                                                     
                                             <input type="hidden" name="currency_code" value="USD">
                                             <!--<input type="hidden" name="tax_cart" value="5.13"> -->
                                             
                                             <input type="submit" name="submit" value="Make Payment"/>
-
-                                            <!-- <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_cart_SM.gif" border="0" name="upload" alt="Make payments with PayPal - it's fast, free and secure!" width="87" height="23"> -->
                                             </form>
-                                        <!-- <span onclick="submitPayment(<?php echo $job_proposal->aj_id;?>, <?php echo $job_proposal->aj_cost;?>)">Award</span> -->
                                     <?php
                                         }
                                     ?>
