@@ -280,6 +280,41 @@ class JobPostController extends Controller
      return $this->jobpostServiceProvider->applyJob($post_data);
 
     }
+
+    public function payment(Request $request){
+      if (Auth::user() != NULL) {
+        $this->logged_user = Auth::user();
+      }
+      $post_data= $request->all();
+      $post_data['user_id']=$this->logged_user->id;
+     return $this->jobpostServiceProvider->payment($post_data);
+
+    }
+
+    public function getDone(Request $request)
+  {
+      $id = $request->get('paymentId');
+      $token = $request->get('token');
+      $payer_id = $request->get('PayerID');
+
+      $payment = PayPal::getById($id, $this->_apiContext);
+
+      $paymentExecution = PayPal::PaymentExecution();
+
+      $paymentExecution->setPayerId($payer_id);
+      $executePayment = $payment->execute($paymentExecution, $this->_apiContext);
+
+      // Clear the shopping cart, write to database, send notifications, etc.
+
+      // Thank the user for the purchase
+      return view('checkout.done');
+  }
+
+  public function getCancel()
+  {
+      // Curse and humiliate the user for cancelling this most sacred payment (yours)
+      return view('checkout.cancel');
+  }
 }
 
 

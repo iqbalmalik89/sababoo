@@ -172,6 +172,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+        Netshell\Paypal\PaypalServiceProvider::class,
 
         App\Providers\UserRepositoryServiceProvider::class,
         App\Providers\JobRepositoryServiceProvider::class,
@@ -225,6 +226,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Helper'    => 'App\Helpers\Helper',
+        'Paypal' => Netshell\Paypal\Facades\Paypal::class,
 
     ],
 

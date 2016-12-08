@@ -50,6 +50,7 @@ Route::get('/', 'HomeController@index');
 Route::group(['middleware' => ['web']], function () {
 
 Route::get('/home', 'HomeController@showHome');
+Route::get('/payments', 'HomeController@showPayments');
 Route::get('/success-payment', 'HomeController@showSuccessPayment');
 Route::get('/failure-payment', 'HomeController@showFailurePayment');
 
@@ -119,6 +120,8 @@ Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController
 Route::match(['get', 'post'], '/job/apply', ['uses' => 'UI\JobPostController@applyJob']);
 Route::match(['get', 'post'], '/job/user_applied_jobs', ['uses' => 'UI\JobPostController@userAppliedJobs'])->middleware(['acl.front:job.list']);
 Route::match(['get', 'post'], '/job/job_proposals', ['uses' => 'UI\JobPostController@jobProposalsList'])->middleware(['acl.front:job.list']);
+// PayPal
+Route::post('job/paypal/payment',['uses'=>'UI\JobPostController@payment']);
 
 /************************************NETWORK*********************************************************/
  Route::match(['get', 'post'], '/network/connection', ['uses' => 'UI\NetworkController@myConnections']);
@@ -233,7 +236,6 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	Route::put('/industry/update',['as'=>'industry:update', 'uses'=>'IndustryController@update'])->middleware(['acl.admin:industry.update']);
 	Route::put('/industry/update-status',['as'=>'industry.update-status', 'uses'=>'IndustryController@updateStatus'])->middleware(['acl.admin:industry.update']);
 	Route::delete('/industry/remove',['as'=>'industry.remove', 'uses'=>'IndustryController@remove'])->middleware(['acl.admin:industry.delete']);
+
 });
-
-
 });

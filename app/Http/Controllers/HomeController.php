@@ -18,7 +18,7 @@ use  BusinessObject\UserFiles;
 
 use  BusinessObject\Industry;
 
-
+use Paypal as PayPal;
 class HomeController extends Controller
 {
     /**
@@ -28,11 +28,25 @@ class HomeController extends Controller
      */
     private $employeeServiceProvider;
     private $user_repo;
+    private $_apiContext;
     public function __construct()
     {
          //$this->middleware('auth');
         $this->employeeServiceProvider = new EmployeeServiceProvider();
         $this->user_repo = app()->make('UserRepository');
+
+        $this->_apiContext = PayPal::ApiContext(
+            config('services.paypal.client_id'),
+            config('services.paypal.secret'));
+
+        $this->_apiContext->setConfig(array(
+            'mode' => 'sandbox',
+            'service.EndPoint' => 'https://api.sandbox.paypal.com',
+            'http.ConnectionTimeOut' => 30,
+            'log.LogEnabled' => true,
+            'log.FileName' => storage_path('logs/paypal.log'),
+            'log.LogLevel' => 'FINE'
+        ));
     }
 
     /**
@@ -109,13 +123,22 @@ class HomeController extends Controller
 
     public function showSuccessPayment(Request $request)
     {
-        print_r($request->all());die;
-        return view('frontend.payments.success');
+        $id = $request->get('paymentId');
+        $token = $request->get('token');
+        $payer_id = $request->get('PayerID');
+
+        $payment = PayPal::getById($id, $this->_apiContext);
+        dd($payment);
+        $paymentExecution = PayPal::PaymentExecution();
+
+        $paymentExecution->setPayerId($payer_id);
+        $executePayment = $payment->execute($paymentExecution, $this->_apiContext);
+        return view('payments.success');
     }
 
     public function showFailurePayment(Request $request)
     {
-        return view('frontend.payments.failure');
+        return view('payments.failure');
     }
 
 }

@@ -173,16 +173,14 @@
                                         } else {
                                     ?>
 
-                                        <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                                        <!-- <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
                                             <input type="hidden" name="cmd" value="_cart">
                                             <input type="hidden" name="upload" value="1">
                                             <input type="hidden" name="business" value="nazbushi@gmail.com">
-                                                    <!-- Begin First Item -->
                                             <input type="hidden" name="quantity_1" value="1">
                                             <input type="hidden" name="item_name_1" value="{{$job_proposal->name}}">
                                             <input type="hidden" name="item_number_1" value="{{$job_proposal->aj_id}}">
                                             <input type="hidden" name="amount_1" value="{{$job_proposal->aj_cost}}">
-                                            <!-- <input type="hidden" name="shipping_1" value="0.05"> -->
                                             <input type="hidden" name="tax_1" value="0.05">
                                             <input type="hidden" name="job_id" value="{{$job_proposal->id}}">
                                             <input type="hidden" name="user_id" value="{{$job_proposal->aj_userid}}">
@@ -190,13 +188,13 @@
                                             <input type="hidden" name="return" value="{{url('success-payment')}}" />
                                              <input type="hidden" name="notify_url" value="{{url('success-payment')}}" />
                                             <input type="hidden" name="cancel_return" value="{{url('failure-payment')}}" />
-                                                    <!-- End First Item -->
                                                     
                                             <input type="hidden" name="currency_code" value="USD">
-                                            <!--<input type="hidden" name="tax_cart" value="5.13"> -->
                                             
                                             <input type="submit" name="submit" value="Make Payment"/>
-                                            </form>
+                                            </form> -->
+                                            <span onclick="submitPayment(<?php echo $job_proposal->aj_id;?>)">Award</span>
+
                                     <?php
                                         }
                                     ?>
@@ -232,8 +230,15 @@
     var isScrLock = false;
     var html = '';
 
-    function submitPayment(proposalId, cost) {
-        window.open("https://www.paypal.com?id="+proposalId+'&cost='+cost, "_blank");
+    function submitPayment(proposalId) {
+        pageURI = 'paypal/payment';
+        request_data = {aj_id:proposalId}
+        mainAjax('', request_data, 'POST', fillForm);
+
+        function fillForm(data){
+            console.log(data);
+        } 
+
     }
     $(document).ready(function () {
 

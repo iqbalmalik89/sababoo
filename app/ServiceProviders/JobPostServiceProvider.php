@@ -16,12 +16,30 @@ use  BusinessObject\JobPost;
 use  App\Models\AppliedJob;
 use Validator;
 use DB;
-
+use Paypal as PayPal;
 
 class JobPostServiceProvider
 {
 
 
+    private $_apiContext;
+
+    public function __construct()
+    {
+        $this->_apiContext = PayPal::ApiContext(
+            config('services.paypal.client_id'),
+            config('services.paypal.secret'));
+
+        $this->_apiContext->setConfig(array(
+            'mode' => 'sandbox',
+            'service.EndPoint' => 'https://api.sandbox.paypal.com',
+            'http.ConnectionTimeOut' => 30,
+            'log.LogEnabled' => true,
+            'log.FileName' => storage_path('logs/paypal.log'),
+            'log.LogLevel' => 'FINE'
+        ));
+
+    }
 
     public function createJob($data){
         $job_deadline = $data['job_day']."-".$data['job_month']."-".$data['job_year'];
@@ -350,7 +368,38 @@ class JobPostServiceProvider
 
    }
 
+   public function payment()
+  {
+      $payer = PayPal::Payer();
+      $payer->setPaymentMethod('paypal');
 
+      $amount = PayPal:: Amount();
+      $amount->setCurrency('USD');
+      $amount->setTotal(42); // This is the simple way,
+      // you can alternatively describe everything in the order separately;
+      // Reference the PayPal PHP REST SDK for details.
+
+      $transaction = PayPal::Transaction();
+      $transaction->setAmount($amount);
+      $transaction->setDescription('What are you selling?');
+
+      $redirectUrls = PayPal:: RedirectUrls();
+      $redirectUrls->setReturnUrl(url('success-payment'));
+      $redirectUrls->setCancelUrl(url('failure-payment'));
+
+      $payment = PayPal::Payment();
+      $payment->setIntent('sale');
+      $payment->setPayer($payer);
+      $payment->setRedirectUrls($redirectUrls);
+      $payment->setTransactions(array($transaction));
+
+      $response = $payment->create($this->_apiContext);
+      $redirectUrl = $response->links[1]->href;
+
+      return redirect( $redirectUrl );
+  }
+
+  
 
 
 
