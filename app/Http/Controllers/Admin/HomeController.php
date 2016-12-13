@@ -323,4 +323,14 @@ class HomeController extends Controller {
                                 'industry'=>$industry,
                                 'logged_in_user'=>$logged_in_user]);
     }
+
+    /* for transactions listing */
+    public function showTransactions(Request $request) {
+        $title  = 'Sababoo | Admin | Transactions';
+        $logged_in_user   = Auth::user();
+        //$logged_in_user = Session::get('sa_user');
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+        return view('admin.transactions',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
+    }
 }

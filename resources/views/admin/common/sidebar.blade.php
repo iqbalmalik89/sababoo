@@ -20,6 +20,7 @@
     $job_view = '';
     $skills_view = '';
     $industry_view = '';
+    $transaction_view = '';
 
     // for role view permission                         permission id = 4
     if (!in_array(4, $roleOperations)) {
@@ -55,7 +56,10 @@
         $industry_view = 'hide';
     }
     
-
+    // for transaction view permission                         permission id = 28
+    if (!in_array(28, $roleOperations)) {
+        $transaction_view = 'hide';
+    }
 ?>
 <div class="page-sidebar-wrapper">
     <!-- BEGIN SIDEBAR -->
@@ -116,6 +120,14 @@
                 <a href="{{URL::to('admin/industries')}}" class="nav-link nav-toggle">
                     <i class="icon-layers"></i>
                     <span class="title">Industries Management</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
+            <li class="nav-item start <?php if($page=='transactions'){ echo "active";} ?> {{$transaction_view}}">
+                <a href="{{URL::to('admin/transactions')}}" class="nav-link nav-toggle">
+                    <i class="icon-calendar"></i>
+                    <span class="title">Transactions History</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
                 </a>

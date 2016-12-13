@@ -179,6 +179,8 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 
 	Route::get('/industries',['uses'=>'HomeController@showIndustries'])->middleware(['acl.admin:industry.list']);
 	Route::get('/industry',['uses'=>'HomeController@showIndustry'])->middleware(['acl.admin:industry.create']);
+
+	Route::get('/transactions',['uses'=>'HomeController@showTransactions'])->middleware(['acl.admin:transaction.list']);
 });
 
 
@@ -238,6 +240,9 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	Route::put('/industry/update',['as'=>'industry:update', 'uses'=>'IndustryController@update'])->middleware(['acl.admin:industry.update']);
 	Route::put('/industry/update-status',['as'=>'industry.update-status', 'uses'=>'IndustryController@updateStatus'])->middleware(['acl.admin:industry.update']);
 	Route::delete('/industry/remove',['as'=>'industry.remove', 'uses'=>'IndustryController@remove'])->middleware(['acl.admin:industry.delete']);
+
+	// Transactions Routes
+	Route::get('/transaction/list',['as'=>'transaction:list', 'uses'=>'TransactionController@all'])->middleware(['acl.admin:transaction.list']);
 
 });
 });

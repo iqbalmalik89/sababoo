@@ -235,3 +235,15 @@ $('#cv_download_btn').click(function(e){
     $('#cv_iframe').attr('src', Sababoo.Config.getDocUrl()+'users_cv/'+cv_name)
 });
 
+
+// transactions
+$('#transaction-list-limit').change(function(){
+    Sababoo.App.Transaction.list();
+});
+
+$('#transaction_search_keyword').keypress(function(event){
+    if(event.which == '13'){
+        Sababoo.App.Transaction.list();
+    }
+});
+
