@@ -403,11 +403,44 @@ class JobPostServiceProvider
       } else {
         abort(404);
       }
-      
+
   }
 
   
+  public function userTransactions($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
 
+        $matchThese = [];
+
+        $start_date = ($filters['start_date'] != '')?date('Y-m-d', strtotime($filters['start_date'])):'';
+        $end_date = ($filters['end_date'] != '')?date('Y-m-d', strtotime($filters['end_date'])):date('Y-m-d');
+
+        $userID = $filters['userid'];
+        $str = '';
+
+        if ($start_date != '') {
+            $transactions = DB::table('payments')
+                ->select('payments.id as id','payments.payment_id as payment_id','payments.payment_amount as payment_amount','payments.job_id as job_id','payments.payer_id as payer_id','payments.createdtime as created_at','job_post.name as job_name')
+                ->join('job_post', 'payments.job_id', '=','job_post.id' )
+                //->where($matchThese)
+                ->Where("payments.user_id", "=", "$userID")
+                ->WhereBetween(\DB::raw("date(payments.createdtime)"), [$start_date, $end_date])
+                ->OrderBy('payments.createdtime', 'DESC')
+            //dd( count($job) );
+            ->paginate($paging['page_size']);
+        } else {
+            $transactions = DB::table('payments')
+              ->select('payments.id as id','payments.payment_id as payment_id','payments.payment_amount as payment_amount','payments.job_id as job_id','payments.payer_id as payer_id','payments.createdtime as created_at','job_post.name as job_name')
+              ->join('job_post', 'payments.job_id', '=','job_post.id' )
+              //->where($matchThese)
+              ->Where("payments.user_id", "=", "$userID")
+              ->OrderBy('payments.createdtime', 'DESC')
+          //dd( count($job) );
+          ->paginate($paging['page_size']);
+        }
+        
+        //dd(DB::getQueryLog());
+        return $transactions;
+     }
 
 
 

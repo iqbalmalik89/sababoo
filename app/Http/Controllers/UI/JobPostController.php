@@ -290,6 +290,36 @@ class JobPostController extends Controller
      return $this->jobpostServiceProvider->payment($post_data);
 
     }
+
+    public function userTransactions(Request $request){
+        if (Auth::user() != NULL) {
+          $this->logged_user = Auth::user();
+        } else {
+          return redirect('login');
+        }
+        
+        $post_data = $request->all();
+
+        $paging['page_num']  = $request->input('page_num', 1);
+        $paging['page_size'] = $request->input('page_size', env('DEFAULT_PAGE_SIZE'));
+        $order_by['order']   = $request->input('order', 'asc');
+        $order_by['sort_by'] = $request->input('orderby', '0');
+        $filters['userid']   =  $this->logged_user->id;
+        $filters['is_admin']   =  $this->logged_user->is_admin;
+        if((isset($post_data['start_date']))){
+            $filters['start_date'] =   $post_data['start_date'];
+        } else {
+          $filters['start_date'] = '';
+        }
+        if((isset($post_data['end_date']))){
+            $filters['end_date'] =   $post_data['end_date'];
+        } else {
+          $filters['end_date'] = '';
+        }
+        $my_transactions =  $this->jobpostServiceProvider->userTransactions($filters,$order_by,$paging);
+
+        return view ('frontend.job.user_transactions',array('my_transactions'=>$my_transactions));
+    }
 }
 
 

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Job Listing')
+@section('title', 'My Jobs')
 @section('description', 'Share your jobs with sababo,Sababoo is a job portal','Create a job and post with Sababoo')
 @section('keywords', 'Sababoo,  Sababoo Tradesman, Sababoo Job Recuritment,Sababoo Employer,Sababoo Employee','Sababoo employee view','sababoo tradesman ','job','job post','apply job','job browse','job search','job view','job listing')
 
@@ -95,7 +95,7 @@
 
                         <div class="section-title">
 
-                            <h2>Jobs List</h2>
+                            <h2>My Jobs</h2>
 
                         </div>
 

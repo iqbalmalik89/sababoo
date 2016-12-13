@@ -87,7 +87,7 @@
 
                                 <ul>
                                     <li class="{{$job_create}}"><a href="/job/post">Job Post</a></li>
-                                    <li class="{{$job_view}}"><a href="/job/user_job_list"> Job Lists</a></li>
+                                    <li class="{{$job_view}}"><a href="/job/user_job_list"> My Jobs</a></li>
                                     <li class="{{$job_search}}"><a href="/job/search_jobs"> Browse Jobs</a></li>
 
                                     <?php
@@ -134,10 +134,10 @@
 
 
                             </li>
-                            
 
-
-
+                            <li class="">
+                                <a href="/transactions">Transactions</a>
+                            </li>
 
                         </ul>
                 

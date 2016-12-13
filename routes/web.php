@@ -54,6 +54,7 @@ Route::get('/payments', 'HomeController@showPayments');
 Route::get('/success-payment', 'HomeController@showSuccessPayment');
 Route::get('/failure-payment', 'HomeController@showFailurePayment');
 
+
 /************************************EMPLOYEE********************************************/
 Route::get('/employee', 'EmployeeController@index');
 Route::match(['get', 'post'], '/employee/update_basic_info', ['uses' => 'EmployeeController@updateBasicInfo']);
@@ -122,6 +123,7 @@ Route::match(['get', 'post'], '/job/user_applied_jobs', ['uses' => 'UI\JobPostCo
 Route::match(['get', 'post'], '/job/job_proposals', ['uses' => 'UI\JobPostController@jobProposalsList'])->middleware(['acl.front:job.list']);
 // PayPal
 Route::post('job/paypal/payment',['uses'=>'UI\JobPostController@payment']);
+Route::match(['get', 'post'], '/transactions', ['uses'=>'UI\JobPostController@userTransactions']);
 
 /************************************NETWORK*********************************************************/
  Route::match(['get', 'post'], '/network/connection', ['uses' => 'UI\NetworkController@myConnections']);
