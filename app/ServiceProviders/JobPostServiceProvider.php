@@ -368,35 +368,42 @@ class JobPostServiceProvider
 
    }
 
-   public function payment()
+   public function payment($input)
   {
-      $payer = PayPal::Payer();
-      $payer->setPaymentMethod('paypal');
+      $appliedJob = AppliedJob::find($input['aj_id']);
+      if($appliedJob != NULL) {
+        $getJob = JobPost::find($appliedJob->job_id);
+        $payer = PayPal::Payer();
+        $payer->setPaymentMethod('paypal');
 
-      $amount = PayPal:: Amount();
-      $amount->setCurrency('USD');
-      $amount->setTotal(42); // This is the simple way,
-      // you can alternatively describe everything in the order separately;
-      // Reference the PayPal PHP REST SDK for details.
+        $amount = PayPal:: Amount();
+        $amount->setCurrency('USD');
+        $amount->setTotal($appliedJob->cost); // This is the simple way,
+        // you can alternatively describe everything in the order separately;
+        // Reference the PayPal PHP REST SDK for details.
 
-      $transaction = PayPal::Transaction();
-      $transaction->setAmount($amount);
-      $transaction->setDescription('What are you selling?');
+        $transaction = PayPal::Transaction();
+        $transaction->setAmount($amount);
+        $transaction->setDescription($getJob->name);
 
-      $redirectUrls = PayPal:: RedirectUrls();
-      $redirectUrls->setReturnUrl(url('success-payment'));
-      $redirectUrls->setCancelUrl(url('failure-payment'));
+        $redirectUrls = PayPal:: RedirectUrls();
+        $redirectUrls->setReturnUrl(url('success-payment?aj_id='.$input['aj_id']));
+        $redirectUrls->setCancelUrl(url('failure-payment?aj_id='.$input['aj_id']));
 
-      $payment = PayPal::Payment();
-      $payment->setIntent('sale');
-      $payment->setPayer($payer);
-      $payment->setRedirectUrls($redirectUrls);
-      $payment->setTransactions(array($transaction));
+        $payment = PayPal::Payment();
+        $payment->setIntent('sale');
+        $payment->setPayer($payer);
+        $payment->setRedirectUrls($redirectUrls);
+        $payment->setTransactions(array($transaction));
 
-      $response = $payment->create($this->_apiContext);
-      $redirectUrl = $response->links[1]->href;
+        $response = $payment->create($this->_apiContext);
+        $redirectUrl = $response->links[1]->href;
 
-      return redirect( $redirectUrl );
+        return redirect( $redirectUrl);  
+      } else {
+        abort(404);
+      }
+      
   }
 
   

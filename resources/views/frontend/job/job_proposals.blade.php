@@ -168,7 +168,7 @@
                                         if ($job_proposal->is_awarded == 1) {
 
                                     ?>
-                                        <span >Awarded</span>
+                                        <span >Paid</span>
                                     <?php
                                         } else {
                                     ?>
@@ -193,7 +193,7 @@
                                             
                                             <input type="submit" name="submit" value="Make Payment"/>
                                             </form> -->
-                                            <span onclick="submitPayment(<?php echo $job_proposal->aj_id;?>)">Award</span>
+                                            <span onclick="submitPayment(<?php echo $job_proposal->aj_id;?>)">Make Payment</span>
 
                                     <?php
                                         }

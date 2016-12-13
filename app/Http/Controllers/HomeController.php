@@ -15,7 +15,8 @@ use  BusinessObject\Education;
 use  BusinessObject\Experience;
 use  BusinessObject\Certification;
 use  BusinessObject\UserFiles;
-
+use  App\Models\AppliedJob;
+use  App\Models\Payment;
 use  BusinessObject\Industry;
 
 use Paypal as PayPal;
@@ -123,16 +124,35 @@ class HomeController extends Controller
 
     public function showSuccessPayment(Request $request)
     {
-        $id = $request->get('paymentId');
-        $token = $request->get('token');
-        $payer_id = $request->get('PayerID');
+      if (Auth::user() != NULL) {
+        $this->logged_user = Auth::user();
+      }
+      $aj_id = $request->get('aj_id');
+      $id = $request->get('paymentId');
+      $token = $request->get('token');
+      $payer_id = $request->get('PayerID');
 
-        $payment = PayPal::getById($id, $this->_apiContext);
-        dd($payment);
-        $paymentExecution = PayPal::PaymentExecution();
+      $payment = PayPal::getById($id, $this->_apiContext);
+      // /dd($payment->transactions[0]->amount->total);
+      $paymentExecution = PayPal::PaymentExecution();
 
-        $paymentExecution->setPayerId($payer_id);
-        $executePayment = $payment->execute($paymentExecution, $this->_apiContext);
+      $paymentExecution->setPayerId($payer_id);
+      //$executePayment = $payment->execute($paymentExecution, $this->_apiContext);
+
+      // Clear the shopping cart, write to database, send notifications, etc.
+      $appliedJob = AppliedJob::find($aj_id);
+      $recordPayment = new Payment;
+      $recordPayment->payment_id = $id;
+      $recordPayment->payment_amount = $payment->transactions[0]->amount->total;
+      $recordPayment->payment_status = 'completed';
+      $recordPayment->job_id = $appliedJob->job_id;
+      $recordPayment->payer_id = $payer_id;
+      $recordPayment->user_id = $this->logged_user->id;
+      $recordPayment->createdtime = date('Y-m-d H:i:s');
+      if($recordPayment->save()) {
+        $appliedJob->is_awarded = 1;
+        $appliedJob->save();
+      }
         return view('payments.success');
     }
 

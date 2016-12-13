@@ -37,7 +37,7 @@
 
 							<h3>Success!</h3>
 
-							<p>Your payment has been complted successfully.</p>
+							<p>Your payment has been completed successfully.</p>
 
 
 							<a href="/home" class="btn btn-primary mt-15">Back to home page</a>
