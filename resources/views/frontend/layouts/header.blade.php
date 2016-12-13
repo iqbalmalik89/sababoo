@@ -383,7 +383,7 @@
             <source src="{{asset('assets/frontend/sounds/notify.wav')}}" type="audio/wav">
         </audio>
 
-
+        <script type="text/javascript" src="{{url('js/plug.js')}}"></script>
         <script type="text/javascript" src="{{asset('assets/frontend/node_modules/socket.io/node_modules/socket.io-client/socket.io.js')}}"></script>
         <script>
             var email = '<?php echo $socketEmail;?>'

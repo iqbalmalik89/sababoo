@@ -53,17 +53,20 @@
                         <span class="labeling" style="width: 195px; margin-top: -12px;">Search your transactions</span>
                         <div class="row">
 
-                            <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5">
-                                <div class="form-group form-lg">
-                                    <input id="start_date" name="start_date" type="text" class="form-control" placeholder="Start Date">
+                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 input-append date"  data-date-format="dd-mm-yyyy">
+                                    <div class="form-group form-lg">
+                                        <label>Start Date</label>
+                                        <input class="span2" size="16" type="text" id="start_date" name="start_date">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5">
-                                <div class="form-group form-lg">
-                                    <input id="end_date" name="end_date" type="text" class="form-control" placeholder="End Date">
+
+                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 input-append date" data-date-format="dd-mm-yyyy">
+                                 <div class="form-group form-lg">
+                                        <label>End Date</label>
+                                        <input class="span2" size="16" type="text" id="end_date" name="end_date">
+                                    </div>
                                 </div>
-                            </div>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
 
@@ -138,7 +141,7 @@
                                         </div>
                                     </div>
                                     <div class="GridLex-col-4_xs-8_xss-12 mt-10-xss">
-                                        <div class="job-location"> <?php echo $my_transaction->payment_amount;?>
+                                        <div class="job-location"> <?php echo '$'.$my_transaction->payment_amount;?>
                                         </div>
                                     </div>
 
@@ -176,7 +179,8 @@
     var html = '';
 
     $(document).ready(function () {
-
+        $('#start_date').datepicker();
+        $('#end_date').datepicker();
     });
 
     
