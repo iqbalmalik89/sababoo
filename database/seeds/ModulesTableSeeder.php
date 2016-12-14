@@ -24,7 +24,8 @@ class ModulesTableSeeder extends Seeder
                             array('name' => 'Jobs'),
                             array('name' => 'Skills'),
                             array('name' => 'Industries'),
-                            array('name' => 'Transactions')
+                            array('name' => 'Transactions'),
+                            array('name' => 'Refunds')
 							));
 
     }

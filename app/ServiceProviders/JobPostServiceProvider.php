@@ -31,8 +31,8 @@ class JobPostServiceProvider
             config('services.paypal.secret'));
 
         $this->_apiContext->setConfig(array(
-            'mode' => 'sandbox',
-            'service.EndPoint' => 'https://api.sandbox.paypal.com',
+            'mode' => env('PAYPAL_MODE'),
+            'service.EndPoint' => env('PAYPAL_SERVICE_ENDPOINT'),
             'http.ConnectionTimeOut' => 30,
             'log.LogEnabled' => true,
             'log.FileName' => storage_path('logs/paypal.log'),

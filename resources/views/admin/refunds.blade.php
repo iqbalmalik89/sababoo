@@ -13,7 +13,7 @@
             <div class="page-bar">
                 <ul class="page-breadcrumb">
                     <li>
-                        <a href="{{URL::to('admin/transaction')}}">Transaction History</a>
+                        <a href="{{URL::to('admin/refunds')}}">Refunds</a>
                         <!-- <i class="fa fa-circle"></i> -->
                     </li>
                     <!-- <li>
@@ -24,16 +24,26 @@
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
             <div>
-                <h3 class="page-title pull-left"> Transactions
-                    <small>(<span id="total_transactions"></span>)</small>
+                <h3 class="page-title pull-left"> Refunds
+                    <small>(<span id="total_refunds"></span>)</small>
                 </h3>
                 <div class="pull-right margin-top-25px">
                     <div>
-                        <label>Search: <input type="search" class="form-control input-sm input-small input-inline" placeholder="" aria-controls="sample_2" id="transaction_search_keyword"></label>
+                        <!-- <label>Search: <input type="search" class="form-control input-sm input-small input-inline" placeholder="" aria-controls="sample_2" id="refund_search_keyword"></label> -->
 
                         <div class="form-actions margin-left-10px pull-right">
-                            <a href="javascript:;" id="transaction_filter_date_btn"><button class="btn green" type="button">Go<i class="fa fa-arrow-right fa-fw"></i> </button></a>
-                        </div>  
+                            <a href="javascript:;" id="refund_filter_date_btn"><button class="btn green" type="button">Go<i class="fa fa-arrow-right fa-fw"></i> </button></a>
+                        </div> 
+
+                        <div class=" margin-left-10px pull-right">
+                            <select id="refunds_filter_by_status" class="bs-select form-control">
+                                
+                                <option value="">Filter By Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="approved">Approved</option>
+                            </select>
+                        </div>
 
                         <div class="margin-left-10px pull-right">
                         
@@ -60,10 +70,10 @@
                 <div class="portlet-body">
                     <div class="table-scrollable">
                         <table class="table table-striped table-bordered table-advance table-hover">
-                            <thead id="transactions_list_head">
+                            <thead id="refunds_list_head">
                                 
                             </thead>
-                            <tbody id="transactions_list">
+                            <tbody id="refunds_list">
                                                                     
                             </tbody>
                         </table>
@@ -81,11 +91,11 @@
                     <div class="pull-right general-limit-div">
                         <form>
                             <div class="">
-                                <select class="bs-select form-control" id="transaction-list-limit">
-                                    <option value="5">Show 5 transactions per page</option>
-                                    <option value="10" selected="selected">Show 10 transactions per page</option>
-                                    <option value="15">Show 15 transactions per page</option>
-                                    <option value="20">Show 20 transactions per page</option>
+                                <select class="bs-select form-control" id="refund-list-limit">
+                                    <option value="5">Show 5 records per page</option>
+                                    <option value="10" selected="selected">Show 10 records per page</option>
+                                    <option value="15">Show 15 records per page</option>
+                                    <option value="20">Show 20 records per page</option>
                                 </select>
                             </div>
                             
@@ -120,7 +130,7 @@
 <!-- END PAGE LEVEL SCRIPTS -->
 <script type="text/javascript">
 $(document).ready(function() {
-    Sababoo.App.Transaction.list();
+    //Sababoo.App.Refunds.list();
     $('#start_date').datepicker();
     $('#end_date').datepicker();
 

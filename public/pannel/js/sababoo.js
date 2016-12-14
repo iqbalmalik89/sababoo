@@ -1428,7 +1428,6 @@ Sababoo.App.Jobs = (function(){
 		                                        <th> ID </th>\
 		                                        <th> Job Title </th>\
 		                                        <th> User Name </th>\
-		                                        <th> Industry </th>\
 		                                        <th> Type </th>\
 		                                        <th> Salary </th>\
 		                                        <th> Status </th>\
@@ -1545,7 +1544,6 @@ Sababoo.App.Jobs = (function(){
                                 <td class="highlight"> '+job.id+' </td>\
                                 <td class="hidden-xs"> '+job.name+' </td>\
                                 <td class="hidden-xs"> '+job.user_name+' </td>\
-                                <td> '+job.industry_name+' </td>\
                                 <td> '+job.type+' </td>\
                                 <td> '+job.salary+' </td>\
                                 <td> '+statusText+' </td>\

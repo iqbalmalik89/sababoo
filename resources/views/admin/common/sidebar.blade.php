@@ -21,6 +21,7 @@
     $skills_view = '';
     $industry_view = '';
     $transaction_view = '';
+    $refund_view = '';
 
     // for role view permission                         permission id = 4
     if (!in_array(4, $roleOperations)) {
@@ -59,6 +60,11 @@
     // for transaction view permission                         permission id = 28
     if (!in_array(28, $roleOperations)) {
         $transaction_view = 'hide';
+    }
+
+    // for refunds view permission                         permission id = 32
+    if (!in_array(32, $roleOperations)) {
+        $refund_view = 'hide';
     }
 ?>
 <div class="page-sidebar-wrapper">
@@ -127,7 +133,15 @@
             <li class="nav-item start <?php if($page=='transactions'){ echo "active";} ?> {{$transaction_view}}">
                 <a href="{{URL::to('admin/transactions')}}" class="nav-link nav-toggle">
                     <i class="icon-calendar"></i>
-                    <span class="title">Transactions History</span>
+                    <span class="title">Transaction History</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
+            <li class="nav-item start <?php if($page=='refunds'){ echo "active";} ?> {{$refund_view}}">
+                <a href="{{URL::to('admin/refunds')}}" class="nav-link nav-toggle">
+                    <i class="icon-wrench"></i>
+                    <span class="title">Refunds</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
                 </a>
