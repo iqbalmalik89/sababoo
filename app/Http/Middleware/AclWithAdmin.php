@@ -88,14 +88,8 @@ class AclWithAdmin
                     }
                     
                 } else {
-                    \Log::info('Operation Not Found');
-                    if ($is_api == true) {
-                        $code = 401;
-                        $output = ['error' => ['code'=>$code,'messages'=>['Operation not allowed.']]];
-                        return response()->json($output, $code);
-                    } else {
-                        return redirect('/admin/401');
-                    }
+                    return redirect('/admin/401');
+                    
                 }
             }
         } else {
