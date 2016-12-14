@@ -82,21 +82,15 @@
                             
                             
                             
-                            <li class="{{$job_all}}">
+                            <li class="">
                                 <a href="#_">Job</a>
 
                                 <ul>
-                                    <li class="{{$job_create}}"><a href="/job/post">Job Post</a></li>
-                                    <li class="{{$job_view}}"><a href="/job/user_job_list"> My Jobs</a></li>
-                                    <li class="{{$job_search}}"><a href="/job/search_jobs"> Browse Jobs</a></li>
-
-                                    <?php
-                                        if ($isAdminUser == false) {
-                                    ?>
-                                        <li class="{{$job_search}}"><a href="/job/user_applied_jobs"> Applied Jobs</a></li>
-                                    <?php
-                                        }
-                                    ?>
+                                    <li class=""><a href="/job/post">Job Post</a></li>
+                                    <li class=""><a href="/job/user_job_list"> My Jobs</a></li>
+                                    <li class=""><a href="/job/search_jobs"> Browse Jobs</a></li>
+                                    <li class=""><a href="/job/user_applied_jobs"> Applied Jobs</a></li>
+                                    
                                     
                                 </ul>
 <!--                                 <ul>
