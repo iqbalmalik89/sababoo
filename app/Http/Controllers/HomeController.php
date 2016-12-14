@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use BusinessLogic\EmployeeServiceProvider;
 use BusinessLogic\NetworkServiceProvider;
 use  BusinessObject\User;
@@ -15,6 +16,7 @@ use  BusinessObject\Education;
 use  BusinessObject\Experience;
 use  BusinessObject\Certification;
 use  BusinessObject\UserFiles;
+use  BusinessObject\JobPost;
 use  App\Models\AppliedJob;
 use  App\Models\Payment;
 use  BusinessObject\Industry;
@@ -152,6 +154,9 @@ class HomeController extends Controller
       if($recordPayment->save()) {
         $appliedJob->is_awarded = 1;
         $appliedJob->save();
+
+        JobPost::where('id', '=', $appliedJob->job_id)->update(['is_paid'=>1, 'job_status'=>'in-progress']);
+        Cache::forget('job-'.$appliedJob->job_id);
       }
         return view('payments.success');
     }

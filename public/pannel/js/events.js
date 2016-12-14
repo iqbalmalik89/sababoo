@@ -121,6 +121,10 @@ $('#job-list-limit').change(function(){
 $('#job_filter_by_status').change(function(){
     Sababoo.App.Jobs.list();
 });
+$('#job_filter_by_job_status').change(function(){
+    Sababoo.App.Jobs.list();
+});
+
 
 $('#job_remove_btn').click(function(e){
     e.preventDefault();
@@ -130,6 +134,11 @@ $('#job_remove_btn').click(function(e){
 $('#job_status_btn').click(function(e){
     e.preventDefault();
     Sababoo.App.Jobs.updateStatus();
+});
+
+$('#job_status_btn2').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Jobs.updateJobStatus();
 });
 
 $('#job_search_keyword').keypress(function(event){

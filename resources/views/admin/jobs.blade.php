@@ -37,13 +37,23 @@
 
                         <div class="margin-left-10px pull-right">
                             <form>
-                                <div class="">
+                                <div class="margin-left-10px pull-right">
                                     <select id="job_filter_by_status" class="bs-select form-control">
                                         
                                         <option value="">Filter By Status</option>
                                         <option value="1">Active</option>
                                         <option value="0">In-Active</option>
                                    
+                                    </select>
+                                </div>
+
+                                <div class=" margin-left-10px pull-right">
+                                    <select id="job_filter_by_job_status" class="bs-select form-control">
+                                        
+                                        <option value="">Filter By Job Status</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="in-progress">In-Progress</option>
+                                        <option value="completed">Completed</option>
                                     </select>
                                 </div>
                                 
@@ -148,6 +158,30 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
         <a href="javascript:;" id="job_status_btn"><button type="button" class="btn green">Yes</button></a>
         <img class="button_spinners" src="{{URL::to('pannel/images/loader.gif')}}" id="status_submit_loader">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="updateJobStatusConfirmation" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation!</h4>
+      </div>
+      
+      <div class="modal-body">
+        <div class="msg_divs alert" id="status_msg_div2"></div>
+        <p>Are you sure you want to mark this job as <span id="update_job_status_text"></span>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <a href="javascript:;" id="job_status_btn2"><button type="button" class="btn green">Yes</button></a>
+        <img class="button_spinners" src="{{URL::to('pannel/images/loader.gif')}}" id="status_submit_loader2">
       </div>
     </div>
 

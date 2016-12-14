@@ -58,10 +58,6 @@ class JobPostServiceProvider
             if(isset($data['experience'])){ 		    $job->experience 		        = $data['experience']; }
             if(isset($data['industry_id'])){ 		    $job->industry_id 		        = $data['industry_id']; }
             if(isset($data['all_terms'])){ 		        $job->terms 		            = $data['all_terms']; }
-
-            if ($job->is_admin_job == 1) {
-                if(isset($data['is_admin'])){               $job->is_admin_job              = $data['is_admin']; }    
-            }
             
             $job->job_deadline_date 		= $job_deadline;
             $job->update();
@@ -87,8 +83,8 @@ class JobPostServiceProvider
         $job->experience      = $data['experience'];
         $job->industry_id     = $data['industry'];
         $job->job_deadline_date = $job_deadline;
-        $job->terms 		  = $data['all_terms'];
-        $job->is_admin_job    = $data['is_admin'];
+        $job->terms 		    = $data['all_terms'];
+        $job->job_status    = 'pending';
 
         $job->save();
         return array(
@@ -103,7 +99,7 @@ class JobPostServiceProvider
 
     public function userJobList($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
 
-        $matchThese = ["job_post.userid"=>$filters['userid'],"job_post.is_active" =>1, "is_admin_job"=>$filters['is_admin'], "deleted_at"=>NULL];
+        $matchThese = ["job_post.userid"=>$filters['userid'],"job_post.is_active" =>1, "deleted_at"=>NULL];
 
         $name = isset($filters['name'])?$filters['name']:'';
         $loc = isset($filters['location'])?$filters['location']:'';
@@ -215,7 +211,7 @@ class JobPostServiceProvider
 
 
         $job = DB::table('job_post')
-            ->select('job_post.id as id','job_post.userid as user_id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','applied_jobs.id as aj_id','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message','applied_jobs.cost as aj_cost','applied_jobs.user_id as aj_userid','applied_jobs.is_awarded as is_awarded')
+            ->select('job_post.id as id','job_post.userid as user_id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','job_post.job_status as job_status','applied_jobs.id as aj_id','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message','applied_jobs.cost as aj_cost','applied_jobs.user_id as aj_userid','applied_jobs.is_awarded as is_awarded')
             ->join('applied_jobs', 'job_post.id', '=','applied_jobs.job_id' )
             ->where($matchThese)
             ->Where("job_post.id", "=", "$job_id")

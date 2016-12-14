@@ -61,7 +61,7 @@ class JobRepository {
 				$data->status				= $job->status;
 				$data->terms				= $job->terms;
 				$data->is_active			= $job->is_active;
-				$data->is_admin_job			= $job->is_admin_job;
+				$data->job_status			= strtoupper($job->job_status);
 				$data->created_at			= date('d M, Y', strtotime($job->created_at));
 				$data->updated_at			= date('d M, Y', strtotime($job->updated_at));
 
@@ -113,6 +113,10 @@ class JobRepository {
 			$objectIds = $objectIds->where('is_active','=',$input['filter_by_status']);
 		}
 
+		if (isset($input['filter_by_job_status']) && $input['filter_by_job_status'] != '') {
+			$objectIds = $objectIds->where('job_status','=',$input['filter_by_job_status']);
+		}
+
 		if(isset($input['limit']) && $input['limit'] != 0) {
 			$perPage = $input['limit'];
 		}
@@ -156,11 +160,14 @@ class JobRepository {
 	 **/
 	public function deleteById($id) {
 
-		$user = $this->job_model->find($id);
-		if ($user != NULL) {
-			$user->delete();
+		$job = $this->job_model->find($id);
+		if ($job != NULL) {
+			if($job->job_status == 'in-progress') {
+				return 'cannot_delete';
+			} 
+			$job->delete();
 			Cache::forget($this->_cacheKey.$id);
-			return true;
+			return 'success';
 		} else {
 			return false;
 		}
@@ -179,14 +186,46 @@ class JobRepository {
      **/
     public function updateStatus($input) {
 
-		$user = $this->job_model->find($input['id']);
+		$job = $this->job_model->find($input['id']);
 
-		if ($user != NULL) {
-			$user->is_active = $input['status'];
-			$user->updated_at = Carbon::now();
-			if ($user->save()) {
+		if ($job != NULL) {
+			$job->is_active = $input['status'];
+
+			if ($job->is_active == 0) {
+				if($job->job_status == 'in-progress') {
+					return 'cannot_inactivate';
+				} 
+			}
+
+			$job->updated_at = Carbon::now();
+			if ($job->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
-				return true;
+				return 'success';
+			}
+		}
+	}
+
+	 /**
+     *
+     * This method will change job status (active, inactive)
+     * and will return output back to client as json
+     *
+     * @access public
+     * @return mixed
+     *
+     * @author Bushra Naz
+     *
+     **/
+    public function updateJobStatus($input) {
+
+		$job = $this->job_model->find($input['id']);
+
+		if ($job != NULL) {
+			$job->job_status = $input['status'];
+			$job->updated_at = Carbon::now();
+			if ($job->save()) {
+				Cache::forget($this->_cacheKey.$input['id']);
+				return 'success';
 			}
 		}
 	}

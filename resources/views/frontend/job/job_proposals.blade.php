@@ -165,12 +165,17 @@
                                     <div class="GridLex-col-2_xs-4_xss-12" >
                                   
                                     <?php
-                                        if ($job_proposal->is_awarded == 1) {
+
+                                        if ($job_proposal->is_awarded == 1 && $job_proposal->job_status == 'completed') {
 
                                     ?>
-                                        <span >Paid</span>
+                                        <span >Completed</span>
                                     <?php
-                                        } else {
+                                        } else if ($job_proposal->is_awarded == 1 && $job_proposal->job_status == 'in-progress') {
+                                    ?>
+                                        <span onclick="askRefund(<?php echo $job_proposal->aj_id;?>)">Ask Refund</span>
+                                    <?php
+                                        } else if ($job_proposal->is_awarded == 0){
                                     ?>
 
                                         <!-- <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
@@ -236,6 +241,17 @@
         mainAjax('', request_data, 'POST', fillForm);
 
         function fillForm(data){
+            console.log(data);
+        } 
+
+    }
+
+    function askRefund(proposalId) {
+        pageURI = 'paypal/ask-refund';
+        request_data = {aj_id:proposalId}
+        mainAjax('', request_data, 'POST', fillData);
+
+        function fillData(data){
             console.log(data);
         } 
 

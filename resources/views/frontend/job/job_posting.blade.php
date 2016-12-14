@@ -283,16 +283,7 @@
 										<?php
 											$content = "Post Your Job";
 											if(isset($job_data->id)){
-												if ($isAdminUser == 1) {
-													if($job_data->is_admin_job == 0){
-														$content = "Update User Job";	
-													} else {
-														$content = "Update Your Job";	
-													}
-												} else {
-													$content = "Update Your Job";	
-												}
-												
+												$content = "Update Job";
 											}
 										?>
 										<a id="post_job" href="#_" class="btn btn-primary btn-lg"><?php echo $content;?></a>

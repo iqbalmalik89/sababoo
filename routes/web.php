@@ -123,6 +123,7 @@ Route::match(['get', 'post'], '/job/user_applied_jobs', ['uses' => 'UI\JobPostCo
 Route::match(['get', 'post'], '/job/job_proposals', ['uses' => 'UI\JobPostController@jobProposalsList']);
 // PayPal
 Route::post('job/paypal/payment',['uses'=>'UI\JobPostController@payment']);
+Route::post('job/paypal/ask-refund',['uses'=>'UI\JobPostController@askRefund']);
 Route::match(['get', 'post'], '/transactions', ['uses'=>'UI\JobPostController@userTransactions']);
 
 /************************************NETWORK*********************************************************/
@@ -214,6 +215,7 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	// Jobs Routes
 	Route::get('/job/list',['as'=>'job:list', 'uses'=>'JobController@all'])->middleware(['acl.admin:job.list']);
 	Route::put('/job/update-status',['as'=>'job.update-status', 'uses'=>'JobController@updateStatus'])->middleware(['acl.admin:job.update']);
+	Route::put('/job/update-job-status',['as'=>'job.update-job-status', 'uses'=>'JobController@updateJobStatus'])->middleware(['acl.admin:job.update']);
 	Route::delete('/job/remove',['as'=>'job.remove', 'uses'=>'JobController@remove'])->middleware(['acl.admin:job.delete']);
 
 	// Role Routes

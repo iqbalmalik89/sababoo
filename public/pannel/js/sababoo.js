@@ -1392,6 +1392,7 @@ Sababoo.App.Jobs = (function(){
 		var page 			= page || 1;
 		var pagination 		= true;
 		var filterByStatus 	= $('#job_filter_by_status').val() || '';
+		var filterByJobStatus 	= $('#job_filter_by_job_status').val() || '';
 		var keyword 		= $('#job_search_keyword').val() || '';
 		var limit 			= $('#job-list-limit').val() || 0;
 		var data 			= {};
@@ -1402,6 +1403,7 @@ Sababoo.App.Jobs = (function(){
 		data.limit 			= limit;
 		data.keyword 		= keyword;
 		data.filter_by_status = filterByStatus;
+		data.filter_by_job_status = filterByJobStatus;
 		
 		var request = $.ajax({
 			url: jobApiUrl+'/list?page='+page,
@@ -1430,6 +1432,7 @@ Sababoo.App.Jobs = (function(){
 		                                        <th> Type </th>\
 		                                        <th> Salary </th>\
 		                                        <th> Status </th>\
+		                                        <th> Job Status </th>\
 		                                        <th> Action</th>\
 		                                    </tr>');
 
@@ -1439,6 +1442,10 @@ Sababoo.App.Jobs = (function(){
 					var archiveClass = '';					
 					var is_active = '';
 					var statusText = 'N/A';
+
+					var completeText = '-';	
+					var completeClass = '';					
+					var is_complete = '';
 
 					if (typeof job.industry_name != 'undefined' && typeof job.industry_name !== null && job.industry_name!='' ) {
 						job.industry_name = job.industry_name;
@@ -1450,6 +1457,12 @@ Sababoo.App.Jobs = (function(){
 						job.name = job.name;
 					} else {
 						job.name = 'N/A';									
+					}
+
+					if (typeof job.job_status != 'undefined' && typeof job.job_status !== null && job.job_status!='' ) {
+						job.job_status = job.job_status;
+					} else {
+						job.job_status = 'N/A';									
 					}
 
 					if (typeof job.user_name != 'undefined' && typeof job.user_name !== null && job.user_name!='' ) {
@@ -1484,6 +1497,19 @@ Sababoo.App.Jobs = (function(){
 						}
 					}
 					
+					if (typeof job.job_status != 'undefined' && typeof job.job_status !== null ) {
+						if(job.job_status == 'COMPLETED'){
+							is_complete = 'in-progress';
+							completeText = 'IN-PROGRESS';
+							completeClass = 'blue';
+						}else if (job.job_status == 'IN-PROGRESS'){
+							is_complete = 'completed';
+							completeText = 'Complete';
+							completeClass = 'green-jungle';
+						}
+					}
+
+
 					var can_update = '';
 					if ($.inArray(14, hidden_operations) > -1) {
 						can_update = '<a href="'+config.getSiteUrl()+'/job/post?id='+job.id+'" target="_blank" class="btn btn-outline btn-circle dark btn-sm black">\
@@ -1493,7 +1519,7 @@ Sababoo.App.Jobs = (function(){
 					}
 
 					var can_update_status = '';
-					if ($.inArray(14, hidden_operations) > -1) {
+					if ($.inArray(14, hidden_operations) > -1  && job.job_status != 'IN-PROGRESS') {
 						can_update_status = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' job_status" data-id="'+job.id+'" data-status="'+is_active+'">\
                                         <i class="fa fa-trash-o"></i> '+archiveText+' </a>';
 					} else {
@@ -1501,13 +1527,20 @@ Sababoo.App.Jobs = (function(){
 					}
 
 					var can_delete = '';
-					if ($.inArray(15, hidden_operations) > -1) {
+					if ($.inArray(15, hidden_operations) > -1 && job.job_status != 'IN-PROGRESS') {
 						can_delete = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_job" data-id="'+job.id+'">\
                                         <i class="fa fa-trash-o"></i> Delete </a>';
 					} else {
 						can_delete = '';
 					}
 
+					var markComplete = '';
+					if (job.job_status != 'PENDING') {
+						markComplete = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+completeClass+' job_complete" data-id="'+job.id+'" data-status="'+is_complete+'">\
+                                        <i class="fa fa-trash-o"></i> '+completeText+' </a>';
+					} else {
+						markComplete = '';
+					}
 					html += '<tr>\
                                 <td class="highlight"> '+job.id+' </td>\
                                 <td class="hidden-xs"> '+job.name+' </td>\
@@ -1516,12 +1549,14 @@ Sababoo.App.Jobs = (function(){
                                 <td> '+job.type+' </td>\
                                 <td> '+job.salary+' </td>\
                                 <td> '+statusText+' </td>\
+                                <td> '+job.job_status+' </td>\
                                 <td>\
                                 	<a href="'+config.getAppUrl()+'/job?id='+job.id+'" class="btn btn-outline btn-circle yellow btn-sm">\
                                         <i class="fa fa-eye"></i> View </a>\
                                     '+can_update+'\
                                     '+can_delete+'\
                                     '+can_update_status+'\
+                                    '+markComplete+'\
                                 </td>\
                             </tr>';
 
@@ -1585,6 +1620,21 @@ Sababoo.App.Jobs = (function(){
 					$('#update_status_text').text('In-Activate');
 				}
 				$('#updateStatusConfirmation').modal('show');
+		    });
+
+		    $('.job_complete').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var job_id  = $(this).attr('data-id');
+				var status  = $(this).attr('data-status');
+				$('#hidden_action_job_id').val(job_id);
+				$('#hidden_action_job_status').val(status);
+
+				if (status == 'completed') {
+					$('#update_job_status_text').text('Completed');
+				} else if (status == 'in-progress') {
+					$('#update_job_status_text').text('In-Progress');
+				}
+				$('#updateJobStatusConfirmation').modal('show');
 		    });
 		});
 
@@ -1733,9 +1783,77 @@ Sababoo.App.Jobs = (function(){
 		});		
 	};
 
+	var updateJobStatus = function (){
+		
+		var jsonData = {};
+		jsonData.id = $('#hidden_action_job_id').val();
+		jsonData.status = $('#hidden_action_job_status').val();
+
+		var request = $.ajax({
+			url: jobApiUrl+'/update-job-status',
+			data: jsonData,
+			type: 'put',
+			dataType:'json'
+		});
+
+		$('#job_status_btn2').addClass('prevent-click');
+		$('#status_submit_loader2').show();
+
+		request.done(function(data){
+			
+			$('#status_submit_loader2').hide();
+			
+			if (data.success) {
+				var html = 'Job status has been updated successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#status_msg_div2').removeClass('alert-danger');
+		 		$('#status_msg_div2').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#job_status_btn2').removeClass('prevent-click');
+				    $('#updateJobStatusConfirmation').modal('hide');
+				    Sababoo.App.Jobs.list();		
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while updating job status.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#job_status_btn2').removeClass('prevent-click');
+				$('#status_msg_div2').removeClass('alert-success');
+				$('#status_msg_div2').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $('#status_msg_div2').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#job_status_btn2').removeClass('prevent-click');
+			$('#status_submit_loader2').hide();
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while updating job status.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#status_msg_div2').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
 	return {
 		list:list,
 		updateStatus:updateStatus,
+		updateJobStatus:updateJobStatus,
 		remove:remove
 	}
 }());

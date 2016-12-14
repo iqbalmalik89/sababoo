@@ -64,12 +64,62 @@ class JobController extends Controller {
             $output = ['error' => ['code' => $code, 'messages' => [$validator->messages()->first()]]];
         } else {
             $response = $this->_repository->updateStatus($input);
-            if ($response) {
+            if ($response == 'success') {
                 $code = 200;
                 $output = ['success'=>['code'=>$code,'messages'=>['Status has been updated successfully.']]];
+            } else if ($response == 'cannot_inactivate') {
+                $code = 401;
+                $output = ['error' => ['code'=>$code,'messages'=>['Sorry you cannot in-activate this job.']]];
             } else {
                 $code = 406;
                 $output = ['error'=>['code'=>$code,'messages'=>['An error occurred while updating status.']]];
+            }
+        }
+
+        return response()->json($output, $code);
+    }
+
+    /**
+     *
+     * This method will change job status (active, inactive)
+     * and will return output back to client as json
+     *
+     * @access public
+     * @return mixed
+     *
+     * @author Bushra Naz
+     *
+     **/
+    public function updateJobStatus(Request $request) {
+
+        // input parameters
+        $input = $request->only('id', 'status');
+
+        // define validation rules
+        $rules = ['id'      => 'required | exists:job_post,id',
+                  'status'  => 'required |in:in-progress,completed',
+                ];
+
+        $messages = [
+                'id.required'           => 'Please enter job id.',
+                'id.exists'             => 'Job not found.',
+                'status.required'       => 'Please enter status.',
+                'status.in'             => 'Status can only be in-progress or completed.'
+        ];
+
+        $validator = Validator::make($input,$rules, $messages);
+
+        if($validator->fails()){
+            $code = 406;
+            $output = ['error' => ['code' => $code, 'messages' => [$validator->messages()->first()]]];
+        } else {
+            $response = $this->_repository->updateJobStatus($input);
+            if ($response == 'success') {
+                $code = 200;
+                $output = ['success'=>['code'=>$code,'messages'=>['Job status has been updated successfully.']]];
+            } else {
+                $code = 406;
+                $output = ['error'=>['code'=>$code,'messages'=>['An error occurred while updating job status.']]];
             }
         }
 
@@ -108,9 +158,12 @@ class JobController extends Controller {
         } else {
             $response = $this->_repository->deleteById($input['id']);
 
-            if($response == true) {   
+            if($response == 'success') {   
                 $code = 200;
                 $output = ['success'=>['code'=>$code,'messages'=>['Job has been deleted successfully.']]];
+            }  else if ($response == 'cannot_delete') {
+                $code = 401;
+                $output = ['error' => ['code'=>$code,'messages'=>['Sorry you cannot remove this job.']]];
             } else {
                 $code = 405;
                 $output = ['error' => ['code'=>$code,'messages'=>['An error occured while deleting this job.']]];
@@ -176,7 +229,7 @@ class JobController extends Controller {
      **/
     public function all(Request $request) {
 
-        $input = $request->only('pagination','keyword','limit','filter_by_status');
+        $input = $request->only('pagination','keyword','limit','filter_by_status', 'filter_by_job_status');
 
         $rules = ['pagination' => 'required'];
 
