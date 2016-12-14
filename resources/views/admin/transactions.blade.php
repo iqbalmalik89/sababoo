@@ -31,23 +31,20 @@
                     <div>
                         <label>Search: <input type="search" class="form-control input-sm input-small input-inline" placeholder="" aria-controls="sample_2" id="transaction_search_keyword"></label>
 
-                        <!-- <div class="margin-left-10px pull-right">
-                            <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 date">
-                                <div class="form-group form-lg">
-                                    <label>End Date</label>
-                                    <input class="span2" size="16" type="text" id="end_date" name="end_date">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="margin-left-10px pull-right">
-                            <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 date">
-                                <div class="form-group form-lg">
-                                    <label>Start Date</label>
-                                    <input class="span2" size="16" type="text" id="start_date" name="start_date">
-                                </div>
-                            </div>
-                        </div> -->
+                        <div class="form-actions margin-left-10px pull-right">
+                            <a href="javascript:;" id="transaction_filter_date_btn"><button class="btn green" type="button">Go<i class="fa fa-arrow-right fa-fw"></i> </button></a>
+                        </div>  
 
+                        <div class="margin-left-10px pull-right">
+                        
+                            <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" id="end_date" name="end_date" placeholder="Select end date">
+                            <!-- <span class="help-block"> Select end date </span> -->
+                        </div>
+
+                        <div class="margin-left-10px pull-right">
+                            <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" id="start_date" name="start_date" placeholder="Select start date">
+                            <!-- <span class="help-block"> Select start date </span> -->
+                        </div>
                         
                     </div>
                 </div>
@@ -108,11 +105,24 @@
 
 @endsection
 @section('scripts')
+
+ <!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="{{url('pannel/assets/global/plugins/moment.min.js')}}" type="text/javascript"></script>
+<script src="{{url('pannel/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js')}}" type="text/javascript"></script>
+<script src="{{url('pannel/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}" type="text/javascript"></script>
+<script src="{{url('pannel/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
+<script src="{{url('pannel/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+
+
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="{{url('pannel/assets/pages/scripts/components-date-time-pickers.min.js')}}" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
 <script type="text/javascript">
 $(document).ready(function() {
     Sababoo.App.Transaction.list();
-    //$('#start_date').datepicker();
-    //$('#end_date').datepicker();
+    $('#start_date').datepicker();
+    $('#end_date').datepicker();
 });
 </script> 
 @endsection

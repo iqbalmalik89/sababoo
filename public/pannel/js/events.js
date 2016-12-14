@@ -247,3 +247,7 @@ $('#transaction_search_keyword').keypress(function(event){
     }
 });
 
+$('#transaction_filter_date_btn').click(function(){
+    Sababoo.App.Transaction.list();
+});
+
