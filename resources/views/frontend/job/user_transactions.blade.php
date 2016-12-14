@@ -53,7 +53,7 @@
                         <span class="labeling" style="width: 195px; margin-top: -12px;">Search your transactions</span>
                         <div class="row">
 
-                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 input-append date"  data-date-format="dd-mm-yyyy">
+                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 input-append date date-picker"  data-date-format="dd-mm-yyyy">
                                     <div class="form-group form-lg">
                                         <label>Start Date</label>
                                         <input class="span2" size="16" type="text" id="start_date" name="start_date">
@@ -61,7 +61,7 @@
                                 </div>
 
 
-                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 input-append date" data-date-format="dd-mm-yyyy">
+                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 input-append date date-picker" data-date-format="dd-mm-yyyy">
                                  <div class="form-group form-lg">
                                         <label>End Date</label>
                                         <input class="span2" size="16" type="text" id="end_date" name="end_date">
@@ -181,6 +181,10 @@
     $(document).ready(function () {
         $('#start_date').datepicker();
         $('#end_date').datepicker();
+
+        $('.date-picker').on('changeDate', function(ev){
+            $(this).datepicker('hide');
+        });
     });
 
     

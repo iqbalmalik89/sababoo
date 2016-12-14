@@ -123,6 +123,11 @@ $(document).ready(function() {
     Sababoo.App.Transaction.list();
     $('#start_date').datepicker();
     $('#end_date').datepicker();
+
+    $('.date-picker').on('changeDate', function(ev){
+        $(this).datepicker('hide');
+    });
+
 });
 </script> 
 @endsection
