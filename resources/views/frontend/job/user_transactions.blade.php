@@ -34,7 +34,7 @@
             <ol class="breadcrumb-list booking-step">
                 
                 <li><a href="/home">Home</a></li>
-                <li><a href="/transactions">Transactions</a></li>
+                <li><a href="/transactions">Transaction History</a></li>
             </ol>
 
         </div>
@@ -97,7 +97,7 @@
 
                         <div class="section-title">
 
-                            <h2>Transactions History</h2>
+                            <h2>Transaction History</h2>
 
                         </div>
 

@@ -136,7 +136,7 @@
                             </li>
 
                             <li class="">
-                                <a href="/transactions">Transactions</a>
+                                <a href="/transactions">Transaction History</a>
                             </li>
 
                         </ul>
