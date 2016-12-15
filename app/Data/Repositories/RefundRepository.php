@@ -22,25 +22,11 @@ class RefundRepository {
 
 	protected $_cacheKey = 'refund-'; 
 
-	private $_apiContext;
 	public function __construct(JobPost $jobPost,Refund $refund, User $user, Payment $payment){
 		$this->job_model 			= $jobPost;
 		$this->refund_model 		= $refund;
 		$this->user_model 			= $user;
 		$this->payment_model 		= $payment;
-
-		$this->_apiContext = PayPal::ApiContext(
-            config('services.paypal.client_id'),
-            config('services.paypal.secret'));
-
-        $this->_apiContext->setConfig(array(
-            'mode' => env('PAYPAL_MODE'),
-            'service.EndPoint' => env('PAYPAL_SERVICE_ENDPOINT'),
-            'http.ConnectionTimeOut' => 30,
-            'log.LogEnabled' => true,
-            'log.FileName' => storage_path('logs/paypal.log'),
-            'log.LogLevel' => 'FINE'
-        ));
 
 	}
 
