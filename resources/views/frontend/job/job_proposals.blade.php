@@ -235,7 +235,7 @@
 </div>
 
 <!-- Start Rec Modal -->
-<div id="refund_modal" class="modal fade in login-box-wrapper" tabindex="-1" data-width="550" style="display:none; margin-top:-18%;" data-backdrop="static" data-keyboard="false" data-replace="true">
+<div id="refund_modal" class="modal fade in login-box-wrapper" tabindex="-1" data-width="550" style="display:none; margin-top:-28%;" data-backdrop="static" data-keyboard="false" data-replace="true">
 
     <input type="hidden" name="hidden_proposal_id" id="hidden_proposal_id" value="">
     <div class="modal-header">
@@ -269,7 +269,7 @@
     </div>
 
     <div class="modal-footer text-center">
-        <img class="button_spinners" style="display:none" src="{{URL::to('pannel/images/loader.gif')}}" id="submit_loader">
+        <img class="button_spinners" style="display:none; margin-left: 166px; margin-bottom: -30px;" src="{{URL::to('pannel/images/loader.gif')}}" id="submit_loader">
         <button type="button" class="btn btn-primary" onclick="askRefund()">Submit</button>
         <button type="button" data-dismiss="modal" class="btn btn-primary btn-inverse" onclick="dismissModal($('#refund_modal'));">Close</button>
     </div>
@@ -301,6 +301,12 @@
 
     function showAskRefund(proposalId) {
         $('#hidden_proposal_id').val(proposalId);
+        $('#refund_amount').val('');
+        $('#refund_amount').parent().removeClass('has-error');
+        $('#refund_reason').val('');
+        $('#refund_reason').parent().removeClass('has-error');
+        $('#submit_loader').hide();
+        $('#msg_refund').removeClass('alert-danger, alert-success').html('').hide();
         $('#refund_modal').show();
     }
 
