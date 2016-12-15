@@ -14,6 +14,8 @@ use  BusinessObject\User;
 use  BusinessObject\Language;
 use  BusinessObject\JobPost;
 use  App\Models\AppliedJob;
+use  App\Models\Refund;
+use  App\Models\Payment;
 use Validator;
 use DB;
 use Paypal as PayPal;
@@ -211,7 +213,7 @@ class JobPostServiceProvider
 
 
         $job = DB::table('job_post')
-            ->select('job_post.id as id','job_post.userid as user_id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','job_post.job_status as job_status','applied_jobs.id as aj_id','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message','applied_jobs.cost as aj_cost','applied_jobs.user_id as aj_userid','applied_jobs.is_awarded as is_awarded')
+            ->select('job_post.id as id','job_post.userid as user_id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','job_post.refund_requested','job_post.job_status as job_status','applied_jobs.id as aj_id','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message','applied_jobs.cost as aj_cost','applied_jobs.user_id as aj_userid','applied_jobs.is_awarded as is_awarded')
             ->join('applied_jobs', 'job_post.id', '=','applied_jobs.job_id' )
             ->where($matchThese)
             ->Where("job_post.id", "=", "$job_id")
@@ -362,6 +364,91 @@ class JobPostServiceProvider
        }
            
 
+   }
+
+   public function askRefund($post_data){
+
+      $currentDate = date('Y-m-d');
+
+       $applied_job = AppliedJob::where(array('id'=>$post_data['aj_id']))->first();
+       $paymentInfo = Payment::where('job_id', '=', $applied_job->job_id)->where('user_id', '=', $post_data['user_id'])->first();
+
+       if ($paymentInfo != NULL) {
+          if ($post_data['amount'] > $paymentInfo->payment_amount ) {
+              return array(
+                  'code' => '406',
+                  'status' => 'error',
+                  'msg' => "Sorry! You have asked for the amount greater then you have paid.",
+
+              );
+          } else {
+              $jobRefund = new Refund;
+               $jobRefund->payment_id = $paymentInfo->id;
+               $jobRefund->job_id = $paymentInfo->job_id;
+               $jobRefund->amount = $post_data['amount'];
+               $jobRefund->reason = $post_data['reason'];
+               $jobRefund->requested_by = $post_data['user_id'];
+               $jobRefund->created_at = $currentDate;
+               if ($jobRefund->save()){
+
+                $receivers_data = User::where(array('is_admin'=>1))->get();
+                 $sender_data = User::where(array('id'=>$post_data['user_id']))->first();
+                 #$data['to']  = $receiver_data->email;
+                 if (count($receivers_data) > 0) {
+                    $job_post = JobPost::where(array('id'=>$applied_job->job_id))->first();
+
+                    $subject = "Sababoo's - Refund request by " . $sender_data->email;
+                    $from = "noreply@sababoo.com";
+
+                    foreach ($receivers_data as $key => $receiver_data) {
+                      $data = [
+                         "from"           => $from,
+                         "to"             => $receiver_data->email,
+                         "subject"        => $subject,
+                         "sender_email"   => $sender_data->email,
+                         "SERVER_PATH"    => env('URL'),
+                         "job_id"         =>  $applied_job->job_id,
+                         "user_id"        =>  $post_data['user_id'],
+                         "job_name"       =>  $job_post->name
+
+                     ];
+
+                     $mail_response = Helper::sendEmail(
+                         $data,
+                         ['email_templates/job_refund_html', 'email_templates/job_refund_text']
+                     );
+                    }
+                     
+                 }
+
+                 $job_post->refund_requested = 1;
+                 $job_post->save();
+                 Cache::forget('job-'.$job_post->id);
+                 return array(
+                    'code' => '200',
+                    'status' => 'ok',
+                    'msg' => "Refund request has been subimtted successfully.",
+                );
+               } else {
+                    return array(
+                      'code' => '406',
+                      'status' => 'error',
+                      'msg' => "An error occured.",
+
+                  );
+               } 
+          }
+          
+       } else {
+          return array(
+                  'code' => '404',
+                  'status' => 'error',
+                  'msg' => "Payment not found.",
+
+              );
+       }
+       
+              
    }
 
    public function payment($input)

@@ -247,5 +247,8 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	// Transactions Routes
 	Route::get('/transaction/list',['as'=>'transaction:list', 'uses'=>'TransactionController@all'])->middleware(['acl.admin:transaction.list']);
 
+	// Refunds Routes
+	Route::get('/refund/list',['as'=>'refund:list', 'uses'=>'RefundController@all'])->middleware(['acl.admin:refund.list']);
+	Route::put('/refund/update-status',['as'=>'refund.update-status', 'uses'=>'RefundController@updateStatus'])->middleware(['acl.admin:refund.update']);
 });
 });

@@ -260,3 +260,17 @@ $('#transaction_filter_date_btn').click(function(){
     Sababoo.App.Transaction.list();
 });
 
+// refunds
+$('#refund-list-limit').change(function(){
+    Sababoo.App.Refunds.list();
+});
+
+$('#refund_filter_date_btn').click(function(){
+    Sababoo.App.Refunds.list();
+});
+
+$('#refund_status_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Refunds.updateStatus();
+});
+

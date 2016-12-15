@@ -3354,3 +3354,236 @@ Sababoo.App.Transaction = (function() {
 	}
 }());
 
+/* Refunds */
+Sababoo.App.Refunds = (function() {
+
+	var config = Sababoo.Config;
+	var refundApiUrl = config.getApiUrl()+'refund';
+
+	var list = function (page) {
+
+		$('.spinner-section').show();
+		var page 			= page || 1;
+		var pagination 		= true;
+		var limit 			= $('#refund-list-limit').val() || 0;
+		var filterByStatus 	= $('#refunds_filter_by_status').val() || '';
+		var start_date 		= $('#start_date').val() || '';
+		var end_date 		= $('#end_date').val() || '';
+		var data 			= {};
+		var total_refunds 	= $('#total_refunds');
+
+		data.pagination 	= pagination;
+		data.page 			= page;
+		data.limit 			= limit;
+		data.start_date 	= start_date;
+		data.end_date 		= end_date;
+		data.filter_by_status	= filterByStatus;
+		
+		var request = $.ajax({
+			url: refundApiUrl+'/list?page='+page,
+			data:data,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			$('.spinner-section').hide();
+			var html = '';
+			var paginationShow = '';
+			var refunds = data.data;
+			var classDisabledPrev = "";
+			var classDisabledNext = "";
+			var paginations = data.pagination;
+			total_refunds.html(paginations.total);
+
+			if(refunds.length > 0) {
+
+				$('#refunds_list_head').html('<tr>\
+		                                        <th> ID </th>\
+		                                        <th> Job Name</th>\
+		                                        <th> Requested User </th>\
+		                                        <th> Payment Id </th>\
+		                                        <th> Payment Amount</th>\
+		                                        <th> Payment Date</th>\
+		                                        <th> Status</th>\
+		                                        <th> Action</th>\
+		                                    </tr>');
+
+				$(refunds).each(function(index, refund){
+
+					if (typeof refund.job_name != 'undefined' && typeof refund.job_name !== null && refund.job_name!='' ) {
+						refund.job_name = refund.job_name;
+					} else {
+						refund.job_name = 'N/A';									
+					}
+
+					if (typeof refund.requested_user_name != 'undefined' && typeof refund.requested_user_name !== null && refund.requested_user_name!='' ) {
+						refund.requested_user_name = refund.requested_user_name;
+					} else {
+						refund.requested_user_name = 'N/A';									
+					}
+
+					var action = '';
+					if (refund.status == 'PENDING') {
+						action = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm green-jungle take_action" data-id="'+refund.id+'" data-status="approved">Approve</a>\
+						<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red take_action" data-id="'+refund.id+'" data-status="rejected">Reject</a>';
+					} /*else if (refund.status == 'REJECTED') {
+						action = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm green-jungle take_action" data-id="'+refund.id+'" data-status="approved">Approve</a>';
+					}*/ else if (refund.status == 'APPROVED' || refund.status == 'REJECTED') {
+						action = 'Action Taken';
+					}
+					html += '<tr>\
+                                <td class="highlight"> '+refund.id+' </td>\
+                                <td class="hidden-xs"> '+refund.job_name+' </td>\
+                                <td> '+refund.requested_by_name+' </td>\
+                                <td> '+refund.payment.payment_id+' </td>\
+                                <td> $'+refund.payment.payment_amount+' </td>\
+                                <td> '+refund.payment.createdtime+' </td>\
+                                <td> '+refund.status+' </td>\
+                                <td>'+action+'</td>\
+                            </tr>';
+
+				});
+			} else {
+				$('#refunds_list_head').html('');
+				html  += '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>Nothing Here Yet.</h3>\
+                    <p>We couldn\'t find any record related to the defined criteria. Please try again later.</p></div>';
+			}
+
+			$('#refunds_list').html(html);
+
+            if(data.pagination.current >= data.pagination.next && data.pagination.current==1) {
+				$('.general-pagination').hide();
+				$('.transaction-pagination-limit').hide();
+			} else {
+				if(data.pagination.current==data.pagination.first){
+					classDisabledPrev="disable";
+				}
+				if(data.pagination.current==data.pagination.last){
+					classDisabledNext="disable";
+				}
+				paginationShow+='<li >\
+								      <a class="general-pagination-click  '+classDisabledPrev+'" data-page='+paginations.previous+' href="javascript:;">Previous</a>\
+								    </li>';
+				paginationShow+= '<li >\
+								      <a class=" general-pagination-click '+classDisabledNext+'" data-page='+paginations.next+' href="javascript:;">Next</a>\
+								    </li>';
+				paginationShow+= '<li class="hidden-xs">Showing '+data.pagination.to+' - '+data.pagination.from+' of total '+data.pagination.total+' records</li>';
+
+				$('.general-pagination').html(paginationShow);
+				$('.general-pagination').show();
+				$('.general-pagination-limit').show();
+			}
+
+			$('.general-pagination-click').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var page  = $(this).data('page');
+				Sababoo.App.Refunds.list(page);
+		    });
+
+		    $('.take_action').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var refund_id  = $(this).attr('data-id');
+				var status  = $(this).attr('data-status');
+				$('#hidden_action_request_id').val(refund_id);
+				$('#hidden_action_request_status').val(status);
+
+				if (status == 'approved') {
+					$('#update_status_text').text('Approved');
+				} else if (status == 'rejected') {
+					$('#update_status_text').text('Reject');
+				}
+				$('#updateStatusConfirmation').modal('show');
+		    });
+		});
+
+		request.fail(function(jqXHR, textStatus){
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while retrieving refunds.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+
+			var html = '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>'+error+'</h3></div>';
+            $('#refunds_list').html(html);
+		});		
+	};
+
+	var updateStatus = function (){
+		
+		var jsonData = {};
+		jsonData.id = $('#hidden_action_request_id').val();
+		jsonData.status = $('#hidden_action_request_status').val();
+
+		var request = $.ajax({
+			url: refundApiUrl+'/update-status',
+			data: jsonData,
+			type: 'put',
+			dataType:'json'
+		});
+
+		$('#refund_status_btn').addClass('prevent-click');
+		$('#status_submit_loader').show();
+
+		request.done(function(data){
+			
+			$('#status_submit_loader').hide();
+			
+			if (data.success) {
+				var html = 'Status has been updates successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#status_msg_div').removeClass('alert-danger');
+		 		$('#status_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#refund_status_btn').removeClass('prevent-click');
+				    $('#updateStatusConfirmation').modal('hide');
+				    Sababoo.App.Refunds.list();		
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while updating request status.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#refund_status_btn').removeClass('prevent-click');
+				$('#status_msg_div').removeClass('alert-success');
+				$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $('#status_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#refund_status_btn').removeClass('prevent-click');
+			$('#status_submit_loader').hide();
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while updating request status.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	return {
+		list:list,
+		updateStatus:updateStatus
+	}
+}());
+

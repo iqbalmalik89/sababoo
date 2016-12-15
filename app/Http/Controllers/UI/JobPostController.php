@@ -291,6 +291,16 @@ class JobPostController extends Controller
 
     }
 
+    public function askRefund(Request $request){
+      if (Auth::user() != NULL) {
+        $this->logged_user = Auth::user();
+      }
+      $post_data= $request->all();
+      $post_data['user_id']=$this->logged_user->id;
+     return $this->jobpostServiceProvider->askRefund($post_data);
+
+    }
+
     public function userTransactions(Request $request){
         if (Auth::user() != NULL) {
           $this->logged_user = Auth::user();

@@ -155,7 +155,7 @@ class HomeController extends Controller
         $appliedJob->is_awarded = 1;
         $appliedJob->save();
 
-        JobPost::where('id', '=', $appliedJob->job_id)->update(['is_paid'=>1, 'job_status'=>'in-progress']);
+        JobPost::where('id', '=', $appliedJob->job_id)->update(['job_status'=>'in-progress']);
         Cache::forget('job-'.$appliedJob->job_id);
       }
         return view('payments.success');

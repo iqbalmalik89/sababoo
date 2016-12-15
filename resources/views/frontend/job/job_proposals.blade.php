@@ -163,19 +163,25 @@
 
                                     </div>
                                     <div class="GridLex-col-2_xs-4_xss-12" >
-                                  
+                                    
                                     <?php
 
-                                        if ($job_proposal->is_awarded == 1 && $job_proposal->job_status == 'completed') {
+                                        if ($job_proposal->refund_requested == 1) {
+
+                                    ?>
+                                        <span >Refund Requested</span>
+                                    <?php
+
+                                        } else if ($job_proposal->job_status == 'completed') {
 
                                     ?>
                                         <span >Completed</span>
                                     <?php
-                                        } else if ($job_proposal->is_awarded == 1 && $job_proposal->job_status == 'in-progress') {
+                                        } else if ($job_proposal->job_status == 'in-progress') {
                                     ?>
-                                        <span onclick="askRefund(<?php echo $job_proposal->aj_id;?>)">Ask Refund</span>
+                                        <span onclick="showAskRefund(<?php echo $job_proposal->aj_id;?>)">Ask Refund</span>
                                     <?php
-                                        } else if ($job_proposal->is_awarded == 0){
+                                        } else if ($job_proposal->job_status == 'pending'){
                                     ?>
 
                                         <!-- <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
@@ -228,6 +234,50 @@
 
 </div>
 
+<!-- Start Rec Modal -->
+<div id="refund_modal" class="modal fade in login-box-wrapper" tabindex="-1" data-width="550" style="display:none; margin-top:-18%;" data-backdrop="static" data-keyboard="false" data-replace="true">
+
+    <input type="hidden" name="hidden_proposal_id" id="hidden_proposal_id" value="">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="dismissModal($('#refund_modal'));">&times;</button>
+        <h4 class="modal-title text-center">Ask Refund</h4>
+    </div>
+
+    <div id="msg_refund" class="alert" style="display:none;"></div>
+
+    <div class="modal-body">
+        <div class="row gap-20">
+
+
+            <div class="col-sm-12 col-md-12">
+
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="text" class="form-control" name="refund_amount" id="refund_amount"/>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Reason</label>
+                    <textarea class="form-control" name="refund_reason" id="refund_reason"></textarea>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer text-center">
+        <img class="button_spinners" style="display:none" src="{{URL::to('pannel/images/loader.gif')}}" id="submit_loader">
+        <button type="button" class="btn btn-primary" onclick="askRefund()">Submit</button>
+        <button type="button" data-dismiss="modal" class="btn btn-primary btn-inverse" onclick="dismissModal($('#refund_modal'));">Close</button>
+    </div>
+
+</div>
+
+<!-- End of Rec Modal -->
+
 <script>
 
     var pageURI = '';
@@ -235,6 +285,9 @@
     var isScrLock = false;
     var html = '';
 
+    function dismissModal(modal){
+        modal.hide();
+    }
     function submitPayment(proposalId) {
         pageURI = 'paypal/payment';
         request_data = {aj_id:proposalId}
@@ -246,18 +299,56 @@
 
     }
 
-    function askRefund(proposalId) {
-        pageURI = 'paypal/ask-refund';
-        request_data = {aj_id:proposalId}
-        mainAjax('', request_data, 'POST', fillData);
+    function showAskRefund(proposalId) {
+        $('#hidden_proposal_id').val(proposalId);
+        $('#refund_modal').show();
+    }
 
-        function fillData(data){
-            console.log(data);
-        } 
+    function askRefund() {
+        var proposalId = $('#hidden_proposal_id').val();
+        var refund_amount = $('#refund_amount').val();
+        var refund_reason = $('#refund_reason').val();
+
+        var errors = [];
+        if (refund_amount == ''){
+            errors.push('Please enter amount.');
+            $('#refund_amount').parent().addClass('has-error');
+        } else {
+            $('#refund_amount').parent().removeClass('has-error');
+        }
+
+        if (refund_reason == ''){
+            errors.push('Please enter reason.');
+            $('#refund_reason').parent().addClass('has-error');
+        } else {
+            $('#refund_reason').parent().removeClass('has-error');
+        }
+
+        if(errors.length < 1) { 
+            $('#submit_loader').show();
+
+            pageURI = 'paypal/ask-refund';
+            request_data = {aj_id:proposalId, amount:refund_amount, reason:refund_reason}
+            mainAjax('', request_data, 'POST', fillData);
+
+            function fillData(data){
+                $('#submit_loader').hide();
+                if(data.status == 'ok')
+                {
+                    $('#msg_refund').removeClass('alert-danger').addClass('alert-success').show().html(data.msg).delay(4000).fadeOut();
+                    window.location.reload();
+                }else if (data.status == 'error') {
+                    $('#msg_refund').addClass('alert-danger').html(data.msg).show();
+                }
+            } 
+
+        } else {
+            $('#msg_refund').addClass('alert-danger').html(errors[0]).show();
+        }
 
     }
-    $(document).ready(function () {
 
+    $(document).ready(function () {
     });
 
     

@@ -180,6 +180,7 @@ return [
         App\Providers\SkillsRepositoryServiceProvider::class,
         App\Providers\IndustryRepositoryServiceProvider::class,
         App\Providers\TransactionRepositoryServiceProvider::class,
+        App\Providers\RefundRepositoryServiceProvider::class,
     ],
 
     /*

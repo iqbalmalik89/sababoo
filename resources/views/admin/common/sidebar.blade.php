@@ -141,7 +141,7 @@
             <li class="nav-item start <?php if($page=='refunds'){ echo "active";} ?> {{$refund_view}}">
                 <a href="{{URL::to('admin/refunds')}}" class="nav-link nav-toggle">
                     <i class="icon-wrench"></i>
-                    <span class="title">Refunds</span>
+                    <span class="title">Refund Requests</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
                 </a>
