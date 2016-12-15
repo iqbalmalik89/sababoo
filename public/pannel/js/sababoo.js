@@ -3401,9 +3401,10 @@ Sababoo.App.Refunds = (function() {
 				$('#refunds_list_head').html('<tr>\
 		                                        <th> ID </th>\
 		                                        <th> Job Name</th>\
+		                                        <th> Reason </th>\
+		                                        <th> Amount </th>\
 		                                        <th> Requested User </th>\
 		                                        <th> Payment Id </th>\
-		                                        <th> Payment Amount</th>\
 		                                        <th> Payment Date</th>\
 		                                        <th> Status</th>\
 		                                        <th> Action</th>\
@@ -3435,9 +3436,10 @@ Sababoo.App.Refunds = (function() {
 					html += '<tr>\
                                 <td class="highlight"> '+refund.id+' </td>\
                                 <td class="hidden-xs"> '+refund.job_name+' </td>\
+                                <td> '+refund.reason+' </td>\
+                                <td> $'+refund.payment.payment_amount+' </td>\
                                 <td> '+refund.requested_by_name+' </td>\
                                 <td> '+refund.payment.payment_id+' </td>\
-                                <td> $'+refund.payment.payment_amount+' </td>\
                                 <td> '+refund.payment.createdtime+' </td>\
                                 <td> '+refund.status+' </td>\
                                 <td>'+action+'</td>\

@@ -11,7 +11,6 @@ use BusinessObject\User;
 use App\Models\Refund;
 use App\Models\Payment;
 use App\Helpers\Helper;
-use Paypal as PayPal;
 use \StdClass, Carbon\Carbon, \Session;
 
 class RefundRepository {
@@ -196,12 +195,6 @@ class RefundRepository {
 			$paymentInfo = $this->payment_model->find($refund->payment_id);
 
 			if ($paymentInfo != NULL) {
-
-				/*$refund  = PayPal::Refund();
-				$refund->setId($paymentInfo->payment_id);
-				$refund->setAmount($paymentInfo->payment_amount);
-				
-				print_r($refund);die;*/
 				$loggedInUserId = Auth::user()->id;
 
 				$refund->status = $input['status'];
