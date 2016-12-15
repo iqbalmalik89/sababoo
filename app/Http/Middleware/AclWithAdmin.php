@@ -77,13 +77,13 @@ class AclWithAdmin
                         // unauhtorized
                         \Log::info('Not Allowed');
 
-                        if ($is_api == true) {
+                        /*if ($is_api == true) {
                             $code = 401;
                             $output = ['error' => ['code'=>$code,'messages'=>['Operation not allowed.']]];
                             return response()->json($output, $code);
-                        } else {
+                        } else {*/
                             return redirect('/admin/401');
-                        }
+                        //}
                         
                     }
                     
