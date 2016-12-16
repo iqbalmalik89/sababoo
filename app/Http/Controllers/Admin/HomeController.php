@@ -161,12 +161,12 @@ class HomeController extends Controller {
         $user = NULL;
         if (isset($input['id']) && $input['id'] != '') {
             $user_id = $input['id'];
-            $user = $this->user_repo->findById($user_id);
+            $user = $this->user_repo->findById($user_id, false, true);
             if ($user == NULL) {
                 return redirect('/admin/404');
             }
         }
-
+       
         return view('admin.site-user',['title'=>$title, 
                             'user_id' => $user_id, 
                             'user'=>$user,
