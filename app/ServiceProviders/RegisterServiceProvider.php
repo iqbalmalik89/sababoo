@@ -53,8 +53,7 @@ class RegisterServiceProvider
               return array(
                   'code' => '200',
                   'status' => 'ok',
-                  'msg' => "Congratulations!
-User Account has been successfully created. Please activate your account through, clicking on the activation link provided in an email just sent to your registered email address. Thanks for Registering."
+                  'msg' => "Please check your email to activate your profile."
               );
           }
           return $response;
