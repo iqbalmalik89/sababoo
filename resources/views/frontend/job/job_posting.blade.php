@@ -57,7 +57,7 @@
 
 							<div class="section-title-02">
 								<h3 class="text-left">Post a Job</h3>
-								<p>Oh to talking improve produce in limited offices fifteen an. Wicket branch to answer do we. Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p>
+								<p></p>
 							</div>
 
 							<form id="frm_job_post" class="post-form-wrapper">
