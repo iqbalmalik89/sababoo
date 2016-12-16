@@ -43,7 +43,7 @@ class JobPostServiceProvider
 
     }
 
-    public function createJob($data){
+    public function createJob($data, $loggedUser){
         $job_deadline = $data['job_day']."-".$data['job_month']."-".$data['job_year'];
 
 
@@ -62,6 +62,38 @@ class JobPostServiceProvider
             if(isset($data['all_terms'])){ 		        $job->terms 		            = $data['all_terms']; }
             
             $job->job_deadline_date 		= $job_deadline;
+
+            if ($loggedUser->is_admin == 1) {
+              $job->moderated = 1;
+
+              // send an email to user
+              $receiver_data = User::where(array('id'=>$job->userid))->first();
+               $sender_data = User::where(array('id'=>$loggedUser->id))->first();
+               #$data['to']  = $receiver_data->email;
+               if ($receiver_data != NULL) {
+
+                  $subject = "Sababoo's - Job updated by " . $sender_data->email;
+                  $from = "noreply@sababoo.com";
+
+                    $data = [
+                       "from"           => $from,
+                       "to"             => $receiver_data->email,
+                       "subject"        => $subject,
+                       "sender_email"   => $sender_data->email,
+                       "SERVER_PATH"    => env('URL'),
+                       "job_id"         =>  $job->job_id,
+                       "job_name"       =>  $job->name
+
+                   ];
+
+                   $mail_response = Helper::sendEmail(
+                       $data,
+                       ['email_templates/job_update_html', 'email_templates/job_update_text']
+                   );
+                  
+                   
+               }
+            }
             $job->update();
             Cache::forget('job-'.$job->id);
             return array(

@@ -89,7 +89,7 @@ class JobPostController extends Controller
         $post_data['userid']= $this->logged_user->id;
         $post_data['is_admin']= $this->logged_user->is_admin;
 
-        return  $this->jobpostServiceProvider->createJob($post_data);
+        return  $this->jobpostServiceProvider->createJob($post_data, $this->logged_user);
 
     }
 
