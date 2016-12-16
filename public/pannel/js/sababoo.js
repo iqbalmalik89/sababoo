@@ -643,7 +643,7 @@ Sababoo.App.User = (function() {
 						if(user.status == 'enabled'){
 							statusText = 'Active';
 							is_active = 'disabled';
-							archiveText = 'In-Activate';
+							archiveText = 'Deactivate';
 							archiveClass = 'blue';
 						}else{
 							statusText = 'InActive';
@@ -746,7 +746,7 @@ Sababoo.App.User = (function() {
 				if (status == 1) {
 					$('#update_status_text').text('Activate');
 				} else if (status == 0) {
-					$('#update_status_text').text('In-Activate');
+					$('#update_status_text').text('Deactivate');
 				}
 				$('#updateStatusConfirmation').modal('show');
 		    });
@@ -846,7 +846,7 @@ Sababoo.App.User = (function() {
 						if(user.status == 'enabled'){
 							statusText = 'Active';
 							is_active = 'disabled';
-							archiveText = 'In-Activate';
+							archiveText = 'Deactivate';
 							archiveClass = 'blue';
 						}else{
 							statusText = 'InActive';
@@ -931,7 +931,7 @@ Sababoo.App.User = (function() {
 			$('.general-pagination-click').unbind('click').bind('click',function(e){
 				e.preventDefault();
 				var page  = $(this).data('page');
-				Sababoo.App.SiteUser.list(page);
+				Sababoo.App.User.listSite(page);
 		    });
 
 		    $('.delete_user').unbind('click').bind('click',function(e){
@@ -951,7 +951,7 @@ Sababoo.App.User = (function() {
 				if (status == 'enabled') {
 					$('#update_status_text').text('Activate');
 				} else if (status == 'disabled') {
-					$('#update_status_text').text('In-Activate');
+					$('#update_status_text').text('Deactivate');
 				}
 				$('#updateStatusConfirmation').modal('show');
 		    });
@@ -1486,7 +1486,7 @@ Sababoo.App.Jobs = (function(){
 						if(job.is_active == 1){
 							statusText = 'Active';
 							is_active = 0;
-							archiveText = 'In-Activate';
+							archiveText = 'Deactivate';
 							archiveClass = 'blue';
 						}else{
 							statusText = 'InActive';
@@ -1615,7 +1615,7 @@ Sababoo.App.Jobs = (function(){
 				if (status == 1) {
 					$('#update_status_text').text('Activate');
 				} else if (status == 0) {
-					$('#update_status_text').text('In-Activate');
+					$('#update_status_text').text('Deactivate');
 				}
 				$('#updateStatusConfirmation').modal('show');
 		    });
@@ -1929,7 +1929,7 @@ Sababoo.App.Role = (function() {
 						if(role.is_active == 1){
 							statusText = 'Active';
 							is_active = 0;
-							archiveText = 'In-Activate';
+							archiveText = 'Deactivate';
 							archiveClass = 'blue';
 						}else{
 							statusText = 'InActive';
@@ -2032,7 +2032,7 @@ Sababoo.App.Role = (function() {
 				if (status == 1) {
 					$('#update_status_text').text('Activate');
 				} else if (status == 0) {
-					$('#update_status_text').text('In-Activate');
+					$('#update_status_text').text('Deactivate');
 				}
 				$('#updateStatusConfirmation').modal('show');
 		    });
@@ -2432,7 +2432,7 @@ Sababoo.App.Skills = (function() {
 						if(skill.status == 'enable'){
 							statusText = 'Active';
 							is_active = 'disable';
-							archiveText = 'In-Activate';
+							archiveText = 'Deactivate';
 							archiveClass = 'blue';
 						}else if (skill.status == 'disable'){
 							statusText = 'InActive';
@@ -2535,7 +2535,7 @@ Sababoo.App.Skills = (function() {
 				if (status == 'enable') {
 					$('#update_status_text').text('Activate');
 				} else if (status == 'disable') {
-					$('#update_status_text').text('In-Activate');
+					$('#update_status_text').text('Deactivate');
 				}
 				$('#updateStatusConfirmation').modal('show');
 		    });
@@ -2864,7 +2864,7 @@ Sababoo.App.Industry = (function() {
 						if(industry.status == 1){
 							statusText = 'Active';
 							is_active = 2;
-							archiveText = 'In-Activate';
+							archiveText = 'Deactivate';
 							archiveClass = 'blue';
 						}else if (industry.status == 2){
 							statusText = 'InActive';
@@ -2967,7 +2967,7 @@ Sababoo.App.Industry = (function() {
 				if (status == 1) {
 					$('#update_status_text').text('Activate');
 				} else if (status == 2) {
-					$('#update_status_text').text('In-Activate');
+					$('#update_status_text').text('Deactivate');
 				}
 				$('#updateStatusConfirmation').modal('show');
 		    });
