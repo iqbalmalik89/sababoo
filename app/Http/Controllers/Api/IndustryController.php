@@ -269,7 +269,7 @@ class IndustryController extends Controller {
                 $output = ['success'=>['code'=>$code,'messages'=>['Status has been updated successfully.']]];
             } else if ($response == 'cannot_inactivate') {
                 $code = 401;
-                $output = ['error' => ['code'=>$code,'messages'=>['Sorry you cannot in-activate this industry as it is associated with some users.']]];
+                $output = ['error' => ['code'=>$code,'messages'=>['Sorry you cannot de-activate this industry as it is associated with some users.']]];
             } else {
                 $code = 406;
                 $output = ['error'=>['code'=>$code,'messages'=>['An error occurred while updating status.']]];

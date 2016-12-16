@@ -69,7 +69,7 @@ class JobController extends Controller {
                 $output = ['success'=>['code'=>$code,'messages'=>['Status has been updated successfully.']]];
             } else if ($response == 'cannot_inactivate') {
                 $code = 401;
-                $output = ['error' => ['code'=>$code,'messages'=>['Sorry you cannot in-activate this job.']]];
+                $output = ['error' => ['code'=>$code,'messages'=>['Sorry you cannot de-activate this job.']]];
             } else {
                 $code = 406;
                 $output = ['error'=>['code'=>$code,'messages'=>['An error occurred while updating status.']]];

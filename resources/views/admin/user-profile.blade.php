@@ -55,7 +55,7 @@
                                             </div>
                                             <div class="margiv-top-10">
                                                 <a href="javascript:;" id="profile_submit_btn"><button type="button" class="btn green">Save Changes</button></a>
-                                                <img class="button_spinners" src="{{URL::to('images/loader.gif')}}" id="profile_submit_loader">
+                                                <img class="button_spinners" src="{{URL::to('pannel/images/loader.gif')}}" id="profile_submit_loader">
                                             </div>
                                         </form>
                                     </div>
@@ -75,7 +75,7 @@
                                                 <input type="password" class="form-control" placeholder="Re-Type New Password" id="confirm_password"/> </div>
                                             <div class="margiv-top-10">
                                                 <a href="javascript:;" id="profile_password_submit_btn"><button type="button" class="btn green">Change Password</button></a>
-                                                <img class="button_spinners" src="{{URL::to('images/loader.gif')}}" id="profile_password_submit_loader">
+                                                <img class="button_spinners" src="{{URL::to('pannel/images/loader.gif')}}" id="profile_password_submit_loader">
                                             </div>
                                         </form>
                                     </div>
