@@ -48,7 +48,12 @@ Last change:    14/06/2015
 * 36. Login and Register
 -------------------------------------------------------------------*/
 
-
+.margin-right-5px{
+    margin-right: 5px;
+}
+.margin-left-5px{
+    margin-left: 5px;
+}
 /**
  * Header
  */
@@ -3085,7 +3090,7 @@ ul.pager-list.pull-right li {
     width: 24px;
     height: 24px;
     line-height: 23px;
-    border-radius: 50% !important;
+    /*border-radius: 50% !important;*/
     text-align: center;
     color: #666;
 }
@@ -3105,6 +3110,9 @@ ul.pager-list.pull-right li {
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
     background-color: #33B6CB;
+}
+.first_class {
+    width:60px !important;
 }
 
 @media only screen and (max-width: 1199px) {}
