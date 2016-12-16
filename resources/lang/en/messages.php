@@ -7,7 +7,7 @@ return [
     'first_name_regex'       => 'First name must be character.',
     'last_name_required'     => 'Last name is required.',
     'last_name_regex'        => 'Last name must be character.',
-    'email_email'           => 'Invalid Email.',
+    'email_email'           => 'Email format is not valid.',
     'email_required'        => 'Email is required.',
 	'forgotpw_success'      => 'Password request submitted. Check your email in just a few minutes.',
     'school_name_required'  => 'Schoool name is required.',

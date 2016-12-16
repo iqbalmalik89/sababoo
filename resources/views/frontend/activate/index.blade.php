@@ -21,7 +21,7 @@
                                                 
                             <div class="row gap-20">
 								   
-                                <div class="box_head green">Thank You!</div>
+                                <div class="box_head green">You account has been verified. Please Login.</div>
                                 <p>
                                     <?php if($response['code'] ==200){ ?>
                                     <span id="return_message" class="msg_ok">
