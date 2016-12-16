@@ -209,7 +209,7 @@
                         <div id="loader_forgot" class="loader" style="display:none;"></div>
                         
                         <div class="col-sm-12 col-md-12">
-                            <p class="mb-20">Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket. Hand dear so we hour to.</p>
+                            <p class="mb-20">To reset your password, enter the email address you use to sign in to Sababoo.</p>
                         </div>
                         
                         <div class="col-sm-12 col-md-12">
