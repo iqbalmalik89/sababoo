@@ -184,10 +184,10 @@
                                         } else if ($job_proposal->job_status == 'pending'){
                                     ?>
 
-                                        <!-- <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                                        <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
                                             <input type="hidden" name="cmd" value="_cart">
                                             <input type="hidden" name="upload" value="1">
-                                            <input type="hidden" name="business" value="nazbushi@gmail.com">
+                                            <input type="hidden" name="business" value="{{env('PAYPAL_ACCOUNT')}}">
                                             <input type="hidden" name="quantity_1" value="1">
                                             <input type="hidden" name="item_name_1" value="{{$job_proposal->name}}">
                                             <input type="hidden" name="item_number_1" value="{{$job_proposal->aj_id}}">
@@ -196,15 +196,15 @@
                                             <input type="hidden" name="job_id" value="{{$job_proposal->id}}">
                                             <input type="hidden" name="user_id" value="{{$job_proposal->aj_userid}}">
                                             <input type="hidden" name="payer_id" value="{{$job_proposal->user_id}}">
-                                            <input type="hidden" name="return" value="{{url('success-payment')}}" />
-                                             <input type="hidden" name="notify_url" value="{{url('success-payment')}}" />
-                                            <input type="hidden" name="cancel_return" value="{{url('failure-payment')}}" />
+                                            <input type="hidden" name="return" value="{{url('success-payment?aj_id=.$job_proposal->aj_id')}}" />
+                                             <input type="hidden" name="notify_url" value="{{url('success-payment?aj_id=.$job_proposal->aj_id')}}" />
+                                            <input type="hidden" name="cancel_return" value="{{url('failure-payment?aj_id=.$job_proposal->aj_id')}}" />
                                                     
                                             <input type="hidden" name="currency_code" value="USD">
                                             
                                             <input type="submit" name="submit" value="Make Payment"/>
-                                            </form> -->
-                                            <span onclick="submitPayment(<?php echo $job_proposal->aj_id;?>)">Make Payment</span>
+                                        </form>
+                                            <!-- <span onclick="submitPayment(<?php echo $job_proposal->aj_id;?>)">Make Payment</span> -->
 
                                     <?php
                                         }

@@ -131,24 +131,24 @@ class HomeController extends Controller
       }
       $aj_id = $request->get('aj_id');
       $id = $request->get('paymentId');
-      $token = $request->get('token');
+      /*$token = $request->get('token');
       $payer_id = $request->get('PayerID');
 
       $payment = PayPal::getById($id, $this->_apiContext);
-      // /dd($payment->transactions[0]->amount->total);
       $paymentExecution = PayPal::PaymentExecution();
 
-      $paymentExecution->setPayerId($payer_id);
+      $paymentExecution->setPayerId($payer_id);*/
       //$executePayment = $payment->execute($paymentExecution, $this->_apiContext);
 
       // Clear the shopping cart, write to database, send notifications, etc.
       $appliedJob = AppliedJob::find($aj_id);
       $recordPayment = new Payment;
       $recordPayment->payment_id = $id;
-      $recordPayment->payment_amount = $payment->transactions[0]->amount->total;
+      //$recordPayment->payment_amount = $payment->transactions[0]->amount->total;
+      $recordPayment->payment_amount = $appliedJob->cost;
       $recordPayment->payment_status = 'completed';
       $recordPayment->job_id = $appliedJob->job_id;
-      $recordPayment->payer_id = $payer_id;
+      //$recordPayment->payer_id = $payer_id;
       $recordPayment->user_id = $this->logged_user->id;
       $recordPayment->createdtime = date('Y-m-d H:i:s');
       if($recordPayment->save()) {

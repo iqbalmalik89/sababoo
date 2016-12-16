@@ -189,7 +189,7 @@
 																	</div>
 																</div>
 
-																<div class="col-sm-12 col-md-12 mb-15">
+																<!-- <div class="col-sm-12 col-md-12 mb-15">
 																	<p class="mb-5">Effects present letters inquiry no an removed or friends?</p>
 																	<div class="radio-block">
 																		<input id="q1_radio-1" name="q1_radio" type="radio" class="radio" value="First Choice" style="display:block;opacity:1;"/>
@@ -231,7 +231,7 @@
 																		<input id="q3_checkbox-4" name="q3_checkbox_4" type="checkbox" class="checkbox" value="Fourth Choice" style="display:block;opacity:1;"/>
 																		<label class="font13" for="q3_checkbox-4">Pleasant horrible but confined</label>
 																	</div>
-																</div>
+																</div> -->
 																
 															</div>
 															
