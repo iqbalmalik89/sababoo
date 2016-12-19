@@ -40,7 +40,7 @@ class ChatController extends Controller
             return redirect('login');
         }
         $send_to_user  = User::where('id', '=' , $id)->firstOrFail();
-        return view('frontend.chat.sendMessage',['send_to_user'=>$send_to_user,'logged_user'=>$logged_user]);
+        return view('frontend.chat.sendMessage',['send_to_user'=>$send_to_user,'logged_user'=>$this->logged_user]);
     }
     public function SendMessage(Request $request){
         if (Auth::user() != NULL) {
