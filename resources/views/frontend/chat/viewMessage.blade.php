@@ -71,11 +71,11 @@
                                             ?>
 
                                             <?php if(empty($user_image)) {?>
-                                            <img id="employee_image_1" class="img-circle" alt="image" src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}">
+                                            <img id="employee_image_1" class="img-circle" alt="image" src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}" onerror="imgError(this);">
                                             <?php
                                             }else {
                                             ?>
-                                            <img id="employee_image_1" class="img-circle" alt="image" src="<?php echo $user_image;?>">
+                                            <img id="employee_image_1" class="img-circle" alt="image" src="<?php echo $user_image;?>" onerror="imgError(this);">
                                             <?php
                                             }
                                             ?>
@@ -97,7 +97,7 @@
                         <div class="chat-box">
                             <div class="chating-people">
                                 <div class="chat-pic" >
-                                    <img src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}" id="sender_image" class="img-circle">
+                                    <img src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}" onerror="imgError(this);" id="sender_image" class="img-circle">
                                 </div>
                                 <h3 id="sender_username"><span></span></h3>
 

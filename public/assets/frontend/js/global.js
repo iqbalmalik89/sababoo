@@ -93,6 +93,12 @@ function mainAjax(frm_id, request_data, method_type, fn, complete_callback) {
     });
 }
 
+function imgError(image) {
+        image.onerror = "";
+        image.src = "/assets/frontend/images/site/dummy-user.jpg";
+        return true;
+    }
+    
 function toggleSrcLock() {
     if(isScrLock) {
         isScrLock = false;

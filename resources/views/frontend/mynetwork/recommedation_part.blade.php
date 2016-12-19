@@ -137,11 +137,4 @@
 
 </div>
 </div>
-<script type="text/javascript">
-    function imgError(image) {
-        image.onerror = "";
-        image.src = "/assets/frontend/images/site/dummy-user.jpg";
-        return true;
-    }
-</script>
 
