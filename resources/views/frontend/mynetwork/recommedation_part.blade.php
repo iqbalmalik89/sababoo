@@ -13,7 +13,7 @@
 
          ?>
 
-        <div class="GridLex-col-3_sm-4_xs-6_xss-12" >
+        <div class="GridLex-col-3_sm-4_xs-6_xss-12 margin-bottom-15px" >
 
             <div class="employee-grid-item" style="background-color: #FFF;">
 
@@ -31,11 +31,11 @@
                         ?>
 
                         <?php if($user_image=='') {?>
-                        <img id="employee_image_1" class="img-circle" alt="image" src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}">
+                        <img id="employee_image_1" class="img-circle" alt="image" onerror="imgError(this);" src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}">
                         <?php
                         }else {
                         ?>
-                        <img id="employee_image_1" class="img-circle" alt="image" src="<?php echo $user_image;?>">
+                        <img id="employee_image_1" class="img-circle" alt="image" onerror="imgError(this);" src="<?php echo $user_image;?>">
                         <?php
                         }
                         ?>
@@ -137,4 +137,11 @@
 
 </div>
 </div>
+<script type="text/javascript">
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "/assets/frontend/images/site/dummy-user.jpg";
+        return true;
+    }
+</script>
 

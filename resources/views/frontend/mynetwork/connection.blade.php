@@ -18,7 +18,7 @@
 
             <ol class="breadcrumb-list booking-step">
                 <li><a href="/home">Home</a></li>
-                <li><a href="#_">Network</a></li>
+                <li><a href="/network/connection">Network</a></li>
                 <li><span>My Connections</span></li>
             </ol>
 
