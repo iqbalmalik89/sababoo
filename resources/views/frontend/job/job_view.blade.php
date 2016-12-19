@@ -50,7 +50,7 @@
 										<?php if($job->salary){?>
 										<li>
 											<h4 class="heading">Rate/Salary:</h4>
-											<?php echo $job->salary;?> $
+											<?php echo $job->salary; echo env('CURRENCY', '$')?>
 										</li>
 										<?php }?>
 

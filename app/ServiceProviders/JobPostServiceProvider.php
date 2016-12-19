@@ -194,6 +194,8 @@ class JobPostServiceProvider
 
         $name = isset($filters['name'])?$filters['name']:'';
         $loc = isset($filters['location'])?$filters['location']:'';
+        $message = isset($filters['message'])?$filters['message']:'';
+        $type = isset($filters['type'])?$filters['type']:'';
 
         $userID = $filters['userid'];
         $str = '';
@@ -204,6 +206,10 @@ class JobPostServiceProvider
               }
            elseif($key =='job_post.name'){
                 $str.="job_post.name LIKE '%$value%' and ";
+            }elseif($key =='job_post.type'){
+                $str.="job_post.type LIKE '%$type%' and ";
+            }elseif($key =='appliead_jobs.message'){
+                $str.="appliead_jobs.message LIKE '%$message%' and ";
             }else{
                   $str.=" '$key'= '$value' and " ;
 
@@ -213,12 +219,14 @@ class JobPostServiceProvider
 
 
         $job = DB::table('job_post')
-            ->select('job_post.id as id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','applied_jobs.id as aj_id','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message')
+            ->select('job_post.id as id','job_post.name as name','job_post.type as type','job_post.location as location','job_post.job_deadline_date','applied_jobs.id as aj_id','applied_jobs.cost','applied_jobs.created_at as aj_created_at','applied_jobs.message as aj_message')
             ->join('applied_jobs', 'job_post.id', '=','applied_jobs.job_id' )
             ->where($matchThese)
             ->Where("applied_jobs.user_id", "=", "$userID")
             ->Where("job_post.name", "LIKE", "%$name%")
             ->Where("job_post.location", "LIKE", "%$loc%")
+            ->Where("job_post.type", "LIKE", "%$type%")
+            ->Where("applied_jobs.message", "LIKE", "%$message%")
             ->OrderBy('applied_jobs.created_at', 'DESC')
         //dd( count($job) );
         ->paginate($paging['page_size']);

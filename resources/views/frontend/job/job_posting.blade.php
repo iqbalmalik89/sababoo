@@ -95,7 +95,7 @@
 												<div class="col-sm-6">
 													<div class="input-group">
 														<input id="salary" name="salary" type="text" class="form-control" value="<?php if(isset($job_data->salary)){ echo $job_data->salary;}?>">
-														<span class="input-group-addon">$</span>
+														<span class="input-group-addon">{{env('CURRENCY', '$')}}</span>
 													</div>
 												</div>
 												<div class="col-sm-6">

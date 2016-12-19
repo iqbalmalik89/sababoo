@@ -158,6 +158,16 @@ class JobPostController extends Controller
         } else {
           $filters['location'] = '';
         }
+        if((isset($post_data['message']))){
+            $filters['message'] =   $post_data['message'];
+        } else {
+          $filters['message'] = '';
+        }
+        if((isset($post_data['type']))){
+            $filters['type'] =   $post_data['type'];
+        } else {
+          $filters['type'] = '';
+        }
         $my_applied_jobs=  $this->jobpostServiceProvider->userAppliedJobs($filters,$order_by,$paging);
 
         return view ('frontend.job.user_applied_jobs',array('my_applied_jobs'=>$my_applied_jobs));

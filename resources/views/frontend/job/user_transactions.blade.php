@@ -136,12 +136,12 @@
 
                                                 <h4> <?php echo ucwords($my_transaction->job_name);?></h4>
                                                 <p><?php echo 'Transaction  Id: '. $my_transaction->payment_id;?></p>
-                                                <p><?php echo 'Payer Id: '. $my_transaction->payer_id;?></p>
+                                                <!-- <p><?php echo 'Payer Id: '. $my_transaction->payer_id;?></p> -->
                                             </div>
                                         </div>
                                     </div>
                                     <div class="GridLex-col-4_xs-8_xss-12 mt-10-xss">
-                                        <div class="job-location"> <?php echo '$'.$my_transaction->payment_amount;?>
+                                        <div class="job-location"> <?php echo env('CURRENCY', '$').$my_transaction->payment_amount;?>
                                         </div>
                                     </div>
 
