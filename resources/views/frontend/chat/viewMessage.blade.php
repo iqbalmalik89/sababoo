@@ -47,7 +47,7 @@
                     <div class="col-sm-4 col-md-4 no-magin no-padding">
                         <div class="employee-detail-sidebar sidebar-message">
                             <div class="all-messages-div">
-                                <div class="message-text">All Messages <i class="ion-ios-arrow-down"></i></div>
+                                <div class="message-text">All Messages</div>
                                 <div class="message-add"><a href="#"><i class="fa fa-edit" aria-hidden="true"></i></a></div>
                             </div>
                             <div class="search-div"> <span><i class="fa fa-search" style="color:#1896cd; font-size:18px;" ></i></span>
