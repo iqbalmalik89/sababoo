@@ -50,9 +50,10 @@
                                 <div class="message-text">All Messages</div>
                                 <div class="message-add"><a href="#"><i class="fa fa-edit" aria-hidden="true"></i></a></div>
                             </div>
-                            <div class="search-div"> <span><i class="fa fa-search" style="color:#1896cd; font-size:18px;" ></i></span>
-                                <input name="" type="text" placeholder="Search ">
-                                <span><i class="fa fa-times-circle-o" ></i></span> </div>
+                            <div class="search-div" > <span><i class="fa fa-search" style="color:#1896cd; font-size:18px;" ></i></span>
+                                <input name="" type="text" placeholder="Search " id="search_msg_input" value="">
+                                <span id="search_cross" style="display: none;"><i class="fa fa-times-circle-o" ></i></span> 
+                            </div>
                             <div class="listing-online-div">
                                 <ul id="user_side_bar_list">
 
@@ -149,6 +150,14 @@
     <script type="text/javascript" src="{{asset('assets/frontend/node_modules/socket.io/node_modules/socket.io-client/socket.io.js')}}"></script>
     <script>
 
+        $('#search_msg_input').keyup(function(){
+            var search_input = $(this).val();
+            if (search_input.length > 0) {
+                $('#search_cross').show();
+            } else {
+                $('#search_cross').hide();
+            }
+        });
         var currentTime = new Date()
         var hours = currentTime.getHours()
         var minutes = currentTime.getMinutes()
