@@ -270,7 +270,7 @@ class JobPostController extends Controller
                  }
 
                  $user_array['url'] =$this->networkServiceProvider->getViewUrl($user);
-                 $user_array['image'] =$job->image;
+                 $user_array['image'] =($job->image != null)?$job->image:'';
                  $user_array['userid'] =$user->id;
 
                  return view('frontend.job.job_view',array('job'=>$job,'user_array'=>$user_array,'user'=> $this->logged_user,'job_comments'=>$job_comments));
