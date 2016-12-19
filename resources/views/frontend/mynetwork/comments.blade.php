@@ -1,5 +1,5 @@
 
-<div class="comments" >
+<div class="comments margin-top-25px" >
 
 
     <ul id="ulcomment<?php echo $job->id;?>" class="">
@@ -51,7 +51,7 @@
 
         <li id="user_add_comment" style="" >
             <textarea    style="height: 200px; " class="form-control" placeholder="Add Comment ......." id="new_comment_add<?php echo $job->id;?>" ></textarea>
-            <input type="button" class="post-comment" value="Submit" onclick="status_comment('<?php echo $job->id;?>')">
+            <input type="button" class="post-comment margin-top-15px" value="Submit" onclick="status_comment('<?php echo $job->id;?>')">
 
         </li>
     </ul>

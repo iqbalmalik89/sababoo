@@ -256,18 +256,17 @@ class JobPostController extends Controller
                      $td_ob = Tradesman::where('userid', '=' , $job->userid)->firstOrFail();
                      $user_array['name']= $job->first_name." ".$job->last_name;
                      $user_array['desc']= $td_ob->background;
-                 }
-
-
-                 if($job->role=='employee'){
+                 }else if($job->role=='employee'){
                      $td_ob = Employee::where('userid', '=' , $job->userid)->firstOrFail();
                      $user_array['name']= $job->first_name." ".$job->last_name;
                      $user_array['desc']= $td_ob->summary;
-                 }
-                 if($job->role=='employer'){
+                 }else if($job->role=='employer'){
                      $td_ob = Employer::where('userid', '=' , $job->userid)->firstOrFail();
                      $user_array['name']= $td_ob->company_name;
                      $user_array['desc']= $td_ob->description;
+                 } else {
+                    $user_array['name']= '';
+                     $user_array['desc']= '';
                  }
 
                  $user_array['url'] =$this->networkServiceProvider->getViewUrl($user);
