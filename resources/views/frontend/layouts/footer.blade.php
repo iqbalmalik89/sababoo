@@ -1,6 +1,6 @@
             <footer class="footer-wrapper">
             
-                <div class="main-footer">
+                <!-- <div class="main-footer">
                 
                     <div class="container">
                     
@@ -65,7 +65,7 @@
                         
                     </div>
                     
-                </div>
+                </div> -->
                 
                 <div class="bottom-footer">
                 
@@ -75,17 +75,17 @@
                         
                             <div class="col-sm-4 col-md-4">
                     
-                                <p class="copy-right">&#169; Copyright 2016 HaNgan</p>
+                                <p class="copy-right">&#169; Copyright 2016 Sababoo</p>
                                 
                             </div>
                             
                             <div class="col-sm-4 col-md-4">
                             
                                 <ul class="bottom-footer-menu">
-                                    <li><a href="#">Cookies</a></li>
-                                    <li><a href="#">Policies</a></li>
-                                    <li><a href="#">Terms</a></li>
-                                    <li><a href="#">Blogs</a></li>
+                                    <li><a href="{{url('job/user_job_list')}}">Jobs</a></li>
+                                    <li><a href="{{url('network/connection')}}">Network</a></li>
+                                    <li><a href="{{url('user_view_message')}}">Messages</a></li>
+                                    <li><a href="{{url('transactions')}}">Transactions</a></li>
                                 </ul>
                             
                             </div>
