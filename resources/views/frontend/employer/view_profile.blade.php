@@ -41,7 +41,7 @@
                 <div class="employee-detail-sidebar">
 
                     <div class="section-title mb-30">
-                        <h2 class="text-left">Company Information</h2>
+                        <h2 class="text-left">Company Name</h2>
                     </div>
 
                     <div class="image">
