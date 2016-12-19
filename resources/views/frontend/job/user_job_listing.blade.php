@@ -65,6 +65,18 @@
                                     <input id="location" name="location" type="text" class="form-control" placeholder="Location. Ex: London">
                                 </div>
                             </div>
+
+                            <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5">
+                                <div class="form-group form-lg">
+                                    <input id="category" name="category" type="text" class="form-control" placeholder="Category. Ex: Banking">
+                                </div>
+                            </div>
+
+                            <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5">
+                                <div class="form-group form-lg">
+                                    <input id="type" name="type" type="text" class="form-control" placeholder="Job Type. Ex: Full_time">
+                                </div>
+                            </div>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
 

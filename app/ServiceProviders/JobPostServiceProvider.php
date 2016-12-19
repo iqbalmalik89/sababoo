@@ -137,7 +137,8 @@ class JobPostServiceProvider
 
         $name = isset($filters['name'])?$filters['name']:'';
         $loc = isset($filters['location'])?$filters['location']:'';
-
+        $category = isset($filters['category'])?$filters['category']:'';
+        $type = isset($filters['type'])?$filters['type']:'';
         /*if(isset($filters['name']) and $filters['name']!=''){
            // $matchThese['job_post.name'] = $filters['name'];
             //$matchThese['job_post.name'] = " 'job_post.name', 'LIKE', '%'".$filters['name']."'%' ";
@@ -159,6 +160,10 @@ class JobPostServiceProvider
             }
          elseif($key =='job_post.name'){
               $str.="job_post.name LIKE '%$value%' and ";
+          }elseif($key =='job_post.type'){
+              $str.="job_post.type LIKE '%$type%' and ";
+          }elseif($key =='industry.name'){
+              $str.="industry.name LIKE '%$category%' and ";
           }else{
                 $str.=" '$key'= '$value' and " ;
 
@@ -173,6 +178,8 @@ class JobPostServiceProvider
             ->where($matchThese)
             ->Where("job_post.name", "LIKE", "%$name%")
             ->Where("job_post.location", "LIKE", "%$loc%")
+            ->Where("job_post.type", "LIKE", "%$type%")
+            ->Where("industry.name", "LIKE", "%$category%")
             ->OrderBy('job_post.created_at', 'DESC')
         //dd( count($job) );
         ->paginate($paging['page_size']);

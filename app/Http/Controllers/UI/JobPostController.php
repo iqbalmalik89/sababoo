@@ -118,6 +118,16 @@ class JobPostController extends Controller
         } else {
           $filters['location'] = '';
         }
+        if((isset($post_data['category']))){
+            $filters['category'] =   $post_data['category'];
+        } else {
+          $filters['category'] = '';
+        }
+        if((isset($post_data['type']))){
+            $filters['type'] =   $post_data['type'];
+        } else {
+          $filters['type'] = '';
+        }
         $my_jobs=  $this->jobpostServiceProvider->userJobList($filters,$order_by,$paging);
 
         return view ('frontend.job.user_job_listing',array('my_jobs'=>$my_jobs));
