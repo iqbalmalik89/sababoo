@@ -153,14 +153,13 @@ class JobPostController extends Controller
         return view ('frontend.job.user_applied_jobs',array('my_applied_jobs'=>$my_applied_jobs));
     }
 
-    public function jobProposalsList(Request $request){
+    public function jobProposalsList(Request $request, $id){
         if (Auth::user() != NULL) {
           $this->logged_user = Auth::user();
         } else {
           return redirect('login');
         }
-        
-        $input = $request->only('id');
+        //$input = $request->only('id');
 
         $paging['page_num']  = $request->input('page_num', 1);
         $paging['page_size'] = $request->input('page_size', env('DEFAULT_PAGE_SIZE'));
@@ -168,7 +167,7 @@ class JobPostController extends Controller
         $order_by['sort_by'] = $request->input('orderby', '0');
         $filters['userid']   =  $this->logged_user->id;
         $filters['is_admin']   =  $this->logged_user->is_admin;
-        $filters['job_id']   =  $input['id'];
+        $filters['job_id']   =  $id;
         if((isset($post_data['name']))){
             $filters['name'] =   $post_data['name'];
         } else {

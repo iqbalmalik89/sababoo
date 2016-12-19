@@ -220,7 +220,7 @@
     });
 
     function viewProposals (jobid){
-        window.location = "/job/job_proposals?id="+jobid;
+        window.location = "/job/job-proposals/"+jobid;
     }
     function delJob(jobid){
 
