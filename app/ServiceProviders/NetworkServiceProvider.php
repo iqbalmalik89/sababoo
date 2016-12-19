@@ -153,33 +153,28 @@ class NetworkServiceProvider
 
 
         $suggest_array=array();
-        if(!empty($filter['name'])){
-
         $name = $filter['name'];
         $role = $filter['roll'];
 
         $data = User::where('id','!=',$filter['id'])
-            ->where('role','!=','employer')
-            ->where('status','=', 'enabled')
-            ->Where("email", "LIKE", "%".$name."%")
-            ->Where("role","=", $role)
-            ->where('is_admin', '=', 0)
-            ->orWhere("first_name","LIKE", "%".$name."%")
-            ->orWhere("last_name","LIKE", "%".$name."%")
-            ->OrderBy('created_at', 'DESC')
-            ->limit(20)
-            ->get();
+              ->where('role','!=','employer')
+              ->where('status','=', 'enabled')
+              ->where('is_admin', '=', 0)
+              ->OrderBy('created_at', 'DESC');
 
-        }else{
-
-            $data = User::where('id', '!=', $filter['id'])
-                ->where('status', '=', 'enabled')
-                ->where('role', '!=', 'employer')
-                ->where('is_admin', '=', 0)
-                ->OrderBy('created_at', 'DESC')
-                ->limit(20)
-                ->get();
+        if (!empty($filter['roll'])){
+            $data = $data->Where("role","=", $role);
         }
+
+        if(!empty($filter['name'])){
+          $data = $data->where(function ($query) use ($name) {
+                                        $query->orWhere("first_name","LIKE", "%".$name."%")
+                                            ->orWhere("last_name","LIKE", "%".$name."%")
+                                            ->orwhere("email", "LIKE", "%".$name."%");
+                                    });
+        }
+        $data = $data->limit(20)
+                    ->get();
 //dd($data);
 
         foreach($data as $single_data){
