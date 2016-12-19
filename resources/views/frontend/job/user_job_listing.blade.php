@@ -174,7 +174,7 @@
 
 
                                     </div>
-                                    <div class="GridLex-col-2_xs-4_xss-12" >
+                                    <div class="" >
                                     <?php
                                         $showUpdate = 'inline-block';
                                         $showDelete = 'inline-block';
@@ -190,6 +190,7 @@
                                         }
                                     ?>
 
+                                    <span onclick="viewJob(<?php echo $my_job->id;?>)">View | </span>
                                     <span style="display:{{$showUpdate}};" onclick="editJob(<?php echo $my_job->id;?>)">Edit | </span>
                                     <span style="display:{{$showDelete}};" onclick="delJob(<?php echo $my_job->id;?>)">Delete | </span>
                                     <span onclick="viewProposals(<?php echo $my_job->id;?>)">Proposals </span>
@@ -253,6 +254,10 @@
     }
     function editJob(jobid){
         window.location = "/job/post?id="+jobid;
+
+    }
+    function viewJob(jobid){
+        window.location = "/job/view/"+jobid;
 
     }
 

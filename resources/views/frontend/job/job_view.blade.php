@@ -13,9 +13,9 @@
 				<div class="container">
 				
 					<ol class="breadcrumb-list booking-step">
-						<li><a href="">Home</a></li>
-						<li><a href="">Job</a></li>
-						<li><span>Browse Jobs</span></li>
+						<li><a href="/home">Home</a></li>
+                		<li><a href="/job/user_job_list">Job</a></li>
+						<li><span>Job Details</span></li>
 					</ol>
 					
 				</div>
