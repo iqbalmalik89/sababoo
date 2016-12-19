@@ -244,7 +244,7 @@ class JobPostController extends Controller
       } else {
         return redirect('login');
       }
-
+      
         $this->networkServiceProvider = new NetworkServiceProvider();
         $this->commentServiceProvider = new CommentServiceProvider();
        if($id){

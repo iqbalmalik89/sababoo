@@ -166,28 +166,42 @@
 										
 													<h3 class="heading mb-5">Apply for <?php echo ucfirst($job->name);?></h3>
 
-													<div class="bg-light padding-30">
-													
+													<div class="bg-light padding-30" >
+														
+														<div class="alert" style="display:none;" id="msg_frm_job_apply"></div>
 														<form id="jop_apply_form">
 														
 
-															<hr class="mt-15">
+															<!-- <hr class="mt-15"> -->
 
 															<div class="row">
 															
-																<div class="col-sm-12 col-md-6">
+																<div class="col-sm-12 col-md-12">
 																	<div class="form-group">
 																		<label>Your covering message for <?php echo ucfirst($job->name);?></label>
 																		<textarea class="form-control" rows="6" name="cover_message" id="cover_message"></textarea>
 																	</div>
 																</div>
-																
-																<div class="col-sm-12 col-md-6">
-																	<div class="form-group">
-																		<label>Your demanding cost?</label>
-																		<input type="text" class="form-control" rows="6" name="extra_cost" id="extra_cost"></input>
+															</div>
+															<div class="row margin-left-0px">
+																<div class="form-group">
+																	<label>Your demanding cost?</label>
+
+																	<div class="row gap-20">
+																		<div class="col-sm-6">
+																			<div class="input-group">
+																				<input type="text" class="form-control" rows="6" name="extra_cost" id="extra_cost" value="">
+																				<span class="input-group-addon">{{env('CURRENCY', '$')}}</span>
+																			</div>
+																		</div>
+																		<div class="col-sm-6">
+																			<div class="clearfix" style="margin-top: 2px;">
+																			</div>
+																		</div>
 																	</div>
+
 																</div>
+
 
 																<!-- <div class="col-sm-12 col-md-12 mb-15">
 																	<p class="mb-5">Effects present letters inquiry no an removed or friends?</p>
@@ -235,18 +249,23 @@
 																
 															</div>
 															
-															<hr class="mt-5">
+															<!-- <hr class="mt-5">
 															
 															<div class="checkbox-block mb-15">
 																<input id="newsletter_checkbox" name="newsletter_checkbox" type="checkbox" class="checkbox" value="First Choice" />
 																<label class="" for="newsletter_checkbox">Email me jobs like this one when they become available</label>
 															</div>
 															
-															<p class="font12 line16">Manor we shall merit by chief wound no or would. Oh towards between subject passage sending mention or it. Sight happy do burst fruit to woody begin at. <a href="#">Assurance perpetual</a> he in oh determine as. The year paid met him does eyes same. Own marianne improved sociable not out. Thing do sight blush mr an. Celebrated am announcing <a href="#">delightful remarkably</a> we in literature it solicitude. Design use say <a href="#">piqued any</a> gay supply. Front sex match vexed her those great.</p>
+															<p class="font12 line16">Manor we shall merit by chief wound no or would. Oh towards between subject passage sending mention or it. Sight happy do burst fruit to woody begin at. <a href="#">Assurance perpetual</a> he in oh determine as. The year paid met him does eyes same. Own marianne improved sociable not out. Thing do sight blush mr an. Celebrated am announcing <a href="#">delightful remarkably</a> we in literature it solicitude. Design use say <a href="#">piqued any</a> gay supply. Front sex match vexed her those great.</p> -->
 															
-																<input type="button" class="btn btn-primary" id="apply_for_job" value="Send Application" ></input>
-																<img class="button_spinners" style="display:none" src="{{URL::to('pannel/images/loader.gif')}}" id="submit_loader">
-																<div class="alert" style="display:block; margin-top:10px;" id="msg_frm_job_apply"></div>
+															<div class="checkbox-block">
+																<input id="t_c_checkbox" name="t_c_checkbox" type="checkbox" class="checkbox" style="display:block;opacity:1;"/>
+																<label class="font13" for="t_c_checkbox">Accept terms & conditions</label>
+															</div>
+
+																<input type="button" class="btn btn-primary pull-left" id="apply_for_job" value="Send Application" ></input>
+																<img class="button_spinners margin-top-5px" style="display:none" src="{{URL::to('pannel/images/loader.gif')}}" id="submit_loader">
+																
 														</form>
 													
 													</div>
@@ -304,6 +323,7 @@ if(isset($user->image) && $user->image!=''){
 		var q3_checkbox_2=$("input[name=q3_checkbox_2]").prop('checked');
 		var q3_checkbox_3=$("input[name=q3_checkbox_3]").prop('checked');
 		var q3_checkbox_4=$("input[name=q3_checkbox_4]").prop('checked');
+		var t_c_checkbox=$("input[name=t_c_checkbox]").prop('checked');
 
 		var errors = [];
 		if (message == ''){
@@ -319,6 +339,10 @@ if(isset($user->image) && $user->image!=''){
 		} else {
 			$('#extra_cost').parent().removeClass('has-error');
 		}
+
+		if (t_c_checkbox == false){
+			errors.push('Please accept terms & conditions.');
+		} 
 
 		if(errors.length < 1){
 			$('#cover_message').parent().addClass('has-error');

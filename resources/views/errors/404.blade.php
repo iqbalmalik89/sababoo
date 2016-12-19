@@ -38,7 +38,7 @@
 
 							<h3>Oops... Page Not Found!</h3>
 
-							<p>Now led tedious shy lasting females off. Dashwood marianne in of entrance be on wondered possible building. Wondered sociable he carriage in speedily margaret.</p>
+							<p>It Looks like you may have taken a wrong turn. Don't worry.</p>
 
 
 							<a href="/home" class="btn btn-primary mt-15">Back to home page</a>
