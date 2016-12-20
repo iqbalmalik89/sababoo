@@ -324,7 +324,7 @@ jQuery(function($) {
 
 	
 	
-})(jQuery);
+}(jQuery));
 
 
 
