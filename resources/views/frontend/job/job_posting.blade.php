@@ -162,7 +162,6 @@
 											</select>
 
 									</div>
-									<div class="clear"></div>
 
 
 									<div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
@@ -213,7 +212,6 @@
 										</div>
 									</div>
 
-									<br>
 
 
 									<div class="clear"></div>
@@ -221,7 +219,10 @@
 									<div class="col-sm-12 col-md-12">
 
 										<div class="form-group bootstrap3-wysihtml5-wrapper">
+											<br>
 											<label>Job Description</label>
+
+
 											<textarea name="description" id="description"class="bootstrap3-wysihtml5 form-control" placeholder="Enter text ..." style="height: 200px;"><?php if(isset($job_data->description)){ echo $job_data->description;}?></textarea>
 										</div>
 
@@ -260,7 +261,7 @@
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label for="all_skills">Type Terms</label>
-													<input class="form-control" data-role="tagsinput" id="all_terms" name="all_terms" type="text" class="form-control" value="<?php if(isset($job_data->terms)){ echo $job_data->terms;}?>"/>
+													<input  data-role="tagsinput" id="all_terms" name="all_terms" type="text" class="form-control" value="<?php if(isset($job_data->terms)){ echo $job_data->terms;}?>"/>
 												</div>
 											</div>
 

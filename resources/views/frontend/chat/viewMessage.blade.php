@@ -48,7 +48,7 @@
                         <div class="employee-detail-sidebar sidebar-message">
                             <div class="all-messages-div">
                                 <div class="message-text">All Messages</div>
-                                <div class="message-add"><a href="#"><i class="fa fa-edit" aria-hidden="true"></i></a></div>
+                                <div  STYLE="display: none;" class="message-add"><a href="#"><i class="fa fa-edit" aria-hidden="true"></i></a></div>
                             </div>
                             <div class="search-div" > <span><i class="fa fa-search" style="color:#1896cd; font-size:18px;" ></i></span>
                                 <input name="" type="text" placeholder="Search " id="search_msg_input" value="">
@@ -105,7 +105,9 @@
                             <div class="chating-section" id="message_app">
 
                                 <?php
+                                    $class_hide = "";
                                  if(count($all_messages)<=0){
+                                     $class_hide="display:none;";
 
                                      echo "<h4>Sorry. We havn't found any conservation..<h4>";
                                  }
@@ -124,7 +126,7 @@
                                 <input type="hidden" name="reciever_name" id="reciever_name" value="1">
 
                             </div>
-                            <form class="form-horizontal" id="messageForm">
+                            <form class="form-horizontal" id="messageForm" >
 
                                 <div class="text-area-div">
                                     <textarea id ="message" name="message" cols="" rows="" style="width:100%; height:100%; border:none; padding:10px;" placeholder="Write your message…"></textarea>

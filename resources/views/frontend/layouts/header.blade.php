@@ -113,10 +113,10 @@
                                 <a href="#_">My Network</a>
 
                                 <ul>
-                                    <?php //if(Auth::user()->role!='employer'){?>
+                                    <?php if(Auth::user()->role!='employer'){?>
 
                                     <li><a href="/network/connection">Recomendation</a></li>
-                                        <?php //}?>
+                                        <?php }?>
                                     <!--<li><a href="/network/people_find">People You May Know</a></li>-->
 
                                 </ul>
