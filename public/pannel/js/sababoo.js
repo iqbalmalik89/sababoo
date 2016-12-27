@@ -3425,14 +3425,19 @@ Sababoo.App.Refunds = (function() {
 					}
 
 					var action = '';
-					if (refund.status == 'PENDING') {
-						action = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm green-jungle take_action" data-id="'+refund.id+'" data-status="approved">Approve</a>\
-						<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red take_action" data-id="'+refund.id+'" data-status="rejected">Reject</a>';
-					} /*else if (refund.status == 'REJECTED') {
-						action = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm green-jungle take_action" data-id="'+refund.id+'" data-status="approved">Approve</a>';
-					}*/ else if (refund.status == 'APPROVED' || refund.status == 'REJECTED') {
-						action = 'Action Taken';
+					if ($.inArray(30, hidden_operations) > -1) {
+						if (refund.status == 'PENDING') {
+							action = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm green-jungle take_action" data-id="'+refund.id+'" data-status="approved">Approve</a>\
+							<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red take_action" data-id="'+refund.id+'" data-status="rejected">Reject</a>';
+						} /*else if (refund.status == 'REJECTED') {
+							action = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm green-jungle take_action" data-id="'+refund.id+'" data-status="approved">Approve</a>';
+						}*/ else if (refund.status == 'APPROVED' || refund.status == 'REJECTED') {
+							action = 'Action Taken';
+						}
+					} else {
+						action = '-';
 					}
+					
 					html += '<tr>\
                                 <td class="highlight"> '+refund.id+' </td>\
                                 <td class="hidden-xs"> '+refund.job_name+' </td>\
@@ -3587,5 +3592,194 @@ Sababoo.App.Refunds = (function() {
 		list:list,
 		updateStatus:updateStatus
 	}
+}());
+
+Sababoo.App.Reports = (function() {
+
+	var config = Sababoo.Config;
+	var reportApiUrl = config.getApiUrl()+'report';
+
+	var userReport = function(){
+
+		$('.spinner-section').show();
+
+		var jsonData = {};
+		jsonData.start_date = $('#start_date').val() || '';
+		jsonData.end_date = $('#end_date').val() || '';
+
+		var request = $.ajax({
+			url: reportApiUrl+'/user',
+			data: jsonData,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			
+			AmCharts.makeChart("userChart",{
+							"type": "serial",
+							"categoryField": "category",
+							"startDuration": 1,
+							"categoryAxis": {
+								"gridPosition": "start"
+							},
+							"trendLines": [],
+							"graphs": [
+								{
+									"balloonText": "[[title]]:[[value]]",
+									"fillAlphas": 1,
+									"id": "AmGraph-1",
+									"title": "Total Users",
+									"type": "column",
+									"valueField": "column-1"
+								},
+								{
+									"balloonText": "[[title]]:[[value]]",
+									"fillAlphas": 1,
+									"id": "AmGraph-2",
+									"title": "Total Employee",
+									"type": "column",
+									"valueField": "column-2"
+								},
+								{
+									"balloonText": "[[title]]:[[value]]",
+									"fillAlphas": 1,
+									"id": "AmGraph-3",
+									"title": "Total Employer",
+									"type": "column",
+									"valueField": "column-3"
+								},
+								{
+									"balloonText": "[[title]]:[[value]]",
+									"fillAlphas": 1,
+									"id": "AmGraph-4",
+									"title": "Total Sabman",
+									"type": "column",
+									"valueField": "column-4"
+								}
+							],
+							"guides": [],
+							"valueAxes": [
+								{
+									"id": "ValueAxis-1",
+									"title": ""
+								}
+							],
+							"allLabels": [],
+							"balloon": {},
+							"legend": {
+								"enabled": true,
+								"useGraphSettings": true
+							},
+							/*"titles": [
+								{
+									"id": "Title-1",
+									"size": 15,
+									"text": "Chart Title"
+								}
+							],*/
+							"dataProvider": [
+								{
+									"category": "Users",
+									"column-1": data.data.total_users,
+									"column-2": data.data.total_employees,
+									"column-3": data.data.total_employers,
+									"column-4": data.data.total_tradesman
+								}
+							]
+						});
+
+		});
+	};
+
+	var jobReport = function(){
+
+		$('.spinner-section').show();
+
+		var jsonData = {};
+		jsonData.start_date = $('#start_date').val() || '';
+		jsonData.end_date = $('#end_date').val() || '';
+
+		var request = $.ajax({
+			url: reportApiUrl+'/job',
+			data: jsonData,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			
+			AmCharts.makeChart("jobChart",{
+							"type": "serial",
+							"categoryField": "category",
+							"startDuration": 1,
+							"categoryAxis": {
+								"gridPosition": "start"
+							},
+							"trendLines": [],
+							"graphs": [
+								{
+									"balloonText": "[[title]]:[[value]]",
+									"fillAlphas": 1,
+									"id": "AmGraph-1",
+									"title": "Posted Jobs",
+									"type": "column",
+									"valueField": "column-1"
+								},
+								{
+									"balloonText": "[[title]]:[[value]]",
+									"fillAlphas": 1,
+									"id": "AmGraph-2",
+									"title": "Applied Jobs",
+									"type": "column",
+									"valueField": "column-2"
+								},
+								{
+									"balloonText": "[[title]]:[[value]]",
+									"fillAlphas": 1,
+									"id": "AmGraph-3",
+									"title": "Completed Jobs",
+									"type": "column",
+									"valueField": "column-3"
+								}
+							],
+							"guides": [],
+							"valueAxes": [
+								{
+									"id": "ValueAxis-1",
+									"title": ""
+								}
+							],
+							"allLabels": [],
+							"balloon": {},
+							"legend": {
+								"enabled": true,
+								"useGraphSettings": true
+							},
+							/*"titles": [
+								{
+									"id": "Title-1",
+									"size": 15,
+									"text": "Chart Title"
+								}
+							],*/
+							"dataProvider": [
+								{
+									"category": "Jobs",
+									"column-1": data.data.posted_jobs,
+									"column-2": data.data.applied_jobs,
+									"column-3": data.data.completed_jobs,
+								}
+							]
+						});
+
+		});
+	};
+
+	return {
+		userReport:userReport,
+		jobReport:jobReport
+	}
+
 }());
 

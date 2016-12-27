@@ -181,6 +181,7 @@ return [
         App\Providers\IndustryRepositoryServiceProvider::class,
         App\Providers\TransactionRepositoryServiceProvider::class,
         App\Providers\RefundRepositoryServiceProvider::class,
+        App\Providers\ReportRepositoryServiceProvider::class,
     ],
 
     /*

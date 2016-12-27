@@ -19,6 +19,17 @@
   pointer-events: none;
 }
 
+.report_view_wrap {
+  /*height:95%;
+    height: calc(100% - 65px);*/
+  background-color:#fff;
+    overflow: hidden;
+    border-radius:8px;  
+  border:1px solid #cdd6dc;
+  padding:25px 32px;
+  margin-bottom:15px;
+  position:relative;
+}
 .role-checkbox{
   padding:0 5px;
   font-size:11px;

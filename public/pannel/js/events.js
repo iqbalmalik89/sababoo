@@ -274,3 +274,7 @@ $('#refund_status_btn').click(function(e){
     Sababoo.App.Refunds.updateStatus();
 });
 
+$('#report_filter_date_btn').click(function(){
+    Sababoo.App.Reports.userReport();
+    Sababoo.App.Reports.jobReport();
+});

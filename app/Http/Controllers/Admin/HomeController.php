@@ -343,4 +343,14 @@ class HomeController extends Controller {
         $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
         return view('admin.refunds',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
     }
+
+    /* for report view */
+    public function showReports(Request $request) {
+        $title  = 'Sababoo | Admin | Reports';
+        $logged_in_user   = Auth::user();
+        //$logged_in_user = Session::get('sa_user');
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+        return view('admin.reports',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
+    }
 }

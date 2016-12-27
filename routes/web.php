@@ -183,6 +183,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 
 	Route::get('/transactions',['uses'=>'HomeController@showTransactions'])->middleware(['acl.admin:transaction.list']);
 	Route::get('/refunds',['uses'=>'HomeController@showRefunds'])->middleware(['acl.admin:refund.list']);
+	Route::get('/reports',['uses'=>'HomeController@showReports'])->middleware(['acl.admin:report.list']);
 });
 
 
@@ -250,5 +251,10 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	// Refunds Routes
 	Route::get('/refund/list',['as'=>'refund:list', 'uses'=>'RefundController@all'])->middleware(['acl.admin:refund.list']);
 	Route::put('/refund/update-status',['as'=>'refund.update-status', 'uses'=>'RefundController@updateStatus'])->middleware(['acl.admin:refund.update']);
+
+	//Reports Routes
+    Route::get('/report/user',['as'=>'report.user', 'uses'=>'ReportController@userReport']);
+    Route::get('/report/job',['as'=>'report.job', 'uses'=>'ReportController@jobReport']);
+
 });
 });
