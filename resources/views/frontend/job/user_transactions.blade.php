@@ -53,20 +53,18 @@
                         <span class="labeling" style="width: 195px; margin-top: -12px;">Search your transactions</span>
                         <div class="row">
 
-                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 input-append date date-picker"  data-date-format="dd-mm-yyyy">
-                                    <div class="form-group form-lg">
+                                    <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 date date-picker" data-date="" data-date-format="dd-mm-yyyy" id="dp1" >
                                         <label>Start Date</label>
-                                        <input class="span2" size="16" type="text" id="start_date" name="start_date">
+                                      <input class="span2" size="16" type="text" value="" id="start_date">
+                                      <span class="add-on"><i class="icon-th"></i></span>
                                     </div>
-                                </div>
 
-
-                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 input-append date date-picker" data-date-format="dd-mm-yyyy">
-                                 <div class="form-group form-lg">
-                                        <label>End Date</label>
-                                        <input class="span2" size="16" type="text" id="end_date" name="end_date">
+                                    <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 date date-picker" data-date="" data-date-format="dd-mm-yyyy" id="dp2">
+                                    <label>End Date</label>
+                                      <input class="span2" size="16" type="text" value="" id="end_date">
+                                      <span class="add-on"><i class="icon-th"></i></span>
                                     </div>
-                                </div>
+
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
 
@@ -178,11 +176,34 @@
     var isScrLock = false;
     var html = '';
 
-    $(document).ready(function () {
-        $('#start_date').datepicker();
-        $('#end_date').datepicker();
+    var getTodaysDate = function() {
 
-        $('.date-picker').on('changeDate', function(ev){
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if(dd<10){
+            dd='0'+dd
+        }
+        if(mm<10){
+            mm='0'+mm
+        }
+
+        //  var todayDate = yyyy+'-'+mm+'-'+dd;
+        var todayDate = yyyy+'-'+mm+'-'+dd;
+        return todayDate;
+    }
+
+    $(document).ready(function () {
+        $('#start_date, #end_date').keypress(function(){
+            return false;
+        });
+        var current_date = getTodaysDate();
+        $('#start_date').datepicker('setValue', current_date);
+        $('#end_date').datepicker('setValue', current_date);
+
+        $('#start_date, #end_date').on('changeDate', function(ev){
             $(this).datepicker('hide');
         });
     });
