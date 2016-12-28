@@ -18,15 +18,16 @@ class ModulesTableSeeder extends Seeder
         Module::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
         Module::insert(array(
-         					array('name' => 'Roles'),
+         					array('name' => 'Roles Management'),
 							array('name' => 'Admin Users'),
 							array('name' => 'Site Users'),
-                            array('name' => 'Jobs'),
-                            array('name' => 'Skills'),
-                            array('name' => 'Industries'),
-                            array('name' => 'Transactions'),
+                            array('name' => 'Jobs Management'),
+                            array('name' => 'Skills Management'),
+                            array('name' => 'Industries Management'),
+                            array('name' => 'Transaction History'),
                             array('name' => 'Refund Requests'),
-                            array('name' => 'Activity Logs')
+                            array('name' => 'Activity Logs'),
+                            array('name' => 'News Management')
 							));
 
     }

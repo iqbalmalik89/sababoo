@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\AppliedJob;
 use BusinessObject\User;
+use BusinessObject\Industry;
 use \Validator, \Session;
 class HomeController extends Controller {
 
@@ -15,20 +16,24 @@ class HomeController extends Controller {
     public $job_repo;
     public $role_repo;
     public $skill_repo;
+    public $news_repo;
     public $industry_repo;
 
     public $user_model;
+    public $industry_model;
     public $role_model;
     public $applied_job_model;
 
-    public function __construct(Role $role, AppliedJob $applied_job, User $user) {
+    public function __construct(Role $role, AppliedJob $applied_job, User $user, Industry $industry) {
         $this->user_repo = app()->make('UserRepository');
         $this->job_repo = app()->make('JobRepository');
         $this->role_repo = app()->make('RoleRepository');
         $this->skill_repo = app()->make('SkillsRepository');
         $this->industry_repo = app()->make('IndustryRepository');
+        $this->news_repo = app()->make('NewsRepository');
         $this->user_model = $user;
         $this->role_model = $role;
+        $this->industry_model = $industry;
         $this->applied_job_model = $applied_job;
     }
 
@@ -366,5 +371,41 @@ class HomeController extends Controller {
         $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
         $users = $this->user_model->where('is_admin', '=', 1)->where('status', '=', 'enabled')->get();
         return view('admin.logs',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations, 'users'=>$users]);
+    }
+
+    /* for newses listing */
+    public function showNewses(Request $request) {
+        $title  = 'Sababoo | Admin | News';
+        $logged_in_user   = Auth::user();
+        //$logged_in_user = Session::get('sa_user');
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+        $industries = $this->industry_model->where('status', '!=', '3')->get();
+        return view('admin.newses',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations, 'industries'=>$industries]);
+    }
+
+    /* for individual news view */
+    public function showNews(Request $request) {
+        $title  = 'Sababoo | Admin | News';
+        $logged_in_user   = Auth::user();
+
+        $input = $request->only('id');
+        $news_id = 0;
+        $news = NULL;
+        if (isset($input['id']) && $input['id'] != '') {
+            $news_id = $input['id'];
+            $news = $this->news_repo->findById($news_id);
+            if ($news == NULL) {
+                return redirect('/admin/404');
+            }
+        }
+        
+        //$logged_in_user = Session::get('sa_user');
+        $industries = $this->industry_model->where('status', '!=', '3')->get();
+        return view('admin.news',['title'=>$title, 
+                                'news_id' => $news_id, 
+                                'news'=>$news,
+                                'logged_in_user'=>$logged_in_user,
+                                'industries'=>$industries]);
     }
 }

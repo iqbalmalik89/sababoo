@@ -322,3 +322,38 @@ $('#logs_filter_by_module').change(function(){
 $('#logs_filter_by_user').change(function(){
     Sababoo.App.Logs.list();
 });
+
+
+// News events
+$('#news-list-limit').change(function(){
+    Sababoo.App.News.list();
+});
+
+$('#news_filter_by_status').change(function(){
+    Sababoo.App.News.list();
+});
+$('#news_filter_by_industry').change(function(){
+    Sababoo.App.News.list();
+});
+
+$('#news_submit_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.News.create();
+}); 
+
+$('#news_remove_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.News.remove();
+});
+
+$('#news_status_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.News.updateStatus();
+});
+
+$('#news_search_keyword').keypress(function(event){
+    if(event.which == '13'){
+        Sababoo.App.News.list();
+    }
+});
+

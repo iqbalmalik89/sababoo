@@ -185,6 +185,9 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 	Route::get('/refunds',['uses'=>'HomeController@showRefunds'])->middleware(['acl.admin:refund.list']);
 	Route::get('/dashboard',['uses'=>'HomeController@showReports'])->middleware(['acl.admin']);
 	Route::get('/logs',['uses'=>'HomeController@showLogs'])->middleware(['acl.admin:log.list']);
+
+	Route::get('/newses',['uses'=>'HomeController@showNewses'])->middleware(['acl.admin:news.list']);
+	Route::get('/news',['uses'=>'HomeController@showNews'])->middleware(['acl.admin:news.create']);
 });
 
 
@@ -258,6 +261,14 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
     Route::get('/report/job',['as'=>'report.job', 'uses'=>'ReportController@jobReport']);
 
     Route::get('/logs/list',['as'=>'logs.list', 'uses'=>'ActivityLogController@all']);
+
+    // News Routes
+	Route::get('/news/view',['as'=>'news:view', 'uses'=>'NewsController@view'])->middleware(['acl.admin:news.list']);
+	Route::get('/news/list',['as'=>'news:list', 'uses'=>'NewsController@all'])->middleware(['acl.admin:news.list']);
+	Route::post('/news/create',['as'=>'news:create', 'uses'=>'NewsController@create'])->middleware(['acl.admin:news.create']);
+	Route::put('/news/update',['as'=>'news:update', 'uses'=>'NewsController@update'])->middleware(['acl.admin:news.update']);
+	Route::put('/news/update-status',['as'=>'news.update-status', 'uses'=>'NewsController@updateStatus'])->middleware(['acl.admin:news.update']);
+	Route::delete('/news/remove',['as'=>'news.remove', 'uses'=>'NewsController@remove'])->middleware(['acl.admin:news.delete']);
 
 });
 });

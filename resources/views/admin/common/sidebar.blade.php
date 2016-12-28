@@ -22,7 +22,7 @@
     $industry_view = '';
     $transaction_view = '';
     $refund_view = '';
-    $reporting_view = '';
+    $news_view = '';
     $log_view = '';
 
     // for role view permission                         permission id = 4
@@ -72,6 +72,11 @@
     // for log view permission                         permission id = 36
     if (!in_array(36, $roleOperations)) {
         $log_view = 'hide';
+    }
+
+    // for news view permission                         permission id = 4o
+    if (!in_array(40, $roleOperations)) {
+        $news_view = 'hide';
     }
 ?>
 <div class="page-sidebar-wrapper">
@@ -143,6 +148,14 @@
                 <a href="{{URL::to('admin/industries')}}" class="nav-link nav-toggle">
                     <i class="icon-layers"></i>
                     <span class="title">Industries Management</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
+            <li class="nav-item start <?php if($page=='newses' || $page=='news'){ echo "active";} ?> {{$news_view}}">
+                <a href="{{URL::to('admin/newses')}}" class="nav-link nav-toggle">
+                    <i class="icon-bulb"></i>
+                    <span class="title">News Management</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
                 </a>

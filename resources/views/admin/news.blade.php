@@ -13,16 +13,16 @@
                 <div class="page-bar">
                     <ul class="page-breadcrumb">
                         <li>
-                            <a href="{{URL::to('admin/users')}}">User Management</a>
+                            <a href="{{URL::to('admin/newses')}}">News Management</a>
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
-                            <span>{{($user_id > 0)?'Modify':'Add'}} User</span>
+                            <span>{{($news_id > 0)?'Modify':'Add'}} News</span>
                         </li>
                     </ul>
 
                     <div class="form-actions pull-right margin-top-5px margin-bottom-5px">
-                        <a href="{{URL::to('admin/users')}}"><button type="button" class="btn green"><i class="fa fa-arrow-left fa-fw"></i> Go Back To Users</button></a>
+                        <a href="{{URL::to('admin/newses')}}"><button type="button" class="btn green"><i class="fa fa-arrow-left fa-fw"></i> Go Back To News</button></a>
                     </div>
                 </div>
                 <!-- END PAGE BAR -->
@@ -38,7 +38,7 @@
                         <div class="portlet light bordered">
                             <div class="portlet-title">
                                 <div class="caption">
-                                    <span class="caption-subject bold uppercase">{{($user_id > 0)?'Modify':'Add New'}} User</span>
+                                    <span class="caption-subject bold uppercase">{{($news_id > 0)?'Modify':'Add New'}} News</span>
                                 </div>
                             </div>
                             <div class="portlet-body form">
@@ -48,42 +48,24 @@
                                 <div class="form-body">
 
                                     <div class="form-group">
-                                        <label>Name</label>
-                                        <div class="input-group margin-top-10">
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-user"></i>
-                                            </span>
-                                            <input type="text" class="form-control" placeholder="Enter Full Name" id="user_name" value="{{($user_id > 0)?$user->name:''}}"> </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <div class="input-group margin-top-10">
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-envelope"></i>
-                                            </span>
-                                            <input type="email" class="form-control" placeholder="Enter Email Address" id="user_email" value="{{($user_id > 0)?$user->email:''}}"> </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Role</label>
-                                        <div class="margin-top-10">
-                                            <select class="bs-select form-control" id="user_role">
+                                        <label>Industry</label>
+                                        <div class="input-group margin-top-10 col-md-9">
+                                            <select class="bs-select form-control" id="news_industry">
                                             <?php
-                                                if (count($roles) > 0) {
+                                                if (count($industries) > 0) {
                                             ?>
-                                                <option value="0">Select Role</option>
+                                                <option value="0">Select Industry</option>
                                                 <?php
-                                                    foreach ($roles as $key => $role) {
+                                                    foreach ($industries as $key => $industry) {
                                                 ?>
-                                                    <option value="{{$role->id}}">{{$role->name}}</option>
+                                                    <option value="{{$industry->id}}">{{$industry->name}}</option>
                                                 <?php
                                                     }
                                                 ?>
                                             <?php
                                                 } else {
                                             ?>
-                                                <option value="0">No Role Found</option>
+                                                <option value="0">No Industry Found</option>
                                             <?php
                                                 }
                                             ?>
@@ -92,9 +74,22 @@
                                         
                                     </div>
 
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <div class="input-group margin-top-10 col-md-9">
+                                            <input type="text" class="form-control" placeholder="Enter Title" id="news_title" value="{{($news_id > 0)?$news->title:''}}"> </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <div class="input-group margin-top-10 col-md-9">
+                                            <textarea class="form-control" placeholder="Enter description" id="news_description" rows="5">{{($news_id > 0)?$news->description:''}}</textarea> 
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="form-actions right">
-                                    <a href="javascript:;" id="user_submit_btn"><button type="button" class="btn green">Submit</button></a>
+                                    <a href="javascript:;" id="news_submit_btn"><button type="button" class="btn green">Submit</button></a>
                                     <img class="button_spinners" src="{{URL::to('pannel/images/loader.gif')}}" id="submit_loader">
                                 </div>
                                
@@ -112,15 +107,15 @@
     </div>
     <!-- END CONTAINER -->
 
-<input type="hidden" value="{{$user_id}}" id="updated_user_id"/>
+<input type="hidden" value="{{$news_id}}" id="updated_news_id"/>
 
 @endsection
 @section('scripts')
 <script type="text/javascript">
-var user = '<?php echo json_encode($user)?>'
+var news = '<?php echo json_encode($news)?>'
 $(document).ready(function() {
-    var userdata = JSON.parse(user);
-    $('#user_role').val(userdata.role_id);
+    var newsdata = JSON.parse(news);
+    $('#news_industry').val(newsdata.industry_id);
 });
 </script> 
 @endsection

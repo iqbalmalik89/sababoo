@@ -183,6 +183,7 @@ return [
         App\Providers\RefundRepositoryServiceProvider::class,
         App\Providers\ReportRepositoryServiceProvider::class,
         App\Providers\ActivityLogRepositoryServiceProvider::class,
+        App\Providers\NewsRepositoryServiceProvider::class,
     ],
 
     /*

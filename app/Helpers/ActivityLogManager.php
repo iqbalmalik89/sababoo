@@ -39,7 +39,6 @@ class ActivityLogManager {
 		if (isset($params['sub_text'])) {
 			$activityData->sub_text = $params['sub_text'];
 		}
-		$activityData->is_read = 0;
 		$activityData->save();
 	}
 }

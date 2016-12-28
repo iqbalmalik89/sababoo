@@ -3913,3 +3913,476 @@ Sababoo.App.Logs = (function() {
 	}
 }());
 
+/* News Management */
+Sababoo.App.News = (function() {
+
+	var config = Sababoo.Config;
+	var newsApiUrl = config.getApiUrl()+'news';
+
+	var list = function (page) {
+
+		$('.spinner-section').show();
+		var page 			= page || 1;
+		var pagination 		= true;
+		var filterByStatus 	= $('#news_filter_by_status').val() || '';
+		var filterByIndustry 	= $('#news_filter_by_industry').val() || 0;
+		var keyword 		= $('#news_search_keyword').val() || '';
+		var limit 			= $('#news-list-limit').val() || 0;
+		var data 			= {};
+		var total_news 		= $('#total_news');
+
+		data.pagination 	= pagination;
+		data.page 			= page;
+		data.limit 			= limit;
+		data.keyword 		= keyword;
+		data.filter_by_status = filterByStatus;
+		data.filter_by_industry = filterByIndustry;
+		
+		var request = $.ajax({
+			url: newsApiUrl+'/list?page='+page,
+			data:data,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			$('.spinner-section').hide();
+			var html = '';
+			var paginationShow = '';
+			var newses = data.data;
+			var classDisabledPrev = "";
+			var classDisabledNext = "";
+			var paginations = data.pagination;
+			total_news.html(paginations.total);
+
+			if(newses.length > 0) {
+
+				$('#news_list_head').html('<tr>\
+		                                        <th> ID </th>\
+		                                        <th> Title </th>\
+		                                        <th> Description </th>\
+		                                        <th> Industry </th>\
+		                                        <th> Associated Jobs </th>\
+		                                        <th> Status </th>\
+		                                        <th> Action</th>\
+		                                    </tr>');
+
+				$(newses).each(function(index, news){
+
+					var archiveText = '-';	
+					var archiveClass = '';					
+					var is_active = '';
+					var statusText = 'N/A';
+
+					if (typeof news.title != 'undefined' && typeof news.title !== null && news.title!='' ) {
+						news.title = news.title;
+					} else {
+						news.title = 'N/A';									
+					}
+
+					if (typeof news.description != 'undefined' && typeof news.description !== null && news.description!='' ) {
+						news.description = news.description;
+					} else {
+						news.description = 'N/A';									
+					}
+
+					if (typeof news.industry_name != 'undefined' && typeof news.industry_name !== null && news.industry_name!='' ) {
+						news.industry_name = news.industry_name;
+					} else {
+						news.industry_name = 'N/A';									
+					}
+
+					if (typeof news.total_jobs != 'undefined' && typeof news.total_jobs !== null && news.total_jobs!='' ) {
+						news.total_jobs = news.total_jobs;
+					} else {
+						news.total_jobs = '0';									
+					}
+					
+					if (typeof news.is_active != 'undefined' && typeof news.is_active !== null ) {
+						if(news.is_active == 1){
+							statusText = 'Active';
+							is_active = 0;
+							archiveText = 'Deactivate';
+							archiveClass = 'blue';
+						}else{
+							statusText = 'InActive';
+							is_active = 1;
+							archiveText = 'Activate';
+							archiveClass = 'green-jungle';
+						}
+					}
+					
+					var can_update = '';
+					if ($.inArray(38, hidden_operations) > -1) {
+						can_update = '<a href="'+config.getAppUrl()+'/news?id='+news.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-edit"></i> Edit </a>';
+					} else {
+						can_update = '';
+					}
+
+					var can_update_status = '';
+					if ($.inArray(38, hidden_operations) > -1) {
+						can_update_status = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' news_status" data-id="'+news.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>';
+					} else {
+						can_update_status = '';
+					}
+
+					var can_delete = '';
+					if ($.inArray(39, hidden_operations) > -1) {
+						can_delete = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_news" data-id="'+news.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>';
+					} else {
+						can_delete = '';
+					}
+
+					html += '<tr>\
+                                <td class="highlight"> '+news.id+' </td>\
+                                <td class="hidden-xs"> '+news.title+' </td>\
+                                <td class="hidden-xs"> '+news.description+' </td>\
+                                <td class="hidden-xs"> '+news.industry_name+' </td>\
+                                <td> '+news.total_jobs+' </td>\
+                                <td> '+statusText+' </td>\
+                                <td>\
+                                    '+can_update+'\
+                                    '+can_delete+'\
+                                    '+can_update_status+'\
+                                </td>\
+                            </tr>';
+
+				});
+			} else {
+				$('#news_list_head').html('');
+				html  += '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>Nothing Here Yet.</h3>\
+                    <p>We couldn\'t find any record related to the defined criteria. Please try again later.</p></div>';
+			}
+
+			$('#news_list').html(html);
+
+            if(data.pagination.current >= data.pagination.next && data.pagination.current==1) {
+				$('.general-pagination').hide();
+				$('.role-pagination-limit').hide();
+			} else {
+				if(data.pagination.current==data.pagination.first){
+					classDisabledPrev="disable";
+				}
+				if(data.pagination.current==data.pagination.last){
+					classDisabledNext="disable";
+				}
+				paginationShow+='<li >\
+								      <a class="general-pagination-click  '+classDisabledPrev+'" data-page='+paginations.previous+' href="javascript:;">Previous</a>\
+								    </li>';
+				paginationShow+= '<li >\
+								      <a class=" general-pagination-click '+classDisabledNext+'" data-page='+paginations.next+' href="javascript:;">Next</a>\
+								    </li>';
+				paginationShow+= '<li class="hidden-xs">Showing '+data.pagination.to+' - '+data.pagination.from+' of total '+data.pagination.total+' records</li>';
+
+				$('.general-pagination').html(paginationShow);
+				$('.general-pagination').show();
+				$('.general-pagination-limit').show();
+			}
+
+			$('.general-pagination-click').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var page  = $(this).data('page');
+				Sababoo.App.News.list(page);
+		    });
+
+		    $('.delete_news').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var news_id  = $(this).attr('data-id');
+				$('#hidden_action_news_id').val(news_id);
+				$('#removeConfirmation').modal('show');
+		    });
+
+		    $('.news_status').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var news_id  = $(this).attr('data-id');
+				var status  = $(this).attr('data-status');
+				$('#hidden_action_news_id').val(news_id);
+				$('#hidden_action_news_status').val(status);
+
+				if (status == 1) {
+					$('#update_status_text').text('Activate');
+				} else if (status == 0) {
+					$('#update_status_text').text('Deactivate');
+				}
+				$('#updateStatusConfirmation').modal('show');
+		    });
+		});
+
+		request.fail(function(jqXHR, textStatus){
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while retrieving news.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+
+			var html = '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>'+error+'</h3></div>';
+            $('#news_list').html(html);
+		});		
+	};
+
+	var create = function (){
+
+		var errors = [];
+		var news_id = $('#updated_news_id').val();
+		var title 	= $('#news_title');
+
+		var industry_id 	= $('#news_industry');
+
+		if ($.trim(industry_id.val()) == 0) {
+			errors.push('Please select industry.');
+			industry_id.parent().parent().addClass('has-error');
+		} else {
+			industry_id.parent().parent().removeClass('has-error');	
+		}
+
+		if ($.trim(title.val()) == '') {
+			errors.push('Please enter title.');
+			title.parent().addClass('has-error');
+		} else {
+			title.parent().removeClass('has-error');	
+		}
+
+		var description 	= $('#news_description');
+
+		if ($.trim(description.val()) == '') {
+			errors.push('Please enter description.');
+			description.parent().addClass('has-error');
+		} else {
+			description.parent().removeClass('has-error');	
+		}
+
+		
+
+		if (errors.length < 1) {
+
+			var jsonData = {
+								id:news_id,
+								title:$.trim(title.val()),
+								description:$.trim(description.val()),
+								industry_id:$.trim(industry_id.val())													
+							}
+
+			if (jsonData.id == 0) {
+				var request = $.ajax({
+					url: newsApiUrl+'/create',
+					data: jsonData,
+					type: 'post',
+					dataType:'json'
+				});
+			} else {
+				var request = $.ajax({	
+					url: newsApiUrl+'/update',
+					data: jsonData,
+					type: 'put',
+					dataType:'json'
+				});
+			}
+			
+			$('#news_submit_btn').addClass('prevent-click');
+			$('#submit_loader').show();
+
+			request.done(function(data){
+				
+				$('#submit_loader').hide();
+				if(data.success) {		 
+						$('#msg_div').removeClass('alert-danger');
+						$('#msg_div').html(data.success.messages[0]).addClass('alert-success').show().delay(2000).fadeOut(function()
+						{
+							window.location.href = config.getAppUrl()+'/newses';
+					    });		 	
+				} else if(data.error) {
+					$('#news_submit_btn').removeClass('prevent-click');
+					var message_error = data.error.messages[0];
+					$('#msg_div').removeClass('alert-success');
+					$('#msg_div').html(message_error).addClass('alert-danger').show();
+				}
+				
+			});
+
+			request.fail(function(jqXHR, textStatus){
+				$('#news_submit_btn').removeClass('prevent-click');
+				$('#submit_loader').hide();
+				var jsonResponse = $.parseJSON(jqXHR.responseText);
+				var error = 'An error occurred.';
+				if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+					error = jsonResponse.error.messages[0];
+				}
+				$('#msg_div').removeClass('alert-success');
+				$('#msg_div').html(error).addClass('alert-danger').show();
+			});	
+
+		} else {
+			$('#msg_div').removeClass('alert-success');
+			$('#msg_div').html(errors[0]).addClass('alert-danger').show();
+			$('#news_submit_btn').removeClass('prevent-click');
+			$('#submit_loader').hide();
+		}		
+	};
+
+	var view = function(id){
+        var jsonData = {id:id};
+		var request = $.ajax({
+			url: newsApiUrl+'/view',
+			data: jsonData,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.success(function(data){
+			$('#news_title').val(data.title);
+			$('#news_description').val(data.description);
+			$('#news_industry').val(data.industry_id);
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			// do something
+		});
+    };
+
+	var remove = function (){
+		var id = $('#hidden_action_news_id').val();
+		$('#news_remove_btn').addClass('prevent-click');
+		$('#remove_submit_loader').show();
+
+		var request = $.ajax({
+			url: newsApiUrl+'/remove',
+			data: {id:id},
+			type: 'delete',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			
+			$('#remove_submit_loader').hide();
+			if (data.success) {
+				var html = 'News has been deleted successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#remove_msg_div').removeClass('alert-danger');
+		 		$('#remove_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#news_remove_btn').removeClass('prevent-click');
+				    $('#removeConfirmation').modal('hide');
+				    Sababoo.App.News.list();	
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while deleting this news.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#news_remove_btn').removeClass('prevent-click');
+				$('#remove_msg_div').removeClass('alert-success');
+				$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+				    $(this).html('');
+				    $('#remove_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#news_remove_btn').removeClass('prevent-click');
+			$('#remove_submit_loader').hide();
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while deleting this news.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	var updateStatus = function (){
+		
+		var jsonData = {};
+		jsonData.id = $('#hidden_action_news_id').val();
+		jsonData.status = $('#hidden_action_news_status').val();
+
+		var request = $.ajax({
+			url: newsApiUrl+'/update-status',
+			data: jsonData,
+			type: 'put',
+			dataType:'json'
+		});
+
+		$('#news_status_btn').addClass('prevent-click');
+		$('#status_submit_loader').show();
+
+		request.done(function(data){
+			
+			$('#status_submit_loader').hide();
+			
+			if (data.success) {
+				var html = 'Status has been updates successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#status_msg_div').removeClass('alert-danger');
+		 		$('#status_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#news_status_btn').removeClass('prevent-click');
+				    $('#updateStatusConfirmation').modal('hide');
+				    Sababoo.App.News.list();		
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while updating news status.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#news_status_btn').removeClass('prevent-click');
+				$('#status_msg_div').removeClass('alert-success');
+				$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $('#status_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#news_status_btn').removeClass('prevent-click');
+			$('#status_submit_loader').hide();
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while updating news status.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	return {
+		list:list,
+		create:create,
+		remove:remove,
+		updateStatus:updateStatus,
+		view:view
+	}
+}());
+

@@ -64,6 +64,13 @@ class AclWithAdmin
                         } else {
                             $route = 'industry.create';
                         }
+                    } else if($route == 'news.create') {
+                       
+                        if (isset($input['id']) && $input['id'] > 0) {
+                            $route = 'news.update';
+                        } else {
+                            $route = 'news.create';
+                        }
                     }
 
                     $operation = Operation::where('route', '=', $route)->first();
