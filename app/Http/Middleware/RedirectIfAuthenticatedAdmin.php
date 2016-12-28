@@ -23,7 +23,7 @@ class RedirectIfAuthenticatedAdmin
             if ($loggedInUser->is_admin == 0) {
                 
             } else {
-                return redirect('/admin/users');
+                return redirect('/admin/dashboard');
             }
         }
 

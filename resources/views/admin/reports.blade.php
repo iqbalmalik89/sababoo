@@ -13,12 +13,12 @@
             <div class="page-bar">
                 <ul class="page-breadcrumb">
                     <li>
-                        <a href="{{URL::to('admin/reports')}}">Reports</a>
-                        <!-- <i class="fa fa-circle"></i> -->
+                        <a href="{{url('admin/dashboard')}}">Dashboard</a>
+                        <i class="fa fa-circle"></i>
                     </li>
-                    <!-- <li>
-                        <span>Dashboard</span>
-                    </li> -->
+                    <li>
+                        <span>Reports</span>
+                    </li>
                 </ul>
             </div>
             <!-- END PAGE BAR -->

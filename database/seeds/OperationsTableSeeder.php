@@ -59,15 +59,10 @@ class OperationsTableSeeder extends Seeder
                 array('module_id' => 8 , 'name' => 'Delete', 'route'=>"refund.delete", 'method'=>'DELETE', 'is_applied'=>0, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
                 array('module_id' => 8, 'name' => 'List', 'route'=>"refund.list", 'method'=>'GET', 'is_applied'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
 
-                array('module_id' =>  9, 'name' => 'Create', 'route'=>"report.create", 'method'=>'POST', 'is_applied'=>0, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
-                array('module_id' => 9 , 'name' => 'Update', 'route'=>"report.update", 'method'=>'PUT', 'is_applied'=>0, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
-                array('module_id' => 9 , 'name' => 'Delete', 'route'=>"report.delete", 'method'=>'DELETE', 'is_applied'=>0, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
-                array('module_id' => 9, 'name' => 'List', 'route'=>"report.list", 'method'=>'GET', 'is_applied'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
-
-                array('module_id' =>  10, 'name' => 'Create', 'route'=>"log.create", 'method'=>'POST', 'is_applied'=>0, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
-                array('module_id' => 10 , 'name' => 'Update', 'route'=>"log.update", 'method'=>'PUT', 'is_applied'=>0, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
-                array('module_id' => 10 , 'name' => 'Delete', 'route'=>"log.delete", 'method'=>'DELETE', 'is_applied'=>0, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
-                array('module_id' => 10, 'name' => 'List', 'route'=>"log.list", 'method'=>'GET', 'is_applied'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+                array('module_id' =>  9, 'name' => 'Create', 'route'=>"log.create", 'method'=>'POST', 'is_applied'=>0, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+                array('module_id' => 9 , 'name' => 'Update', 'route'=>"log.update", 'method'=>'PUT', 'is_applied'=>0, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+                array('module_id' => 9 , 'name' => 'Delete', 'route'=>"log.delete", 'method'=>'DELETE', 'is_applied'=>0, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+                array('module_id' => 9, 'name' => 'List', 'route'=>"log.list", 'method'=>'GET', 'is_applied'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
 							
 							));
 

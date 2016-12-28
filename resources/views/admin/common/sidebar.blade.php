@@ -69,13 +69,8 @@
         $refund_view = 'hide';
     }
 
-    // for reporting view permission                         permission id = 36
+    // for log view permission                         permission id = 36
     if (!in_array(36, $roleOperations)) {
-        $reporting_view = 'hide';
-    }
-
-    // for log view permission                         permission id = 40
-    if (!in_array(40, $roleOperations)) {
         $log_view = 'hide';
     }
 ?>
@@ -88,6 +83,16 @@
                 <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
                 <div class="sidebar-toggler"> </div>
                 <!-- END SIDEBAR TOGGLER BUTTON -->
+            </li>
+            <li class="nav-item start <?php if($page=='dashboard'){ echo "active";} ?>">
+                <a href="{{URL::to('admin/dashboard')}}" class="nav-link nav-toggle">
+                    <i class="icon-home"></i>
+                    <span class="title">Dashboard</span>
+                    <!-- <span class="arrow"></span> -->
+                </a>
+            </li>
+            <li class="heading">
+                <h3 class="uppercase">Features</h3>
             </li>
             <li class="nav-item start <?php if($page=='roles' || $page=='role'){ echo "active";} ?> {{$role_view}}">
                 <a href="{{URL::to('admin/roles')}}" class="nav-link nav-toggle">
@@ -154,14 +159,6 @@
                 <a href="{{URL::to('admin/refunds')}}" class="nav-link nav-toggle">
                     <i class="icon-wrench"></i>
                     <span class="title">Refund Requests</span>
-                    <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
-                </a>
-            </li>
-            <li class="nav-item start <?php if($page=='reports'){ echo "active";} ?> {{$reporting_view}}">
-                <a href="{{URL::to('admin/reports')}}" class="nav-link nav-toggle">
-                    <i class="icon-bar-chart"></i>
-                    <span class="title">Reports</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
                 </a>

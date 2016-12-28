@@ -248,7 +248,7 @@ Sababoo.App.User = (function() {
 					localStorage.setItem('sababoo_admin', JSON.stringify(data.data));
 					error_msg.addClass('alert-success').html('You have been logged in successfully.').show().delay(2000).fadeOut(function(){
 						$(this).html('');
-						window.location.href = config.getAppUrl()+'/users';
+						window.location.href = config.getAppUrl()+'/dashboard';
 				    });
 				}
 

@@ -183,7 +183,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 
 	Route::get('/transactions',['uses'=>'HomeController@showTransactions'])->middleware(['acl.admin:transaction.list']);
 	Route::get('/refunds',['uses'=>'HomeController@showRefunds'])->middleware(['acl.admin:refund.list']);
-	Route::get('/reports',['uses'=>'HomeController@showReports'])->middleware(['acl.admin:report.list']);
+	Route::get('/dashboard',['uses'=>'HomeController@showReports'])->middleware(['acl.admin']);
 	Route::get('/logs',['uses'=>'HomeController@showLogs'])->middleware(['acl.admin:log.list']);
 });
 

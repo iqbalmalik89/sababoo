@@ -349,7 +349,7 @@ class HomeController extends Controller {
 
     /* for report view */
     public function showReports(Request $request) {
-        $title  = 'Sababoo | Admin | Reports';
+        $title  = 'Sababoo | Admin | Dashboard';
         $logged_in_user   = Auth::user();
         //$logged_in_user = Session::get('sa_user');
         $roleRepo = app()->make('RoleRepository');
