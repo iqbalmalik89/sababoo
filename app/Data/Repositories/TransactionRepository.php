@@ -3,6 +3,7 @@ namespace App\Data\Repositories;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Payment;
 use BusinessObject\User;
@@ -10,8 +11,8 @@ use BusinessObject\JobPost;
 use Illuminate\Support\Facades\Event;
 
 use App\Helpers\Helper;
-
-use \StdClass, Carbon\Carbon;
+use App\Helpers\ActivityLogManager;
+use \StdClass, Carbon\Carbon, \Exception;
 
 class TransactionRepository {
 

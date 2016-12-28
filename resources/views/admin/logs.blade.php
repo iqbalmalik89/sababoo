@@ -13,7 +13,7 @@
             <div class="page-bar">
                 <ul class="page-breadcrumb">
                     <li>
-                        <a href="{{URL::to('admin/logs')}}">System Logs</a>
+                        <a href="{{URL::to('admin/logs')}}">Activity Logs</a>
                         <!-- <i class="fa fa-circle"></i> -->
                     </li>
                     <!-- <li>
@@ -24,7 +24,7 @@
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
             <div>
-                <h3 class="page-title pull-left"> System Logs
+                <h3 class="page-title pull-left"> Activity Logs
                     <small>(<span id="total_logs"></span>)</small>
                 </h3>
                 <div class="pull-right margin-top-25px">
@@ -43,7 +43,7 @@
                                 <option value="users">Users</option>
                                 <option value="jobs">Jobs</option>
                                 <option value="skills">Skills</option>
-                                <option value="transactions">Transactions</option>
+                                <!-- <option value="transactions">Transactions</option> -->
                                 <option value="refunds">Refunds</option>
                                 <option value="user_profile">User Profile</option>
 

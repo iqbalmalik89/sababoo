@@ -599,6 +599,19 @@ class UserRepository {
 				$userAccount->password = Hash::make($input['new_password']);
 				if ($userAccount->save()) {
 					Cache::forget($this->_cacheKey.$userAccount->id);
+
+					// to maintain log
+					try {
+						$newParams = array(
+									'user_id' 	=> Auth::user()->id,
+									'module' 	=> 'user_profile',
+									'log_id' 	=> $userAccount->id,
+									'log_type' 	=> 'change_password'
+								);
+						ActivityLogManager::create($newParams);
+					} catch(Exception $e){
+
+					}
 					return 'success';
 				}
 			} else {
@@ -633,6 +646,18 @@ class UserRepository {
 			
 			if ($userAccount->save()) {
 				Cache::forget($this->_cacheKey.$userAccount->id);
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'user_profile',
+								'log_id' 	=> $userAccount->id,
+								'log_type' 	=> 'updated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}	
 				return 'success';
 			}
 			

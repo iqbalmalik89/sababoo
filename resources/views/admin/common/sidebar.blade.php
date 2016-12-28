@@ -169,7 +169,7 @@
             <li class="nav-item start <?php if($page=='logs'){ echo "active";} ?> {{$log_view}}">
                 <a href="{{URL::to('admin/logs')}}" class="nav-link nav-toggle">
                     <i class="icon-notebook"></i>
-                    <span class="title">System Logs</span>
+                    <span class="title">Activity Logs</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
                 </a>

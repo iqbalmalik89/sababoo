@@ -11,7 +11,8 @@ use BusinessObject\User;
 use App\Models\Refund;
 use App\Models\Payment;
 use App\Helpers\Helper;
-use \StdClass, Carbon\Carbon, \Session;
+use App\Helpers\ActivityLogManager;
+use \StdClass, Carbon\Carbon, \Session, \Exception;
 
 class RefundRepository {
 
@@ -186,6 +187,20 @@ class RefundRepository {
 				$refund->status = $input['status'];
 				if ($refund->save()) {
 					Cache::forget($this->_cacheKey.$input['id']);
+
+					// to maintain log
+					try {
+						$newParams = array(
+									'user_id' 	=> Auth::user()->id,
+									'module' 	=> 'refunds',
+									'log_id' 	=> $refund->id,
+									'log_type' 	=> 'updated_status',
+									'text'		=> $refund->status
+								);
+						ActivityLogManager::create($newParams);
+					} catch(Exception $e){
+
+					}
 
 					$receiver_data = $this->user_model->where('id', '=', $refund->requested_by)->first();
 	                $sender_data = $this->user_model->where('id', '=', $loggedInUserId)->first();

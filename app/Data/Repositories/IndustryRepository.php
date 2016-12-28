@@ -3,14 +3,15 @@ namespace App\Data\Repositories;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use BusinessObject\Industry;
 use BusinessObject\User;
 use Illuminate\Support\Facades\Event;
 
 use App\Helpers\Helper;
-
-use \StdClass, Carbon\Carbon;
+use App\Helpers\ActivityLogManager;
+use \StdClass, Carbon\Carbon, \Exception;
 
 class IndustryRepository {
 
@@ -132,6 +133,19 @@ class IndustryRepository {
 
 		if($industry->save()) {
 			
+			// to maintain log
+			try {
+				$newParams = array(
+							'user_id' 	=> Auth::user()->id,
+							'module' 	=> 'industries',
+							'log_id' 	=> $industry->id,
+							'log_type' 	=> 'created'
+						);
+				ActivityLogManager::create($newParams);
+			} catch(Exception $e){
+
+			}
+
 			return true;
 		} else {
 			return false;
@@ -159,6 +173,19 @@ class IndustryRepository {
 			
 			if ($industry->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
+
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'industries',
+								'log_id' 	=> $industry->id,
+								'log_type' 	=> 'updated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
 				return true;
 			} else {
 				return false;
@@ -191,6 +218,18 @@ class IndustryRepository {
 				$industry->status = 3;
 				if ($industry->save()) {
 					Cache::forget($this->_cacheKey.$id);
+					// to maintain log
+					try {
+						$newParams = array(
+									'user_id' 	=> Auth::user()->id,
+									'module' 	=> 'industries',
+									'log_id' 	=> $industry->id,
+									'log_type' 	=> 'deleted'
+								);
+						ActivityLogManager::create($newParams);
+					} catch(Exception $e){
+
+					}
 					return 'success';
 				} else {
 					return 'error';
@@ -219,7 +258,7 @@ class IndustryRepository {
 		if ($industry != NULL) {
 			$industry->status = $input['status'];	
 
-			if ($industry->status == 'disable') {
+			if ($industry->status == '2') {
 				// to check for associated users
 				$associatedUsers = $this->user_model->where('industry_id', '=', $input['id'])->count();
 				if($associatedUsers > 0) {
@@ -229,6 +268,21 @@ class IndustryRepository {
 			
 			if ($industry->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
+
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'industries',
+								'log_id' 	=> $industry->id,
+								'log_type' 	=> 'updated_status',
+								'text'		=> ($industry->status == '1')?'activated':'deactivated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
+
 				return 'success';
 			}
 		}

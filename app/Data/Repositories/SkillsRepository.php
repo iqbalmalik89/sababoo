@@ -3,14 +3,15 @@ namespace App\Data\Repositories;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use BusinessObject\Skill;
 use BusinessObject\UserSkill;
 use Illuminate\Support\Facades\Event;
 
 use App\Helpers\Helper;
-
-use \StdClass, Carbon\Carbon;
+use App\Helpers\ActivityLogManager;
+use \StdClass, Carbon\Carbon, \Exception;
 
 class SkillsRepository {
 
@@ -132,6 +133,19 @@ class SkillsRepository {
 
 		if($skill->save()) {
 			
+			// to maintain log
+			try {
+				$newParams = array(
+							'user_id' 	=> Auth::user()->id,
+							'module' 	=> 'skills',
+							'log_id' 	=> $skill->id,
+							'log_type' 	=> 'created'
+						);
+				ActivityLogManager::create($newParams);
+			} catch(Exception $e){
+
+			}
+
 			return true;
 		} else {
 			return false;
@@ -159,6 +173,19 @@ class SkillsRepository {
 			
 			if ($skill->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
+
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'skills',
+								'log_id' 	=> $skill->id,
+								'log_type' 	=> 'updated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
 				return true;
 			} else {
 				return false;
@@ -191,6 +218,18 @@ class SkillsRepository {
 				$skill->status = 'delete';
 				if ($skill->save()) {
 					Cache::forget($this->_cacheKey.$id);
+					// to maintain log
+					try {
+						$newParams = array(
+									'user_id' 	=> Auth::user()->id,
+									'module' 	=> 'skills',
+									'log_id' 	=> $id,
+									'log_type' 	=> 'deleted'
+								);
+						ActivityLogManager::create($newParams);
+					} catch(Exception $e){
+
+					}
 					return 'success';
 				} else {
 					return 'error';
@@ -229,6 +268,20 @@ class SkillsRepository {
 			
 			if ($skill->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
+
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'skills',
+								'log_id' 	=> $skill->id,
+								'log_type' 	=> 'updated_status',
+								'text'		=> ($skill->status == 'enable')?'activated':'deactivated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
 				return 'success';
 			}
 		}

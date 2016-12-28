@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\ActivityLog;
 use App\Models\Role;
 use BusinessObject\User;
-
+use BusinessObject\JobPost;
+use BusinessObject\Skill;
+use BusinessObject\Industry;
+use App\Models\Refund;
 use App\Helpers\Helper;
 
 use \StdClass, Carbon\Carbon, \Exception, \DB;
@@ -17,12 +20,20 @@ class ActivityLogRepository {
 	public $log_model;
 	public $user_model;
 	public $role_model;
+	public $job_model;
+	public $skills_model;
+	public $industries_model;
+	public $refund_model;
 	public $user_repo;
 
-	public function __construct(ActivityLog $log, User $user, Role $role){
+	public function __construct(ActivityLog $log, User $user, Role $role, JobPost $job, Skill $skill, Industry $industry, Refund $refund){
 		$this->log_model 	= $log;
 		$this->user_model 	= $user;
 		$this->role_model 	= $role;
+		$this->job_model 	= $job;
+		$this->skills_model = $skill;
+		$this->industries_model = $industry;
+		$this->refund_model = $refund;
 		$this->user_repo 	= app()->make('UserRepository');
 	}
 
@@ -99,38 +110,75 @@ class ActivityLogRepository {
 				
 				if ($log->module == 'roles') {
 					$roleData = $this->role_model->withTrashed()->find($log->log_id);
-					if ($log->log_type == 'updated_status') {
-						$activity = $userName.'<strong>'.$log->text.'</strong> '.$roleData->name.' <strong>role</strong>.';
-					} else {
-						$activity = $userName.'<strong>'.$log->log_type.'</strong> '.$roleData->name.' <strong>role</strong>.';
+					if ($roleData != NULL) {
+						if ($log->log_type == 'updated_status') {
+							$activity = $userName.'<strong>'.$log->text.'</strong> '.$roleData->name.' <strong>role</strong>.';
+						} else {
+							$activity = $userName.'<strong>'.$log->log_type.'</strong> '.$roleData->name.' <strong>role</strong>.';
+						}
 					}
-					
 				} else if ($log->module == 'users') {
 
 					$userData = $this->user_model->find($log->log_id);
-					if ($log->log_type == 'updated_status') {
-						$activity = $userName.'<strong>'.$log->text.'</strong> user <strong>'.$userData->first_name.' '.$userData->last_name.' </strong>.';
-					} else {
-						$activity = $userName.'<strong>'.$log->log_type.'</strong> user <strong>'.$userData->first_name.' '.$userData->last_name.' </strong>.';
+					if ($userData != NULL) {
+						if ($log->log_type == 'updated_status') {
+							$activity = $userName.'<strong>'.$log->text.'</strong> user <strong>'.$userData->first_name.' '.$userData->last_name.' </strong>.';
+						} else {
+							$activity = $userName.'<strong>'.$log->log_type.'</strong> user <strong>'.$userData->first_name.' '.$userData->last_name.' </strong>.';
+						}
 					}
-
-				} else if ($log->module == 'site_users') {
-					
 				} else if ($log->module == 'jobs') {
-					
+					$jobData = $this->job_model->withTrashed()->find($log->log_id);
+					if ($jobData != NULL) {
+						if ($log->log_type == 'updated_status') {
+							$activity = $userName.'<strong>'.$log->text.'</strong> '.$jobData->name.' <strong>job</strong>.';
+						} else {
+							$activity = $userName.'<strong>'.$log->log_type.'</strong> '.$jobData->name.' <strong>job</strong>.';
+						}
+					}
 				} else if ($log->module == 'skills') {
-					
+					$skillsData = $this->skills_model->find($log->log_id);
+					if ($skillsData != NULL) {
+						if ($log->log_type == 'updated_status') {
+							$activity = $userName.'<strong>'.$log->text.'</strong> '.$skillsData->skill.' <strong>skill</strong>.';
+						} else {
+							$activity = $userName.'<strong>'.$log->log_type.'</strong> '.$skillsData->skill.' <strong>skill</strong>.';
+						}
+					}
 				} else if ($log->module == 'industries') {
-					
+					$industryData = $this->industries_model->find($log->log_id);
+					if ($industryData != NULL) {
+						if ($log->log_type == 'updated_status') {
+							$activity = $userName.'<strong>'.$log->text.'</strong> '.$industryData->name.' <strong>industry</strong>.';
+						} else {
+							$activity = $userName.'<strong>'.$log->log_type.'</strong> '.$industryData->name.' <strong>industry</strong>.';
+						}
+					}
 				} else if ($log->module == 'transactions') {
-					
+					// no activity till yet
 				} else if ($log->module == 'refunds') {
+					$refundData = $this->refund_model->find($log->log_id);
+					if ($refundData != NULL) {
+						if ($log->log_type == 'updated_status') {
+							$jobData = $this->job_model->find($refundData->job_id);
+							if ($jobData != NULL) {
+								$activity = $userName.'<strong>'.$log->text.'</strong> refund request of <strong>'.env('CURRENCY', '$').$refundData->amount.'</strong> of '.$jobData->name.' job.';
+							} else {
+								$activity = $userName.'<strong>'.$log->text.'</strong> refund request of <strong>'.env('CURRENCY', '$').$refundData->amount.'</strong>.';
+							}
+							
+						} 
+					}
 					
 				} else if ($log->module == 'user_profile') {
 					if ($log->log_type == 'login') {
 						$activity = $userName.'<strong>'.$log->log_type.'</strong> to the system.';
 					} else if ($log->log_type == 'logout') {
 						$activity = $userName.'<strong>'.$log->log_type.'</strong> from the system.';
+					} else if ($log->log_type == 'change_password') {
+						$activity = $userName.' your account\'s <strong>password</strong>.';
+					} else if ($log->log_type == 'updated') {
+						$activity = $userName.' your account\'s <strong>personal info</strong>.';
 					}
 				} 
 				$data['data'][$i]['id'] = $log->id;

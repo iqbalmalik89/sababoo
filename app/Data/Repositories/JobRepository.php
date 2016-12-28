@@ -3,14 +3,15 @@ namespace App\Data\Repositories;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\Model;
 use BusinessObject\JobPost;
 use BusinessObject\User;
 use BusinessObject\Industry;
 use App\Helpers\Helper;
-
-use \StdClass, Carbon\Carbon, \Session;
+use App\Helpers\ActivityLogManager;
+use \StdClass, Carbon\Carbon, \Session, \Exception;
 
 class JobRepository {
 
@@ -167,6 +168,18 @@ class JobRepository {
 			} 
 			$job->delete();
 			Cache::forget($this->_cacheKey.$id);
+			// to maintain log
+			try {
+				$newParams = array(
+							'user_id' 	=> Auth::user()->id,
+							'module' 	=> 'jobs',
+							'log_id' 	=> $id,
+							'log_type' 	=> 'deleted'
+						);
+				ActivityLogManager::create($newParams);
+			} catch(Exception $e){
+
+			}
 			return 'success';
 		} else {
 			return false;
@@ -200,6 +213,19 @@ class JobRepository {
 			$job->updated_at = Carbon::now();
 			if ($job->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'jobs',
+								'log_id' 	=> $job->id,
+								'log_type' 	=> 'updated_status',
+								'text'		=> ($job->is_active == 1)?'activated':'deactivated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
 				return 'success';
 			}
 		}
@@ -225,6 +251,21 @@ class JobRepository {
 			$job->updated_at = Carbon::now();
 			if ($job->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
+
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'jobs',
+								'log_id' 	=> $job->id,
+								'log_type' 	=> 'updated_status',
+								'text'		=> $job->job_status
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
+
 				return 'success';
 			}
 		}
