@@ -176,9 +176,9 @@ class ActivityLogRepository {
 					} else if ($log->log_type == 'logout') {
 						$activity = $userName.'<strong>'.$log->log_type.'</strong> from the system.';
 					} else if ($log->log_type == 'change_password') {
-						$activity = $userName.' your account\'s <strong>password</strong>.';
+						$activity = $userName.' updated your account\'s <strong>password</strong>.';
 					} else if ($log->log_type == 'updated') {
-						$activity = $userName.' your account\'s <strong>personal info</strong>.';
+						$activity = $userName.' updated your account\'s <strong>personal info</strong>.';
 					}
 				} 
 				$data['data'][$i]['id'] = $log->id;
