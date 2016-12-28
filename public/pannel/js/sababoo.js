@@ -3354,7 +3354,7 @@ Sababoo.App.Transaction = (function() {
 	}
 }());
 
-/* Refunds */
+/* Refund */
 Sababoo.App.Refunds = (function() {
 
 	var config = Sababoo.Config;
@@ -3712,6 +3712,11 @@ Sababoo.App.Reports = (function() {
 			AmCharts.makeChart("jobChart",{
 							"type": "serial",
 							"categoryField": "category",
+							"colors": [
+							"#2A0CD0",
+							"#8A0CCF",
+							"#CD0D74",
+							"#754DEB"],
 							"startDuration": 1,
 							"categoryAxis": {
 								"gridPosition": "start"
@@ -3781,5 +3786,130 @@ Sababoo.App.Reports = (function() {
 		jobReport:jobReport
 	}
 
+}());
+
+/* Logs */
+Sababoo.App.Logs = (function() {
+
+	var config = Sababoo.Config;
+	var logApiUrl = config.getApiUrl()+'logs';
+
+	var list = function (page) {
+
+		$('.spinner-section').show();
+		var page 			= page || 1;
+		var pagination 		= true;
+		var limit 			= $('#log-list-limit').val() || 0;
+		var filterByModule 	= $('#logs_filter_by_module').val() || '';
+		var filterByUser 	= $('#logs_filter_by_user').val() || 0;
+		var start_date 		= $('#start_date').val() || '';
+		var end_date 		= $('#end_date').val() || '';
+		var data 			= {};
+		var total_logs 	= $('#total_logs');
+
+		data.pagination 	= pagination;
+		data.page 			= page;
+		data.limit 			= limit;
+		data.start_date 	= start_date;
+		data.end_date 		= end_date;
+		data.filter_by_module	= filterByModule;
+		data.filter_by_user	= filterByUser;
+		
+		var request = $.ajax({
+			url: logApiUrl+'/list?page='+page,
+			data:data,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			$('.spinner-section').hide();
+			var html = '';
+			var paginationShow = '';
+			var logs = data.data;
+			var classDisabledPrev = "";
+			var classDisabledNext = "";
+			var paginations = data.pagination;
+			total_logs.html(paginations.total);
+
+			if(logs.length > 0) {
+
+				$('#logs_list_head').html('<tr>\
+		                                        <th width="21%"> Activity Date </th>\
+		                                        <th> Activity</th>\
+		                                    </tr>');
+
+				$(logs).each(function(index, log){
+
+					if (typeof log.activity != 'undefined' && typeof log.activity !== null && log.activity!='' ) {
+						log.activity = log.activity;
+					} else {
+						log.activity = 'N/A';									
+					}
+					
+					html += '<tr>\
+                                <td class="highlight" width="21%"> '+log.created_at+' </td>\
+                                <td class="hidden-xs"> '+log.activity+' </td>\
+                            </tr>';
+
+				});
+			} else {
+				$('#logs_list_head').html('');
+				html  += '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>Nothing Here Yet.</h3>\
+                    <p>We couldn\'t find any record related to the defined criteria. Please try again later.</p></div>';
+			}
+
+			$('#logs_list').html(html);
+
+            if(data.pagination.current >= data.pagination.next && data.pagination.current==1) {
+				$('.general-pagination').hide();
+				$('.transaction-pagination-limit').hide();
+			} else {
+				if(data.pagination.current==data.pagination.first){
+					classDisabledPrev="disable";
+				}
+				if(data.pagination.current==data.pagination.last){
+					classDisabledNext="disable";
+				}
+				paginationShow+='<li >\
+								      <a class="general-pagination-click  '+classDisabledPrev+'" data-page='+paginations.previous+' href="javascript:;">Previous</a>\
+								    </li>';
+				paginationShow+= '<li >\
+								      <a class=" general-pagination-click '+classDisabledNext+'" data-page='+paginations.next+' href="javascript:;">Next</a>\
+								    </li>';
+				paginationShow+= '<li class="hidden-xs">Showing '+data.pagination.to+' - '+data.pagination.from+' of total '+data.pagination.total+' records</li>';
+
+				$('.general-pagination').html(paginationShow);
+				$('.general-pagination').show();
+				$('.general-pagination-limit').show();
+			}
+
+			$('.general-pagination-click').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var page  = $(this).data('page');
+				Sababoo.App.Logs.list(page);
+		    });
+		});
+
+		request.fail(function(jqXHR, textStatus){
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while retrieving logs.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+
+			var html = '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>'+error+'</h3></div>';
+            $('#logs_list').html(html);
+		});		
+	};
+
+	return {
+		list:list
+	}
 }());
 

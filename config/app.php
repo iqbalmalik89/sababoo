@@ -182,6 +182,7 @@ return [
         App\Providers\TransactionRepositoryServiceProvider::class,
         App\Providers\RefundRepositoryServiceProvider::class,
         App\Providers\ReportRepositoryServiceProvider::class,
+        App\Providers\ActivityLogRepositoryServiceProvider::class,
     ],
 
     /*

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Data\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
+use App\Helpers\ActivityLogManager;
 use \Validator, \Session, Carbon\Carbon;;
 
 class UserController extends Controller {
@@ -396,8 +397,19 @@ class UserController extends Controller {
             return response()->json($output);
         } else  {
 
+            // to maintain log
+            try {
+                $newParams = array(
+                            'user_id'   => Auth::user()->id,
+                            'module'    => 'user_profile',
+                            'log_id'    => 0,
+                            'log_type'  => 'logout'
+                        );
+                ActivityLogManager::create($newParams);
+            } catch(\Exception $e){
+            }
+
             Auth::logout();
-            //Session::flush('sa_user');
             return ['response'=>['code'=>200,'messages'=>['You have successfully logged out.']]];
 
         }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\AppliedJob;
+use BusinessObject\User;
 use \Validator, \Session;
 class HomeController extends Controller {
 
@@ -16,15 +17,17 @@ class HomeController extends Controller {
     public $skill_repo;
     public $industry_repo;
 
+    public $user_model;
     public $role_model;
     public $applied_job_model;
 
-    public function __construct(Role $role, AppliedJob $applied_job) {
+    public function __construct(Role $role, AppliedJob $applied_job, User $user) {
         $this->user_repo = app()->make('UserRepository');
         $this->job_repo = app()->make('JobRepository');
         $this->role_repo = app()->make('RoleRepository');
         $this->skill_repo = app()->make('SkillsRepository');
         $this->industry_repo = app()->make('IndustryRepository');
+        $this->user_model = $user;
         $this->role_model = $role;
         $this->applied_job_model = $applied_job;
     }
@@ -352,5 +355,16 @@ class HomeController extends Controller {
         $roleRepo = app()->make('RoleRepository');
         $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
         return view('admin.reports',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
+    }
+
+    /* for logs view */
+    public function showLogs(Request $request) {
+        $title  = 'Sababoo | Admin | Logs';
+        $logged_in_user   = Auth::user();
+        //$logged_in_user = Session::get('sa_user');
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+        $users = $this->user_model->where('is_admin', '=', 1)->where('status', '=', 'enabled')->get();
+        return view('admin.logs',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations, 'users'=>$users]);
     }
 }

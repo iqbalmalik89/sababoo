@@ -23,6 +23,7 @@
     $transaction_view = '';
     $refund_view = '';
     $reporting_view = '';
+    $log_view = '';
 
     // for role view permission                         permission id = 4
     if (!in_array(4, $roleOperations)) {
@@ -71,6 +72,11 @@
     // for reporting view permission                         permission id = 36
     if (!in_array(36, $roleOperations)) {
         $reporting_view = 'hide';
+    }
+
+    // for log view permission                         permission id = 40
+    if (!in_array(40, $roleOperations)) {
+        $log_view = 'hide';
     }
 ?>
 <div class="page-sidebar-wrapper">
@@ -152,10 +158,18 @@
                     <!-- <span class="arrow open"></span> -->
                 </a>
             </li>
-             <li class="nav-item start <?php if($page=='reports'){ echo "active";} ?> {{$reporting_view}}">
+            <li class="nav-item start <?php if($page=='reports'){ echo "active";} ?> {{$reporting_view}}">
                 <a href="{{URL::to('admin/reports')}}" class="nav-link nav-toggle">
                     <i class="icon-bar-chart"></i>
                     <span class="title">Reports</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
+            <li class="nav-item start <?php if($page=='logs'){ echo "active";} ?> {{$log_view}}">
+                <a href="{{URL::to('admin/logs')}}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">System Logs</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
                 </a>

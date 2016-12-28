@@ -3,6 +3,7 @@ namespace App\Data\Repositories;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Role;
 use BusinessObject\User;
@@ -12,8 +13,9 @@ use App\Models\Permission;
 use Illuminate\Support\Facades\Event;
 
 use App\Helpers\Helper;
+use App\Helpers\ActivityLogManager;
 
-use \StdClass, Carbon\Carbon;
+use \StdClass, Carbon\Carbon, \Exception;
 
 class RoleRepository {
 
@@ -160,6 +162,20 @@ class RoleRepository {
 					$permissionObj->save();
 				}
 			}
+
+			// to maintain log
+			try {
+				$newParams = array(
+							'user_id' 	=> Auth::user()->id,
+							'module' 	=> 'roles',
+							'log_id' 	=> $role->id,
+							'log_type' 	=> 'created'
+						);
+				ActivityLogManager::create($newParams);
+			} catch(Exception $e){
+
+			}
+			
 			return true;
 		} else {
 			return false;
@@ -219,6 +235,20 @@ class RoleRepository {
 				}
 
 				Cache::forget($this->_cacheKey.$input['id']);
+
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'roles',
+								'log_id' 	=> $role->id,
+								'log_type' 	=> 'updated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
+
 				return true;
 			} else {
 				return false;
@@ -249,6 +279,20 @@ class RoleRepository {
 				return 'cannot_delete';
 			} else {
 				if ($role->delete()) {
+
+					// to maintain log
+					try {
+						$newParams = array(
+									'user_id' 	=> Auth::user()->id,
+									'module' 	=> 'roles',
+									'log_id' 	=> $id,
+									'log_type' 	=> 'deleted'
+								);
+						ActivityLogManager::create($newParams);
+					} catch(Exception $e){
+
+					}
+
 					return 'success';
 				} else {
 					return 'error';
@@ -329,6 +373,21 @@ class RoleRepository {
 			$role->updated_at = Carbon::now();
 			if ($role->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
+
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'roles',
+								'log_id' 	=> $role->id,
+								'log_type' 	=> 'updated_status',
+								'text'		=> ($role->is_active == 1)?'activated':'deactivated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
+
 				return 'success';
 			}
 		}

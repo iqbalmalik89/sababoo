@@ -266,7 +266,15 @@ $('#refund-list-limit').change(function(){
 });
 
 $('#refund_filter_date_btn').click(function(){
-    Sababoo.App.Refunds.list();
+    var start_date = $('#start_date');
+    var end_date = $('#end_date');
+    if (end_date.val() != '' && start_date.val() == '') {
+        start_date.parent().addClass('has-error');
+        return false;
+    } else {
+        start_date.parent().removeClass('has-error');
+        Sababoo.App.Refunds.list();
+    } 
 });
 
 $('#refund_status_btn').click(function(e){
@@ -274,7 +282,34 @@ $('#refund_status_btn').click(function(e){
     Sababoo.App.Refunds.updateStatus();
 });
 
+// report
 $('#report_filter_date_btn').click(function(){
     Sababoo.App.Reports.userReport();
     Sababoo.App.Reports.jobReport();
+});
+
+// logs
+$('#log-list-limit').change(function(){
+    Sababoo.App.Logs.list();
+});
+
+$('#log_filter_date_btn').click(function(){
+    var start_date = $('#start_date');
+    var end_date = $('#end_date');
+    if (end_date.val() != '' && start_date.val() == '') {
+        start_date.parent().addClass('has-error');
+        return false;
+    } else {
+        start_date.parent().removeClass('has-error');
+        Sababoo.App.Logs.list();
+    }
+    
+});
+
+$('#logs_filter_by_module').change(function(){
+    Sababoo.App.Logs.list();
+});
+
+$('#logs_filter_by_user').change(function(){
+    Sababoo.App.Logs.list();
 });

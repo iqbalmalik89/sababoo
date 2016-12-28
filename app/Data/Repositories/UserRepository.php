@@ -23,7 +23,7 @@ use BusinessObject\Certification;
 use App\Helpers\Helper;
 use App\Events\Activation;
 use App\Events\PasswordRecovered;
-
+use App\Helpers\ActivityLogManager;
 use \StdClass, Carbon\Carbon, \Session;
 
 class UserRepository {
@@ -273,6 +273,20 @@ class UserRepository {
 		$user->activation_token	= Hash::make(time());
 		$user->verified_string  = 'unverified';
 		if($user->save()) {	
+
+			// to maintain log
+			try {
+				$newParams = array(
+							'user_id' 	=> Auth::user()->id,
+							'module' 	=> 'users',
+							'log_id' 	=> $user->id,
+							'log_type' 	=> 'created'
+						);
+				ActivityLogManager::create($newParams);
+			} catch(Exception $e){
+
+			}
+
 			Event::fire(new Activation($user));
 			return true;
 		} else {
@@ -311,6 +325,20 @@ class UserRepository {
 
 			if($user->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
+
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'users',
+								'log_id' 	=> $user->id,
+								'log_type' 	=> 'updated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
+
 				return true;
 			} else {
 				return false;
@@ -339,6 +367,20 @@ class UserRepository {
 			$user->save();
 			//$user->delete();
 			Cache::forget($this->_cacheKey.$id);
+
+			// to maintain log
+			try {
+				$newParams = array(
+							'user_id' 	=> Auth::user()->id,
+							'module' 	=> 'users',
+							'log_id' 	=> $id,
+							'log_type' 	=> 'deleted'
+						);
+				ActivityLogManager::create($newParams);
+			} catch(Exception $e){
+
+			}
+
 			return true;
 		} else {
 			return false;
@@ -365,6 +407,21 @@ class UserRepository {
 			$user->updated_at = Carbon::now();
 			if ($user->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
+
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'users',
+								'log_id' 	=> $user->id,
+								'log_type' 	=> 'updated_status',
+								'text'		=> ($user->status == 'enabled')?'activated':'deactivated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
+
 				return true;
 			}
 		}
@@ -385,7 +442,7 @@ class UserRepository {
 		
 		$canLogin = true;
 		$userExists = $this->findByAttribute('email',$input['email']);
-
+		
 		if($userExists != NULL) {
 
 			// to check for is_admin
@@ -432,6 +489,19 @@ class UserRepository {
 							}*/
 							
 							Cache::forget($this->_cacheKey.$user->id);
+
+							// to maintain log
+							try {
+								$newParams = array(
+											'user_id' 	=> Auth::user()->id,
+											'module' 	=> 'user_profile',
+											'log_id' 	=> $user->id,
+											'log_type' 	=> 'login'
+										);
+								ActivityLogManager::create($newParams);
+							} catch(Exception $e){
+
+							}
 
 							// return response 200
 							return $output;
