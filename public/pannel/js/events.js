@@ -284,8 +284,17 @@ $('#refund_status_btn').click(function(e){
 
 // report
 $('#report_filter_date_btn').click(function(){
-    Sababoo.App.Reports.userReport();
-    Sababoo.App.Reports.jobReport();
+    var start_date = $('#start_date');
+    var end_date = $('#end_date');
+    if (end_date.val() != '' && start_date.val() == '') {
+        start_date.parent().addClass('has-error');
+        return false;
+    } else {
+        start_date.parent().removeClass('has-error');
+        Sababoo.App.Reports.userReport();
+        Sababoo.App.Reports.jobReport();
+    }
+    
 });
 
 // logs
