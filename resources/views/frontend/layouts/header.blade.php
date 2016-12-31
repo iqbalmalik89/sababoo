@@ -133,6 +133,10 @@
                                 <a href="/transactions">Transaction History</a>
                             </li>
 
+                            <li class="">
+                                <a href="/job/news/0">News</a>
+                            </li>
+
                         </ul>
                 
                     </div><!--/.nav-collapse -->

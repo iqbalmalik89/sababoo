@@ -73,19 +73,20 @@
                     
                         <div class="row">
                         
-                            <div class="col-sm-4 col-md-4">
+                            <div class="col-sm-3 col-md-3">
                     
                                 <p class="copy-right">&#169; Copyright 2016 Sababoo</p>
                                 
                             </div>
                             
-                            <div class="col-sm-4 col-md-4">
+                            <div class="col-sm-5 col-md-5">
                             
                                 <ul class="bottom-footer-menu">
                                     <li><a href="{{url('job/user_job_list')}}">Jobs</a></li>
                                     <li><a href="{{url('network/connection')}}">Network</a></li>
                                     <li><a href="{{url('user_view_message')}}">Messages</a></li>
                                     <li><a href="{{url('transactions')}}">Transactions</a></li>
+                                    <li><a href="{{url('job/news/0')}}">News</a></li>
                                 </ul>
                             
                             </div>

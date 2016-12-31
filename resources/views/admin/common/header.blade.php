@@ -25,7 +25,11 @@
         <!-- BEGIN TOP NAVIGATION MENU -->
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
-                
+                <li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
+                    <a href="{{url('admin/logs')}}" class="dropdown-toggle" data-close-others="true">
+                        <i class="icon-calendar"></i>
+                    </a>
+                </li>
                 <!-- BEGIN USER LOGIN DROPDOWN -->
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                 <li class="dropdown dropdown-user">

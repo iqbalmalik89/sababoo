@@ -162,7 +162,7 @@
             </li>
             <li class="nav-item start <?php if($page=='transactions'){ echo "active";} ?> {{$transaction_view}}">
                 <a href="{{URL::to('admin/transactions')}}" class="nav-link nav-toggle">
-                    <i class="icon-calendar"></i>
+                    <i class="icon-notebook"></i>
                     <span class="title">Transaction History</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
@@ -178,7 +178,7 @@
             </li>
             <li class="nav-item start <?php if($page=='logs'){ echo "active";} ?> {{$log_view}}">
                 <a href="{{URL::to('admin/logs')}}" class="nav-link nav-toggle">
-                    <i class="icon-notebook"></i>
+                    <i class="icon-calendar"></i>
                     <span class="title">Activity Logs</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->

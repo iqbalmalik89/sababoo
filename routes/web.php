@@ -121,6 +121,8 @@ Route::match(['get', 'post'], '/job/view/{id}', ['uses' => 'UI\JobPostController
 Route::match(['get', 'post'], '/job/apply', ['uses' => 'UI\JobPostController@applyJob']);
 Route::match(['get', 'post'], '/job/user_applied_jobs', ['uses' => 'UI\JobPostController@userAppliedJobs']);
 Route::match(['get', 'post'], '/job/job-proposals/{id}', ['uses' => 'UI\JobPostController@jobProposalsList']);
+Route::match(['get', 'post'], '/job/news/{id}', ['uses'=>'UI\JobPostController@getNewsByIndustry']);
+
 // PayPal
 Route::post('job/paypal/payment',['uses'=>'UI\JobPostController@payment']);
 Route::post('job/paypal/ask-refund',['uses'=>'UI\JobPostController@askRefund']);

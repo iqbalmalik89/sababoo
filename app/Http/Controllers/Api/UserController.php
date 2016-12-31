@@ -402,7 +402,7 @@ class UserController extends Controller {
                 $newParams = array(
                             'user_id'   => Auth::user()->id,
                             'module'    => 'user_profile',
-                            'log_id'    => 0,
+                            'log_id'    => Auth::user()->id,
                             'log_type'  => 'logout'
                         );
                 ActivityLogManager::create($newParams);

@@ -11,6 +11,7 @@ use BusinessObject\JobPost;
 use BusinessObject\Skill;
 use BusinessObject\Industry;
 use App\Models\Refund;
+use App\Models\News;
 use App\Helpers\Helper;
 
 use \StdClass, Carbon\Carbon, \Exception, \DB;
@@ -24,9 +25,10 @@ class ActivityLogRepository {
 	public $skills_model;
 	public $industries_model;
 	public $refund_model;
+	public $news_model;
 	public $user_repo;
 
-	public function __construct(ActivityLog $log, User $user, Role $role, JobPost $job, Skill $skill, Industry $industry, Refund $refund){
+	public function __construct(ActivityLog $log, User $user, Role $role, JobPost $job, Skill $skill, Industry $industry, Refund $refund, News $news){
 		$this->log_model 	= $log;
 		$this->user_model 	= $user;
 		$this->role_model 	= $role;
@@ -34,6 +36,7 @@ class ActivityLogRepository {
 		$this->skills_model = $skill;
 		$this->industries_model = $industry;
 		$this->refund_model = $refund;
+		$this->news_model = $news;
 		$this->user_repo 	= app()->make('UserRepository');
 	}
 
@@ -154,6 +157,24 @@ class ActivityLogRepository {
 							$activity = $userName.'<strong>'.$log->log_type.'</strong> '.$industryData->name.' <strong>industry</strong>.';
 						}
 					}
+				} else if ($log->module == 'news') {
+					$newsData = $this->news_model->find($log->log_id);
+					if ($newsData != NULL) {
+						$industryData = $this->industries_model->find($newsData->industry_id);
+						if ($industryData != NULL) {
+							if ($log->log_type == 'updated_status') {
+								$activity = $userName.'<strong>'.$log->text.'</strong> '.$newsData->title.' <strong>news</strong> of '.$industryData->name.' industry.';
+							} else {
+								$activity = $userName.'<strong>'.$log->log_type.'</strong> '.$newsData->title.' <strong>news</strong> of '.$industryData->name.' industry.';
+							}	
+						} else {
+							if ($log->log_type == 'updated_status') {
+								$activity = $userName.'<strong>'.$log->text.'</strong> '.$newsData->title.' <strong>news</strong>.';
+							} else {
+								$activity = $userName.'<strong>'.$log->log_type.'</strong> '.$newsData->title.' <strong>news</strong>.';
+							}
+						}
+					}
 				} else if ($log->module == 'transactions') {
 					// no activity till yet
 				} else if ($log->module == 'refunds') {
@@ -172,9 +193,17 @@ class ActivityLogRepository {
 					
 				} else if ($log->module == 'user_profile') {
 					if ($log->log_type == 'login') {
-						$activity = $userName.'<strong>'.$log->log_type.'</strong> to the system.';
+						if ($log->text != '') {
+							$activity = $userName.'<strong>'.$log->log_type.'</strong> to the site.';
+						} else {
+							$activity = $userName.'<strong>'.$log->log_type.'</strong> to the system.';
+						}
 					} else if ($log->log_type == 'logout') {
-						$activity = $userName.'<strong>'.$log->log_type.'</strong> from the system.';
+						if ($log->text != '') {
+							$activity = $userName.'<strong>'.$log->log_type.'</strong> from the site.';
+						} else {
+							$activity = $userName.'<strong>'.$log->log_type.'</strong> from the system.';
+						}
 					} else if ($log->log_type == 'change_password') {
 						$activity = $userName.' updated your account\'s <strong>password</strong>.';
 					} else if ($log->log_type == 'updated') {

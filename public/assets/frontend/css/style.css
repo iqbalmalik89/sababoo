@@ -98,7 +98,30 @@ Last change:    14/06/2015
     float: left;
     margin: 0;
 }
-
+.btn.btn-fb {
+    background-color: #45619c;
+    color: #fff;
+}
+.btn.btn-tw {
+    background-color: #00acee;
+    color: #fff;
+}
+.btn.btn-gpluse {
+    background-color: #dd4b39;
+    color: #fff;
+}
+.btn.btn-pint {
+    background-color: #bd1e23;
+    color: #fff;
+}
+.btn.btn-linke {
+    background-color: #1d87bd;
+    color: #fff;
+}
+.share-ul li{
+    float: left;
+    margin-right: 5px;
+}
 .logo-wrapper .logo {
     padding: 0;
     -webkit-transition: all 0.3s ease-in-out 0s;

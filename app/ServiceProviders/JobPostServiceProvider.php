@@ -572,6 +572,45 @@ class JobPostServiceProvider
         return $transactions;
      }
 
+  public function getNewsByIndustry($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
 
+        $userID = $filters['userid'];
+        $industry_id = $filters['industry_id'];
+
+        if ($industry_id > 0) {
+          $matchThese = ["news.is_active" =>1, "news.deleted_at"=>NULL, "news.industry_id"=>$industry_id];
+        } else {
+          $matchThese = ["news.is_active" =>1, "news.deleted_at"=>NULL];
+        }
+      
+        $title = isset($filters['title'])?$filters['title']:'';
+        $description = isset($filters['description'])?$filters['description']:'';
+        
+        $str = '';
+        foreach($matchThese as $key=>$value){
+
+              if($key =='news.title'){
+                  $str.="news.title LIKE '%$title%' and ";
+              }
+              elseif($key =='news.description'){
+                $str.="news.description LIKE '%$description%' and ";
+            }else{
+                  $str.=" '$key'= '$value' and " ;
+              }
+        }
+
+        $news = DB::table('news')
+          ->select('news.id as id','news.title','news.description','news.industry_id','news.created_at','industry.name as industry_name')
+          ->join('industry', 'news.industry_id', '=','industry.id' )
+          ->where($matchThese)
+          ->Where("news.title", "LIKE", "%$title%")
+          ->Where("news.description", "LIKE", "%$description%")
+          ->OrderBy('news.created_at', 'DESC')
+      //dd( count($job) );
+      ->paginate($paging['page_size']);
+      
+        //dd(DB::getQueryLog());
+        return $news;
+     }
 
 }

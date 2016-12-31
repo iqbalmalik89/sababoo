@@ -348,6 +348,38 @@ class JobPostController extends Controller
 
         return view ('frontend.job.user_transactions',array('my_transactions'=>$my_transactions));
     }
+
+    public function getNewsByIndustry(Request $request, $id){
+      
+        if (Auth::user() != NULL) {
+          $this->logged_user = Auth::user();
+        } else {
+          return redirect('login');
+        }
+        
+        $post_data = $request->all();
+
+        $paging['page_num']  = $request->input('page_num', 1);
+        $paging['page_size'] = $request->input('page_size', env('DEFAULT_PAGE_SIZE'));
+        $order_by['order']   = $request->input('order', 'asc');
+        $order_by['sort_by'] = $request->input('orderby', '0');
+        $filters['userid']   =  $this->logged_user->id;
+        $filters['industry_id']   =  $id;
+        if((isset($post_data['title']))){
+            $filters['title'] =   $post_data['title'];
+        } else {
+          $filters['title'] = '';
+        }
+        if((isset($post_data['description']))){
+            $filters['description'] =   $post_data['description'];
+        } else {
+          $filters['description'] = '';
+        }
+        
+        $latest_newses=  $this->jobpostServiceProvider->getNewsByIndustry($filters,$order_by,$paging);
+
+        return view ('frontend.job.latest_news',array('latest_newses'=>$latest_newses, 'id'=>$id));
+    }
 }
 
 

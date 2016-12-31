@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Session;
 use  App\Validator\Validate;
-
+use App\Helpers\ActivityLogManager;
 class AuthController extends Controller
 {
     /*
@@ -64,6 +64,20 @@ class AuthController extends Controller
     public function getLogout(){
 
         if (Auth::user() != NULL) {
+            if (Auth::user()->is_admin == 1) {
+                // to maintain log
+                try {
+                    $newParams = array(
+                                'user_id'   => Auth::user()->id,
+                                'module'    => 'user_profile',
+                                'log_id'    => Auth::user()->id,
+                                'log_type'  => 'logout',
+                                'text'      => 'site'
+                            );
+                    ActivityLogManager::create($newParams);
+                } catch(\Exception $e){
+                }
+            }
             Auth::logout();
 
             Session::flush();
@@ -140,6 +154,22 @@ class AuthController extends Controller
                 $url="/home";
                  
                  Session::forget('redirect_url');
+
+                 if($user->is_admin == 1) {
+                    // to maintain log
+                    try {
+                        $newParams = array(
+                                    'user_id'   => Auth::user()->id,
+                                    'module'    => 'user_profile',
+                                    'log_id'    => $user->id,
+                                    'log_type'  => 'login',
+                                    'text'      => 'site'
+                                );
+                        ActivityLogManager::create($newParams);
+                    } catch(\Exception $e){
+
+                    }
+                 }
                  Auth::login($user);
 
             }
