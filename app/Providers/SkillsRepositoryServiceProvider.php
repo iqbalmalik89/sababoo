@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use BusinessObject\Skill;
 use BusinessObject\UserSkill;
-use App\Data\Repositories\SkillsRepository;
+use App\Repositories\SkillsRepository;
 
 class SkillsRepositoryServiceProvider extends ServiceProvider
 {

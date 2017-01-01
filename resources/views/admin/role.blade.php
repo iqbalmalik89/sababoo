@@ -1,30 +1,37 @@
 @extends('admin.layouts.inside')
 @section('content')
     <!-- BEGIN CONTAINER -->
-    <div class="page-container">
-        @include('admin.common.sidebar')
+    <div id="page-wrapper">
 
         <!-- BEGIN CONTENT -->
-        <div class="page-content-wrapper">
+        <div class="container-fluid">
             <!-- BEGIN CONTENT BODY -->
-            <div class="page-content">
+            
                 <!-- BEGIN PAGE HEADER-->
                 <!-- BEGIN PAGE BAR -->
-                <div class="page-bar">
-                    <ul class="page-breadcrumb">
-                        <li>
-                            <a href="{{URL::to('admin/roles')}}">Role Management</a>
-                            <i class="fa fa-circle"></i>
-                        </li>
-                        <li>
-                            <span>{{($role_id > 0)?'Modify':'Add'}} Role</span>
-                        </li>
-                    </ul>
+                <div class="row">
 
-                    <div class="form-actions pull-right margin-top-5px margin-bottom-5px">
-                        <a href="{{URL::to('admin/roles')}}"><button type="button" class="btn green"><i class="fa fa-arrow-left fa-fw"></i> Go Back To Roles</button></a>
+                    <div class="col-lg-12">
+                        <div class="form-actions pull-right margin-top-40px">
+                            <a href="{{URL::to('admin/roles')}}"><button type="button" class="btn green"><i class="fa fa-arrow-left fa-fw"></i> Go Back To Roles</button></a>
+                        </div>
+                        <h1 class="page-header">
+                            Roles Management 
+                        </h1>
+
+                        <ol class="breadcrumb">
+                            <li>
+                                <a href="{{URL::to('admin/roles')}}"><i class="fa fa-briefcase"></i> Roles</a>
+                            </li>
+                            <li class="active">
+                                <span>{{($role_id > 0)?'Modify':'Add New'}} Role</span>
+                            </li>
+
+                        </ol>
+
                     </div>
                 </div>
+
                 <!-- END PAGE BAR -->
                 <!-- BEGIN PAGE TITLE-->
                 
@@ -36,11 +43,7 @@
                         
                         <!-- BEGIN SAMPLE FORM PORTLET-->
                         <div class="portlet light bordered">
-                            <div class="portlet-title">
-                                <div class="caption">
-                                    <span class="caption-subject bold uppercase">{{($role_id > 0)?'Modify':'Add New'}} Role</span>
-                                </div>
-                            </div>
+                            
                             <div class="portlet-body form">
 
                                 <div class="msg_divs alert" id="msg_div"></div>
@@ -88,7 +91,7 @@
                     </div>
                 </div>
 
-            </div>
+            
             <!-- END CONTENT BODY -->
         </div>
         <!-- END CONTENT -->

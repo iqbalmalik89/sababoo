@@ -79,123 +79,70 @@
         $news_view = 'hide';
     }
 ?>
-<div class="page-sidebar-wrapper">
-    <!-- BEGIN SIDEBAR -->
-    <div class="page-sidebar navbar-collapse collapse">
-        <!-- BEGIN SIDEBAR MENU -->
-        <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
-            <li class="sidebar-toggler-wrapper hide">
-                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
-                <div class="sidebar-toggler"> </div>
-                <!-- END SIDEBAR TOGGLER BUTTON -->
+
+<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav side-nav">
+            <li class="<?php if($page=='dashboard'){ echo "active";} ?>">
+                <a href="{{url('admin/dashboard')}}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
             </li>
-            <li class="nav-item start <?php if($page=='dashboard'){ echo "active";} ?>">
-                <a href="{{URL::to('admin/dashboard')}}" class="nav-link nav-toggle">
-                    <i class="icon-home"></i>
-                    <span class="title">Dashboard</span>
-                    <!-- <span class="arrow"></span> -->
+            <li class="<?php if($page=='roles' || $page=='role'){ echo "active";} ?> {{$role_view}}">
+                <a href="{{URL::to('admin/roles')}}"><i class="fa fa-fw fa-briefcase"></i> Roles Management</a>
+            </li>
+
+
+            <li class="<?php if($page=='users' || $page=='user' || $page=='site-users' || $page=='site-user'){ echo "active";} ?> {{$users_view}}">
+                <a href="javascript:;" data-toggle="collapse" data-target="#user-inner"><i class="fa fa-fw fa-user"></i> User Management <i class="fa fa-fw fa-caret-down"></i></a>
+                <ul id="user-inner" class="collapse">
+                    <li class="<?php if($page=='users' || $page=='user'){ echo "active open";} ?> {{$admin_user_view}}">
+                        <a href="{{URL::to('admin/users')}}">Admin Users</a>
+                    </li>
+                    <li class="<?php if($page=='site-users' || $page=='site-user'){ echo "active open";} ?> {{$site_user_view}}">
+                        <a href="{{URL::to('admin/site-users')}}">Site Users</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="<?php if($page=='jobs' || $page=='job'){ echo "active";} ?> {{$job_view}}">
+                <a href="{{URL::to('admin/jobs')}}">
+                    <i class="fa fa-fw fa-briefcase"></i>Jobs Management
                 </a>
             </li>
-            <li class="heading">
-                <h3 class="uppercase">Features</h3>
-            </li>
-            <li class="nav-item start <?php if($page=='roles' || $page=='role'){ echo "active";} ?> {{$role_view}}">
-                <a href="{{URL::to('admin/roles')}}" class="nav-link nav-toggle">
-                    <i class="icon-briefcase"></i>
-                    <span class="title">Roles Management</span>
-                    <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
+            <li class="<?php if($page=='skills' || $page=='skill'){ echo "active";} ?> {{$skills_view}}">
+                <a href="{{URL::to('admin/skills')}}">
+                    <i class="fa fa-fw fa-lightbulb-o"></i>Skills Management
                 </a>
             </li>
-            <li class="nav-item start <?php if($page=='users' || $page=='user' || $page=='site-users' || $page=='site-user'){ echo "active";} ?> {{$users_view}}">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="icon-user"></i>
-                    <span class="title">User Management</span>
-                    <span class="selected"></span>
-                    <span class="arrow open"></span>
-                    <ul class="sub-menu">
-                        <li class="nav-item  <?php if($page=='users' || $page=='user'){ echo "active open";} ?> {{$admin_user_view}}">
-                            <a href="{{URL::to('admin/users')}}" class="nav-link ">
-                                <span class="title">Admin Users</span>
-                            </a>
-                        </li>
-                        <li class="nav-item  <?php if($page=='site-users' || $page=='site-user'){ echo "active open";} ?> {{$site_user_view}}">
-                            <a href="{{URL::to('admin/site-users')}}" class="nav-link ">
-                                <span class="title">Site Users</span>
-                            </a>
-                        </li>
-                        
-                    </ul>
+            <li class="<?php if($page=='industries' || $page=='industry'){ echo "active";} ?> {{$industry_view}}">
+                <a href="{{URL::to('admin/industries')}}">
+                    <i class="fa fa-fw fa-table"></i>Industries Management
                 </a>
             </li>
-            <li class="nav-item start <?php if($page=='jobs' || $page=='job'){ echo "active";} ?> {{$job_view}}">
-                <a href="{{URL::to('admin/jobs')}}" class="nav-link nav-toggle">
-                    <i class="icon-briefcase"></i>
-                    <span class="title">Jobs Management</span>
-                    <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
+            <li class="<?php if($page=='newses' || $page=='news'){ echo "active";} ?> {{$news_view}}">
+                <a href="{{URL::to('admin/newses')}}">
+                    <i class="fa fa-fw fa-file"></i>News Management
                 </a>
             </li>
-            <li class="nav-item start <?php if($page=='skills' || $page=='skill'){ echo "active";} ?> {{$skills_view}}">
-                <a href="{{URL::to('admin/skills')}}" class="nav-link nav-toggle">
-                    <i class="icon-diamond"></i>
-                    <span class="title">Skills Management</span>
-                    <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
+            <li class="<?php if($page=='transactions'){ echo "active";} ?> {{$transaction_view}}">
+                <a href="{{URL::to('admin/transactions')}}">
+                    <i class="fa fa-fw fa-stack-exchange"></i>Transaction History
                 </a>
             </li>
-            <li class="nav-item start <?php if($page=='industries' || $page=='industry'){ echo "active";} ?> {{$industry_view}}">
-                <a href="{{URL::to('admin/industries')}}" class="nav-link nav-toggle">
-                    <i class="icon-layers"></i>
-                    <span class="title">Industries Management</span>
-                    <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
+            <li class="<?php if($page=='refunds'){ echo "active";} ?> {{$refund_view}}">
+                <a href="{{URL::to('admin/refunds')}}">
+                    <i class="fa fa-fw fa-wrench"></i>Refund Requests
                 </a>
             </li>
-            <li class="nav-item start <?php if($page=='newses' || $page=='news'){ echo "active";} ?> {{$news_view}}">
-                <a href="{{URL::to('admin/newses')}}" class="nav-link nav-toggle">
-                    <i class="icon-bulb"></i>
-                    <span class="title">News Management</span>
-                    <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
+            <li class="<?php if($page=='logs'){ echo "active";} ?> {{$log_view}}">
+                <a href="{{URL::to('admin/logs')}}">
+                    <i class="fa fa-fw fa-calendar"></i>Activity Logs
                 </a>
             </li>
-            <li class="nav-item start <?php if($page=='transactions'){ echo "active";} ?> {{$transaction_view}}">
-                <a href="{{URL::to('admin/transactions')}}" class="nav-link nav-toggle">
-                    <i class="icon-notebook"></i>
-                    <span class="title">Transaction History</span>
-                    <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
-                </a>
-            </li>
-            <li class="nav-item start <?php if($page=='refunds'){ echo "active";} ?> {{$refund_view}}">
-                <a href="{{URL::to('admin/refunds')}}" class="nav-link nav-toggle">
-                    <i class="icon-wrench"></i>
-                    <span class="title">Refund Requests</span>
-                    <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
-                </a>
-            </li>
-            <li class="nav-item start <?php if($page=='logs'){ echo "active";} ?> {{$log_view}}">
-                <a href="{{URL::to('admin/logs')}}" class="nav-link nav-toggle">
-                    <i class="icon-calendar"></i>
-                    <span class="title">Activity Logs</span>
-                    <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
-                </a>
-            </li>
-            <li class="nav-item start <?php if($page=='user-profile'){ echo "active";} ?>">
-                <a href="{{URL::to('admin/user-profile')}}" class="nav-link nav-toggle">
-                    <i class="icon-users"></i>
-                    <span class="title">Profile Settings</span>
-                    <span class=""></span>
-                    <!-- <span class="arrow open"></span> -->
+            <li class="<?php if($page=='user-profile'){ echo "active";} ?>">
+                <a href="{{URL::to('admin/user-profile')}}">
+                    <i class="fa fa-fw fa-users"></i>Profile Settings
                 </a>
             </li>
         </ul>
-        <!-- END SIDEBAR MENU -->
-        <!-- END SIDEBAR MENU -->
     </div>
-    <!-- END SIDEBAR -->
-</div>
-<!-- END SIDEBAR
+    <!-- /.navbar-collapse -->
+</nav>

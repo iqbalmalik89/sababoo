@@ -11,7 +11,7 @@ use BusinessObject\Skill;
 use BusinessObject\Industry;
 use App\Models\Refund;
 use App\Models\News;
-use App\Data\Repositories\ActivityLogRepository;
+use App\Repositories\ActivityLogRepository;
 
 class ActivityLogRepositoryServiceProvider extends ServiceProvider
 {

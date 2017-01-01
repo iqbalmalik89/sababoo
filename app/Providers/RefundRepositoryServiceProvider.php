@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use App\Data\Repositories\RefundRepository;
+use App\Repositories\RefundRepository;
 use BusinessObject\JobPost;
 use BusinessObject\User;
 use App\Models\Refund;
