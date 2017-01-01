@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\News;
 use BusinessObject\Industry;
 use BusinessObject\JobPost;
-use App\Repositories\NewsRepository;
+use App\Data\Repositories\NewsRepository;
 
 class NewsRepositoryServiceProvider extends ServiceProvider
 {

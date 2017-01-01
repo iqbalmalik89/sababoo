@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\Payment;
 use BusinessObject\User;
 use BusinessObject\JobPost;
-use App\Repositories\TransactionRepository;
+use App\Data\Repositories\TransactionRepository;
 
 class TransactionRepositoryServiceProvider extends ServiceProvider
 {

@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use BusinessObject\Industry;
 use BusinessObject\User;
-use App\Repositories\IndustryRepository;
+use App\Data\Repositories\IndustryRepository;
 
 class IndustryRepositoryServiceProvider extends ServiceProvider
 {

@@ -1,52 +1,48 @@
 @extends('admin.layouts.inside')
 @section('content')
 <!-- BEGIN CONTAINER -->
-<div id="page-wrapper">
+<div class="page-container">
+    @include('admin.common.sidebar')
 
     <!-- BEGIN CONTENT -->
-    <div class="container-fluid">
+    <div class="page-content-wrapper">
         <!-- BEGIN CONTENT BODY -->
-        
+        <div class="page-content">
             <!-- BEGIN PAGE HEADER-->
             <!-- BEGIN PAGE BAR -->
-            <div class="row">
+            <div class="page-bar">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <a href="{{URL::to('admin/roles')}}">Role Management</a>
+                        <!-- <i class="fa fa-circle"></i> -->
+                    </li>
+                    <!-- <li>
+                        <span>Dashboard</span>
+                    </li> -->
+                </ul>
 
-                <div class="col-lg-12">
-                    <?php
-                        if (in_array(1, $roleOperations)) {
-                    ?>
-                        <div class="form-actions pull-right margin-top-40px">
-                            <a href="{{URL::to('admin/role')}}"><button type="button" class="btn green"><i class="fa fa-plus fa-fw"></i>Add Role</button></a>
-                        </div>
-                    <?php
-                        }
-                    ?>
-                    <h1 class="page-header">
-                        Roles Management 
-                    </h1>
-
-                    <ol class="breadcrumb">
-                        <li class="active"> <i class="fa fa-briefcase"></i> Roles
-                        </li>
-
-                    </ol>
-
-                </div>
+                <?php
+                    if (in_array(1, $roleOperations)) {
+                ?>
+                    <div class="form-actions pull-right margin-top-5px margin-bottom-5px">
+                        <a href="{{URL::to('admin/role')}}"><button type="button" class="btn green"><i class="fa fa-plus fa-fw"></i>Add Role</button></a>
+                    </div>
+                <?php
+                    }
+                ?>
+                
             </div>
-
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-title pull-left"> Roles
+            <div>
+                <h3 class="page-title pull-left"> Roles
                     <small>(<span id="total_roles"></span>)</small>
                 </h3>
-                
                 <div class="pull-right margin-top-25px">
                     <div>
                         <label>Search: <input type="search" class="form-control input-sm input-small input-inline" placeholder="" aria-controls="sample_2" id="role_search_keyword"></label>
 
-                        <div class="margin-left-10px pull-right" style="margin-top: 16px;">
+                        <div class="margin-left-10px pull-right">
                             <form>
                                 <div class="">
                                     <select id="role_filter_by_status" class="bs-select form-control">
@@ -62,8 +58,6 @@
                         </div>
                     </div>
                 </div>
-                </div>
-                
 
             </div>
             
@@ -111,7 +105,7 @@
             </div>
             <!-- END SAMPLE TABLE PORTLET-->
 
-      
+        </div>
         <!-- END CONTENT BODY -->
     </div>
     <!-- END CONTENT -->

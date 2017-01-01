@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use App\Repositories\ReportRepository;
+use App\Data\Repositories\ReportRepository;
 use BusinessObject\User;
 
 class ReportRepositoryServiceProvider extends ServiceProvider

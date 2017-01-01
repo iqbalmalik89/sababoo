@@ -8,7 +8,7 @@ use App\Models\Permission;
 use App\Models\Operation;
 use App\Models\Module;
 use BusinessObject\User;
-use App\Repositories\RoleRepository;
+use App\Data\Repositories\RoleRepository;
 
 class RoleRepositoryServiceProvider extends ServiceProvider
 {

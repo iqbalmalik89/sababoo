@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use App\Repositories\UserRepository;
+use App\Data\Repositories\UserRepository;
 use BusinessObject\User;
 use App\Models\Role;
 use BusinessObject\Industry;

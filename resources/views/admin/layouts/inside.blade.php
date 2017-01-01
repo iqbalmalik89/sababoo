@@ -18,15 +18,12 @@ if(isset($title)&&$title!=''){
 
 @include('admin.common.css')
 </head>
-<body class="">
-	<div id="wrapper">
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
 	@include('admin.common.header')
-
-    @include('admin.common.sidebar')
 		<!--main content start-->
 			@yield('content')
 		<!--main content end--> 
-	</div>
+	@include('admin.common.footer')
 	@include('admin.common.js')
 @yield('scripts')
 </body>

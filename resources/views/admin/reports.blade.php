@@ -1,29 +1,30 @@
 @extends('admin.layouts.inside')
 @section('content')
 <!-- BEGIN CONTAINER -->
-<div id="page-wrapper">
+<div class="page-container">
+    @include('admin.common.sidebar')
 
     <!-- BEGIN CONTENT -->
-    <div class="container-fluid">
+    <div class="page-content-wrapper">
         <!-- BEGIN CONTENT BODY -->
-        
-            <!-- Page Heading -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">
-                        Dashboard <small>Statistics Overview</small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li class="active">
-                            <i class="fa fa-dashboard"></i> Dashboard
-                        </li>
-                    </ol>
-                </div>
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <!-- BEGIN PAGE BAR -->
+            <div class="page-bar">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <a href="{{url('admin/dashboard')}}">Dashboard</a>
+                        <i class="fa fa-circle"></i>
+                    </li>
+                    <li>
+                        <span>Reports</span>
+                    </li>
+                </ul>
             </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-title pull-left"> User Report
+            <!-- END PAGE BAR -->
+            <!-- BEGIN PAGE TITLE-->
+            <div>
+                <h3 class="page-title pull-left"> User Report
                 </h3>
                 <div class="pull-right margin-top-25px">
                     <div>
@@ -44,8 +45,6 @@
                         
                     </div>
                 </div>
-                </div>
-                
 
             </div>
             
@@ -53,7 +52,7 @@
             <!-- END PAGE HEADER-->
             
             <!-- BEGIN SAMPLE TABLE PORTLET-->
-            <div class="row">
+            <div class="portlet">
                 
                 <div id="userChart" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
             </div>
@@ -66,7 +65,7 @@
                 
                 <div id="jobChart" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
             </div>
-        
+        </div>
         <!-- END CONTENT BODY -->
     </div>
     <!-- END CONTENT -->
@@ -77,6 +76,18 @@
 @endsection
 @section('scripts')
 
+ <!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="{{url('pannel/assets/global/plugins/moment.min.js')}}" type="text/javascript"></script>
+<script src="{{url('pannel/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js')}}" type="text/javascript"></script>
+<script src="{{url('pannel/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}" type="text/javascript"></script>
+<script src="{{url('pannel/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
+<script src="{{url('pannel/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+
+
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="{{url('pannel/assets/pages/scripts/components-date-time-pickers.min.js')}}" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
 <script type="text/javascript">
 $(document).ready(function() {
     Sababoo.App.Reports.userReport();

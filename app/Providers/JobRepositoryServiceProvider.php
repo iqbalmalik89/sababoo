@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use App\Repositories\JobRepository;
+use App\Data\Repositories\JobRepository;
 use BusinessObject\JobPost;
 use BusinessObject\User;
 use BusinessObject\Industry;
