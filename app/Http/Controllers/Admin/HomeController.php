@@ -78,7 +78,7 @@ class HomeController extends Controller {
                 }
             }
         }
-        return view('pages.activation',['code'=>$input['code'],'errors'=>$errors,'hasError'=>$hasError]);
+        return view('admin.activation',['code'=>$input['code'],'errors'=>$errors,'hasError'=>$hasError]);
     }
 
     public function showRecover(Request $request) {
@@ -101,7 +101,7 @@ class HomeController extends Controller {
                 $errors[] = 'Invalid Forgot Password Code';
             }
         }
-        return view('pages.recover-password',['code'=>$input['code'],'errors'=>$errors,'hasError'=>$hasError]);
+        return view('admin.recover-password',['code'=>$input['code'],'errors'=>$errors,'hasError'=>$hasError]);
     }
 
     /* for users listing */
