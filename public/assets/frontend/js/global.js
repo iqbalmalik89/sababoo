@@ -259,8 +259,9 @@ $( document ).ready(function() {
 
 function saveSkills()
 {
-    var request_data = {"user_skills":$('#user_skills').tokenfield('getTokensList')};
+    //var request_data = {"user_skills":$('#user_skills').tokenfield('getTokensList')};
     pageURI = 'user/skills';
+    var request_data = $('#user_skills').serializeArray();
     mainAjax('skill_form', request_data, 'PUT',skillCallback);
 }
 

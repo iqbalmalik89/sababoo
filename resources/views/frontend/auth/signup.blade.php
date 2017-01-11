@@ -72,11 +72,11 @@
 
                                         <input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="radio" name="role" id="role" value="employee" checked="checked">
 
-                                        <label class="" for="register_accept_checkbox">Emplyee</label>
+                                        <label class="" for="register_accept_checkbox">{{ucfirst(env('EMPLOYEE_TITLE'))}}</label>
                                         <input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="radio" name="role" id="role" value="employer">
-                                        <label class="" for="register_accept_checkbox">Emplyer</label>
+                                        <label class="" for="register_accept_checkbox">{{ucfirst(env('EMPLOYER_TITLE'))}}</label>
                                         <input  style="display:block;opacity:1;margin:5px 0px 0px 0px;" type="radio" name="role" id="role" value="tradesman">
-                                        <label class="" for="register_accept_checkbox">Tradesman</label>
+                                        <label class="" for="register_accept_checkbox">{{ucfirst(env('TRADESMAN_TITLE'))}}</label>
 
                                     </div>
                                 </div>
