@@ -47,7 +47,17 @@
 
                         <h4><?php echo $suggestion->first_name;?> <?php echo $suggestion->last_name;?> </h4>
                         <p class="location"><?php echo ($suggestion->email);?></p>
-
+                        <?php
+                            if ($suggestion->role == 'employee') {
+                                $suggestion->role = env('EMPLOYEE_TITLE');
+                            } else if ($suggestion->role == 'employer') {
+                                $suggestion->role = env('EMPLOYER_TITLE');
+                            } else if ($suggestion->role == 'tradesman') {
+                                $suggestion->role = env('TRADESMAN_TITLE');
+                            } else {
+                                $suggestion->role = $suggestion->role;
+                            }
+                        ?>
                         <h6 class="text-primary"><?php echo ucfirst($suggestion->role);?></h6>
                         <div data-toggle="modal" href="#recModal_<?php echo $suggestion->id;?>" class=" btn-primary" onclick="">
                             Recommend

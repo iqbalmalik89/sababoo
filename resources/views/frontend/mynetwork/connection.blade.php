@@ -48,8 +48,8 @@
                                 <div class="form-group form-lg">
                                     <select name="roll" id="roll"class=" form-control">
                                         <option id="" value="">Select Role</option>
-                                        <option value="employee">Employee</option>
-                                        <option value="tradesman">Tradesman</option>
+                                        <option value="employee">{{ucfirst(env('EMPLOYEE_TITLE'))}}</option>
+                                        <option value="tradesman">{{ucfirst(env('TRADESMAN_TITLE'))}}</option>
                                     </select>
                                 </div>
                             </div>
