@@ -89,7 +89,7 @@ class NewsRepository {
 	 **/
 	public function findByAll($pagination = false, $perPage = 10, array $input = []) {
 
-		$newsIds = $this->news_model;
+		$newsIds = $this->news_model->orderBy('id', 'DESC');
 
 		if (isset($input['keyword']) && $input['keyword'] != '') {
 			$newsIds = $newsIds->where('title','LIKE','%'.$input['keyword'].'%');

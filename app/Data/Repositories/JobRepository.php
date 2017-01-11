@@ -104,7 +104,7 @@ class JobRepository {
 	 **/
 	public function findByAll($pagination = false, $perPage = 10, array $input = []) {
 
-		$objectIds = $this->job_model;
+		$objectIds = $this->job_model->orderBy('id', 'DESC');
 				
 		if (isset($input['keyword']) && $input['keyword'] != '') {
 			$objectIds = $objectIds->where('name','LIKE','%'.$input['keyword'].'%');

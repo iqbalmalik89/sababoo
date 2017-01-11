@@ -197,7 +197,7 @@ class UserRepository {
 		// to get all users except admin user
 		if (isset($input['is_admin']) && $input['is_admin'] == 1) {
 
-			$objectIds = $this->user_model->where('is_admin', '=', 1)->where('status', '!=', 'delete');
+			$objectIds = $this->user_model->where('is_admin', '=', 1)->where('status', '!=', 'delete')->orderBy('id', 'DESC');
 
 			if (isset($input['filter_by_role']) && $input['filter_by_role'] != 0) {
 				$objectIds = $objectIds->where('role_id','=',$input['filter_by_role']);
@@ -205,7 +205,7 @@ class UserRepository {
 
 		} else{
 
-			$objectIds = $this->user_model->where('is_admin', '=', 0)->where('status', '!=', 'delete');
+			$objectIds = $this->user_model->where('is_admin', '=', 0)->where('status', '!=', 'delete')->orderBy('id', 'DESC');
 
 			if (isset($input['filter_by_role']) && $input['filter_by_role'] != '') {
 				$objectIds = $objectIds->where('role','=',$input['filter_by_role']);

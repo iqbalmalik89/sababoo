@@ -94,7 +94,7 @@ class RoleRepository {
 	 **/
 	public function findByAll($pagination = false, $perPage = 10, array $input = []) {
 
-		$roleIds = $this->role_model;
+		$roleIds = $this->role_model->orderBy('id', 'DESC');
 
 		if (isset($input['keyword']) && $input['keyword'] != '') {
 			$roleIds = $roleIds->where('name','LIKE','%'.$input['keyword'].'%');

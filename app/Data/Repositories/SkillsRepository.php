@@ -74,7 +74,7 @@ class SkillsRepository {
 	 **/
 	public function findByAll($pagination = false, $perPage = 10, array $input = []) {
 
-		$skillIds = $this->skills_model->where('status', '!=', 'delete');
+		$skillIds = $this->skills_model->where('status', '!=', 'delete')->orderBy('id', 'DESC');
 
 		if (isset($input['keyword']) && $input['keyword'] != '') {
 			$skillIds = $skillIds->where('skill','LIKE','%'.$input['keyword'].'%');

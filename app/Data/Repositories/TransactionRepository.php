@@ -103,7 +103,7 @@ class TransactionRepository {
 		} else {
 			$end_date = date('Y-m-d');
 		}
-		$paymentIds = $this->payment_model;
+		$paymentIds = $this->payment_model->orderBy('id', 'DESC');
 
 		if (isset($input['keyword']) && $input['keyword'] != '') {
 			$paymentIds = $paymentIds->whereIn('user_id',  function($query) use ($input)

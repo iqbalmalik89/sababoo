@@ -74,7 +74,7 @@ class IndustryRepository {
 	 **/
 	public function findByAll($pagination = false, $perPage = 10, array $input = []) {
 
-		$industryIds = $this->industry_model->where('status', '!=', 3);
+		$industryIds = $this->industry_model->where('status', '!=', 3)->orderBy('id', 'DESC');
 
 		if (isset($input['keyword']) && $input['keyword'] != '') {
 			$industryIds = $industryIds->where('name','LIKE','%'.$input['keyword'].'%');

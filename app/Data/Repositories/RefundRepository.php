@@ -117,7 +117,7 @@ class RefundRepository {
 			$end_date = date('Y-m-d');
 		}
 
-		$objectIds = $this->refund_model;
+		$objectIds = $this->refund_model->orderBy('id', 'DESC');
 
 		if (isset($input['filter_by_status']) && $input['filter_by_status'] != '') {
 			$objectIds = $objectIds->where('status','=',$input['filter_by_status']);
