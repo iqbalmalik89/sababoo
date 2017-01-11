@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Employee')
+@section('title', ucfirst(env('EMPLOYEE_TITLE')))
 @section('description', 'Share your jobs with sababo,Sababoo is a job portal')
 @section('keywords', 'Sababoo,  Sababoo Tradesman, Sababoo Job Recuritment,Sababoo Employer,Sababoo Employee','Sababoo Employee Edit Profile')
 

@@ -111,6 +111,15 @@ class UserRepository {
 			}
 		}
 
+		if ($data->role == 'employee') {
+			$data->role = ucfirst(env('EMPLOYEE_TITLE'));
+		} else if ($data->role == 'employer') {
+			$data->role = ucfirst(env('EMPLOYER_TITLE'));
+		} else if ($data->role == 'tradesman') {
+			$data->role = ucfirst(env('TRADESMAN_TITLE'));
+		} else {
+			$data->role = $data->role;
+		}
 		// to get role title
 		$data->role_title = '';
 		$role = $this->role_model->find($data->role_id);

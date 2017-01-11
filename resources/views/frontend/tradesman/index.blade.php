@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Tradesman')
+@section('title', ucfirst(env('TRADESMAN_TITLE')))
 
 @section('content')
 @section('description', 'Share your jobs with sababo,Sababoo is a job portal')
@@ -17,7 +17,7 @@
 
             <ol class="breadcrumb-list booking-step">
                 <li><a href="">Home</a></li>
-                <li><span>Tradesman</span></li>
+                <li><span>{{ucfirst(env('TRADESMAN_TITLE'))}}</span></li>
             </ol>
 
         </div>
@@ -48,7 +48,7 @@
                         <div class="company-detail-company-overview mt-0 clearfix">
 
                             <div class="section-title-02">
-                                <h3 class="text-left">Update Profile(Tradesman)</h3>
+                                <h3 class="text-left">Update Profile({{ucfirst(env('TRADESMAN_TITLE'))}})</h3>
                                 <!--                                             <p>Oh to talking improve produce in limited offices fifteen an. Wicket branch to answer do we. Place are decay men hours tiled. If or of ye throwing friendly required. Marianne interest in exertion as. Offering my branched confined oh dashwood.</p> -->
                             </div>
 

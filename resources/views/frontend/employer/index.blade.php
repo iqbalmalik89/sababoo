@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Employer')
+@section('title', ucfirst(env('EMPLOYER_TITLE')))
 @section('description', 'Share your jobs with sababo,Sababoo is a job portal')
 @section('keywords', 'Sababoo,  Sababoo Tradesman, Sababoo Job Recuritment,Sababoo Employer,Sababoo Employee','Sababoo employee view','sababoo tradesman ')
 
@@ -18,8 +18,8 @@
 				<div class="container">
 				
 					<ol class="breadcrumb-list booking-step">
-						<li><a href="">Employers</a></li>
-						<li><span>Edit Employer</span></li>
+						<li><a href="">{{ucfirst(env('EMPLOYER_TITLE'))}}</a></li>
+						<li><span>Edit {{ucfirst(env('EMPLOYER_TITLE'))}}</span></li>
 					</ol>
 					
 				</div>

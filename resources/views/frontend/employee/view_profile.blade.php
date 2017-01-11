@@ -8,7 +8,7 @@
 ?>
 @extends('frontend.layouts.master')
 
-@section('title', 'View Profile')
+@section('title', 'View '.ucfirst(env('EMPLOYEE_TITLE')))
 @section('description', 'Share your jobs with sababo,Sababoo is a job portal')
 @section('keywords', 'Sababoo,  Sababoo Tradesman, Sababoo Job Recuritment,Sababoo Employer,Sababoo Employee','Sababoo employee view')
 
@@ -21,7 +21,7 @@
 
                 <ol class="breadcrumb-list booking-step">
                     <li><a href="/home">Home</a></li>
-                    <li><a href="">Professional</a></li>
+                    <li><a href="">{{ucfirst(env('EMPLOYEE_TITLE'))}}</a></li>
                     <li><span>View Profile</span></li>
                 </ol>
 
