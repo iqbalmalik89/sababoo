@@ -3640,7 +3640,7 @@ Sababoo.App.Reports = (function() {
 									"balloonText": "[[title]]:[[value]]",
 									"fillAlphas": 1,
 									"id": "AmGraph-2",
-									"title": "Total "+emplpoyee_title+'s',
+									"title": "Total "+emplpoyee_title,
 									"type": "column",
 									"valueField": "column-2"
 								},
@@ -3648,7 +3648,7 @@ Sababoo.App.Reports = (function() {
 									"balloonText": "[[title]]:[[value]]",
 									"fillAlphas": 1,
 									"id": "AmGraph-3",
-									"title": "Total "+emplpoyer_title+'s',
+									"title": "Total "+emplpoyer_title,
 									"type": "column",
 									"valueField": "column-3"
 								},
@@ -3656,7 +3656,7 @@ Sababoo.App.Reports = (function() {
 									"balloonText": "[[title]]:[[value]]",
 									"fillAlphas": 1,
 									"id": "AmGraph-4",
-									"title": "Total "+tradesman_title+'s',
+									"title": "Total "+tradesman_title,
 									"type": "column",
 									"valueField": "column-4"
 								}
