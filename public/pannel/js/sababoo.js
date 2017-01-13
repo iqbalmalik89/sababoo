@@ -3645,7 +3645,7 @@ Sababoo.App.Reports = (function() {
 									"balloonText": "[[title]]:[[value]]",
 									"fillAlphas": 1,
 									"id": "AmGraph-3",
-									"title": "Total Employer",
+									"title": "Total Professional",
 									"type": "column",
 									"valueField": "column-3"
 								},
