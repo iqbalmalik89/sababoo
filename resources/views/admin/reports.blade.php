@@ -72,7 +72,9 @@
     
 </div>
 <!-- END CONTAINER -->
-
+<input type="hidden" id="employee_title" value="{{ucfirst(env('EMPLOYEE_TITLE'))}}">
+<input type="hidden" id="employer_title" value="{{ucfirst(env('EMPLOYER_TITLE'))}}">
+<input type="hidden" id="tradesman_title" value="{{ucfirst(env('TRADESMAN_TITLE'))}}">
 @endsection
 @section('scripts')
 

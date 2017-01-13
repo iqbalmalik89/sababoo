@@ -3616,6 +3616,9 @@ Sababoo.App.Reports = (function() {
 
 		request.done(function(data){
 			
+			var emplpoyee_title = $('#employee_title').val();
+			var emplpoyer_title = $('#employer_title').val();
+			var tradesman_title = $('#tradesman_title').val();
 			AmCharts.makeChart("userChart",{
 							"type": "serial",
 							"categoryField": "category",
@@ -3637,7 +3640,7 @@ Sababoo.App.Reports = (function() {
 									"balloonText": "[[title]]:[[value]]",
 									"fillAlphas": 1,
 									"id": "AmGraph-2",
-									"title": "Total Employee",
+									"title": "Total "+emplpoyee_title+'s',
 									"type": "column",
 									"valueField": "column-2"
 								},
@@ -3645,7 +3648,7 @@ Sababoo.App.Reports = (function() {
 									"balloonText": "[[title]]:[[value]]",
 									"fillAlphas": 1,
 									"id": "AmGraph-3",
-									"title": "Total Employer",
+									"title": "Total "+emplpoyer_title+'s',
 									"type": "column",
 									"valueField": "column-3"
 								},
@@ -3653,7 +3656,7 @@ Sababoo.App.Reports = (function() {
 									"balloonText": "[[title]]:[[value]]",
 									"fillAlphas": 1,
 									"id": "AmGraph-4",
-									"title": "Total Sabman",
+									"title": "Total "+tradesman_title+'s',
 									"type": "column",
 									"valueField": "column-4"
 								}

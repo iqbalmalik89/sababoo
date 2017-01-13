@@ -80,7 +80,7 @@
                                                     </div>
                                                     <div class="mt-comment-info">
                                                         <span class="mt-comment-author" style="width:25%">Salary</span>
-                                                        <span class="mt-comment-text"> {{(isset($job->salary) && $job->salary != '')?$job->salary:'N/A'}} </span>
+                                                        <span class="mt-comment-text"> {{(isset($job->salary) && $job->salary != '')?$job->salary.env('CURRENCY', '$'):'N/A'}} </span>
                                                     </div>
                                                     <div class="mt-comment-info">
                                                         <span class="mt-comment-author" style="width:25%">Deadline Date</span>
