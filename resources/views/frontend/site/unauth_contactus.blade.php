@@ -38,6 +38,7 @@ $(document).ready(function () {
                 $('#username').val('');
                 $('#email').val('');
                 $('#msg').val('');
+                $('#subject').val('');
                 return;
             }
         }

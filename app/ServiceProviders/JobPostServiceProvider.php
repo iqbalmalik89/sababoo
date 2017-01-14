@@ -616,8 +616,12 @@ class JobPostServiceProvider
      public function contactUs($input){
         
         // send an email to support
-
-              $subject = "Sababoo's - Contact Us " . $input['email'];
+          if(isset($input['subject']) && $input['subject'] != '') {
+            $subject = $input['subject'];
+          } else {
+            $subject = "Sababoo's - Contact Us " . $input['email'];
+          }
+              
               $from = "noreply@sababoo.com";
 
                 $data = [
