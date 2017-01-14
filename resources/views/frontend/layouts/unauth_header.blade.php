@@ -18,8 +18,8 @@
                         <ul class="nav navbar-nav" id="responsive-menu">
                         
                             <li> <a href="{{url('/')}}">Home</a></li>
-                            <li> <a href="javascript:;">About Us</a></li>
-                            <li> <a href="javascript:;">Contact Us</a></li>
+                            <li> <a href="{{url('about-us')}}">About Us</a></li>
+                            <li> <a href="{{url('contact-us')}}">Contact Us</a></li>
                             
                         </ul>
                 

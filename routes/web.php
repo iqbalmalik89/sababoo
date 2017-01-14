@@ -46,6 +46,8 @@ Route::match(['get', 'post'], '/ui/forgotpw', ['uses' => 'ForgotPasswordControll
 //Auth::routes();
 Route::get('/login', 'HomeController@showLogin');
 Route::get('/', 'HomeController@index');
+Route::get('/about-us', 'HomeController@showAboutUs');
+Route::get('/contact-us', 'HomeController@showContactUs');
 
 Route::group(['middleware' => ['web']], function () {
 
@@ -110,6 +112,8 @@ Route::match(['get', 'post'], '/user/edit_certification', ['uses' => 'UI\UserCon
 Route::match(['get', 'post'], '/user/add_files', ['uses' => 'UI\UserController@addFiles']);
 Route::match(['get', 'post'], '/user/delete_user_file', ['uses' => 'UI\UserController@DeleteUserFile']);
 Route::match(['get', 'post'], '/user/download_files/{file_id}', ['uses' => 'UI\UserController@DownloadFiles']);
+
+Route::post('contact-us', 'UI\JobPostController@contactUs');
 
 /************************************JOB POSTING *****************************************************/
 Route::match(['get', 'post'], '/job/post', ['uses' => 'UI\JobPostController@jobPost']);

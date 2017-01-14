@@ -87,6 +87,8 @@
                                     <li><a href="{{url('user_view_message')}}">Messages</a></li>
                                     <li><a href="{{url('transactions')}}">Transactions</a></li>
                                     <li><a href="{{url('job/news/0')}}">News</a></li>
+                                    <li><a href="{{url('about-us')}}">About Us</a></li>
+                                    <li><a href="{{url('contact-us')}}">Contact Us</a></li>
                                 </ul>
                             
                             </div>

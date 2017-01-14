@@ -613,4 +613,33 @@ class JobPostServiceProvider
         return $news;
      }
 
+     public function contactUs($input){
+        
+        // send an email to support
+
+              $subject = "Sababoo's - Contact Us " . $input['email'];
+              $from = "noreply@sababoo.com";
+
+                $data = [
+                   "from"           => $from,
+                   "to"             => env('CONTACT_US_EMAIL', 'support@sababoo.com'),
+                   "subject"        => $subject,
+                   "sender_email"   => $input['email'],
+                   "SERVER_PATH"    => env('URL'),
+                   "username"       =>  $input['username'],
+                   "msg"            =>  $input['msg']
+
+               ];
+
+               $mail_response = Helper::sendEmail(
+                   $data,
+                   ['email_templates/contact_us_html', 'email_templates/contact_us_text']
+               );
+              
+        return array(
+            'code' => '200',
+            'status' => 'ok',
+            'msg' => "Your message has been sent successfully!"
+        );
+    }
 }

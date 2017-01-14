@@ -124,6 +124,25 @@ class HomeController extends Controller
         return view('frontend.auth.login');
     }
 
+    public function showAboutUs()
+    {
+         if(Auth::user()!=null) {
+            return view('frontend.site.aboutus');
+         } else {
+            return view('frontend.site.unauth_aboutus');
+         }
+    }
+
+    public function showContactUs()
+    {
+         if(Auth::user()!=null) {
+            return view('frontend.site.contactus');
+         } else {
+          return view('frontend.site.unauth_contactus');
+         }
+        
+    }
+
     public function showSuccessPayment(Request $request)
     {
       if (Auth::user() != NULL) {

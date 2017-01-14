@@ -17,7 +17,8 @@ return [
     'company_name_required'  => 'Company name is required.',
     'date_from_month_required'  => 'Date from month is required.',
     'date_from_year_required'  => 'Date from year is required.',
-
+    'username_required'    => 'Name is required.',
+    'msg_required'    => 'Message is required.',
 
 
 

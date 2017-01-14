@@ -68,6 +68,13 @@ Last change:    14/06/2015
 .margin-top-5px{
     margin-top: 5px;
 }
+.about-us-wrapper {
+    margin-top: -50px !important;
+}
+.contact-us-wrapper {
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
 /**
  * Header
  */

@@ -204,4 +204,6 @@ class UserController extends Controller
             return view('errors.404');
         }
     }
+
+    
 }

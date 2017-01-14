@@ -16,7 +16,7 @@ use  BusinessObject\Experience;
 use  BusinessObject\Industry;
 use  BusinessObject\UserFiles;
 use Validator;
-use DB;
+use DB, StdClass;
 
 class UserServiceProvider
 {
@@ -153,5 +153,7 @@ class UserServiceProvider
         $matchTheseFile = ['status'=>1,'userid'=>$userid];
         return  UserFiles::where($matchTheseFile)->get();
     }
+
+    
 
 }

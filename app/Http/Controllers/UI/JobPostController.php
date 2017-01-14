@@ -380,6 +380,22 @@ class JobPostController extends Controller
 
         return view ('frontend.job.latest_news',array('latest_newses'=>$latest_newses, 'id'=>$id));
     }
+
+    public function contactUs(Request $request){
+        $post_data = $request->all();
+        $validate_array = array(
+            'username'         => "required",
+            'email'        => "required|email",
+            'msg'      => "required",
+        );
+        $validation_res = Validate::validateMe($post_data,$validate_array);
+        if($validation_res['code'] == 401){
+            return $validation_res;
+        }
+        $this->logged_user = Auth::user();
+
+        return response(json_encode($this->jobpostServiceProvider->contactUs($request->all())))->header('Content-Type', 'json');
+    }
 }
 
 
