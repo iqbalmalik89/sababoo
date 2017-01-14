@@ -106,7 +106,7 @@
                 
                 </div>
 
-                <!-- @include('frontend.layouts.unauth_footer') -->
+                @include('frontend.layouts.unauth_footer')
 
 
             </div>

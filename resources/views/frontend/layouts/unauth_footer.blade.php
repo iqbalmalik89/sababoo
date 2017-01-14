@@ -1,6 +1,6 @@
             <footer class="footer-wrapper">
             
-                <div class="main-footer">
+                <!-- <div class="main-footer">
                 
                     <div class="container">
                     
@@ -65,7 +65,7 @@
                         
                     </div>
                     
-                </div>
+                </div> -->
                 
                 <div class="bottom-footer">
                 
@@ -75,27 +75,25 @@
                         
                             <div class="col-sm-4 col-md-4">
                     
-                                <p class="copy-right">&#169; Copyright 2016 HaNgan</p>
+                                <p class="copy-right">&#169; Copyright 2016 Sababoo</p>
                                 
                             </div>
                             
                             <div class="col-sm-4 col-md-4">
                             
                                 <ul class="bottom-footer-menu">
-                                    <li><a href="#">Cookies</a></li>
-                                    <li><a href="#">Policies</a></li>
-                                    <li><a href="#">Terms</a></li>
-                                    <li><a href="#">Blogs</a></li>
+                                    <li><a href="javascript:;">About Us</a></li>
+                                    <li><a href="javascript:;">Contact Us</a></li>
                                 </ul>
                             
                             </div>
                             
                             <div class="col-sm-4 col-md-4">
                                 <ul class="bottom-footer-menu for-social">
-                                    <li><a href="#"><i class="ri ri-twitter" data-toggle="tooltip" data-placement="top" title="twitter"></i></a></li>
-                                    <li><a href="#"><i class="ri ri-facebook" data-toggle="tooltip" data-placement="top" title="facebook"></i></a></li>
-                                    <li><a href="#"><i class="ri ri-google-plus" data-toggle="tooltip" data-placement="top" title="google plus"></i></a></li>
-                                    <li><a href="#"><i class="ri ri-youtube-play" data-toggle="tooltip" data-placement="top" title="youtube"></i></a></li>
+                                    <li><a href="javascript:;"><i class="ri ri-twitter" data-toggle="tooltip" data-placement="top" title="twitter"></i></a></li>
+                                    <li><a href="javascript:;"><i class="ri ri-facebook" data-toggle="tooltip" data-placement="top" title="facebook"></i></a></li>
+                                    <li><a href="javascript:;"><i class="ri ri-google-plus" data-toggle="tooltip" data-placement="top" title="google plus"></i></a></li>
+                                    <li><a href="javascript:;"><i class="ri ri-youtube-play" data-toggle="tooltip" data-placement="top" title="youtube"></i></a></li>
                                 </ul>
                             </div>
                         
