@@ -12,9 +12,8 @@
         @include('frontend.site.contactus_content')
         
     </div>
-	
     
-<script type="text/javascript" src="js/infobox.js"></script>
+    
 <script>    
 
 var pageURI = '';
@@ -50,35 +49,52 @@ $(document).ready(function () {
 
 <script>
     var mapIcon = $('#map_icon').val();
-      var customLabel = {
-        S: {
-          label: 'S'
-        }
-      };
-
         function initMap() {
           var centerLatitude = $('#map').attr('data-lat');
           var centerLongitude = $('#map').attr('data-lon');
           var map = new google.maps.Map(document.getElementById('map'), {
             center: new google.maps.LatLng(centerLatitude, centerLongitude),
-            zoom: 2
+            zoom: 14
           });
 
           var icon = new google.maps.MarkerImage(mapIcon,
-
                        new google.maps.Size(32, 46), new google.maps.Point(0, 0),
-
                        new google.maps.Point(16, 32));
 
         var infoWindow = new google.maps.InfoWindow;
 
-        }
+            var name = 'Company name';
+              var address = 'Company address';
+              var point = new google.maps.LatLng(
+                  parseFloat(centerLatitude),
+                  parseFloat(centerLongitude));
+                  
+              var infowincontent = document.createElement('infobox');
+              var strong = document.createElement('strong');
+              strong.textContent = name
+              infowincontent.appendChild(strong);
+              infowincontent.appendChild(document.createElement('br'));
 
+              var text = document.createElement('text');
+              text.textContent = address
+              infowincontent.appendChild(text);
+              var marker = new google.maps.Marker({
+                map: map,
+                position: point,
+                icon:icon
+              });
+              marker.addListener('click', function() {
+                infoWindow.setContent(infowincontent);
+                infoWindow.open(map, marker);
+                $('#map').parents(9).css('color', 'black');
+              });
+
+
+        }
 
     </script>
 
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key={{env('MAP_API_KEY', 'AIzaSyDVin53mLiAbmi16hNdmuOWepWnbJuZoDQ')}}&callback=initMap">
     </script>
-
 @endsection
