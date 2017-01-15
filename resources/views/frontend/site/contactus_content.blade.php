@@ -107,7 +107,7 @@
 
         <div class="contact-map">
         
-            <div id="map" data-lat="25.19739" data-lon="55.28821" style="width: 100%; height: 500px;" class="mt-30 mb-10"></div>
+            <div id="map" data-lat="{{env('MAP_CENTER_LAT')}}" data-lon="{{env('MAP_CENTER_LON')}}" style="width: 100%; height: 500px;" class="mt-30 mb-10"></div>
 
             <div class="infobox-wrapper shorter-infobox contact-infobox">
                 <div id="infobox">
