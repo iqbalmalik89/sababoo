@@ -62,8 +62,8 @@ $(document).ready(function () {
 
         var infoWindow = new google.maps.InfoWindow;
 
-            var name = 'Company name';
-              var address = 'Company address';
+            var name = 'We Are Here';
+              var address = '';
               var point = new google.maps.LatLng(
                   parseFloat(centerLatitude),
                   parseFloat(centerLongitude));
