@@ -1949,16 +1949,26 @@ Sababoo.App.Role = (function() {
 
 					var can_update_status = '';
 					if ($.inArray(2, hidden_operations) > -1) {
-						can_update_status = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' role_status" data-id="'+role.id+'" data-status="'+is_active+'">\
+						if (role.id == 1) {
+							can_update_status = '';
+						} else {
+							can_update_status = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' role_status" data-id="'+role.id+'" data-status="'+is_active+'">\
                                         <i class="fa fa-trash-o"></i> '+archiveText+' </a>';
+						}
+						
 					} else {
 						can_update_status = '';
 					}
 
 					var can_delete = '';
 					if ($.inArray(3, hidden_operations) > -1) {
-						can_delete = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_role" data-id="'+role.id+'">\
+						if (role.id == 1) {
+							can_delete = '';
+						} else {
+							can_delete = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_role" data-id="'+role.id+'">\
                                         <i class="fa fa-trash-o"></i> Delete </a>';
+						}
+						
 					} else {
 						can_delete = '';
 					}

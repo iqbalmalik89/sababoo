@@ -9,5 +9,5 @@ class Role  extends Model
 {
     use SoftDeletes;
     protected $table = 'roles';
-
+    const SUPER_ADMIN = 1;
 }

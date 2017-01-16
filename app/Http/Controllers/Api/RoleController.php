@@ -219,6 +219,9 @@ class RoleController extends Controller {
             } else if ($response == 'cannot_delete') {
                 $code = 401;
                 $output = ['error' => ['code'=>$code,'messages'=>['Sorry you cannot remove this role as it is associated with some users.']]];
+            } else if ($response == 'cannot_delete_admin') {
+                $code = 401;
+                $output = ['error' => ['code'=>$code,'messages'=>['Sorry you cannot remove this role.']]];
             } else if ($response == 'error') {
                 $code = 405;
                 $output = ['error' => ['code'=>$code,'messages'=>['An error occur while deleting this role.']]];
@@ -271,6 +274,9 @@ class RoleController extends Controller {
             } else if ($response == 'cannot_inactivate') {
                 $code = 401;
                 $output = ['error' => ['code'=>$code,'messages'=>['Sorry you cannot de-activate this role as it is associated with some users.']]];
+            } else if ($response == 'cannot_inactivate_admin') {
+                $code = 401;
+                $output = ['error' => ['code'=>$code,'messages'=>['Sorry you cannot de-activate this role.']]];
             } else {
                 $code = 406;
                 $output = ['error'=>['code'=>$code,'messages'=>['An error occurred while updating status.']]];

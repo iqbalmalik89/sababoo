@@ -273,31 +273,36 @@ class RoleRepository {
 
 		$role = $this->role_model->find($id);
 		if($role != NULL){
-			// to check for associated users
-			$associatedUsers = $this->user_model->where('role_id', '=', $id)->count();
-			if($associatedUsers > 0) {
-				return 'cannot_delete';
+			if ($role->id == Role::SUPER_ADMIN) {
+				return 'cannot_delete_admin';
 			} else {
-				if ($role->delete()) {
-
-					// to maintain log
-					try {
-						$newParams = array(
-									'user_id' 	=> Auth::user()->id,
-									'module' 	=> 'roles',
-									'log_id' 	=> $id,
-									'log_type' 	=> 'deleted'
-								);
-						ActivityLogManager::create($newParams);
-					} catch(Exception $e){
-
-					}
-
-					return 'success';
+				// to check for associated users
+				$associatedUsers = $this->user_model->where('role_id', '=', $id)->count();
+				if($associatedUsers > 0) {
+					return 'cannot_delete';
 				} else {
-					return 'error';
+					if ($role->delete()) {
+
+						// to maintain log
+						try {
+							$newParams = array(
+										'user_id' 	=> Auth::user()->id,
+										'module' 	=> 'roles',
+										'log_id' 	=> $id,
+										'log_type' 	=> 'deleted'
+									);
+							ActivityLogManager::create($newParams);
+						} catch(Exception $e){
+
+						}
+
+						return 'success';
+					} else {
+						return 'error';
+					}
 				}
 			}
+			
 		} else {
 			return 'not_found';
 		}
@@ -363,11 +368,17 @@ class RoleRepository {
 			$role->is_active = $input['status'];	
 
 			if ($role->is_active == 0) {
-				// to check for associated users
-				$associatedUsers = $this->user_model->where('role_id', '=', $input['id'])->count();
-				if($associatedUsers > 0) {
-					return 'cannot_inactivate';
-				} 
+
+				if ($role->id == Role::SUPER_ADMIN) {
+					return 'cannot_inactivate_admin';
+				} else {
+					// to check for associated users
+					$associatedUsers = $this->user_model->where('role_id', '=', $input['id'])->count();
+					if($associatedUsers > 0) {
+						return 'cannot_inactivate';
+					}
+				}
+				 
 			}
 			
 			$role->updated_at = Carbon::now();
