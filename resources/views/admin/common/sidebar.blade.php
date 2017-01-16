@@ -136,6 +136,22 @@
                     <!-- <span class="arrow open"></span> -->
                 </a>
             </li>
+            <li class="nav-item start <?php if($page=='transactions'){ echo "active";} ?> {{$transaction_view}}">
+                <a href="{{URL::to('admin/transactions')}}" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Transaction History</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
+            <li class="nav-item start <?php if($page=='refunds'){ echo "active";} ?> {{$refund_view}}">
+                <a href="{{URL::to('admin/refunds')}}" class="nav-link nav-toggle">
+                    <i class="icon-wrench"></i>
+                    <span class="title">Refund Requests</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
             <li class="nav-item start <?php if($page=='skills' || $page=='skill'){ echo "active";} ?> {{$skills_view}}">
                 <a href="{{URL::to('admin/skills')}}" class="nav-link nav-toggle">
                     <i class="icon-diamond"></i>
@@ -156,22 +172,6 @@
                 <a href="{{URL::to('admin/newses')}}" class="nav-link nav-toggle">
                     <i class="icon-bulb"></i>
                     <span class="title">News Management</span>
-                    <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
-                </a>
-            </li>
-            <li class="nav-item start <?php if($page=='transactions'){ echo "active";} ?> {{$transaction_view}}">
-                <a href="{{URL::to('admin/transactions')}}" class="nav-link nav-toggle">
-                    <i class="icon-notebook"></i>
-                    <span class="title">Transaction History</span>
-                    <span class="selected"></span>
-                    <!-- <span class="arrow open"></span> -->
-                </a>
-            </li>
-            <li class="nav-item start <?php if($page=='refunds'){ echo "active";} ?> {{$refund_view}}">
-                <a href="{{URL::to('admin/refunds')}}" class="nav-link nav-toggle">
-                    <i class="icon-wrench"></i>
-                    <span class="title">Refund Requests</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
                 </a>
