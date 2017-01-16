@@ -141,7 +141,7 @@
                                         <div class="job-location">
                                             <i class="fa fa-map-marker text-primary"></i> <?php echo ucwords($job_proposal->location);?>
                                         </div>
-                                        <div class=""> Cost: ${{$job_proposal->aj_cost}}
+                                        <div class=""> Cost: {{env('CURRENCY', '$').$job_proposal->aj_cost}}
                                         </div>
                                     </div>
 

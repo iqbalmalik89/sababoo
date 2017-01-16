@@ -132,6 +132,9 @@ Route::post('job/paypal/payment',['uses'=>'UI\JobPostController@payment']);
 Route::post('job/paypal/ask-refund',['uses'=>'UI\JobPostController@askRefund']);
 Route::match(['get', 'post'], '/transactions', ['uses'=>'UI\JobPostController@userTransactions']);
 
+Route::post('job/create-dispute',['uses'=>'UI\JobPostController@createDispute']);
+Route::match(['get', 'post'], '/job/job-disputes/{id}', ['uses' => 'UI\JobPostController@jobDisputesList']);
+
 /************************************NETWORK*********************************************************/
  Route::match(['get', 'post'], '/network/connection', ['uses' => 'UI\NetworkController@myConnections']);
  Route::match(['get', 'post'], '/network/send_recom', ['uses' => 'UI\NetworkController@sendRecom']);

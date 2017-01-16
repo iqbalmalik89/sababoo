@@ -169,7 +169,7 @@ class JobPostController extends Controller
           $filters['type'] = '';
         }
         $my_applied_jobs=  $this->jobpostServiceProvider->userAppliedJobs($filters,$order_by,$paging);
-
+        
         return view ('frontend.job.user_applied_jobs',array('my_applied_jobs'=>$my_applied_jobs));
     }
 
@@ -201,6 +201,36 @@ class JobPostController extends Controller
         $job_proposals=  $this->jobpostServiceProvider->jobProposalsList($filters,$order_by,$paging);
 
         return view ('frontend.job.job_proposals',array('job_proposals'=>$job_proposals));
+    }
+
+    public function jobDisputesList(Request $request, $id){
+        if (Auth::user() != NULL) {
+          $this->logged_user = Auth::user();
+        } else {
+          return redirect('login');
+        }
+        //$input = $request->only('id');
+
+        $paging['page_num']  = $request->input('page_num', 1);
+        $paging['page_size'] = $request->input('page_size', env('DEFAULT_PAGE_SIZE'));
+        $order_by['order']   = $request->input('order', 'asc');
+        $order_by['sort_by'] = $request->input('orderby', '0');
+        $filters['userid']   =  $this->logged_user->id;
+        $filters['is_admin']   =  $this->logged_user->is_admin;
+        $filters['job_id']   =  $id;
+        if((isset($post_data['amount']))){
+            $filters['amount'] =   $post_data['amount'];
+        } else {
+          $filters['amount'] = '';
+        }
+        if((isset($post_data['description']))){
+            $filters['description'] =   $post_data['description'];
+        } else {
+          $filters['description'] = '';
+        }
+        $job_disputes=  $this->jobpostServiceProvider->jobDisputesList($filters,$order_by,$paging);
+
+        return view ('frontend.job.job_disputes',array('job_disputes'=>$job_disputes, 'job_id'=>$id));
     }
 
     public function delJob(Request $request){
@@ -318,6 +348,17 @@ class JobPostController extends Controller
      return $this->jobpostServiceProvider->askRefund($post_data);
 
     }
+
+    public function createDispute(Request $request){
+      if (Auth::user() != NULL) {
+        $this->logged_user = Auth::user();
+      }
+      $post_data= $request->all();
+      $post_data['user_id']=$this->logged_user->id;
+     return $this->jobpostServiceProvider->createDispute($post_data);
+
+    }
+
 
     public function userTransactions(Request $request){
         if (Auth::user() != NULL) {
