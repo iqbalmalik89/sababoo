@@ -189,6 +189,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 
 	Route::get('/transactions',['uses'=>'HomeController@showTransactions'])->middleware(['acl.admin:transaction.list']);
 	Route::get('/refunds',['uses'=>'HomeController@showRefunds'])->middleware(['acl.admin:refund.list']);
+	Route::get('/disputes',['uses'=>'HomeController@showDisputes'])->middleware(['acl.admin:dispute.list']);
 	Route::get('/dashboard',['uses'=>'HomeController@showReports'])->middleware(['acl.admin']);
 	Route::get('/logs',['uses'=>'HomeController@showLogs'])->middleware(['acl.admin:log.list']);
 
@@ -261,6 +262,10 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	// Refunds Routes
 	Route::get('/refund/list',['as'=>'refund:list', 'uses'=>'RefundController@all'])->middleware(['acl.admin:refund.list']);
 	Route::put('/refund/update-status',['as'=>'refund.update-status', 'uses'=>'RefundController@updateStatus'])->middleware(['acl.admin:refund.update']);
+
+	// Disputes Routes
+	Route::get('/dispute/list',['as'=>'dispute:list', 'uses'=>'DisputeController@all'])->middleware(['acl.admin:dispute.list']);
+	Route::put('/dispute/update-status',['as'=>'dispute.update-status', 'uses'=>'DisputeController@updateStatus'])->middleware(['acl.admin:dispute.update']);
 
 	//Reports Routes
     Route::get('/report/user',['as'=>'report.user', 'uses'=>'ReportController@userReport']);

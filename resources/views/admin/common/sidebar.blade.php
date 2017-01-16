@@ -24,6 +24,7 @@
     $refund_view = '';
     $news_view = '';
     $log_view = '';
+    $dispute_view = '';
 
     // for role view permission                         permission id = 4
     if (!in_array(4, $roleOperations)) {
@@ -77,6 +78,11 @@
     // for news view permission                         permission id = 4o
     if (!in_array(40, $roleOperations)) {
         $news_view = 'hide';
+    }
+
+    // for disputes view permission                         permission id = 44
+    if (!in_array(44, $roleOperations)) {
+        $dispute_view = 'hide';
     }
 ?>
 <div class="page-sidebar-wrapper">
@@ -148,6 +154,14 @@
                 <a href="{{URL::to('admin/refunds')}}" class="nav-link nav-toggle">
                     <i class="icon-wrench"></i>
                     <span class="title">Refund Requests</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
+            <li class="nav-item start <?php if($page=='disputes'){ echo "active";} ?> {{$dispute_view}}">
+                <a href="{{URL::to('admin/disputes')}}" class="nav-link nav-toggle">
+                    <i class="icon-info"></i>
+                    <span class="title">Job Disputes</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
                 </a>

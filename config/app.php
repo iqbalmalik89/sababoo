@@ -184,6 +184,7 @@ return [
         App\Providers\ReportRepositoryServiceProvider::class,
         App\Providers\ActivityLogRepositoryServiceProvider::class,
         App\Providers\NewsRepositoryServiceProvider::class,
+        App\Providers\DisputeRepositoryServiceProvider::class,
     ],
 
     /*

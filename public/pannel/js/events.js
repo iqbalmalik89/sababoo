@@ -281,6 +281,35 @@ $('#refund_status_btn').click(function(e){
     e.preventDefault();
     Sababoo.App.Refunds.updateStatus();
 });
+$('#refunds_filter_by_status').change(function(){
+    Sababoo.App.Refunds.list();
+});
+
+// disputes
+$('#dispute-list-limit').change(function(){
+    Sababoo.App.Disputes.list();
+});
+
+$('#dispute_filter_date_btn').click(function(){
+    var start_date = $('#start_date');
+    var end_date = $('#end_date');
+    if (end_date.val() != '' && start_date.val() == '') {
+        start_date.parent().addClass('has-error');
+        return false;
+    } else {
+        start_date.parent().removeClass('has-error');
+        Sababoo.App.Disputes.list();
+    } 
+});
+
+$('#dispute_status_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Disputes.updateStatus();
+});
+
+$('#disputes_filter_by_status').change(function(){
+    Sababoo.App.Disputes.list();
+});
 
 // report
 $('#report_filter_date_btn').click(function(){

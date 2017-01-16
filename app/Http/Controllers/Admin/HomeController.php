@@ -352,6 +352,16 @@ class HomeController extends Controller {
         return view('admin.refunds',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
     }
 
+    /* for disputes listing */
+    public function showDisputes(Request $request) {
+        $title  = 'Sababoo | Admin | Disputes';
+        $logged_in_user   = Auth::user();
+        //$logged_in_user = Session::get('sa_user');
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+        return view('admin.disputes',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
+    }
+
     /* for report view */
     public function showReports(Request $request) {
         $title  = 'Sababoo | Admin | Dashboard';

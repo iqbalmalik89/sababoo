@@ -3604,6 +3604,244 @@ Sababoo.App.Refunds = (function() {
 	}
 }());
 
+/* Disputes */
+Sababoo.App.Disputes = (function() {
+
+	var config = Sababoo.Config;
+	var disputeApiUrl = config.getApiUrl()+'dispute';
+
+	var list = function (page) {
+
+		$('.spinner-section').show();
+		var page 			= page || 1;
+		var pagination 		= true;
+		var limit 			= $('#dispute-list-limit').val() || 0;
+		var filterByStatus 	= $('#disputes_filter_by_status').val() || '';
+		var start_date 		= $('#start_date').val() || '';
+		var end_date 		= $('#end_date').val() || '';
+		var data 			= {};
+		var total_disputes 	= $('#total_disputes');
+
+		data.pagination 	= pagination;
+		data.page 			= page;
+		data.limit 			= limit;
+		data.start_date 	= start_date;
+		data.end_date 		= end_date;
+		data.filter_by_status	= filterByStatus;
+		
+		var request = $.ajax({
+			url: disputeApiUrl+'/list?page='+page,
+			data:data,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			$('.spinner-section').hide();
+			var html = '';
+			var paginationShow = '';
+			var disputes = data.data;
+			var classDisabledPrev = "";
+			var classDisabledNext = "";
+			var paginations = data.pagination;
+			total_disputes.html(paginations.total);
+
+			if(disputes.length > 0) {
+
+				$('#disputes_list_head').html('<tr>\
+		                                        <th> ID </th>\
+		                                        <th> Job Name</th>\
+		                                        <th> Discription </th>\
+		                                        <th> Amount </th>\
+		                                        <th> Creator </th>\
+		                                        <th> Dispute Date</th>\
+		                                        <th> Status</th>\
+		                                        <th> Action</th>\
+		                                    </tr>');
+
+				$(disputes).each(function(index, dispute){
+
+					if (typeof dispute.job_name != 'undefined' && typeof dispute.job_name !== null && dispute.job_name!='' ) {
+						dispute.job_name = dispute.job_name;
+					} else {
+						dispute.job_name = 'N/A';									
+					}
+
+					if (typeof dispute.created_user_name != 'undefined' && typeof dispute.created_user_name !== null && dispute.created_user_name!='' ) {
+						dispute.created_user_name = dispute.created_user_name;
+					} else {
+						dispute.created_user_name = 'N/A';									
+					}
+
+					var action = '';
+					if ($.inArray(42, hidden_operations) > -1) {
+						if (dispute.status == 'PENDING') {
+							action = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm green-jungle take_action" data-id="'+dispute.id+'" data-status="approved">Approve</a>\
+							<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red take_action" data-id="'+dispute.id+'" data-status="rejected">Reject</a>';
+						} /*else if (dispute.status == 'REJECTED') {
+							action = '<a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm green-jungle take_action" data-id="'+dispute.id+'" data-status="approved">Approve</a>';
+						}*/ else if (dispute.status == 'APPROVED' || dispute.status == 'REJECTED') {
+							action = 'Action Taken';
+						}
+					} else {
+						action = '-';
+					}
+					
+					html += '<tr>\
+                                <td class="highlight"> '+dispute.id+' </td>\
+                                <td class="hidden-xs"> '+dispute.job_name+' </td>\
+                                <td> '+dispute.description+' </td>\
+                                <td> $'+dispute.amount+' </td>\
+                                <td> '+dispute.created_by_name+' </td>\
+                                <td> '+dispute.created_at+' </td>\
+                                <td> '+dispute.status+' </td>\
+                                <td>'+action+'</td>\
+                            </tr>';
+
+				});
+			} else {
+				$('#disputes_list_head').html('');
+				html  += '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>Nothing Here Yet.</h3>\
+                    <p>We couldn\'t find any record related to the defined criteria. Please try again later.</p></div>';
+			}
+
+			$('#disputes_list').html(html);
+
+            if(data.pagination.current >= data.pagination.next && data.pagination.current==1) {
+				$('.general-pagination').hide();
+				$('.transaction-pagination-limit').hide();
+			} else {
+				if(data.pagination.current==data.pagination.first){
+					classDisabledPrev="disable";
+				}
+				if(data.pagination.current==data.pagination.last){
+					classDisabledNext="disable";
+				}
+				paginationShow+='<li >\
+								      <a class="general-pagination-click  '+classDisabledPrev+'" data-page='+paginations.previous+' href="javascript:;">Previous</a>\
+								    </li>';
+				paginationShow+= '<li >\
+								      <a class=" general-pagination-click '+classDisabledNext+'" data-page='+paginations.next+' href="javascript:;">Next</a>\
+								    </li>';
+				paginationShow+= '<li class="hidden-xs">Showing '+data.pagination.to+' - '+data.pagination.from+' of total '+data.pagination.total+' records</li>';
+
+				$('.general-pagination').html(paginationShow);
+				$('.general-pagination').show();
+				$('.general-pagination-limit').show();
+			}
+
+			$('.general-pagination-click').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var page  = $(this).data('page');
+				Sababoo.App.Disputes.list(page);
+		    });
+
+		    $('.take_action').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var dispute_id  = $(this).attr('data-id');
+				var status  = $(this).attr('data-status');
+				$('#hidden_action_dispute_id').val(dispute_id);
+				$('#hidden_action_dispute_status').val(status);
+
+				if (status == 'approved') {
+					$('#update_status_text').text('Approved');
+				} else if (status == 'rejected') {
+					$('#update_status_text').text('Reject');
+				}
+				$('#updateStatusConfirmation').modal('show');
+		    });
+		});
+
+		request.fail(function(jqXHR, textStatus){
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while retrieving disputes.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+
+			var html = '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>'+error+'</h3></div>';
+            $('#disputes_list').html(html);
+		});		
+	};
+
+	var updateStatus = function (){
+		
+		var jsonData = {};
+		jsonData.id = $('#hidden_action_dispute_id').val();
+		jsonData.status = $('#hidden_action_dispute_status').val();
+
+		var request = $.ajax({
+			url: disputeApiUrl+'/update-status',
+			data: jsonData,
+			type: 'put',
+			dataType:'json'
+		});
+
+		$('#dispute_status_btn').addClass('prevent-click');
+		$('#status_submit_loader').show();
+
+		request.done(function(data){
+			
+			$('#status_submit_loader').hide();
+			
+			if (data.success) {
+				var html = 'Status has been updated successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#status_msg_div').removeClass('alert-danger');
+		 		$('#status_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#dispute_status_btn').removeClass('prevent-click');
+				    $('#updateStatusConfirmation').modal('hide');
+				    Sababoo.App.Disputes.list();		
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while updating dispute status.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#dispute_status_btn').removeClass('prevent-click');
+				$('#status_msg_div').removeClass('alert-success');
+				$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $('#status_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#dispute_status_btn').removeClass('prevent-click');
+			$('#status_submit_loader').hide();
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while updating dispute status.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	return {
+		list:list,
+		updateStatus:updateStatus
+	}
+}());
+
 Sababoo.App.Reports = (function() {
 
 	var config = Sababoo.Config;
