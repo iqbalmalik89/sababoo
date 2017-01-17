@@ -10,6 +10,7 @@ use BusinessObject\JobPost;
 use BusinessObject\Skill;
 use BusinessObject\Industry;
 use App\Models\Refund;
+use App\Models\Dispute;
 use App\Models\News;
 use App\Data\Repositories\ActivityLogRepository;
 
@@ -33,7 +34,7 @@ class ActivityLogRepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('ActivityLogRepository', function(){
-            return new ActivityLogRepository(new ActivityLog, new User, new Role, new JobPost, new Skill, new Industry, new Refund, new News);
+            return new ActivityLogRepository(new ActivityLog, new User, new Role, new JobPost, new Skill, new Industry, new Refund, new News, new Dispute);
         });
     }
 }

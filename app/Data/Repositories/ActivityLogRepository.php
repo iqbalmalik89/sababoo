@@ -11,6 +11,7 @@ use BusinessObject\JobPost;
 use BusinessObject\Skill;
 use BusinessObject\Industry;
 use App\Models\Refund;
+use App\Models\Dispute;
 use App\Models\News;
 use App\Helpers\Helper;
 
@@ -26,9 +27,10 @@ class ActivityLogRepository {
 	public $industries_model;
 	public $refund_model;
 	public $news_model;
+	public $dispute_model;
 	public $user_repo;
 
-	public function __construct(ActivityLog $log, User $user, Role $role, JobPost $job, Skill $skill, Industry $industry, Refund $refund, News $news){
+	public function __construct(ActivityLog $log, User $user, Role $role, JobPost $job, Skill $skill, Industry $industry, Refund $refund, News $news, Dispute $dispute){
 		$this->log_model 	= $log;
 		$this->user_model 	= $user;
 		$this->role_model 	= $role;
@@ -37,6 +39,7 @@ class ActivityLogRepository {
 		$this->industries_model = $industry;
 		$this->refund_model = $refund;
 		$this->news_model = $news;
+		$this->dispute_model = $dispute;
 		$this->user_repo 	= app()->make('UserRepository');
 	}
 
@@ -186,6 +189,20 @@ class ActivityLogRepository {
 								$activity = $userName.'<strong>'.$log->text.'</strong> refund request of <strong>'.env('CURRENCY', '$').$refundData->amount.'</strong> of '.$jobData->name.' job.';
 							} else {
 								$activity = $userName.'<strong>'.$log->text.'</strong> refund request of <strong>'.env('CURRENCY', '$').$refundData->amount.'</strong>.';
+							}
+							
+						} 
+					}
+					
+				} else if ($log->module == 'disputes') {
+					$disputeData = $this->dispute_model->find($log->log_id);
+					if ($disputeData != NULL) {
+						if ($log->log_type == 'updated_status') {
+							$jobData = $this->job_model->find($disputeData->job_id);
+							if ($jobData != NULL) {
+								$activity = $userName.'<strong>'.$log->text.'</strong> dispute of <strong>'.env('CURRENCY', '$').$disputeData->amount.'</strong> of '.$jobData->name.' job.';
+							} else {
+								$activity = $userName.'<strong>'.$log->text.'</strong> dispute of <strong>'.env('CURRENCY', '$').$disputeData->amount.'</strong>.';
 							}
 							
 						} 
