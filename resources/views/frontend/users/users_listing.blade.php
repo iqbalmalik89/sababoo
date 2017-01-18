@@ -49,23 +49,22 @@
 
                 <form action="/user/list_users" method="post">
 
-                    <div class="second-search-result-inner">
-                        <span class="labeling">Search a user</span>
+                    <div class="user-search-result-inner">
                         <div class="row">
 
-                            <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5">
+                            <div class="col-xss-6 col-xs-3 col-sm-3 col-md-3">
                                 <div class="form-group form-lg">
                                     <input id="name" name="name" type="text" class="form-control" placeholder="User Name. Ex: Med Bangs">
                                 </div>
                             </div>
 
-                            <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5">
+                            <div class="col-xss-6 col-xs-3 col-sm-3 col-md-3">
                                 <div class="form-group form-lg">
                                     <input id="email" name="email" type="text" class="form-control" placeholder="Email. Ex: med@outlook.com">
                                 </div>
                             </div>
 
-                            <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5">
+                            <div class="col-xss-6 col-xs-3 col-sm-3 col-md-3">
                                 <div class="form-group form-lg">
 
 
@@ -143,8 +142,8 @@
 
                                                 <h4> <?php echo $user->first_name.' '.$user->last_name;?></h4>
                                     </div>
-                                    <div class="col-24"> <?php echo $user->email;?>
-                                    </div>
+                                    <!-- <div class="col-24"> <?php echo $user->email;?>
+                                    </div> -->
 
                                     <div class="col-24"> <?php 
                                             if ($user->role == 'employee') {
