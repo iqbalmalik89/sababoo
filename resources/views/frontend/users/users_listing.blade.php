@@ -139,8 +139,7 @@
                                 <div class="GridLex-grid-middle">
 
                                     <div class="col-24">
-
-                                                <h4> <?php echo $user->first_name.' '.$user->last_name;?></h4>
+                                        <h4> <?php echo $user->first_name.' '.$user->last_name;?></h4>
                                     </div>
                                     <!-- <div class="col-24"> <?php echo $user->email;?>
                                     </div> -->
@@ -161,9 +160,8 @@
                                     </div>
 
                                     <div class="" >
-                                    
-
-                                    <span onclick="viewUser(<?php echo $user->id;?>)">View Profile</span>
+                                    <span onclick="viewUser(<?php echo $user->id;?>)">View Profile</span> | 
+                                    <span onclick="viewMessage(<?php echo $user->id;?>)">Send Message</span>
                                     </div>
 
 
@@ -197,6 +195,10 @@
 
     function viewUser (userId){
         window.location = "/user/view-profile/"+userId;
+    }
+
+    function viewMessage (userId){
+        window.location = "/send_message/"+userId;
     }
 
     $(document).ready(function () {
