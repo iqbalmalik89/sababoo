@@ -162,34 +162,26 @@ class UserServiceProvider
         $email = isset($filters['email'])?$filters['email']:'';
         $role = isset($filters['role'])?$filters['role']:'';
         
-      $str = '';
+        $str = '';
+        $users = DB::table('users')
+                        ->select('*')
+                        ->Where("users.status", "=", "enabled")
+                        ->Where("users.is_admin", "=", "0");
 
         if ($role != '') {
-            $users = DB::table('users')
-                        ->select('*')
-                        ->Where("users.status", "=", "enabled")
-                        ->Where("users.is_admin", "=", "0")
-                        ->Where("users.email", "LIKE", "%$email%")
-                        ->Where("users.first_name", "LIKE", "%$name%")
-                        ->Where("users.role", "=", "$role")
-                        /*->orWhere("users.last_name", "LIKE", "%$name%")*/
-                        ->OrderBy('users.created_at', 'DESC')
-        //dd( count($job) );
-        ->paginate($paging['page_size']);
-        } else {
-            $users = DB::table('users')
-                        ->select('*')
-                        ->Where("users.status", "=", "enabled")
-                        ->Where("users.is_admin", "=", "0")
-                        ->Where("users.email", "LIKE", "%$email%")
-                        ->Where("users.first_name", "LIKE", "%$name%")
-                        /*->orWhere("users.last_name", "LIKE", "%$name%")*/
-                        ->OrderBy('users.created_at', 'DESC')
-        //dd( count($job) );
-        ->paginate($paging['page_size']);
+            $users = $users->Where("users.role", "=", "$role");
+        } 
+        if ($email != '') {
+            $users = $users->Where("users.email", "LIKE", '%'.$email.'%');
+        } 
+        if ($name != '') {
+            $users = $users->where(function ($query) use ($name) {
+                                    $query->orWhere('first_name', 'LIKE', '%'.$name.'%')
+                                            ->orWhere('last_name', 'LIKE', '%'.$name.'%');
+                                });
         }
-        
 
+        $users = $users->OrderBy('users.created_at', 'DESC')->paginate($paging['page_size']);
         return $users;
      }
 }

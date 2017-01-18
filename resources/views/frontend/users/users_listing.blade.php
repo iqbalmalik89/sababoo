@@ -55,13 +55,13 @@
 
                             <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5">
                                 <div class="form-group form-lg">
-                                    <input id="name" name="name" type="text" class="form-control" placeholder="User Name. Ex: Med">
+                                    <input id="name" name="name" type="text" class="form-control" placeholder="User Name. Ex: Med Bangs">
                                 </div>
                             </div>
 
                             <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5">
                                 <div class="form-group form-lg">
-                                    <input id="email" name="email" type="text" class="form-control" placeholder="Email. Ex: med@gmail.com">
+                                    <input id="email" name="email" type="text" class="form-control" placeholder="Email. Ex: med@outlook.com">
                                 </div>
                             </div>
 
@@ -164,7 +164,7 @@
                                     <div class="" >
                                     
 
-                                    <span onclick="viewUser(<?php echo $user->id;?>)">View </span>
+                                    <span onclick="viewUser(<?php echo $user->id;?>)">View Profile</span>
                                     </div>
 
 
