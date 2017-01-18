@@ -20,6 +20,9 @@ use Hash;
 use Validator;
 
 use  BusinessObject\User;
+use  BusinessObject\Employee;
+use  BusinessObject\Employer;
+use  BusinessObject\Tradesman;
 use  BusinessObject\Certification;
 
 
@@ -238,5 +241,25 @@ class UserController extends Controller
         $users=  $this->userServiceProvider->listUsers($filters,$order_by,$paging);
 
         return view ('frontend.users.users_listing',array('users'=>$users));
+    }
+
+    public function viewProfile($id) {
+            
+        $user = User::where('id','=', $id)->where('status', '=', 'enabled')->firstOrFail();
+        if($user->role=="employee"){
+            $employee = Employee::where('userid', '=', $user->id)->firstOrFail();
+            return redirect('employee/view/'.$employee->id);
+       } else if($user->role=="employer"){
+            $employer = Employer::where('userid', '=' , $user->id)->firstOrFail();
+            return redirect('employer/view/'.$employer->id);
+        }
+        else if($user->role=="tradesman"){
+
+            $tradesman = Tradesman::where('userid', '=' , $user->id)->firstOrFail();
+            return redirect('tradesman/view/'.$tradesman->id);
+
+        }
+
+        abort(404);
     }
 }

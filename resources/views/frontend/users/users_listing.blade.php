@@ -197,7 +197,7 @@
     var html = '';
 
     function viewUser (userId){
-        //window.location = "/job/job-proposals/"+userId;
+        window.location = "/user/view-profile/"+userId;
     }
 
     $(document).ready(function () {

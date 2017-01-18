@@ -114,6 +114,7 @@ Route::match(['get', 'post'], '/user/delete_user_file', ['uses' => 'UI\UserContr
 Route::match(['get', 'post'], '/user/download_files/{file_id}', ['uses' => 'UI\UserController@DownloadFiles']);
 
 Route::match(['get', 'post'], '/user/list_users', ['uses'=>'UI\UserController@listUsers']);
+Route::match(['get', 'post'], '/user/view-profile/{id}', ['uses'=>'UI\UserController@viewProfile']);
 
 Route::post('contact-us', 'UI\JobPostController@contactUs');
 
