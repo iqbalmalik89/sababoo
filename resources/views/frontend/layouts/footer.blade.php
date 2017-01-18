@@ -82,6 +82,7 @@
                             <div class="col-sm-5 col-md-5">
                             
                                 <ul class="bottom-footer-menu">
+                                    <li><a href="{{url('user/list_users')}}">Users</a></li>
                                     <li><a href="{{url('job/user_job_list')}}">Jobs</a></li>
                                     <li><a href="{{url('network/connection')}}">Network</a></li>
                                     <li><a href="{{url('user_view_message')}}">Messages</a></li>
