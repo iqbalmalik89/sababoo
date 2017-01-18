@@ -113,6 +113,8 @@ Route::match(['get', 'post'], '/user/add_files', ['uses' => 'UI\UserController@a
 Route::match(['get', 'post'], '/user/delete_user_file', ['uses' => 'UI\UserController@DeleteUserFile']);
 Route::match(['get', 'post'], '/user/download_files/{file_id}', ['uses' => 'UI\UserController@DownloadFiles']);
 
+Route::match(['get', 'post'], '/user/list_users', ['uses'=>'UI\UserController@listUsers']);
+
 Route::post('contact-us', 'UI\JobPostController@contactUs');
 
 /************************************JOB POSTING *****************************************************/

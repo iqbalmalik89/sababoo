@@ -155,5 +155,41 @@ class UserServiceProvider
     }
 
     
+    public function listUsers($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
 
+        
+        $name = isset($filters['name'])?$filters['name']:'';
+        $email = isset($filters['email'])?$filters['email']:'';
+        $role = isset($filters['role'])?$filters['role']:'';
+        
+      $str = '';
+
+        if ($role != '') {
+            $users = DB::table('users')
+                        ->select('*')
+                        ->Where("users.status", "=", "enabled")
+                        ->Where("users.is_admin", "=", "0")
+                        ->Where("users.email", "LIKE", "%$email%")
+                        ->Where("users.first_name", "LIKE", "%$name%")
+                        ->Where("users.role", "=", "$role")
+                        /*->orWhere("users.last_name", "LIKE", "%$name%")*/
+                        ->OrderBy('users.created_at', 'DESC')
+        //dd( count($job) );
+        ->paginate($paging['page_size']);
+        } else {
+            $users = DB::table('users')
+                        ->select('*')
+                        ->Where("users.status", "=", "enabled")
+                        ->Where("users.is_admin", "=", "0")
+                        ->Where("users.email", "LIKE", "%$email%")
+                        ->Where("users.first_name", "LIKE", "%$name%")
+                        /*->orWhere("users.last_name", "LIKE", "%$name%")*/
+                        ->OrderBy('users.created_at', 'DESC')
+        //dd( count($job) );
+        ->paginate($paging['page_size']);
+        }
+        
+
+        return $users;
+     }
 }

@@ -80,7 +80,9 @@
                                 
                             </li>
                             
-                            
+                            <li>
+                                <a href="/user/list_users">Users</a>
+                            </li>
                             
                             <li class="">
                                 <a href="#_">Job</a>

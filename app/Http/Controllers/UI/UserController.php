@@ -205,5 +205,38 @@ class UserController extends Controller
         }
     }
 
-    
+    public function listUsers(Request $request){
+        if (Auth::user() != NULL) {
+          $this->logged_user = Auth::user();
+        } else {
+          return redirect('login');
+        }
+        
+        $post_data = $request->all();
+
+        $paging['page_num']  = $request->input('page_num', 1);
+        $paging['page_size'] = $request->input('page_size', env('DEFAULT_PAGE_SIZE'));
+        $order_by['order']   = $request->input('order', 'asc');
+        $order_by['sort_by'] = $request->input('orderby', '0');
+        $filters['userid']   =  $this->logged_user->id;
+        $filters['is_admin']   =  $this->logged_user->is_admin;
+        if((isset($post_data['name']))){
+            $filters['name'] =   $post_data['name'];
+        } else {
+          $filters['name'] = '';
+        }
+        if((isset($post_data['email']))){
+            $filters['email'] =   $post_data['email'];
+        } else {
+          $filters['email'] = '';
+        }
+        if((isset($post_data['role']))){
+            $filters['role'] =   $post_data['role'];
+        } else {
+          $filters['role'] = '';
+        }
+        $users=  $this->userServiceProvider->listUsers($filters,$order_by,$paging);
+
+        return view ('frontend.users.users_listing',array('users'=>$users));
+    }
 }
