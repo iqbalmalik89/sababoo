@@ -27,20 +27,30 @@
     </div>
     <!-- end breadcrumb -->
 
-    <div class="">
+    <div class="section sm">
+
+        <div class="second-search-result-wrapper" style="height: 90px;">
+            <div class="container">
+                <div class="second-search-result-inner" >
+                    <span class="labeling" style="margin-left: 40%;">Work Stream</span>
+                </div>
+            </div>
+        </div>
+
         <div class="bg-light pt-80 pb-80">
-            <div class="container full-width">
-                <div class="row">
+            <div class="container">
+                <!-- <div class="row">
                     <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
                         <div class="section-title">
                             <h2>Work Stream</h2>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row">
                     <div class="col-md-12">
                         <div class="recent-job-wrapper alt-stripe mr-0">
+                            <div class="recent-job-item clearfix">
                             <?php
 
                                 if(count($work_streams)<=0){
@@ -114,7 +124,7 @@
                                     <?php
                                     }
                              }}?>
-
+                             </div>
                         </div>
 
                     </div>
