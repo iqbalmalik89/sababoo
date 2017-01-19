@@ -134,8 +134,8 @@
                                 foreach($users as $user){
                             ?>
 
-                            <a href="#_" class="recent-job-item clearfix" id="row_<?php echo $user->id;?>">
-
+                            <!-- <a href="#_" class="recent-job-item clearfix" id="row_<?php echo $user->id;?>"> -->
+                            <div class="recent-job-item clearfix">
                                 <div class="GridLex-grid-middle">
 
                                     <div class="col-24">
@@ -160,13 +160,14 @@
                                     </div>
 
                                     <div class="" >
-                                    <span onclick="viewUser(<?php echo $user->id;?>)">View Profile</span> | 
-                                    <span onclick="viewMessage(<?php echo $user->id;?>)">Send Message</span>
+                                    <input type="button" onclick="viewUser(<?php echo $user->id;?>)" value="View Profile">
+                                    <input type="button" onclick="viewMessage(<?php echo $user->id;?>)" value="Send Message">
                                     </div>
 
 
                                 </div>
-                            </a>
+                            </div>
+                            <!-- </a> -->
                             <?php }}?>
 
 
