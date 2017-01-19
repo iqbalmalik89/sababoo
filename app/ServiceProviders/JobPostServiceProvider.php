@@ -10,6 +10,7 @@
 namespace BusinessLogic;
 use Helper;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use  BusinessObject\User;
 use  BusinessObject\Language;
 use  BusinessObject\JobPost;
@@ -18,7 +19,7 @@ use  App\Models\Refund;
 use  App\Models\Dispute;
 use  App\Models\Payment;
 use Validator;
-use DB;
+use DB, StdClass;
 use Paypal as PayPal;
 
 class JobPostServiceProvider
@@ -719,11 +720,10 @@ class JobPostServiceProvider
           ->Where("news.title", "LIKE", "%$title%")
           ->Where("news.description", "LIKE", "%$description%")
           ->OrderBy('news.created_at', 'DESC')
-      //dd( count($job) );
-      ->paginate($paging['page_size']);
       
-        //dd(DB::getQueryLog());
-        return $news;
+          ->paginate($paging['page_size']);
+    
+          return $news;
      }
 
      public function contactUs($input){
@@ -759,4 +759,69 @@ class JobPostServiceProvider
             'msg' => "Your message has been sent successfully!"
         );
     }
+
+
+    public function workStream($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
+
+        $userID = $filters['userid'];
+        $loggedUser = Auth::user();
+
+        $work_streams = [];
+        if ($loggedUser->role == 'employer') {
+          // get posted jobs of employer
+          $jobs = DB::table('job_post')
+                          ->select('job_post.id','job_post.userid','job_post.name','job_post.description','job_post.salary','job_post.type','job_post.job_status', 'job_post.created_at')
+                          ->Where("job_post.job_status", "!=", "pending")
+                          ->Where("job_post.is_active", "=", "1")
+                          ->Where("job_post.userid", "=", "$userID")
+                          ->OrderBy('job_post.created_at', 'DESC')
+                          ->paginate($paging['page_size']);
+
+        } else if ($loggedUser->role == 'employee') {
+          // get applied jobs of emplyee
+          $jobs = DB::table('job_post')
+                      ->select('job_post.id','job_post.userid','job_post.name','job_post.description','job_post.salary','job_post.type','job_post.job_status', 'job_post.created_at')
+                      ->join('applied_jobs', 'job_post.id', '=','applied_jobs.job_id' )
+                      ->Where("job_post.job_status", "!=", "pending")
+                      ->Where("job_post.is_active", "=", "1")
+                      ->Where("applied_jobs.user_id", "=", "$userID")
+                      ->OrderBy('applied_jobs.created_at', 'DESC')
+                      ->paginate($paging['page_size']);
+
+        } else if ($loggedUser->role == 'admin') {
+          // get all jobs
+          $jobs = DB::table('job_post')
+                          ->select('job_post.id','job_post.userid','job_post.name','job_post.description','job_post.salary','job_post.type','job_post.job_status', 'job_post.created_at')
+                          ->Where("job_post.job_status", "!=", "pending")
+                          ->Where("job_post.is_active", "=", "1")
+                          ->OrderBy('job_post.created_at', 'DESC')
+                          ->paginate($paging['page_size']);
+        } else {
+          // nothing
+          $jobs = NULL;
+        }
+
+        if ($jobs != NULL) {
+          if (count($jobs) > 0) {
+            $i = 0;
+            foreach ($jobs as $key => $job) {
+              // user detail
+              $user = User::find($job->userid);
+              // for refund request
+              $refunds = Refund::where('job_id', '=', $job->id)->get();
+
+              // for job disputes
+              $disputes = Dispute::where('job_id', '=', $job->id)->get();
+              $work_streams[$i]['job_details'] = $job;
+              $work_streams[$i]['job_details']->posted_by = $user->first_name.' '.$user->last_name;
+              $work_streams[$i]['refunds'] = $refunds;
+              $work_streams[$i]['disputes'] = $disputes;
+              $i++;
+            }
+          }
+
+          //$work_streams = Helper::paginator($work_streams, $jobs);
+        }
+        return $work_streams;
+     }
 }

@@ -130,6 +130,9 @@ Route::match(['get', 'post'], '/job/user_applied_jobs', ['uses' => 'UI\JobPostCo
 Route::match(['get', 'post'], '/job/job-proposals/{id}', ['uses' => 'UI\JobPostController@jobProposalsList']);
 Route::match(['get', 'post'], '/job/news/{id}', ['uses'=>'UI\JobPostController@getNewsByIndustry']);
 
+/************************************* Job Work Stream *********************************************************/
+ Route::match(['get', 'post'], ' /job/work-stream', ['uses' => 'UI\JobPostController@workStream']);
+
 // PayPal
 Route::post('job/paypal/payment',['uses'=>'UI\JobPostController@payment']);
 Route::post('job/paypal/ask-refund',['uses'=>'UI\JobPostController@askRefund']);
@@ -162,9 +165,6 @@ Route::match(['get', 'post'], '/job/job-disputes/{id}', ['uses' => 'UI\JobPostCo
  Route::match(['get', 'post'], ' /chat/get_users_message', ['uses' => 'UI\ChatController@getUserMessageById']);
  Route::match(['get', 'post'], ' /chat/save_user_messages', ['uses' => 'UI\ChatController@saveUserMessage']);
  Route::match(['get', 'post'], '/chat/get_logged_user_message', ['uses' => 'UI\ChatController@getLoggedUserMessage']);
-
-
-
 
 /****** Admin Routes ******/
 Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], function(){

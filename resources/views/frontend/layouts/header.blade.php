@@ -92,8 +92,16 @@
                                     <li class=""><a href="/job/user_job_list"> My Jobs</a></li>
                                     <li class=""><a href="/job/search_jobs"> Browse Jobs</a></li>
                                     <li class=""><a href="/job/user_applied_jobs"> Applied Jobs</a></li>
-                                    
-                                    
+
+                                    <?php
+                                        if (isset($loggedInUser) && $loggedInUser != NULL) {
+                                            if ($loggedInUser->role != 'tradesman') {
+                                    ?>
+                                        <li class=""><a href="/job/work-stream"> Work Stream</a></li>
+                                    <?php
+                                            }
+                                        }
+                                    ?>
                                 </ul>
 <!--                                 <ul>
                                     <li><a href="job-detail.html">Detail</a></li>
