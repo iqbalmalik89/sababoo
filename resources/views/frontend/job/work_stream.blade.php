@@ -48,85 +48,93 @@
                 </div> -->
 
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="recent-job-wrapper alt-stripe mr-0">
-                            <div class="recent-job-item clearfix">
-                            <?php
+                    <div id="main_div">
+                        <div class="GridLex-gap-15-wrappper">
 
-                                if(count($work_streams)<=0){
-                                    echo "<div class='content' align='center'>Record Not Found</div>";
+                            <div class="GridLex-grid-noGutter-equalHeight">
 
-                                } else {
-                                ?>
-                                    <div class="GridLex-grid-middle-head">
-                                        <div class="col-20">Job</div>
-                                        <div class="col-20">Refund Request</div>
-                                        <div class="col-20">Dispute</div>
-                                        <div class="col-10">Status</div>
-                                        <div class="col-25">Messages</div>
-                                    </div>
-                                    <hr/>
                                 <?php
-                                foreach($work_streams as $work_stream){
-                                    if (isset($work_stream['job_details'])) {
-                                    ?>
-                                        <div class="GridLex-grid-middle-head">
-                                            <div class="col-20">
-                                                <p><strong>Title:</strong> {{$work_stream['job_details']->name}}</p>
-                                                <p><strong>Posted By:</strong> {{$work_stream['job_details']->posted_by}}</p>
-                                                <p><strong>Salary:</strong> {{env('CURRENCY', '$').$work_stream['job_details']->salary}}</p>
-                                                <p><strong>Type:</strong> {{ucfirst($work_stream['job_details']->type)}}</p>
+                                if(count($work_streams)<=0){?>
+                                <span style="margin: 0px 0px 0px 49px;"> Record not Found</span>
+                                <?php  }
+                                else{
+
+                                    foreach($work_streams as $work_stream){
+
+                                 ?>
+
+                                <div class="margin-bottom-15px" style="width: 100%;">
+
+                                    <div class="" style="background-color: #FFF;">
+                                            <div class="clearfix">
+
+                                                <div class="GridLex-grid-middle-head">
+                                                    <div class="col-32">
+                                                        <p><strong>Title:</strong> {{$work_stream['job_details']->name}}</p>
+                                                        <p><strong>Posted By:</strong> {{$work_stream['job_details']->posted_by}}</p>
+                                                        <p><strong>Salary:</strong> {{env('CURRENCY', '$').$work_stream['job_details']->salary}}</p>
+                                                        <p><strong>Type:</strong> {{ucfirst($work_stream['job_details']->type)}}</p>
+
+                                                    </div>
+                                                    <div class="col-32">
+                                                        <?php
+                                                            if (count($work_stream['refunds']) > 0) {
+                                                                foreach ($work_stream['refunds'] as $key => $refund) {
+                                                            ?>
+                                                                <p><strong>Amount:</strong> {{env('CURRENCY', '$').$refund->amount}}</p>
+                                                                <p><strong>Reason:</strong> {{$refund->reason}}</p>
+                                                                <p><strong>Status:</strong> {{ucfirst($refund->status)}}</p>
+                                                                <p><strong>Requested At:</strong> {{date('Y-m-d',strtotime($refund->created_at))}}</p>
+                                                            <?php
+                                                                }
+                                                            } else {
+                                                            ?>
+                                                                Not Requested
+                                                            <?php
+                                                            }
+                                                        ?>
+                                                    </div>
+                                                    <div class="col-32">
+                                                        <?php
+                                                            if (count($work_stream['disputes']) > 0) {
+                                                                foreach ($work_stream['disputes'] as $key => $dispute) {
+                                                            ?>
+                                                                <p><strong>Amount:</strong> {{env('CURRENCY', '$').$dispute->amount}}</p>
+                                                                <p><strong>Description:</strong> {{$dispute->description}}</p>
+                                                                <p><strong>Status:</strong> {{ucfirst($dispute->status)}}</p>
+                                                                <p><strong>Created At:</strong> {{date('Y-m-d',strtotime($dispute->created_at))}}</p>
+                                                            <?php
+                                                                }
+                                                            } else {
+                                                            ?>
+                                                                Not Created
+                                                            <?php
+                                                            }
+                                                        ?>
+                                                    </div>
+                                                
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="employee-grid-item content">
+                                                <h6 class="text-primary"><?php echo ucfirst($work_stream['job_details']->job_status);?></h6>
+                                                <div data-toggle="modal" href="#jobMessageModal" class=" btn-primary" style="margin-left: 35%; width: 30%;">
+                                                    Send Message
+                                                </div>
+
 
                                             </div>
-                                            <div class="col-20">
-                                                <?php
-                                                    if (count($work_stream['refunds']) > 0) {
-                                                        foreach ($work_stream['refunds'] as $key => $refund) {
-                                                    ?>
-                                                        <p><strong>Amount:</strong> {{env('CURRENCY', '$').$refund->amount}}</p>
-                                                        <p><strong>Reason:</strong> {{$refund->reason}}</p>
-                                                        <p><strong>Status:</strong> {{ucfirst($refund->status)}}</p>
-                                                        <p><strong>Requested At:</strong> {{date('Y-m-d',strtotime($refund->created_at))}}</p>
-                                                    <?php
-                                                        }
-                                                    } else {
-                                                    ?>
-                                                        Not Requested
-                                                    <?php
-                                                    }
-                                                ?>
-                                            </div>
-                                            <div class="col-20">
-                                                <?php
-                                                    if (count($work_stream['disputes']) > 0) {
-                                                        foreach ($work_stream['disputes'] as $key => $dispute) {
-                                                    ?>
-                                                        <p><strong>Amount:</strong> {{env('CURRENCY', '$').$dispute->amount}}</p>
-                                                        <p><strong>Description:</strong> {{$dispute->description}}</p>
-                                                        <p><strong>Status:</strong> {{ucfirst($dispute->status)}}</p>
-                                                        <p><strong>Created At:</strong> {{date('Y-m-d',strtotime($dispute->created_at))}}</p>
-                                                    <?php
-                                                        }
-                                                    } else {
-                                                    ?>
-                                                        Not Created
-                                                    <?php
-                                                    }
-                                                ?>
-                                            </div>
-                                            <div class="col-10">{{ucfirst($work_stream['job_details']->job_status)}}</div>
-                                            <div class="col-25">
-                                                <textarea rows="2" placeholder="Write message"></textarea>
-                                                <input type="button" name="" value="Send Message">
-                                            </div>
-                                        </div>
-                                        <hr/>
-                                    <?php
-                                    }
-                             }}?>
-                             </div>
+                                    </div>
+
+                                </div>
+
+                                <?php }} ?>
+
+
+                            </div>
+
                         </div>
-
                     </div>
 
                 </div>
@@ -136,6 +144,43 @@
         </div>
 
 </div>
+
+
+<!-- Start message Modal -->
+<div id="jobMessageModal" class="modal fade login-box-wrapper" tabindex="-1" data-width="550" style="display: none;" data-backdrop="static" data-keyboard="false" data-replace="true">
+
+    <input type="hidden" name="user_id" id="user_id" value="0">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title text-center">Write a message</h4>
+    </div>
+    <div id="msg_jobMessageModal"></div>
+
+
+    <div class="modal-body">
+        <div class="row gap-20">
+
+
+            <div class="col-sm-12 col-md-12">
+
+                <div class="form-group">
+                    <textarea class="form-control" name="message" id="message"></textarea>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer text-center">
+        <button type="button" class="btn btn-primary" onclick="sendMessage()">Send</button>
+        <button type="button" data-dismiss="modal" class="btn btn-primary btn-inverse">Close</button>
+    </div>
+
+</div>
+
+<!-- End of message Modal -->
 
 <script>
 
