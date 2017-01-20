@@ -206,7 +206,7 @@ $( document ).ready(function() {
 
     });
    
-    $.getJSON( "skill", function( data ) {
+    $.getJSON( globalUrl+"skill", function( data ) {
         var stocks = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('skill'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
