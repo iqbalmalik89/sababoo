@@ -268,7 +268,7 @@ function saveSkills()
 function saveUserLanguages()
 {
     // var request_data = {"user_skills":$('#user_skills').tokenfield('getTokensList')};
-    pageURI = 'user/languages';
+    pageURI = 'languages';
     var request_data = $('#language_form').serializeArray();
     mainAjax('#language_form', request_data, 'PUT',languagesCallback);
 }
