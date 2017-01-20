@@ -1,4 +1,10 @@
 var isScrLock2 = false;
+if(window.location.host == 'localhost'){
+    var globalUrl = window.location.protocol+'//'+window.location.host+'/sababoo/public/';
+} else {
+    var globalUrl = window.location.protocol+'//'+window.location.host+'/';
+}
+
 function mainAjax(frm_id, request_data, method_type, fn, complete_callback) {
 
     $('.msg').hide();
@@ -192,20 +198,13 @@ readonlyTokenField('#user_skills');
 $( document ).ready(function() {
 
     getUserLanguages();
-
-
-
-
-
-
-    $.getJSON( "user/skills", function( data ) {
+    $.getJSON( globalUrl+"user/skills", function( data ) {
         $('#user_skills').tokenfield();
         $('#user_skills').tokenfield('setTokens', data);
 
         readonlyTokenField('#user_skills-tokenfield');
 
     });
-
    
     $.getJSON( "skill", function( data ) {
         var stocks = new Bloodhound({
@@ -312,7 +311,7 @@ function skillCallback(data)
 
 function getUserLanguages()
 {
-    pageURI = 'user/languages';
+    pageURI = globalUrl+'user/languages';
     mainAjax('', {}, 'GET',languageRender);
 }
 
