@@ -14,7 +14,7 @@ if(isset($title)&&$title!=''){
 <meta content="" name="description" />
 <meta content="" name="author" />
 <title><?php echo $title; ?></title>
-<link rel="shortcut icon" href=""/>
+<link rel="shortcut icon" href="{{url('assets/frontend/images/ico/favicon.png')}}"/>
 
 @include('admin.common.css')
 </head>
