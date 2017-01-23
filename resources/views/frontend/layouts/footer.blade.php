@@ -75,7 +75,7 @@
                         
                             <div class="col-sm-3 col-md-3">
                     
-                                <p class="copy-right">&#169; Copyright 2016 Sababoo</p>
+                                <p class="copy-right">&#169; Copyright 2017 Sababoo</p>
                                 
                             </div>
                             

@@ -49,20 +49,14 @@
                         //dd($basic_user_info->image);
                         //$user_image = "user_images/01.jpg";
 
-                        if(isset($basic_user_info->image) && $basic_user_info->image!=''){
-                            $user_image = "/user_images/".$basic_user_info->image;
+                        if (isset($basic_user_info->image) && $basic_user_info->image != '') {
+                              $basic_user_info->image = url('user_images/'.$basic_user_info->image);
+                          } else{
+                              $basic_user_info->image = url('assets/frontend/images/site/dummy-user.jpg');
+                          }
 
-                        }
                         ?>
-                        <?php if(empty($user_image)) {?>
-                        <img id="employee_image_1"   class="img-circle" alt="image" src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}">
-                        <?php
-                        }else {
-                        ?>
-                        <img id="employee_image_1" class="img-circle" alt="image" src="<?php echo $user_image;?>">
-                        <?php
-                        }
-                        ?>
+                        <img id="employee_image_1"   class="img-circle" alt="image" src="{{$basic_user_info->image}}">
 
                     </div>
 
@@ -72,10 +66,10 @@
                     </h3>
 
                     <p class="location">
-                        <?php if($basic_user_info->country){?>
+                        <?php if($basic_user_info->country && $from == 'view'){?>
                         <i class="fa fa-map-marker"></i>
                         <?php echo ucfirst($basic_user_info->address);?>&nbsp;<?php echo ucfirst($basic_user_info->postal_code);?>&nbsp;<?php echo ucfirst($basic_user_info->country);?>
-                        <?php }  if($basic_user_info->phone){?>
+                        <?php }  if($basic_user_info->phone && $from == 'view'){?>
                         <span class="block">
                                     <i class="fa fa-phone"></i> <?php echo ucfirst($basic_user_info->phone);?>
                                 </span>
@@ -83,10 +77,16 @@
                     </p>
 
                     <ul class="meta-list clearfix">
-                        <li>
-                            <h4 class="heading">Email:</h4>
-                            <?php echo  $basic_user_info->email;?>
-                        </li>
+                        <?php 
+                            if (isset($basic_user_info->email) && $from == 'view') {
+                        ?>
+                            <li>
+                                <h4 class="heading">Email:</h4>
+                               <?php echo  $basic_user_info->email;?>
+                            </li>
+                        <?php
+                            }
+                        ?>
                         <?php
                         if($industry){?>
                         <li>

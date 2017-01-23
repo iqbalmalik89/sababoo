@@ -195,7 +195,7 @@
     var html = '';
 
     function viewUser (userId){
-        window.location = "/user/view-profile/"+userId;
+        window.location = "/user/view-profile/"+userId+"?from=list";
     }
 
     function viewMessage (userId){

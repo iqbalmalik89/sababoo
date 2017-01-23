@@ -58,8 +58,18 @@ class EmployerController extends Controller
         return  view('frontend.employer.password',array('userinfo'=>$this->logged_user,'employer'=>$employer));
     }
 
-    public function viewEmployer($id){
+    public function viewEmployer(Request $request, $id){
         $this->logged_user = Auth::user();
+
+        $post_data = $request->all();
+
+        $from = 'view';
+        if (isset($post_data['from']) && $post_data['from'] != '') {
+            $from = $post_data['from'];
+        } else {
+            $from = 'view';
+        }
+
         $basic_emp_info = $this->employerServiceProvider->getBasicEmpProfile($id);
         $basic_user_info = $this->userServiceProvider->getBasicUserProfile($basic_emp_info->userid);
         $this->networkServiceProvider = new NetworkServiceProvider();
@@ -73,7 +83,7 @@ class EmployerController extends Controller
         }
         $this->employeeServiceProvider = new EmployeeServiceProvider();
         $industry = $this->employeeServiceProvider->getIndustry($basic_user_info->industry_id);
-        return view('frontend.employer.view_profile',array('logged_user'=>$this->logged_user,'basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'industry'=>$industry,'recoms'=>$recoms,'user_files'=>$user_files));
+        return view('frontend.employer.view_profile',array('logged_user'=>$this->logged_user,'basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'industry'=>$industry,'recoms'=>$recoms,'user_files'=>$user_files, 'from'=>$from));
 
     }
 

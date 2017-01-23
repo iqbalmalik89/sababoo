@@ -243,20 +243,29 @@ class UserController extends Controller
         return view ('frontend.users.users_listing',array('users'=>$users));
     }
 
-    public function viewProfile($id) {
-            
+    public function viewProfile(Request $request, $id) {
+        
+        $post_data = $request->all();
+
+        $from = 'view';
+        if (isset($post_data['from']) && $post_data['from'] != '') {
+            $from = $post_data['from'];
+        } else {
+            $from = 'view';
+        }
+        
         $user = User::where('id','=', $id)->where('status', '=', 'enabled')->firstOrFail();
         if($user->role=="employee"){
             $employee = Employee::where('userid', '=', $user->id)->firstOrFail();
-            return redirect('employee/view/'.$employee->id);
+            return redirect('employee/view/'.$employee->id.'?from='.$from);
        } else if($user->role=="employer"){
             $employer = Employer::where('userid', '=' , $user->id)->firstOrFail();
-            return redirect('employer/view/'.$employer->id);
+            return redirect('employer/view/'.$employer->id.'?from='.$from);
         }
         else if($user->role=="tradesman"){
 
             $tradesman = Tradesman::where('userid', '=' , $user->id)->firstOrFail();
-            return redirect('tradesman/view/'.$tradesman->id);
+            return redirect('tradesman/view/'.$tradesman->id.'?from='.$from);
 
         }
 

@@ -52,10 +52,17 @@ class TradesmanController extends Controller
         return $this->tradesmanServiceProvider->updateBasicInfo($post_data,$this->logged_user->id);
     }
 
-    public function viewTradesman($id){
+    public function viewTradesman(Request $request, $id){
 
        $this->logged_user = Auth::user();
+       $post_data = $request->all();
 
+        $from = 'view';
+        if (isset($post_data['from']) && $post_data['from'] != '') {
+            $from = $post_data['from'];
+        } else {
+            $from = 'view';
+        }
 
         $basic_emp_info = $this->tradesmanServiceProvider->getBasicTradesmanProfile($id);
 
@@ -75,7 +82,7 @@ class TradesmanController extends Controller
         $certification =  $this->userServiceProvider->getCertifcation($basic_emp_info->userid);
         $this->networkServiceProvider = new NetworkServiceProvider();
         $recoms = $this->networkServiceProvider->getUsersAllRecommendation($basic_emp_info->userid);
-       return view('frontend.tradesman.view_profile',array('logged_user'=>$this->logged_user ,'basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms,'user_files'=>$user_files));
+       return view('frontend.tradesman.view_profile',array('logged_user'=>$this->logged_user ,'basic_user_info'=>$basic_user_info,'basic_emp_info'=>$basic_emp_info,'education'=>$education,'skills'=>$skills,'industry'=>$industry,'language'=>$language,'certification'=>$certification,'recoms'=>$recoms,'user_files'=>$user_files, 'from'=>$from));
     }
 
 

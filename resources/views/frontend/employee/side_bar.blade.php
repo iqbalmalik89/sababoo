@@ -21,21 +21,14 @@
                                                              // dd($userinfo->image);
                                                              //$user_image = "user_images/01.jpg";
 
-                                                              if(isset($userinfo->image) && $userinfo->image!=''){
-                                                                  $user_image = "user_images/".$userinfo->image;
+                                                              if (isset($userinfo->image) && $userinfo->image != '') {
+                                                                  $userinfo->image = url('user_images/'.$userinfo->image);
+                                                              } else{
+                                                                  $userinfo->image = url('assets/frontend/images/site/dummy-user.jpg');
                                                               }
                                                           ?>
-
-                                                <?php if(empty($user_image)) {?>
-                                                           <img id="employee_image_1" class="" alt="image" src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}">
-                                                <?php
-                                                }else {
-                                                 ?>    
-                                                           <img id="employee_image_1" class="" alt="image" src="<?php echo $user_image;?>">                                                  
-                                                 <?php
-                                                }
-                                                ?>
-
+                                                           <img id="employee_image_1" class="" alt="image" src="{{$userinfo->image}}">
+                                          
                                                       </div>
 
                                                   </div>

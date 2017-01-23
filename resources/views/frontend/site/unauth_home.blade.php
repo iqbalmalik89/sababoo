@@ -1,7 +1,7 @@
 
 @extends('frontend.layouts.unathenticate')
 
-@section('title', 'Signup')
+@section('title', 'Home')
 @section('container_class', 'fixedbg')
 
 

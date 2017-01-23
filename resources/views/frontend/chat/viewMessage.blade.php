@@ -59,26 +59,17 @@
 
                                     <?php foreach($sender_data as $single_user){
                                            // dd($single_user);
+                                        if (isset($single_user->image) && $single_user->image != '') {
+                                            $single_user->image = url('user_images/'.$single_user->image);
+                                        } else{
+                                            $single_user->image = url('assets/frontend/images/site/dummy-user.jpg');
+                                        }
                                     ?>
                                         <li id="user_side_bar_<?php echo $single_user->userid;?>" class="send_user_list" tab="<?php echo $single_user->userid;?>" tab2="<?php echo  $single_user->email;;?>"  tab3="<?php echo  $single_user->first_name;;?>" tab4="<?php echo  $single_user->msg_id;?>" tab5="<?php echo  $single_user->image;?>">
                                         <div class="blue-circle"></div>
                                         <div class="listing-pic">
-
-                                            <?php
-                                            if(isset($single_user->image) && $single_user->image!=''){
-                                                $user_image = "user_images/".$single_user->image;
-                                            }
-                                            ?>
-
-                                            <?php if(empty($user_image)) {?>
-                                            <img id="employee_image_1" class="img-circle" alt="image" src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}" onerror="imgError(this);">
-                                            <?php
-                                            }else {
-                                            ?>
-                                            <img id="employee_image_1" class="img-circle" alt="image" src="<?php echo $user_image;?>" onerror="imgError(this);">
-                                            <?php
-                                            }
-                                            ?>
+                                            <img id="employee_image_1" class="img-circle" alt="image" src="{{$single_user->image}}" onerror="imgError(this);">
+                                            
                                         </div>
                                         <h3><?php echo $single_user->first_name;?>..
                                             <span>
@@ -97,7 +88,10 @@
                         <div class="chat-box">
                             <div class="chating-people">
                                 <div class="chat-pic" >
-                                    <img src="{{asset('assets/frontend/images/site/dummy-user.jpg')}}" onerror="imgError(this);" id="sender_image" class="img-circle">
+                                    <?php
+                                        $image = url('assets/frontend/images/site/dummy-user.jpg');
+                                    ?>
+                                    <img src="{{$image}}" onerror="imgError(this);" id="sender_image" class="img-circle">
                                 </div>
                                 <h3 id="sender_username"><span></span></h3>
 
@@ -129,7 +123,7 @@
                             <form class="form-horizontal" id="messageForm" >
 
                                 <div class="text-area-div">
-                                    <textarea id ="message" name="message" cols="" rows="" style="width:100%; height:100%; border:none; padding:10px;" placeholder="Write your message…"></textarea>
+                                    <textarea id ="message" name="message" cols="" rows="2" style="width:100%; height:100%; border:none; padding:10px;" placeholder="Write your message…"></textarea>
                                     <div><i id="typing_text" style="color:green;"></i></div>
                                 </div>
                                 <div class="form-group">
@@ -354,7 +348,7 @@
                     $('.chating-section').attr('id', 'message_app_'+sender_id);
 
 
-                    $('#sender_image').attr('src','user_images/'+$(this).attr('tab5'));
+                    $('#sender_image').attr('src',$(this).attr('tab5'));
                     pageURI = '/chat/get_users_message';
                     request_data = {sender_id:sender_id}
                     //mainAjax('', request_data, 'POST',callUsersMessages);
