@@ -161,12 +161,14 @@ class UserServiceProvider
         $name = isset($filters['name'])?$filters['name']:'';
         $email = isset($filters['email'])?$filters['email']:'';
         $role = isset($filters['role'])?$filters['role']:'';
+        $userid = isset($filters['userid'])?$filters['userid']:'';
         
         $str = '';
         $users = DB::table('users')
                         ->select('*')
                         ->Where("users.status", "=", "enabled")
-                        ->Where("users.is_admin", "=", "0");
+                        ->Where("users.is_admin", "=", "0")
+                        ->Where("users.id", "!=", $userid);
 
         if ($role != '') {
             $users = $users->Where("users.role", "=", "$role");
