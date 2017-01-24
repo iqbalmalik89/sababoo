@@ -172,7 +172,8 @@ Last change:    14/06/2015
 }
 
 .not-transparent-header .navbar-default {
-    background: #20262F;
+    /*background: #20262F;*/
+    background: #747474 ;
 }
 
 .logo-wrapper,
@@ -483,8 +484,9 @@ ul.nav-mini li a {
  */
 
 .navbar-sticky {
-    background-color: rgba(0, 0, 0, 0.8);
+    /*background-color: rgba(0, 0, 0, 0.8);*/
     padding: 10px 0;
+    background-color: #747474;
 }
 
 .navbar-sticky.navbar-default {
@@ -5378,7 +5380,8 @@ ul.footer-menu li {
 }
 
 .bottom-footer {
-    background: #212124;
+    /*background: #212124;*/
+    background: #747474 ;
     color: rgba(255, 255, 255, 0.5);
     line-height: 22px;
     font-size: 13px;

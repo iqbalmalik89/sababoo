@@ -726,7 +726,7 @@ Sababoo.App.User = (function() {
 			$('.general-pagination-click').unbind('click').bind('click',function(e){
 				e.preventDefault();
 				var page  = $(this).data('page');
-				Sababoo.App.User.list(page);
+				Sababoo.App.User.listAdmin(page);
 		    });
 
 		    $('.delete_user').unbind('click').bind('click',function(e){

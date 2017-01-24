@@ -195,7 +195,8 @@ body {
     color: #939393;
     /* -webkit-font-smoothing: antialiased!important;
 	font-smoothing: antialiased!important; */
-    background-color: #FFF;
+    /*background-color: #FFF;*/
+    background-color: #eeeeee;
 }
 
 img {
