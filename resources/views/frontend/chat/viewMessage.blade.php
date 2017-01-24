@@ -122,8 +122,8 @@
                             </div>
                             <form class="form-horizontal" id="messageForm" >
 
-                                <div class="text-area-div" style="height: 67px;">
-                                    <textarea id ="message" name="message" cols="" rows="1" style="width:100%; /*height:100%;*/ border:none; padding:10px;" placeholder="Write your message…"></textarea>
+                                <div class="text-area-div" style="height: 46px;">
+                                    <textarea id ="message" name="message" cols="" rows="1" style="width:100%; /*height:100%;*/ border:none; padding-left:5px;" placeholder="Write your message…"></textarea>
                                     <div><i id="typing_text" style="color:green;"></i></div>
                                 </div>
                                 <div class="form-group">
