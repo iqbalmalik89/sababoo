@@ -50,7 +50,7 @@
     </form>
     <!-- END FORGOT PASSWORD FORM -->
 </div>
-<div class="copyright"> 2016 © Sababoo. Admin. </div>
+<div class="copyright"> 2017 © Sababoo. Admin. </div>
 
 @endsection
 @section('scripts')
