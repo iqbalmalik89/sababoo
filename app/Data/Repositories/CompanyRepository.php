@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Company;
 
 use App\Helpers\Helper;
+use App\Helpers\ActivityLogManager;
 use \StdClass, Carbon\Carbon, \Session;
 
 class CompanyRepository {
@@ -143,6 +144,20 @@ class CompanyRepository {
 		}
 
 		if($company->save()) {
+
+			// to maintain log
+			try {
+				$newParams = array(
+							'user_id' 	=> Auth::user()->id,
+							'module' 	=> 'company',
+							'log_id' 	=> $company->id,
+							'log_type' 	=> 'created'
+						);
+				ActivityLogManager::create($newParams);
+			} catch(Exception $e){
+
+			}
+
 			return true;
 		} else {
 			return false;
@@ -178,6 +193,20 @@ class CompanyRepository {
 			
 			if ($company->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
+
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'company',
+								'log_id' 	=> $company->id,
+								'log_type' 	=> 'updated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
+
 				return true;
 			} else {
 				return false;
@@ -235,6 +264,22 @@ class CompanyRepository {
 			
 			if ($company->save()) {
 				Cache::forget($this->_cacheKey.$input['id']);
+
+				// to maintain log
+				try {
+					$newParams = array(
+								'user_id' 	=> Auth::user()->id,
+								'module' 	=> 'company',
+								'log_id' 	=> $company->id,
+								'log_type' 	=> 'updated_status',
+								'text'		=> ($company->is_active == '1')?'activated':'deactivated'
+							);
+					ActivityLogManager::create($newParams);
+				} catch(Exception $e){
+
+				}
+
+
 				return 'success';
 			}
 		}

@@ -13,6 +13,7 @@ use BusinessObject\Industry;
 use App\Models\Refund;
 use App\Models\Dispute;
 use App\Models\News;
+use App\Models\Company;
 use App\Helpers\Helper;
 
 use \StdClass, Carbon\Carbon, \Exception, \DB;
@@ -28,9 +29,10 @@ class ActivityLogRepository {
 	public $refund_model;
 	public $news_model;
 	public $dispute_model;
+	public $company_model;
 	public $user_repo;
 
-	public function __construct(ActivityLog $log, User $user, Role $role, JobPost $job, Skill $skill, Industry $industry, Refund $refund, News $news, Dispute $dispute){
+	public function __construct(ActivityLog $log, User $user, Role $role, JobPost $job, Skill $skill, Industry $industry, Refund $refund, News $news, Dispute $dispute, Company $company){
 		$this->log_model 	= $log;
 		$this->user_model 	= $user;
 		$this->role_model 	= $role;
@@ -40,6 +42,7 @@ class ActivityLogRepository {
 		$this->refund_model = $refund;
 		$this->news_model = $news;
 		$this->dispute_model = $dispute;
+		$this->company_model = $company;
 		$this->user_repo 	= app()->make('UserRepository');
 	}
 
@@ -206,6 +209,16 @@ class ActivityLogRepository {
 							}
 							
 						} 
+					}
+					
+				} else if ($log->module == 'company') {
+					$companyData = $this->company_model->find($log->log_id);
+					if ($companyData != NULL) {
+						if ($log->log_type == 'updated_status') {
+							$activity = $userName.'<strong>'.$log->text.'</strong> '.$companyData->name.' <strong>company</strong>.';
+						} else {
+							$activity = $userName.'<strong>'.$log->log_type.'</strong> '.$companyData->name.' <strong>company</strong>.';
+						}
 					}
 					
 				} else if ($log->module == 'user_profile') {
