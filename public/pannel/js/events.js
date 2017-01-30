@@ -386,3 +386,33 @@ $('#news_search_keyword').keypress(function(event){
     }
 });
 
+// company management events
+$('#company-list-limit').change(function(){
+    Sababoo.App.Companies.list();
+});
+
+$('#company_filter_by_status').change(function(){
+    Sababoo.App.Companies.list();
+});
+
+$('#company_search_keyword').keypress(function(event){
+    if(event.which == '13'){
+        Sababoo.App.Companies.list();
+    }
+});
+
+$('#company_submit_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Companies.create();
+});
+
+$('#company_remove_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Companies.remove();
+});
+
+$('#company_status_btn').click(function(e){
+    e.preventDefault();
+    Sababoo.App.Companies.updateStatus();
+});
+

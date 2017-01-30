@@ -28,7 +28,8 @@ class ModulesTableSeeder extends Seeder
                             array('name' => 'Refund Requests'),
                             array('name' => 'Activity Logs'),
                             array('name' => 'News Management'),
-                            array('name' => 'Job Disputes')
+                            array('name' => 'Job Disputes'),
+                            array('name' => 'Companies Management')
 							));
 
     }

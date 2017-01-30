@@ -172,6 +172,12 @@ Sababoo.App = (function () {
     	return todayDate;
     }
 
+    var isAcceptFileTypes=function(fileTypes) {
+		var acceptFileTypes = "(\.|\/)(png|jpg|jpeg)$";
+   		acceptFileTypes = new RegExp(acceptFileTypes, "i");
+   		return acceptFileTypes.test(fileTypes);
+	}
+
 	return {
 		init:init,
 		pagination:pagination,
@@ -184,7 +190,8 @@ Sababoo.App = (function () {
 		isEmail:isEmail,
 		validatePhone:validatePhone,
 		getTodaysDate:getTodaysDate,
-		toTitleCase:toTitleCase
+		toTitleCase:toTitleCase,
+		isAcceptFileTypes:isAcceptFileTypes
 	};
 }());
 
@@ -4618,6 +4625,443 @@ Sababoo.App.News = (function() {
 			$('#status_submit_loader').hide();
 			var jsonResponse = $.parseJSON(jqXHR.responseText);
 			var error = 'An error occurred while updating news status.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	return {
+		list:list,
+		create:create,
+		remove:remove,
+		updateStatus:updateStatus,
+		view:view
+	}
+}());
+
+/* Companies Management */
+Sababoo.App.Companies = (function() {
+
+	var config = Sababoo.Config;
+	var companyApiUrl = config.getApiUrl()+'company';
+
+	var list = function (page) {
+
+		$('.spinner-section').show();
+		var page 			= page || 1;
+		var pagination 		= true;
+		var filterByStatus 	= $('#company_filter_by_status').val() || '';
+		var keyword 		= $('#company_search_keyword').val() || '';
+		var limit 			= $('#company-list-limit').val() || 0;
+		var data 			= {};
+		var total_companies 	= $('#total_companies');
+
+		data.pagination 	= pagination;
+		data.page 			= page;
+		data.limit 			= limit;
+		data.keyword 		= keyword;
+		data.filter_by_status = filterByStatus;
+		
+		var request = $.ajax({
+			url: companyApiUrl+'/list?page='+page,
+			data:data,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			$('.spinner-section').hide();
+			var html = '';
+			var paginationShow = '';
+			var companies = data.data;
+			var classDisabledPrev = "";
+			var classDisabledNext = "";
+			var paginations = data.pagination;
+			total_companies.html(paginations.total);
+
+			if(companies.length > 0) {
+
+				$('#companies_list_head').html('<tr>\
+		                                        <th> ID </th>\
+		                                        <th> Name </th>\
+		                                        <th> Image </th>\
+		                                        <th> Link </th>\
+		                                        <th> Status </th>\
+		                                        <th> Action</th>\
+		                                    </tr>');
+
+				$(companies).each(function(index, company){
+
+					var archiveText = '-';	
+					var archiveClass = '';					
+					var is_active = '';
+					var statusText = 'N/A';
+
+					if (typeof company.name != 'undefined' && typeof company.name !== null && company.name!='' ) {
+						company.name = company.name;
+					} else {
+						company.name = 'N/A';									
+					}
+
+					if (typeof company.url != 'undefined' && typeof company.url !== null && company.url!='' ) {
+						company.url = company.url;
+					} else {
+						company.url = 'N/A';									
+					}
+
+					if (typeof company.image != 'undefined' && company.image!=null ) {
+						company.image = company.image;
+					} else {
+						company.image = 'image-not-found.png';									
+					}
+					
+					if (typeof company.is_active != 'undefined' && typeof company.is_active !== null ) {
+						if(company.is_active == 1){
+							statusText = 'Active';
+							is_active = 0;
+							archiveText = 'Deactivate';
+							archiveClass = 'blue';
+						}else if (company.is_active == 0){
+							statusText = 'InActive';
+							is_active = 1;
+							archiveText = 'Activate';
+							archiveClass = 'green-jungle';
+						}
+					}
+
+					html += '<tr>\
+                                <td class="highlight"> '+company.id+' </td>\
+                                <td class="hidden-xs"> '+company.name+' </td>\
+                                <td> <img src="'+config.getSiteUrl()+'/files/company/'+company.image+'" width="170px" height="60px"></td>\
+                                <td class="hidden-xs"> '+company.url+' </td>\
+                                <td> '+statusText+' </td>\
+                                <td>\
+                                    <a href="'+config.getAppUrl()+'/company?id='+company.id+'" class="btn btn-outline btn-circle dark btn-sm black">\
+                                        <i class="fa fa-edit"></i> Edit </a>\
+                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm red delete_company" data-id="'+company.id+'">\
+                                        <i class="fa fa-trash-o"></i> Delete </a>\
+                                    <a href="javascript:;" class="btn btn-outline btn-circle dark btn-sm '+archiveClass+' company_status" data-id="'+company.id+'" data-status="'+is_active+'">\
+                                        <i class="fa fa-trash-o"></i> '+archiveText+' </a>\
+                                </td>\
+                            </tr>';
+
+				});
+			} else {
+				$('#companies_list_head').html('');
+				html  += '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>Nothing Here Yet.</h3>\
+                    <p>We couldn\'t find any record related to the defined criteria. Please try again later.</p></div>';
+			}
+
+			$('#companies_list').html(html);
+
+            if(data.pagination.current >= data.pagination.next && data.pagination.current==1) {
+				$('.general-pagination').hide();
+				$('.company-pagination-limit').hide();
+			} else {
+				if(data.pagination.current==data.pagination.first){
+					classDisabledPrev="disable";
+				}
+				if(data.pagination.current==data.pagination.last){
+					classDisabledNext="disable";
+				}
+				paginationShow+='<li >\
+								      <a class="general-pagination-click  '+classDisabledPrev+'" data-page='+paginations.previous+' href="javascript:;">Previous</a>\
+								    </li>';
+				paginationShow+= '<li >\
+								      <a class=" general-pagination-click '+classDisabledNext+'" data-page='+paginations.next+' href="javascript:;">Next</a>\
+								    </li>';
+				paginationShow+= '<li class="hidden-xs">Showing '+data.pagination.to+' - '+data.pagination.from+' of total '+data.pagination.total+' records</li>';
+
+				$('.general-pagination').html(paginationShow);
+				$('.general-pagination').show();
+				$('.general-pagination-limit').show();
+			}
+
+			$('.general-pagination-click').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var page  = $(this).data('page');
+				Sababoo.App.Companies.list(page);
+		    });
+
+		    $('.delete_company').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var company_id  = $(this).attr('data-id');
+				$('#hidden_action_company_id').val(company_id);
+				$('#removeConfirmation').modal('show');
+		    });
+
+		    $('.company_status').unbind('click').bind('click',function(e){
+				e.preventDefault();
+				var company_id  = $(this).attr('data-id');
+				var status  = $(this).attr('data-status');
+				$('#hidden_action_company_id').val(company_id);
+				$('#hidden_action_company_status').val(status);
+
+				if (status == 1) {
+					$('#update_status_text').text('Activate');
+				} else if (status == 0) {
+					$('#update_status_text').text('Deactivate');
+				}
+				$('#updateStatusConfirmation').modal('show');
+		    });
+		});
+
+		request.fail(function(jqXHR, textStatus){
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while retrieving companies.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+
+			var html = '<div class="blank-data">\
+                	<img src="'+config.getImageUrl()+'emptystate@2x.png" class="img-responsive">\
+                    <h3>'+error+'</h3></div>';
+            $('#companies_list').html(html);
+		});		
+	};
+
+	var create = function (){
+
+		var errors = [];
+		var company_id = $('#updated_company_id').val();
+		var name 	= $('#company_name');
+		var url 	= $('#company_url');
+		var image 	= $('#hidden-company-image');
+
+		if ($.trim(name.val()) == '') {
+			errors.push('Please enter name.');
+			name.parent().addClass('has-error');
+		} else {
+			name.parent().removeClass('has-error');	
+		}
+
+		if ($.trim(url.val()) == '') {
+			errors.push('Please enter link.');
+			url.parent().addClass('has-error');
+		} else {
+			url.parent().removeClass('has-error');	
+		}
+
+		if ($.trim(image.val()) == '') {
+			errors.push('Please enter image.');
+			image.parent().addClass('has-error');
+		} else {
+			image.parent().removeClass('has-error');	
+		}
+
+		if (errors.length < 1) {
+
+			var jsonData = {
+								id:company_id,
+								name:$.trim(name.val()),
+								url:$.trim(url.val()),
+								image:$.trim(image.val())														
+							}
+
+			if (jsonData.id == 0) {
+				var request = $.ajax({
+					url: companyApiUrl+'/create',
+					data: jsonData,
+					type: 'post',
+					dataType:'json'
+				});
+			} else {
+				var request = $.ajax({	
+					url: companyApiUrl+'/update',
+					data: jsonData,
+					type: 'put',
+					dataType:'json'
+				});
+			}
+			
+			$('#company_submit_btn').addClass('prevent-click');
+			$('#submit_loader').show();
+
+			request.done(function(data){
+				
+				$('#submit_loader').hide();
+				if(data.success) {		 
+						$('#msg_div').removeClass('alert-danger');
+						$('#msg_div').html(data.success.messages[0]).addClass('alert-success').show().delay(2000).fadeOut(function()
+						{
+							window.location.href = config.getAppUrl()+'/companies';
+					    });		 	
+				} else if(data.error) {
+					$('#company_submit_btn').removeClass('prevent-click');
+					var message_error = data.error.messages[0];
+					$('#msg_div').removeClass('alert-success');
+					$('#msg_div').html(message_error).addClass('alert-danger').show();
+				}
+				
+			});
+
+			request.fail(function(jqXHR, textStatus){
+				$('#company_submit_btn').removeClass('prevent-click');
+				$('#submit_loader').hide();
+				var jsonResponse = $.parseJSON(jqXHR.responseText);
+				var error = 'An error occurred.';
+				if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+					error = jsonResponse.error.messages[0];
+				}
+				$('#msg_div').removeClass('alert-success');
+				$('#msg_div').html(error).addClass('alert-danger').show();
+			});	
+
+		} else {
+			$('#msg_div').removeClass('alert-success');
+			$('#msg_div').html(errors[0]).addClass('alert-danger').show();
+			$('#company_submit_btn').removeClass('prevent-click');
+			$('#submit_loader').hide();
+		}		
+	};
+
+	var view = function(id){
+        var jsonData = {id:id};
+		var request = $.ajax({
+			url: companyApiUrl+'/view',
+			data: jsonData,
+			type: 'GET',
+			dataType:'json'
+		});
+
+		request.success(function(data){
+			$('#company_name').val(data.name)
+			
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			// do something
+		});
+    };
+
+	var remove = function (){
+		var id = $('#hidden_action_company_id').val();
+		$('#company_remove_btn').addClass('prevent-click');
+		$('#remove_submit_loader').show();
+
+		var request = $.ajax({
+			url: companyApiUrl+'/remove',
+			data: {id:id},
+			type: 'delete',
+			dataType:'json'
+		});
+
+		request.done(function(data){
+			
+			$('#remove_submit_loader').hide();
+			if (data.success) {
+				var html = 'Company has been deleted successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#remove_msg_div').removeClass('alert-danger');
+		 		$('#remove_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#company_remove_btn').removeClass('prevent-click');
+				    $('#removeConfirmation').modal('hide');
+				    Sababoo.App.Companies.list();	
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while deleting this company.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#company_remove_btn').removeClass('prevent-click');
+				$('#remove_msg_div').removeClass('alert-success');
+				$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+				    $(this).html('');
+				    $('#remove_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#company_remove_btn').removeClass('prevent-click');
+			$('#remove_submit_loader').hide();
+
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while deleting this company.';
+			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
+				error = jsonResponse.error.messages[0];
+			}
+			$('#remove_msg_div').html(error).addClass('alert-danger').show().delay(3000).fadeOut(function(){
+			    $(this).html('');
+			    $(this).removeClass('alert-danger');
+			});
+		});		
+	};
+
+	var updateStatus = function (){
+		
+		var jsonData = {};
+		jsonData.id = $('#hidden_action_company_id').val();
+		jsonData.status = $('#hidden_action_company_status').val();
+
+		var request = $.ajax({
+			url: companyApiUrl+'/update-status',
+			data: jsonData,
+			type: 'put',
+			dataType:'json'
+		});
+
+		$('#company_status_btn').addClass('prevent-click');
+		$('#status_submit_loader').show();
+
+		request.done(function(data){
+			
+			$('#status_submit_loader').hide();
+			
+			if (data.success) {
+				var html = 'Status has been updated successfully.';
+				
+				if (data.success.messages && data.success.messages.length > 0 ) {
+					html = data.success.messages[0];
+				}
+
+				$('#status_msg_div').removeClass('alert-danger');
+		 		$('#status_msg_div').html(html).addClass('alert-success').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $(this).removeClass('alert-success');
+				    $('#company_status_btn').removeClass('prevent-click');
+				    $('#updateStatusConfirmation').modal('hide');
+				    Sababoo.App.Companies.list();		
+			    });
+
+			} else if (data.error) {
+
+				var error = 'An error occurred while updating company status.';
+				if (data.error.messages && data.error.messages.length > 0) {
+					error = data.error.messages[0];
+				}
+				$('#company_status_btn').removeClass('prevent-click');
+				$('#status_msg_div').removeClass('alert-success');
+				$('#status_msg_div').html(error).addClass('alert-danger').show().delay(2000).fadeOut(function(){
+				    $(this).html('');
+				    $('#status_msg_div').removeClass('alert-danger');
+				});
+			}
+				
+		});
+
+		request.fail(function(jqXHR, textStatus){
+			$('#company_status_btn').removeClass('prevent-click');
+			$('#status_submit_loader').hide();
+			var jsonResponse = $.parseJSON(jqXHR.responseText);
+			var error = 'An error occurred while updating company status.';
 			if (jsonResponse.error.messages && jsonResponse.error.messages.length > 0) {
 				error = jsonResponse.error.messages[0];
 			}

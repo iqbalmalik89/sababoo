@@ -185,6 +185,7 @@ return [
         App\Providers\ActivityLogRepositoryServiceProvider::class,
         App\Providers\NewsRepositoryServiceProvider::class,
         App\Providers\DisputeRepositoryServiceProvider::class,
+        App\Providers\CompanyRepositoryServiceProvider::class,
     ],
 
     /*
@@ -235,5 +236,12 @@ return [
         'Paypal' => Netshell\Paypal\Facades\Paypal::class,
 
     ],
+
+    'files' => array(
+        'company' => array(
+                    'folder_name' => 'company',
+                    'full_path' => public_path().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'company'.DIRECTORY_SEPARATOR
+                ),
+    ),
 
 ];

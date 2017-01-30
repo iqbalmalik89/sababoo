@@ -126,3 +126,60 @@
 .prevent-click{
   pointer-event:none;
 }
+
+.custom_input_file {
+  position: absolute;
+  width:100%;
+  cursor: pointer;
+  height: 50px !important;
+  top: 26px;
+  z-index: 2;
+  opacity: 0;
+  filter: alpha(opacity=0);
+    padding-right: 80px;  
+}
+.input-file-path {
+  padding-right: 90px;
+  cursor: pointer;
+  width: 200% !important;
+}
+
+.input_label {
+  background-color: #32c5d2;
+  text-transform: uppercase;
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  bottom: 13px;
+  color: #fff;
+  padding: 11px 17px;
+  margin-right: -183px;
+  font-size: 11px;
+  z-index: 1;
+  border-radius: 2px;
+}
+.image_preview {
+    width: 50%;
+    height: 30%;
+    float: right;
+    margin-right: -319px;
+}
+.image-error {
+  color: #e73d4a;
+  display: none;
+}
+.fg-file-upload-detail{
+  max-width: 224px;
+  position:relative;
+}
+.fg-file-upload-detail .input-file-path{
+    padding-right: 78px;
+    font-size: 15px;
+}
+.fg-file-upload-detail .custom_input_file{
+  top: 0;
+  height: 33px;
+}
+.fg-file-upload-detail .input_label{
+  bottom: 5px;
+}

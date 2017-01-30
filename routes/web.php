@@ -193,6 +193,9 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], f
 	Route::get('/industries',['uses'=>'HomeController@showIndustries'])->middleware(['acl.admin:industry.list']);
 	Route::get('/industry',['uses'=>'HomeController@showIndustry'])->middleware(['acl.admin:industry.create']);
 
+	Route::get('/companies',['uses'=>'HomeController@showCompanies'])->middleware(['acl.admin:company.list']);
+	Route::get('/company',['uses'=>'HomeController@showCompany'])->middleware(['acl.admin:company.create']);
+
 	Route::get('/transactions',['uses'=>'HomeController@showTransactions'])->middleware(['acl.admin:transaction.list']);
 	Route::get('/refunds',['uses'=>'HomeController@showRefunds'])->middleware(['acl.admin:refund.list']);
 	Route::get('/disputes',['uses'=>'HomeController@showDisputes'])->middleware(['acl.admin:dispute.list']);
@@ -262,6 +265,14 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	Route::put('/industry/update-status',['as'=>'industry.update-status', 'uses'=>'IndustryController@updateStatus'])->middleware(['acl.admin:industry.update']);
 	Route::delete('/industry/remove',['as'=>'industry.remove', 'uses'=>'IndustryController@remove'])->middleware(['acl.admin:industry.delete']);
 
+	// Comapnies Routes
+	Route::get('/company/view',['as'=>'company:view', 'uses'=>'CompanyController@view'])->middleware(['acl.admin:company.list']);
+	Route::get('/company/list',['as'=>'company:list', 'uses'=>'CompanyController@all'])->middleware(['acl.admin:company.list']);
+	Route::post('/company/create',['as'=>'company:create', 'uses'=>'CompanyController@create'])->middleware(['acl.admin:company.create']);
+	Route::put('/company/update',['as'=>'company:update', 'uses'=>'CompanyController@update'])->middleware(['acl.admin:company.update']);
+	Route::put('/company/update-status',['as'=>'company.update-status', 'uses'=>'CompanyController@updateStatus'])->middleware(['acl.admin:company.update']);
+	Route::delete('/company/remove',['as'=>'company.remove', 'uses'=>'CompanyController@remove'])->middleware(['acl.admin:company.delete']);
+
 	// Transactions Routes
 	Route::get('/transaction/list',['as'=>'transaction:list', 'uses'=>'TransactionController@all'])->middleware(['acl.admin:transaction.list']);
 
@@ -287,5 +298,7 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	Route::put('/news/update-status',['as'=>'news.update-status', 'uses'=>'NewsController@updateStatus'])->middleware(['acl.admin:news.update']);
 	Route::delete('/news/remove',['as'=>'news.remove', 'uses'=>'NewsController@remove'])->middleware(['acl.admin:news.delete']);
 
+	// image upload
+	Route::post('/image/upload',['uses'=>'UserController@upload']);
 });
 });

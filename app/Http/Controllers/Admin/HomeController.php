@@ -18,6 +18,7 @@ class HomeController extends Controller {
     public $skill_repo;
     public $news_repo;
     public $industry_repo;
+    public $company_repo;
 
     public $user_model;
     public $industry_model;
@@ -30,6 +31,7 @@ class HomeController extends Controller {
         $this->role_repo = app()->make('RoleRepository');
         $this->skill_repo = app()->make('SkillsRepository');
         $this->industry_repo = app()->make('IndustryRepository');
+        $this->company_repo = app()->make('CompanyRepository');
         $this->news_repo = app()->make('NewsRepository');
         $this->user_model = $user;
         $this->role_model = $role;
@@ -417,5 +419,38 @@ class HomeController extends Controller {
                                 'news'=>$news,
                                 'logged_in_user'=>$logged_in_user,
                                 'industries'=>$industries]);
+    }
+
+    /* for companies listing */
+    public function showCompanies(Request $request) {
+        $title  = 'Sababoo | Admin | Companies';
+        $logged_in_user   = Auth::user();
+        //$logged_in_user = Session::get('sa_user');
+        $roleRepo = app()->make('RoleRepository');
+        $roleOperations = $this->role_repo->getRoleOperations($logged_in_user->role_id);
+        return view('admin.companies',['title'=>$title, 'logged_in_user'=>$logged_in_user, 'roleOperations'=>$roleOperations]);
+    }
+
+    /* for individual company view */
+    public function showCompany(Request $request) {
+        $title  = 'Sababoo | Admin | Company';
+        $logged_in_user   = Auth::user();
+
+        $input = $request->only('id');
+        $company_id = 0;
+        $company = NULL;
+        if (isset($input['id']) && $input['id'] != '') {
+            $company_id = $input['id'];
+            $company = $this->company_repo->findById($company_id);
+            if ($company == NULL) {
+                return redirect('/admin/404');
+            }
+        }
+        
+        //$logged_in_user = Session::get('sa_user');
+        return view('admin.company',['title'=>$title, 
+                                'company_id' => $company_id, 
+                                'company'=>$company,
+                                'logged_in_user'=>$logged_in_user]);
     }
 }

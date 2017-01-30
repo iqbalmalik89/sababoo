@@ -73,6 +73,11 @@ class OperationsTableSeeder extends Seeder
                 array('module_id' => 11 , 'name' => 'Update', 'route'=>"dispute.update", 'method'=>'PUT', 'is_applied'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
                 array('module_id' => 11 , 'name' => 'Delete', 'route'=>"dispute.delete", 'method'=>'DELETE', 'is_applied'=>0, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
                 array('module_id' => 11, 'name' => 'List', 'route'=>"dispute.list", 'method'=>'GET', 'is_applied'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+
+                array('module_id' =>  12, 'name' => 'Create', 'route'=>"company.create", 'method'=>'POST', 'is_applied'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+                array('module_id' => 12 , 'name' => 'Update', 'route'=>"company.update", 'method'=>'PUT', 'is_applied'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+                array('module_id' => 12 , 'name' => 'Delete', 'route'=>"company.delete", 'method'=>'DELETE', 'is_applied'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+                array('module_id' => 12, 'name' => 'List', 'route'=>"company.list", 'method'=>'GET', 'is_applied'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
 							));
 
     }

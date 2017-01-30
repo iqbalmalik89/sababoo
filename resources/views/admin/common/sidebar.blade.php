@@ -25,6 +25,7 @@
     $news_view = '';
     $log_view = '';
     $dispute_view = '';
+    $company_view = '';
 
     // for role view permission                         permission id = 4
     if (!in_array(4, $roleOperations)) {
@@ -83,6 +84,11 @@
     // for disputes view permission                         permission id = 44
     if (!in_array(44, $roleOperations)) {
         $dispute_view = 'hide';
+    }
+
+    // for company view permission                         permission id = 48
+    if (!in_array(48, $roleOperations)) {
+        $company_view = 'hide';
     }
 ?>
 <div class="page-sidebar-wrapper">
@@ -186,6 +192,14 @@
                 <a href="{{URL::to('admin/newses')}}" class="nav-link nav-toggle">
                     <i class="icon-bulb"></i>
                     <span class="title">News Management</span>
+                    <span class="selected"></span>
+                    <!-- <span class="arrow open"></span> -->
+                </a>
+            </li>
+            <li class="nav-item start <?php if($page=='companies' || $page=='company'){ echo "active";} ?> {{$company_view}}">
+                <a href="{{URL::to('admin/companies')}}" class="nav-link nav-toggle">
+                    <i class="icon-wallet"></i>
+                    <span class="title">Companies Management</span>
                     <span class="selected"></span>
                     <!-- <span class="arrow open"></span> -->
                 </a>

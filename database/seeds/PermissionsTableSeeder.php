@@ -51,6 +51,10 @@ class PermissionsTableSeeder extends Seeder
                             array('role_id' => 1, 'operation_id'=>40, 'is_allowed'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
                             array('role_id' => 1, 'operation_id'=>42, 'is_allowed'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
                             array('role_id' => 1, 'operation_id'=>44, 'is_allowed'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+                            array('role_id' => 1, 'operation_id'=>45, 'is_allowed'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+                            array('role_id' => 1, 'operation_id'=>46, 'is_allowed'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+                            array('role_id' => 1, 'operation_id'=>47, 'is_allowed'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
+                            array('role_id' => 1, 'operation_id'=>48, 'is_allowed'=>1, 'created_at'=>Carbon::now(), 'updated_at'=>Carbon::now()),
 
 							));
 

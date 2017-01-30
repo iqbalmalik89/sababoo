@@ -627,4 +627,48 @@ class UserController extends Controller {
         
         return response()->json($output, $code);
     }
+
+    public function upload(Request $request){
+
+        $input = [];
+        $input['file'] = $request->file('file');
+        $input['from'] = $request->only('from');
+
+        $rules = array(
+                        'file' => 'required|image|max:10000000|mimes:png,jpg,jpeg',
+                        );
+
+        $validator = Validator::make($input,$rules);
+        if ($validator->fails()) {
+            $status = 400;
+            $output = ['error' => array(
+                                'messages'  => $validator->messages()->all(),
+                                'type'      => 'BadRequest',
+                                'status'      => $status
+                )];
+        } else {
+            
+            $file =$request->file('file');
+            $fileName = md5(time()*rand()).'.'.strtolower($file->getClientOriginalExtension());
+            $targetfolder = config('app.files.'.$input['from']['from'].'.full_path');
+             $targetfolder = $targetfolder . basename( $fileName) ;
+            if(move_uploaded_file($_FILES['file']['tmp_name'], $targetfolder)){
+                     
+                $status = 200;
+                $output = array('status'=>$status,'file'=>$fileName,
+                                        'url'=>url('/files/'.$input['from']['from'].'/'.$fileName), 
+                                        'messages'=>"Image has been uploaded successfully.");
+            }else {
+                $status = 400;
+                $output = array('error' => array(
+                                    'messages'  => ['Unable to upload your Image. Try Again.'],
+                                    'type'      => 'BadRequest',
+                                    'status'      => $status
+                    ));
+            }
+            
+
+        }
+        return response()->json($output, $status);
+    }
 }
