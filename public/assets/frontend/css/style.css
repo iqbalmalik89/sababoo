@@ -4587,6 +4587,19 @@ ul.company-directory-list.col-5 li {
     margin: 0;
 }
 
+.employee-grid-item .image-non-circle {
+    width: 150px;
+    height: 80px;
+    margin: 0 auto 20px;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.employee-grid-item .image-non-circle img {
+    display: inline;
+    margin: 0;
+}
+
 .employee-grid-item h4 {
     margin: 0;
 }

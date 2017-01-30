@@ -433,7 +433,7 @@ class JobPostController extends Controller
         $post_data = $request->all();
 
         $paging['page_num']  = $request->input('page_num', 1);
-        $paging['page_size'] = $request->input('page_size', env('DEFAULT_PAGE_SIZE'));
+        $paging['page_size'] = $request->input('page_size', 8);
         $order_by['order']   = $request->input('order', 'asc');
         $order_by['sort_by'] = $request->input('orderby', '0');
         $filters['userid']   =  $this->logged_user->id;

@@ -81,11 +81,11 @@
 
                 </div>
 
-                <div class="row">
+                <div class="">
 
-                    <div class="col-md-12">
+                    <div class="GridLex-gap-15-wrappper">
 
-                        <div class="recent-job-wrapper alt-stripe mr-0">
+                        <div class="GridLex-grid-noGutter-equalHeight">
 
 
                             <?php
@@ -97,18 +97,24 @@
                                 foreach($companies as $company){
                             ?>
 
-                            <div class="recent-job-item clearfix" id="row_<?php echo $company->id;?>">
+                            <div class="GridLex-col-3_sm-4_xs-6_xss-12 margin-bottom-15px" >
 
-                                <div class="GridLex-grid-middle">
+                                <div class="employee-grid-item" style="background-color: #FFF;">
 
-                                    <div class="GridLex-col-6_xs-12">
+                                    <div class="clearfix">
 
-                                        <div class="job-position">
+                                        <div class="image-non-circle clearfix">
 
-                                            <div class="content">
+                                            <img class="" alt="image" src="{{url('files/company/'.$company->image)}}">
 
-                                                <h4> <?php echo ucwords($company->name);?></h4>
-                                                <?php
+
+                                        </div>
+
+                                        <div class="content">
+
+                                            <h4><?php echo $company->name;?> </h4>
+                                            <p class="location">
+                                            <?php
                                                     if (strstr($company->url, 'http') || strstr($company->url, 'https')) {
                                                         $companyUrl = $company->url;
                                                     } else {
@@ -116,32 +122,24 @@
                                                     }
                                                 ?>
                                                 <a href="{{$companyUrl}}" target="_blank"> <?php echo $company->url;?></a>
-                                            </div>
+                                            </p>
+                                            <h6 class="text-primary"><?php echo "Created at ".date('Y-m-d',strtotime($company->created_at));?></h6>
+
+
                                         </div>
-                                    </div>
-
-                                    <div class="GridLex-col-4_xs-8_xss-12 mt-10-xss">
-                                        <img src="{{url('files/company/'.$company->image)}}" width="170px" height="60px">
-                                    </div>
-
-                                    <div class="GridLex-col-2_xs-4_xss-12">
-                                        
-                                        <span class="font12 block spacing1 font400 text-center"><?php
-                                            if($company->created_at){
-                                                echo "Created at ".date('Y-m-d',strtotime($company->created_at));
-                                            }?>  
-                                        </span>
 
                                     </div>
 
                                 </div>
+
                             </div>
+
                             <?php }}?>
 
 
-                               <div style="float:right"> @include('pagination.limit_links', ['paginator' => $companies])</div>
+                               
                         </div>
-
+                            <div style="float:right"> @include('pagination.limit_links', ['paginator' => $companies])</div>
                     </div>
 
                 </div>
