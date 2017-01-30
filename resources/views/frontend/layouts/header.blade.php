@@ -146,6 +146,9 @@
                             <li class="">
                                 <a href="/job/news/0">News</a>
                             </li>
+                            <!-- <li class="">
+                                <a href="/companies">Companies</a>
+                            </li> -->
 
                         </ul>
                 

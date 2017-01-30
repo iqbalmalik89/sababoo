@@ -50,9 +50,6 @@
                                     <div class="form-group">
                                         <label>Name</label>
                                         <div class="input-group margin-top-10 col-md-8">
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-user"></i>
-                                            </span>
                                             <input type="text" class="form-control" placeholder="Enter Name" id="company_name" value="{{($company_id > 0)?$company->name:''}}"> </div>
                                     </div>
 

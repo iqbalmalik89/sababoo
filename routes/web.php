@@ -56,7 +56,6 @@ Route::get('/payments', 'HomeController@showPayments');
 Route::get('/success-payment', 'HomeController@showSuccessPayment');
 Route::get('/failure-payment', 'HomeController@showFailurePayment');
 
-
 /************************************EMPLOYEE********************************************/
 Route::get('/employee', 'EmployeeController@index');
 Route::match(['get', 'post'], '/employee/update_basic_info', ['uses' => 'EmployeeController@updateBasicInfo']);
@@ -140,6 +139,9 @@ Route::match(['get', 'post'], '/transactions', ['uses'=>'UI\JobPostController@us
 
 Route::post('job/create-dispute',['uses'=>'UI\JobPostController@createDispute']);
 Route::match(['get', 'post'], '/job/job-disputes/{id}', ['uses' => 'UI\JobPostController@jobDisputesList']);
+
+Route::get('/companies', ['uses'=>'UI\JobPostController@getCompanies']);
+Route::post('/companies', ['uses'=>'UI\JobPostController@getCompanies']);
 
 /************************************NETWORK*********************************************************/
  Route::match(['get', 'post'], '/network/connection', ['uses' => 'UI\NetworkController@myConnections']);

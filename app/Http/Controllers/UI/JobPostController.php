@@ -422,6 +422,32 @@ class JobPostController extends Controller
         return view ('frontend.job.latest_news',array('latest_newses'=>$latest_newses, 'id'=>$id));
     }
 
+    public function getCompanies(Request $request){
+      
+        if (Auth::user() != NULL) {
+          $this->logged_user = Auth::user();
+        } else {
+          return redirect('login');
+        }
+        
+        $post_data = $request->all();
+
+        $paging['page_num']  = $request->input('page_num', 1);
+        $paging['page_size'] = $request->input('page_size', env('DEFAULT_PAGE_SIZE'));
+        $order_by['order']   = $request->input('order', 'asc');
+        $order_by['sort_by'] = $request->input('orderby', '0');
+        $filters['userid']   =  $this->logged_user->id;
+        if((isset($post_data['title']))){
+            $filters['title'] =   $post_data['title'];
+        } else {
+          $filters['title'] = '';
+        }
+        
+        $companies=  $this->jobpostServiceProvider->getCompanies($filters,$order_by,$paging);
+
+        return view ('frontend.company.list_companies',array('companies'=>$companies));
+    }
+
     public function contactUs(Request $request){
         $post_data = $request->all();
         $validate_array = array(

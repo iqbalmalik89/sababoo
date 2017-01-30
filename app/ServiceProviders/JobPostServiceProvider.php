@@ -726,6 +726,25 @@ class JobPostServiceProvider
           return $news;
      }
 
+     public function getCompanies($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
+
+        $userID = $filters['userid'];        
+      
+        $title = isset($filters['title'])?$filters['title']:'';
+
+        $companies = DB::table('companies')
+          ->select('*' )
+          ->where('is_active', '=', '1');
+
+          if ($title != '') {
+            $companies = $companies->Where("name", "LIKE", "%$title%");
+          }
+
+          $companies = $companies->whereNull('deleted_at')->OrderBy('created_at', 'DESC')->paginate($paging['page_size']);
+    
+          return $companies;
+     }
+
      public function contactUs($input){
         
         // send an email to support

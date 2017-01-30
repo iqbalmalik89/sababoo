@@ -82,14 +82,15 @@
                             <div class="col-sm-5 col-md-5">
                             
                                 <ul class="bottom-footer-menu">
-                                    <li><a href="{{url('user/list_users')}}">Users</a></li>
-                                    <li><a href="{{url('job/user_job_list')}}">Jobs</a></li>
-                                    <li><a href="{{url('network/connection')}}">Network</a></li>
-                                    <li><a href="{{url('user_view_message')}}">Messages</a></li>
-                                    <li><a href="{{url('transactions')}}">Transactions</a></li>
-                                    <li><a href="{{url('job/news/0')}}">News</a></li>
-                                    <li><a href="{{url('about-us')}}">About Us</a></li>
-                                    <li><a href="{{url('contact-us')}}">Contact Us</a></li>
+                                    <li><a href="{{url('/user/list_users')}}">Users</a></li>
+                                    <li><a href="{{url('/job/user_job_list')}}">Jobs</a></li>
+                                    <li><a href="{{url('/network/connection')}}">Network</a></li>
+                                    <li><a href="{{url('/user_view_message')}}">Messages</a></li>
+                                    <li><a href="{{url('/transactions')}}">Transactions</a></li>
+                                    <li><a href="{{url('/job/news/0')}}">News</a></li>
+                                    <li><a href="{{url('/companies')}}">Companies</a></li>
+                                    <li><a href="{{url('/about-us')}}">About Us</a></li>
+                                    <li><a href="{{url('/contact-us')}}">Contact Us</a></li>
                                 </ul>
                             
                             </div>
