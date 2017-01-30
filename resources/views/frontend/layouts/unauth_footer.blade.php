@@ -82,8 +82,8 @@
                             <div class="col-sm-4 col-md-4">
                             
                                 <ul class="bottom-footer-menu">
-                                    <li><a href="{{url('about-us')}}">About Us</a></li>
-                                    <li><a href="{{url('contact-us')}}">Contact Us</a></li>
+                                    <!-- <li><a href="{{url('about-us')}}">About Us</a></li>
+                                    <li><a href="{{url('contact-us')}}">Contact Us</a></li> -->
                                 </ul>
                             
                             </div>

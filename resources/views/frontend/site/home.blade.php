@@ -12,7 +12,7 @@
 @section('content')
 
 
-    <div class="login-container-wrapper">
+    <div class="">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">

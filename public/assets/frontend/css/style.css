@@ -6141,6 +6141,7 @@ ul.static-page-menu li.active a {
 
 .login-container-wrapper {
     padding: 70px 0;
+    background-image:url(../images/map.jpeg) !important;
 }
 
 .login-container-wrapper .login-box-wrapper {
@@ -6149,6 +6150,7 @@ ul.static-page-menu li.active a {
     -webkit-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.16);
     -moz-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.16);
     box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.16);
+    background: #fff;
 }
 
 .modal.login-box-wrapper {
@@ -6245,7 +6247,7 @@ ul.static-page-menu li.active a {
 
 
 .fixedbg{
-    background-image:url(../images/site/sababooWorldMap.png) !important;
+    background-image:url(../images/map.jpeg) !important;
     background-attachment:fixed;
     background-size:cover;
     background-repeat:no-repeat;

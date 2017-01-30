@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\UI\Auth;
 
 use  BusinessObject\User;
+use  BusinessObject\Employee;
+use  BusinessObject\Employer;
+use  BusinessObject\Tradesman;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Authenticatable;
 
@@ -152,7 +155,17 @@ class AuthController extends Controller
             }else{
 
                 $url="/home";
-                 
+                
+                if ($user->role == 'employee') {
+                    $employee = Employee::where('userid', '=' , $user->id)->first();
+                    $url="/employee/view/".$employee->id;
+                } else if ($user->role == 'employer') {
+                    $employer = Employer::where('userid', '=' , $user->id)->first();
+                    $url="/employer/view/".$employer->id;
+                } else if ($user == 'tradesman') {
+                    $tradesman = Tradesman::where('userid', '=' , $user->id)->first();
+                    $url="/tradesman/view/".$tradesman->id;
+                }
                  Session::forget('redirect_url');
 
                  if($user->is_admin == 1) {
