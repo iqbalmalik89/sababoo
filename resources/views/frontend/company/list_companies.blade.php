@@ -105,7 +105,15 @@
 
                                         <div class="image-non-circle clearfix">
 
-                                            <img class="" alt="image" src="{{url('files/company/'.$company->image)}}">
+                                        <?php
+                                            if (strstr($company->url, 'http') || strstr($company->url, 'https')) {
+                                                $companyUrl = $company->url;
+                                            } else {
+                                                $companyUrl = 'http://'.$company->url;
+                                            }
+                                        ?>
+
+                                            <a href="{{$companyUrl}}" target="_blank"><img class="" alt="image" src="{{url('files/company/'.$company->image)}}"></a>
 
 
                                         </div>
@@ -113,16 +121,10 @@
                                         <div class="content">
 
                                             <h4><?php echo $company->name;?> </h4>
-                                            <p class="location">
-                                            <?php
-                                                    if (strstr($company->url, 'http') || strstr($company->url, 'https')) {
-                                                        $companyUrl = $company->url;
-                                                    } else {
-                                                        $companyUrl = 'http://'.$company->url;
-                                                    }
-                                                ?>
+                                            <!-- <p class="location">
+                                            
                                                 <a href="{{$companyUrl}}" target="_blank"> <?php echo $company->url;?></a>
-                                            </p>
+                                            </p> -->
                                             <h6 class="text-primary"><?php echo "Created at ".date('Y-m-d',strtotime($company->created_at));?></h6>
 
 
