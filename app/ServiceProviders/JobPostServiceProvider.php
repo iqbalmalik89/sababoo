@@ -726,9 +726,7 @@ class JobPostServiceProvider
           return $news;
      }
 
-     public function getCompanies($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
-
-        $userID = $filters['userid'];        
+     public function getCompanies($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){      
       
         $title = isset($filters['title'])?$filters['title']:'';
 

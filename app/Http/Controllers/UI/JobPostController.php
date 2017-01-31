@@ -423,12 +423,6 @@ class JobPostController extends Controller
     }
 
     public function getCompanies(Request $request){
-      
-        if (Auth::user() != NULL) {
-          $this->logged_user = Auth::user();
-        } else {
-          return redirect('login');
-        }
         
         $post_data = $request->all();
 
@@ -436,7 +430,6 @@ class JobPostController extends Controller
         $paging['page_size'] = $request->input('page_size', 8);
         $order_by['order']   = $request->input('order', 'asc');
         $order_by['sort_by'] = $request->input('orderby', '0');
-        $filters['userid']   =  $this->logged_user->id;
         if((isset($post_data['title']))){
             $filters['title'] =   $post_data['title'];
         } else {
@@ -445,7 +438,11 @@ class JobPostController extends Controller
         
         $companies=  $this->jobpostServiceProvider->getCompanies($filters,$order_by,$paging);
 
-        return view ('frontend.company.list_companies',array('companies'=>$companies));
+        if(Auth::user()!=null) {
+            return view ('frontend.company.list_companies',array('companies'=>$companies));
+         } else {
+            return view ('frontend.company.unauth_list_companies',array('companies'=>$companies));
+         }
     }
 
     public function contactUs(Request $request){
