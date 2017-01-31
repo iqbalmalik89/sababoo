@@ -156,7 +156,7 @@ class AuthController extends Controller
 
                 $url="/home";
                 
-                if ($user->role == 'employee') {
+                /*if ($user->role == 'employee') {
                     $employee = Employee::where('userid', '=' , $user->id)->first();
                     $url="/employee/view/".$employee->id;
                 } else if ($user->role == 'employer') {
@@ -165,7 +165,7 @@ class AuthController extends Controller
                 } else if ($user == 'tradesman') {
                     $tradesman = Tradesman::where('userid', '=' , $user->id)->first();
                     $url="/tradesman/view/".$tradesman->id;
-                }
+                }*/
                  Session::forget('redirect_url');
 
                  if($user->is_admin == 1) {

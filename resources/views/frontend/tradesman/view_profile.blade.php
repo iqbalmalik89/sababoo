@@ -122,7 +122,7 @@
                     <?php
                         if ($basic_user_info->id == $logged_user->id) {
                     ?>
-                        <div style="float: right; margin-top: -55px; margin-right: 4px;"><a href="{{url('home')}}" class=" btn btn-primary btn-hidden btn-small" target="_blank">Update Profile</a></div>
+                        <div style="float: right; margin-top: -55px; margin-right: 4px;"><a href="{{url('/profile-update')}}" class=" btn btn-primary btn-hidden btn-small">Update Profile</a></div>
                     <?php
                         }
                     ?>

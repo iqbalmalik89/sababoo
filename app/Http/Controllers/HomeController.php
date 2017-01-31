@@ -72,8 +72,6 @@ class HomeController extends Controller
         $user_files = UserFiles::where($matchTheseFile)->get();
 
         if($this->logged_user->role=="employee"){
-
-
             //$employee = Employee::find(array('userid'=> $this->logged_user->id));
             //$employee = Employee::find(array('userid'=> $this->logged_user->id));
             $employee[0] = Employee::where('userid', '=' , $this->logged_user->id)->firstOrFail();
@@ -81,7 +79,61 @@ class HomeController extends Controller
             $certification = Certification::where(array('userid'=> $this->logged_user->id))->get();
 
             $exp = Experience::where(array('employee_id'=> $employee[0]->id))->get();
-             return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee,'industry'=>$industry,'education'=>$education,'exp'=>$exp,'certification'=>$certification,'user_files'=>$user_files));
+
+            return redirect("/employee/view/".$employee[0]->id);
+            //return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee,'industry'=>$industry,'education'=>$education,'exp'=>$exp,'certification'=>$certification,'user_files'=>$user_files));
+       }
+        else if($this->logged_user->role=="employer"){
+            $employer = Employer::where('userid', '=' , $this->logged_user->id)->firstOrFail();
+            return redirect("/employer/view/".$employer->id);
+            //return view('frontend.employer.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'employer'=>$employer,'user_files'=>$user_files));
+
+        }
+
+        else if($this->logged_user->role=="tradesman"){
+
+            $tradesman = Tradesman::where('userid', '=' , $this->logged_user->id)->firstOrFail();
+            $education = Education::where(array('userid'=> $this->logged_user->id))->get();
+            $certification = Certification::where(array('userid'=> $this->logged_user->id))->get();
+            return redirect("/tradesman/view/".$tradesman->id);
+            //return view('frontend.tradesman.index',array('userinfo'=>$this->logged_user,'industry'=>$industry,'tradesman'=>$tradesman,'education'=>$education,'certification'=>$certification,'user_files'=>$user_files));
+
+        }
+
+        else if($this->logged_user->is_admin==1){
+
+            $adminUser = $this->user_repo->findById($this->logged_user->id);
+
+            return view('frontend.admin_user.index',array('userinfo'=>$this->logged_user, 'adminUser'=>$adminUser));
+
+        }
+        return view('frontend.site.home');
+    }
+
+    public function showProfileUpdate()
+    {
+
+        if (Auth::user()==null) {
+            return view('frontend.site.unauth_home');
+        } else {
+            $this->logged_user = Auth::user();
+        } 
+        
+        $matchThese = ['status'=>1];
+        $matchTheseFile = ['status'=>1,'userid'=>$this->logged_user->id];
+        $industry = Industry::where($matchThese)->get();
+        $user_files = UserFiles::where($matchTheseFile)->get();
+
+        if($this->logged_user->role=="employee"){
+            //$employee = Employee::find(array('userid'=> $this->logged_user->id));
+            //$employee = Employee::find(array('userid'=> $this->logged_user->id));
+            $employee[0] = Employee::where('userid', '=' , $this->logged_user->id)->firstOrFail();
+            $education = Education::where(array('userid'=> $this->logged_user->id))->get();
+            $certification = Certification::where(array('userid'=> $this->logged_user->id))->get();
+
+            $exp = Experience::where(array('employee_id'=> $employee[0]->id))->get();
+
+            return view('frontend.employee.index',array('userinfo'=>$this->logged_user,'employeeinfo'=>$employee,'industry'=>$industry,'education'=>$education,'exp'=>$exp,'certification'=>$certification,'user_files'=>$user_files));
        }
         else if($this->logged_user->role=="employer"){
             $employer = Employer::where('userid', '=' , $this->logged_user->id)->firstOrFail();

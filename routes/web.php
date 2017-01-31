@@ -55,6 +55,7 @@ Route::get('/home', 'HomeController@showHome');
 Route::get('/payments', 'HomeController@showPayments');
 Route::get('/success-payment', 'HomeController@showSuccessPayment');
 Route::get('/failure-payment', 'HomeController@showFailurePayment');
+Route::get('/profile-update', 'HomeController@showProfileUpdate');
 
 /************************************EMPLOYEE********************************************/
 Route::get('/employee', 'EmployeeController@index');
@@ -87,7 +88,7 @@ Route::match(['get', 'post'], '/employee/view/{id}', ['uses' => 'EmployeeControl
 
 Route::match(['get', 'post'], '/employer/update_employer', ['uses' => 'UI\EmployerController@updateEmployer']);
 Route::match(['get', 'post'], '/employer/password', ['uses' => 'UI\EmployerController@password']);
-    Route::match(['get', 'post'], '/employer/view/{id}', ['uses' => 'UI\EmployerController@viewEmployer']);
+Route::match(['get', 'post'], '/employer/view/{id}', ['uses' => 'UI\EmployerController@viewEmployer']);
 
 
     /********************************TRADESMAN***********************************************/
