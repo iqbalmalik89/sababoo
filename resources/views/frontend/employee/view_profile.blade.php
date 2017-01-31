@@ -126,6 +126,14 @@
 
                             <h3>Introduce my self</h3>
 
+                            <?php
+                                if ($basic_user_info->id == Auth::user()->id) {
+                            ?>
+                                <div style="float: right; margin-top: -55px; margin-right: 4px;"><a href="{{url('home')}}" class=" btn btn-primary btn-hidden btn-small" target="_blank">Update Profile</a></div>
+                            <?php
+                                }
+                            ?>
+                            
 
                             <h4><?php echo $basic_emp_info->professional_heading;?></h4>
                             <p><?php echo $basic_emp_info->summary;?></p>
