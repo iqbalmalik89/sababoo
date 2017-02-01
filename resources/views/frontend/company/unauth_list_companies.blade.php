@@ -104,7 +104,7 @@
 
                                         <div class="content">
 
-                                            <h4><a href="{{\URL::to('/signup')}}">><?php echo $company->name;?> </a></h4>
+                                            <h4><a href="{{\URL::to('/signup')}}"><?php echo $company->name;?> </a></h4>
                                             <p class="location">
                                             
 <!--                                                 <a href="{{$companyUrl}}" target="_blank"> <?php echo $company->url;?></a>
