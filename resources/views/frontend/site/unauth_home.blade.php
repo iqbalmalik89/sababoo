@@ -7,7 +7,9 @@
 
 @section('content')
 
-
+<?php
+    $sticky_footer = '';
+?>
     <div class="">
         <div class="container">
             <div class="row">

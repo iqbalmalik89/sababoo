@@ -173,7 +173,7 @@ class HomeController extends Controller
          if(Auth::user()!=null) {
             return redirect('home');
          }
-        return view('frontend.auth.login');
+        return view('frontend.auth.login', ['sticky_footer'=>'sticky-footer']);
     }
 
     public function showAboutUs()

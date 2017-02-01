@@ -439,9 +439,9 @@ class JobPostController extends Controller
         $companies=  $this->jobpostServiceProvider->getCompanies($filters,$order_by,$paging);
 
         if(Auth::user()!=null) {
-            return view ('frontend.company.list_companies',array('companies'=>$companies));
+            return view ('frontend.company.list_companies',array('companies'=>$companies, 'sticky_footer'=>''));
          } else {
-            return view ('frontend.company.unauth_list_companies',array('companies'=>$companies));
+            return view ('frontend.company.unauth_list_companies',array('companies'=>$companies, 'sticky_footer'=>''));
          }
     }
 

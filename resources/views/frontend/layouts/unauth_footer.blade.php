@@ -67,7 +67,7 @@
                     
                 </div> -->
                 
-                <div class="bottom-footer">
+                <div class="bottom-footer {{$sticky_footer}}">
                 
                     <div class="container">
                     
