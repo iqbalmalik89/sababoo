@@ -16,7 +16,7 @@
                 <div class="col-md-12 text-center">
                     <div id="content">
                         <h1> Welcome and Join Us!</h1>
-                        <h2>Hire the best || Discover your dream job</h2>
+                        <h2>Hire the best | Connect with others | Discover your dream job</h2>
                         <hr>
                         <a href="signup.php"></a>
                         <button class="btn btn-default btn-lg homeJoinUsButton"><a href="signup">Join Us!
