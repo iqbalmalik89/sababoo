@@ -11,6 +11,7 @@ use BusinessObject\Certification;
 use Helper;
 use  BusinessObject\User;
 use  BusinessObject\UserMessages;
+use App\Models\MessageRequest;
 use Validator;
 use DB;
 
@@ -161,6 +162,101 @@ class ChatServiceProvider
 
 
     }
+
+
+    public function checkRequest($post_data){
+
+        $currentDate = date('Y-m-d');
+
+        $msgRequest = MessageRequest::where('sender_id', '=', $post_data['user_id'])
+                                ->where('reciever_id', '=', $post_data['reciever_id'])
+                                ->first();
+      
+        if ($msgRequest != NULL) {
+            return array(
+                'code' => '409',
+                'status' => 'found',
+                'msg' => "You have already send a message request to this user.",
+                'request_status' => $msgRequest->status
+            );
+       } else {
+          return array(
+                  'code' => '404',
+                  'status' => 'not_found',
+                  'msg' => "You can send a message request.",
+              );
+       }
+       
+              
+   }
+
+   public function sendRequest($post_data){
+
+        $currentDate = date('Y-m-d');
+
+        $msgRequest = MessageRequest::where('sender_id', '=', $post_data['user_id'])
+                                ->where('reciever_id', '=', $post_data['reciever_id'])
+                                ->first();
+      
+        if ($msgRequest == NULL) {
+
+            $request = new MessageRequest;
+            $request->sender_id = $post_data['user_id'];
+            $request->reciever_id = $post_data['reciever_id'];
+            $request->message = $post_data['message'];
+            if ($request->save()){
+
+                $receiver_data = User::find($post_data['reciever_id']);
+                $sender_data = User::find($post_data['user_id']);
+                #$data['to']  = $receiver_data->email;
+                if ($receiver_data != NULL) {
+
+                    $subject = "Sababoo's - Message request by " . $sender_data->first_name.' '.$sender_data->last_name;
+                    $from = "noreply@sababoo.com";
+
+                    $data = [
+                         "from"           => $from,
+                         "to"             => $receiver_data->email,
+                         "subject"        => $subject,
+                         "sender_email"   => $sender_data->email,
+                         "SERVER_PATH"    => env('URL'),
+                         "message"        =>  $request->message,
+                         "sender_name"    =>  $sender_data->first_name.' '.$sender_data->last_name
+
+                     ];
+
+                    $mail_response = Helper::sendEmail(
+                        $data,
+                        ['email_templates/msg_request_html', 'email_templates/msg_request_text']
+                    );
+                
+                 
+                }
+
+                return array(
+                    'code' => '200',
+                    'status' => 'ok',
+                    'msg' => "Request has been sent successfully.",
+                );
+            } else {
+                return array(
+                  'code' => '406',
+                  'status' => 'error',
+                  'msg' => "An error occured.",
+                );
+            } 
+            
+       } else {
+          return array(
+                  'code' => '409',
+                  'status' => 'error',
+                  'msg' => "Request has already been sent.",
+              );
+       }
+       
+              
+   }
+
 
 
 }

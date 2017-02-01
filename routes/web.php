@@ -169,6 +169,11 @@ Route::post('/companies', ['uses'=>'UI\JobPostController@getCompanies']);
  Route::match(['get', 'post'], ' /chat/save_user_messages', ['uses' => 'UI\ChatController@saveUserMessage']);
  Route::match(['get', 'post'], '/chat/get_logged_user_message', ['uses' => 'UI\ChatController@getLoggedUserMessage']);
 
+
+/*********** Message Request ************/
+Route::get('message/check-request',['uses'=>'UI\ChatController@checkRequest']);
+Route::post('message/send-request',['uses'=>'UI\ChatController@sendRequest']);
+
 /****** Admin Routes ******/
 Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], function(){
     Route::get('/',['uses'=>'HomeController@showLogin'])->middleware(['acl.admin.guest']);

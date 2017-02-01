@@ -119,4 +119,24 @@ class ChatController extends Controller
         return $this->chatServiceProvider->getLoggedUserMessage($post_data);
 
     }
+
+    public function checkRequest(Request $request){
+      if (Auth::user() != NULL) {
+        $this->logged_user = Auth::user();
+      }
+      $post_data= $request->all();
+      $post_data['user_id']=$this->logged_user->id;
+     return $this->chatServiceProvider->checkRequest($post_data);
+
+    }
+
+    public function sendRequest(Request $request){
+      if (Auth::user() != NULL) {
+        $this->logged_user = Auth::user();
+      }
+      $post_data= $request->all();
+      $post_data['user_id']=$this->logged_user->id;
+     return $this->chatServiceProvider->sendRequest($post_data);
+
+    }
 }
