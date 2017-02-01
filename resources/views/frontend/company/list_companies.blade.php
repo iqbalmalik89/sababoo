@@ -73,7 +73,7 @@
 
                         <div class="section-title">
 
-                            <h2>Companies</h2>
+                            <h2>Associate Companies</h2>
 
                         </div>
 
