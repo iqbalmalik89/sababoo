@@ -97,17 +97,17 @@
                                             }
                                         ?>
                                                 
-                                            <img class="" alt="image" src="{{url('files/company/'.$company->image)}}">
+                                            <a href="{{\URL::to('/signup')}}"><img class="" alt="image" src="{{url('files/company/'.$company->image)}}"></a>
 
 
                                         </div>
 
                                         <div class="content">
 
-                                            <h4><?php echo $company->name;?> </h4>
-                                            <!-- <p class="location">
+                                            <h4><a href="{{\URL::to('/signup')}}">><?php echo $company->name;?> </a></h4>
+                                            <p class="location">
                                             
-                                                <a href="{{$companyUrl}}" target="_blank"> <?php echo $company->url;?></a>
+<!--                                                 <a href="{{$companyUrl}}" target="_blank"> <?php echo $company->url;?></a>
                                             </p> -->
                                             <h6 class="text-primary"><?php echo "Created at ".date('Y-m-d',strtotime($company->created_at));?></h6>
 
