@@ -1,3 +1,6 @@
+<?php
+    $sticky_footer = 'sticky-footer';
+?>
             <footer class="footer-wrapper">
             
                 <!-- <div class="main-footer">

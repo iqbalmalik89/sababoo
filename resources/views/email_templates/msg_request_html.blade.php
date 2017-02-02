@@ -11,5 +11,5 @@
 <p>You have received a message request by {{$sender_name}}</p>
 
 <p>Please go to your profile and take action on it.</p>
-{{$SERVER_PATH}}/message_requests
+{{$SERVER_PATH}}/message-requests
 <p>If link is not clickable, copy and paste it into the browser's address bar.</p>

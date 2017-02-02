@@ -1,10 +1,6 @@
             
 <?php 
-    if (isset($sticky_footer) && $sticky_footer != '') {
-        $sticky_footer = $sticky_footer;
-    } else {
-        $sticky_footer = '';
-    }
+    $sticky_footer = 'sticky-footer';
 ?>
             <footer class="footer-wrapper">
             
