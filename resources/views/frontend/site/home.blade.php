@@ -19,7 +19,8 @@
                     <div id="content">
                         <h1> Welcome and Join Us!</h1>
                         <h2>Hire the best | Connect with others | Discover your dream job</h2>
-                        <hr>
+                        <center><hr style="width: 476px"></center>
+
 
                     </div>
                 </div>

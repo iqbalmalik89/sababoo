@@ -82,7 +82,7 @@
                             <div class="col-sm-4 col-md-4">
                             
                                 <ul class="bottom-footer-menu">
-                                    <li><a href="{{url('companies')}}">Companies</a></li>
+                                    <li><a href="{{url('companies')}}"> Associate Companies</a></li>
                                 </ul>
                             
                             </div>
