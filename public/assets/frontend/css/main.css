@@ -764,7 +764,10 @@ hr {
 .margin-25 {
     margin: 25px !important;
 }
-
+.disabled{
+    pointer-events: none;
+    cursor: default;
+}
 .no-magin,
 ul.no-margin,
 .margin-0 {

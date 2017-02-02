@@ -145,24 +145,49 @@
                                     </div> -->
 
                                     <div class="col-24"> <?php 
-                                            if ($user->role == 'employee') {
-                                                echo ucfirst(env('EMPLOYEE_TITLE'));
-                                            } else if ($user->role == 'employer') {
-                                                echo ucfirst(env('EMPLOYER_TITLE'));
-                                            } else if ($user->role == 'tradesman') {
-                                                echo ucfirst(env('TRADESMAN_TITLE'));
-                                            } else {
-                                                echo ucfirst($user->role);
-                                            }
-
-
+                                        if ($user->role == 'employee') {
+                                            echo ucfirst(env('EMPLOYEE_TITLE'));
+                                        } else if ($user->role == 'employer') {
+                                            echo ucfirst(env('EMPLOYER_TITLE'));
+                                        } else if ($user->role == 'tradesman') {
+                                            echo ucfirst(env('TRADESMAN_TITLE'));
+                                        } else {
+                                            echo ucfirst($user->role);
+                                        }
                                     ?>
                                     </div>
 
-                                    <div class="" >
+                                    <div class="GridLex-col-2_xs-4_xss-12">
+                                        <?php
+                                        $btn_label = '';
+                                        $btn_text = '';
+                                        $disabled = '';
+                                         if($requestStatus[$user->id] == 'not_found'){
+                                            $btn_label = 'label-warning';
+                                            $btn_text = 'Send Request';
+                                            $disabled = '';
+                                         } else if ($requestStatus[$user->id] == 'pending') {
+                                            $btn_label = 'label-default';
+                                            $btn_text = 'Request Pending';
+                                            $disabled = 'disabled';
+                                         } else if ($requestStatus[$user->id] == 'rejected') {
+                                            $btn_label = 'label-danger';
+                                            $btn_text = 'Request Rejected';
+                                            $disabled = 'disabled';
+                                         } else if ($requestStatus[$user->id] == 'accepted') {
+                                            $btn_label = 'label-primary';
+                                            $btn_text = 'Send Message';
+                                            $disabled = '';
+                                         }
+                                         ?>
+                                        <div class="job-label label label-success"><a href="javascript:;" style="color:white;" onclick="viewUser(<?php echo $user->id;?>)">View User</a></div>
+                                        <div class="job-label label <?php echo $btn_label;?>"><a href="javascript:;" style="color:white;" onclick="checkMessageRequest(<?php echo $user->id;?>)" class="{{$disabled}}">{{$btn_text}}</a></div>
+                                    </div>
+
+                                    <!-- <div class="" >
                                     <input type="button" onclick="viewUser(<?php echo $user->id;?>)" value="View Profile">
                                     <input type="button" onclick="checkMessageRequest(<?php echo $user->id;?>)" value="Send Message">
-                                    </div>
+                                    </div> -->
 
 
                                 </div>
