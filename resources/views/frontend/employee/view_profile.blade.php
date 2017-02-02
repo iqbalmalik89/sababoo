@@ -108,8 +108,10 @@
 
                                 if($logged_user->id != $basic_user_info->id){?>
 
-                                <li> <h4><a data-toggle="modal" href="/send_message/<?php echo $basic_user_info->id;?>" class=" btn btn-primary btn-hidden btn-small">Message</a></li>
+                                <li> <h4><a data-toggle="modal" onclick="checkMessageRequest(<?php echo $basic_user_info->id;?>)" href="javascript:;" class=" btn btn-primary btn-hidden btn-small">Message</a></li>
                                 <?php }?>
+
+                                <div id="check_msg_request_div" class="alert" style="display:none;"></div>
                             </ul>
 
 

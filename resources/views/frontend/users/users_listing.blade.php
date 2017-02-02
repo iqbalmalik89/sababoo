@@ -187,124 +187,12 @@
 
 </div>
 
-<div id="msg_request_modal" class="modal fade in login-box-wrapper" tabindex="-1" data-width="550" style="display:none; margin-top:-28%;" data-backdrop="static" data-keyboard="false" data-replace="true">
-    <input type="hidden" name="hidden_reciever_id" id="hidden_reciever_id" value="">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="dismissModal($('#msg_request_modal'));">&times;</button>
-        <h4 class="modal-title text-center">Message Request</h4>
-    </div>
-
-    <div id="msg_request_div" class="alert" style="display:none;"></div>
-
-    <div class="modal-body">
-        <div class="row gap-20">
-
-
-            <div class="col-sm-12 col-md-12">
-
-                <div class="form-group">
-                    <label>Message</label>
-                    <textarea class="form-control" name="request_message" id="request_message"></textarea>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="modal-footer text-center">
-        <img class="button_spinners" style="display:none; margin-left: 137px; margin-bottom: -30px;" src="{{URL::to('pannel/images/loader.gif')}}" id="submit_loader">
-        <button type="button" class="btn btn-primary" onclick="sendRequest()">Send Request</button>
-        <button type="button" data-dismiss="modal" class="btn btn-primary btn-inverse" onclick="dismissModal($('#msg_request_modal'));">Cancel</button>
-    </div>
-
-</div>
-
-
 <script>
 
     var pageURI = '';
     var request_data = '';
     var isScrLock = false;
     var html = '';
-
-    function viewUser (userId){
-        window.location = "/user/view-profile/"+userId+"?from=list";
-    }
-
-    function viewMessage (userId){
-        window.location = "/send_message/"+userId;
-    }
-
-    function dismissModal(modal){
-        modal.hide();
-    }
-
-    function checkMessageRequest(userId) {
-         $('#hidden_reciever_id').val(userId);
-        pageURI = globalUrl+"message/check-request";
-        request_data = {reciever_id:userId}
-        mainAjax('', request_data, 'GET', fillData);
-
-        function fillData(data){
-            if(data.status == 'not_found'){
-                $('#check_msg_request_div').removeClass('alert-danger').html('').hide();
-                $('#msg_request_div').removeClass('alert-danger').addClass('alert-success').html('').hide();
-                $('#request_message').parent().removeClass('has-error');
-                $('#request_message').val('');
-                $('#msg_request_modal').show();
-            } else if (data.status == 'found') {
-                if (data.request_status == 'accepted') {
-                    viewMessage(userId);
-                } else {
-                    var msg = '';
-                    if (data.request_status == 'pending') {
-                        msg = 'Sorry! Your request is still pending.';
-                    } else if (data.request_status == 'rejected') {
-                        msg = 'Sorry! Your request has been rejected by this user.';
-                    }
-                    $('#check_msg_request_div').addClass('alert-danger').html(msg).show();
-                }
-            }
-        } 
-
-    }
-
-    function sendRequest() {
-        var reciever_id = $('#hidden_reciever_id').val();
-        var request_message = $('#request_message').val();
-
-        var errors = [];
-        if (request_message == ''){
-            errors.push('Please enter message.');
-            $('#request_message').parent().addClass('has-error');
-        } else {
-            $('#request_message').parent().removeClass('has-error');
-        }
-
-        if(errors.length < 1) { 
-            $('#submit_loader').show();
-
-            pageURI = globalUrl+"message/send-request";
-            request_data = {reciever_id:reciever_id, message:request_message}
-            mainAjax('', request_data, 'POST', fillSendData);
-
-            function fillSendData(data){
-                $('#submit_loader').hide();
-                if(data.status == 'ok'){
-                    $('#msg_request_div').removeClass('alert-danger').addClass('alert-success').show().html(data.msg).delay(4000).fadeOut();
-                    window.location.reload();
-                }else if (data.status == 'error') {
-                    $('#msg_request_div').addClass('alert-danger').html(data.msg).show();
-                }
-            } 
-
-        } else {
-            $('#msg_request_div').addClass('alert-danger').html(errors[0]).show();
-        }
-
-    }
-
     $(document).ready(function () {
 
     });

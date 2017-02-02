@@ -5,6 +5,9 @@
 
 
 @section('content')
+<?php
+    $sticky_footer = 'sticky-footer';
+?>
 <style>
     #load { height: 100%; width: 100%; }
     #load {

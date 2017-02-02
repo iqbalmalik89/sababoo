@@ -134,9 +134,11 @@
                             </li>
 
                             <li class="">
-                                <a href="/user_view_message">Messages<span id="msg_notification"></span></a>
-
-
+                                <a href="javascript:;">Messages<span id="msg_notification"></span></a>
+                                <ul>
+                                    <li><a href="/message-requests">Requests</a></li>
+                                    <li><a href="/user_view_message">Conversation</a></li>
+                                </ul>
                             </li>
 
                             <li class="">

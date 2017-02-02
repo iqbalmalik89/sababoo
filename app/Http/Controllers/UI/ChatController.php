@@ -139,4 +139,34 @@ class ChatController extends Controller
      return $this->chatServiceProvider->sendRequest($post_data);
 
     }
+
+    public function actionRequest(Request $request){
+      if (Auth::user() != NULL) {
+        $this->logged_user = Auth::user();
+      }
+      $post_data= $request->all();
+      $post_data['user_id']=$this->logged_user->id;
+     return $this->chatServiceProvider->actionRequest($post_data);
+
+    }
+
+    public function allRequests(Request $request){
+        if (Auth::user() != NULL) {
+          $this->logged_user = Auth::user();
+        } else {
+          return redirect('login');
+        }
+        
+        $post_data = $request->all();
+
+        $paging['page_num']  = $request->input('page_num', 1);
+        $paging['page_size'] = $request->input('page_size', env('DEFAULT_PAGE_SIZE'));
+        $order_by['order']   = $request->input('order', 'asc');
+        $order_by['sort_by'] = $request->input('orderby', '0');
+        $filters['userid']   =  $this->logged_user->id;
+        
+        $requests=  $this->chatServiceProvider->allRequests($filters,$order_by,$paging);
+
+        return view ('frontend.chat.message_requests',array('requests'=>$requests));
+    }
 }

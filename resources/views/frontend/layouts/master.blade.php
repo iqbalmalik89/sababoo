@@ -81,6 +81,7 @@
         <div class="container-wrapper @yield('container_class')">
 
             @include('frontend.layouts.header')
+            @include('frontend.common.popup')
 
             <div class="main-wrapper">    
 

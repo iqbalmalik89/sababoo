@@ -99,6 +99,18 @@ function mainAjax(frm_id, request_data, method_type, fn, complete_callback) {
     });
 }
 
+function dismissModal(modal){
+    modal.hide();
+}
+
+function viewUser (userId){
+    window.location = "/user/view-profile/"+userId+"?from=list";
+}
+
+function viewMessage (userId){
+    window.location = "/send_message/"+userId;
+}
+
 function imgError(image) {
         image.onerror = "";
         image.src = "/assets/frontend/images/site/dummy-user.jpg";
@@ -384,5 +396,70 @@ function addMoreLanguage(mode, language, proficiency)
     $( "#language_container"  ).append( html);
 }
 
+
+function checkMessageRequest(userId) {
+         $('#hidden_reciever_id').val(userId);
+        pageURI = globalUrl+"message/check-request";
+        request_data = {reciever_id:userId}
+        mainAjax('', request_data, 'GET', fillData);
+
+        function fillData(data){
+            if(data.status == 'not_found'){
+                $('#check_msg_request_div').removeClass('alert-danger').html('').hide();
+                $('#msg_request_div').removeClass('alert-danger').addClass('alert-success').html('').hide();
+                $('#request_message').parent().removeClass('has-error');
+                $('#request_message').val('');
+                $('#msg_request_modal').show();
+            } else if (data.status == 'found') {
+                if (data.request_status == 'accepted') {
+                    viewMessage(userId);
+                } else {
+                    var msg = '';
+                    if (data.request_status == 'pending') {
+                        msg = 'Sorry! Your request is still pending.';
+                    } else if (data.request_status == 'rejected') {
+                        msg = 'Sorry! Your request has been rejected by this user.';
+                    }
+                    $('#check_msg_request_div').addClass('alert-danger').html(msg).show();
+                }
+            }
+        } 
+
+    }
+
+    function sendMessageRequest() {
+        var reciever_id = $('#hidden_reciever_id').val();
+        var request_message = $('#request_message').val();
+
+        var errors = [];
+        if (request_message == ''){
+            errors.push('Please enter message.');
+            $('#request_message').parent().addClass('has-error');
+        } else {
+            $('#request_message').parent().removeClass('has-error');
+        }
+
+        if(errors.length < 1) { 
+            $('#submit_loader').show();
+
+            pageURI = globalUrl+"message/send-request";
+            request_data = {reciever_id:reciever_id, message:request_message}
+            mainAjax('', request_data, 'POST', fillSendData);
+
+            function fillSendData(data){
+                $('#submit_loader').hide();
+                if(data.status == 'ok'){
+                    $('#msg_request_div').removeClass('alert-danger').addClass('alert-success').show().html(data.msg).delay(4000).fadeOut();
+                    window.location.reload();
+                }else if (data.status == 'error') {
+                    $('#msg_request_div').addClass('alert-danger').html(data.msg).show();
+                }
+            } 
+
+        } else {
+            $('#msg_request_div').addClass('alert-danger').html(errors[0]).show();
+        }
+
+    }
 
 

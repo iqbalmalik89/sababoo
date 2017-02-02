@@ -161,6 +161,7 @@ Route::post('/companies', ['uses'=>'UI\JobPostController@getCompanies']);
 
 
 /*************************************CHAT**********************************************************************/
+Route::get('/message-requests', ['uses'=>'UI\ChatController@allRequests']);
  Route::match(['get', 'post'], ' /send_message/{id}', ['uses' => 'UI\ChatController@index']);
  Route::match(['get', 'post'], ' /user_send_message', ['uses' => 'UI\ChatController@SendMessage']);
  Route::match(['get', 'post'], ' /user_view_message', ['uses' => 'UI\ChatController@viewMessages']);
@@ -173,6 +174,7 @@ Route::post('/companies', ['uses'=>'UI\JobPostController@getCompanies']);
 /*********** Message Request ************/
 Route::get('message/check-request',['uses'=>'UI\ChatController@checkRequest']);
 Route::post('message/send-request',['uses'=>'UI\ChatController@sendRequest']);
+Route::post('message/action-request',['uses'=>'UI\ChatController@actionRequest']);
 
 /****** Admin Routes ******/
 Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware' =>[ 'web']], function(){

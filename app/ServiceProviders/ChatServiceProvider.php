@@ -257,6 +257,82 @@ class ChatServiceProvider
               
    }
 
+   public function actionRequest($post_data){
 
+        $currentDate = date('Y-m-d');
+        $msgRequest = MessageRequest::where('sender_id', '=', $post_data['sender_id'])
+                                ->where('reciever_id', '=', $post_data['user_id'])
+                                ->first();
+      
+        if ($msgRequest != NULL) {
+
+            $msgRequest->status = $post_data['status'];
+            if ($msgRequest->save()){
+
+                $receiver_data = User::find($post_data['sender_id']);
+                $sender_data = User::find($post_data['user_id']);
+                #$data['to']  = $receiver_data->email;
+                if ($receiver_data != NULL) {
+
+                    $subject = "Sababoo's - Message request action by " . $sender_data->first_name.' '.$sender_data->last_name;
+                    $from = "noreply@sababoo.com";
+
+                    $data = [
+                         "from"           => $from,
+                         "to"             => $receiver_data->email,
+                         "subject"        => $subject,
+                         "sender_email"   => $sender_data->email,
+                         "SERVER_PATH"    => env('URL'),
+                         "status"        =>  $msgRequest->status,
+                         "sender_name"    =>  $sender_data->first_name.' '.$sender_data->last_name,
+                         "sender_id"        =>$sender_data->id
+                     ];
+
+                    $mail_response = Helper::sendEmail(
+                        $data,
+                        ['email_templates/msg_request_action_html', 'email_templates/msg_request_action_text']
+                    );
+                
+                 
+                }
+
+                return array(
+                    'code' => '200',
+                    'status' => 'ok',
+                    'msg' => "Request has been ".$post_data['status']." successfully.",
+                );
+            } else {
+                return array(
+                  'code' => '406',
+                  'status' => 'error',
+                  'msg' => "An error occured.",
+                );
+            } 
+            
+       } else {
+          return array(
+                  'code' => '409',
+                  'status' => 'error',
+                  'msg' => "Request not found.",
+              );
+       }
+       
+              
+   }
+
+   public function allRequests($filters, $orderby = ['order' => "", 'sort_by' => ""], $paging = ["page_num" => 1, "page_size" => 0]){
+
+        $userid = isset($filters['userid'])?$filters['userid']:'';
+        $message_requests = DB::table('message_requests')
+                        ->select('*', 'users.first_name', 'users.last_name')
+                        ->join('users', 'message_requests.sender_id', '=','users.id' )
+                        ->WhereNull("message_requests.deleted_at")
+                        ->Where("message_requests.reciever_id", "=", $userid)
+                        ->Where("message_requests.status", "=", 'pending')
+                        ->OrderBy('message_requests.created_at', 'DESC')
+                        ->paginate($paging['page_size']);
+
+        return $message_requests;
+     }
 
 }
