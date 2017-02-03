@@ -1,19 +1,29 @@
-@extends('frontend.layouts.master')
-
-@section('title', 'Contact Us')
-@section('description', 'Share your jobs with sababo,Sababoo is a job portal','Create a job and post with Sababoo')
-@section('keywords', 'Sababoo,  Sababoo Tradesman, Sababoo Job Recuritment,Sababoo Employer,Sababoo Employee','Sababoo employee view','sababoo tradesman ','job','job post','apply job','job browse','job search','job view','job listing')
-
-
-@section('content')
-                                
-    <div class="row contact-us-page">
+$(document).ready(function () {
     
-        @include('frontend.site.contactus_content')
+    $('#contact_submit').click(function () {
+        $('.loader').show();
+        html = '';
+        pageURI = '/contact-us';
         
-    </div>
+        request_data = $('#frm_contact').serializeArray();
+        mainAjax('frm_contact', request_data, 'POST',fillData);
+        
+         function fillData(data){
+            $('.loader').hide();
+            if (data.code == '200') {
+                $('#username').val('');
+                $('#email').val('');
+                $('#msg').val('');
+                $('#subject').val('');
+                return;
+            }
+        }
 
-<script>
+    });
+    
+});
+
+if ($('.contact-us-page').length > 0) {
     var mapIcon = $('#map_icon').val();
     function initMap() {
           var centerLatitude = $('#map').attr('data-lat');
@@ -57,10 +67,4 @@
 
 
         }
-
-</script>
-
-<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key={{env('MAP_API_KEY', 'AIzaSyDVin53mLiAbmi16hNdmuOWepWnbJuZoDQ')}}&callback=initMap">
-    </script>
-@endsection
+}
