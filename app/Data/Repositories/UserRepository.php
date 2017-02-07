@@ -99,6 +99,9 @@ class UserRepository {
 				$data->phone_type			= $user->phone_type;
 				$data->image				= $user->image;
 				$data->postal_code			= $user->postal_code;
+				$data->current_location		= $user->current_location;
+				$data->gender				= $user->gender;
+				$data->dob					= $user->dob;
 				$data->remember_token		= $user->remember_token;
 				$data->verified_string		= $user->verified_string;
 				$data->created_at			= date('d M, Y', strtotime($user->created_at));
