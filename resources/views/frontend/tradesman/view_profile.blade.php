@@ -88,11 +88,11 @@
                         </li>
 
                         <?php 
-                            if (isset($basic_user_info->dob) && $basic_user_info->dob != '' && $from == 'view') {
+                            if ($from == 'view') {
                         ?>
                             <li>
                                 <h4 class="heading">Date of Birth:</h4>
-                               <?php echo  date('d M, Y', strtotime($basic_user_info->dob));?>
+                                <?php echo  (isset($basic_user_info->dob) && $basic_user_info->dob != '')?date('d M, Y', strtotime($basic_user_info->dob)):'N/A';?>
                             </li>
                         <?php
                             }
