@@ -360,12 +360,42 @@
                                       <input id="postal_code" name="postal_code" type="text" class="form-control" value ="<?php if(isset($userinfo->postal_code)){ echo $userinfo->postal_code;}?>" />
                                   </div>
                               </div>
+
+                                <div class="clear"></div>
+
+                                  <div class="col-sm-5">
+                                      <div class="col-xss-12 col-xs-6 col-sm-6 col-md-5 date date-picker" data-date="" data-date-format="dd-mm-yyyy" id="" >
+                                        <label>Date of Birth</label>
+                                      <input class="span2" size="16" type="text" value="" id="dob" name="dob">
+                                      <span class="add-on"><i class="icon-th"></i></span>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-5">
+                                      <div class="form-group mb-20">
+                                          <label for="dynamicAddForm_#index#_level">Gender</label>
+                                          <div class="btn-group bootstrap-select form-control dropup open">
+
+                                              <select id="gender" name="gender" class="selectpicker form-control" data-live-search="false" tabindex="-98">
+                                                  <option value="male">Male</option>
+                                                  <option value="female">Female</option>
+
+                                              </select>
+                                          </div>
+                                      </div>
+                                  </div>
+
                                   <div class="col-sm-6">
 
                                       <div class="form-group mb-5">
                                           <label for="dynamicAddForm_#index#_program">Address</label>
                                           <input id="address"  name="address" type="text" class="form-control" value="<?php if(isset($userinfo->address)) { echo $userinfo->address;}?> "/>
                                       </div>
+
+                                      <div class="form-group mb-5">
+                                          <label for="dynamicAddForm_#index#_program">Current Location</label>
+                                          <input id="current_location"  name="current_location" type="text" class="form-control" value="<?php if(isset($userinfo->current_location)) { echo $userinfo->current_location;}?> "/>
+                                      </div>
+
 
                                       <div class="form-group mb-5">
                                           <label for="dynamicAddForm_#index#_program">Industry</label>
@@ -444,8 +474,21 @@
       var country = '<?php echo isset($userinfo->country)?$userinfo->country:'';?>';
       var phone_type = '<?php echo isset($userinfo->phone_type)?$userinfo->phone_type:'';?>';
       var industry = '<?php echo isset($userinfo->industry_id)?$userinfo->industry_id:'';?>';
+      var gender = '<?php echo isset($userinfo->gender)?$userinfo->gender:'';?>';
+      var dob = '<?php echo isset($userinfo->dob)?date('m/d/y', strtotime($userinfo->dob)):'';?>';
 
       $(document).ready(function () {
+          $('#dob').keypress(function(){
+              return false;
+          });
+          $('#dob').datepicker('setValue', dob);
+
+          $('#dob').on('changeDate', function(ev){
+              $(this).datepicker('hide');
+          });
+          if (gender != '') {
+            $('#gender option[value="' + gender + '"]').prop('selected', true);
+          }
           $('#country option[value="' + country + '"]').prop('selected', true);
           $('#phone_type option[value="' + phone_type + '"]').prop('selected', true);
           $('#industry option[value="' + industry + '"]').prop('selected', true);
