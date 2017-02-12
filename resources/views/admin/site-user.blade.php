@@ -99,6 +99,14 @@
                                                         <span class="mt-comment-text"> {{(isset($user->email) && $user->email != '')?$user->email:'N/A'}} </span>
                                                     </div>
                                                     <div class="mt-comment-info">
+                                                        <span class="mt-comment-author" style="width:25%">Gender</span>
+                                                        <span class="mt-comment-text"> {{(isset($user->gender) && $user->gender != '')?$user->gender:'N/A'}} </span>
+                                                    </div>
+                                                    <div class="mt-comment-info">
+                                                        <span class="mt-comment-author" style="width:25%">Date of Birth</span>
+                                                        <span class="mt-comment-text"> {{(isset($user->dob) && $user->dob != '')?date('d M, Y', strtotime($user->dob)):'N/A'}} </span>
+                                                    </div>
+                                                    <div class="mt-comment-info">
                                                         <span class="mt-comment-author" style="width:25%">Industry</span>
                                                         <span class="mt-comment-text"> {{(isset($user->industry_name) && $user->industry_name != '')?$user->industry_name:'N/A'}} </span>
                                                     </div>
@@ -109,6 +117,10 @@
                                                     <div class="mt-comment-info">
                                                         <span class="mt-comment-author" style="width:25%">Location</span>
                                                         <span class="mt-comment-text"> {{(isset($user->address) && $user->address != '')?$user->address.', ':''}} {{($user->country != '')?$user->country.', ':''}} {{($user->postal_code != '')?$user->postal_code:''}}</span>
+                                                    </div>
+                                                    <div class="mt-comment-info">
+                                                        <span class="mt-comment-author" style="width:25%">Current Location</span>
+                                                        <span class="mt-comment-text"> {{(isset($user->current_location) && $user->current_location != '')?$user->current_location:'N/A'}} </span>
                                                     </div>
                                                     <div class="mt-comment-info">
                                                         <span class="mt-comment-author" style="width:25%">Contact</span>

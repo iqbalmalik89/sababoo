@@ -37,6 +37,9 @@ class UserServiceProvider
         if(isset($userArray['postal_code'])){		$user->postal_code 		= $userArray['postal_code'];}
         if(isset($userArray['industry'])){		    $user->industry_id 		= $userArray['industry'];}
         if(isset($userArray['password'])){		    $user->password 		= bcrypt($userArray['password']);}
+        if(isset($userArray['gender'])){            $user->gender           = $userArray['gender'];}
+        if(isset($userArray['dob'])){               $user->dob              = date('Y-m-d', strtotime($userArray['dob']));}
+        if(isset($userArray['current_location'])){  $user->current_location = $userArray['current_location'];}
 
         $user->update();
         return array(

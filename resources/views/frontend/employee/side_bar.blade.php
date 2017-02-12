@@ -65,15 +65,21 @@
                                     <p class="location"> <?php if(!empty($userinfo->address)){ echo '<i class="fa fa-map-marker"></i>'.$userinfo->address;}?> <?php if(isset($userinfo->country)){ echo $userinfo->country;}?>  <?php if(!empty($userinfo->phone)){ echo '<span class="block"><i class="fa fa-phone"></i>'.$userinfo->phone.'</span>';}?></p>
                                     
                                     <ul class="meta-list clearfix">
-<!--                                         <li>
-                                            <h4 class="heading">Birth Day::</h4>
-                                            12/01/1991
-                                        </li> -->
+                                      <li>
+                                          <h4 class="heading">Current Location:</h4>
+                                          <?php echo  (isset($userinfo->current_location) && $userinfo->current_location != '')?$userinfo->current_location:'N/A';?>
+                                      </li>
 
-<!--                                         <li>
-                                            <h4 class="heading">People:</h4>
-                                            00+
-                                        </li> -->
+                                      <li>
+                                          <h4 class="heading">Gender:</h4>
+                                          <?php echo  (isset($userinfo->gender) && $userinfo->gender != '')?$userinfo->gender:'N/A';?>
+                                      </li>
+                                      <li>
+                                          <h4 class="heading">Date of Birth:</h4>
+                                          <?php echo  (isset($userinfo->dob) && $userinfo->dob != '')?date('d M, Y', strtotime($userinfo->dob)):'N/A';?>
+                                      </li>
+                                     
+
 
                                         <li>
                                             <h4 class="heading">Email:</h4>

@@ -24,6 +24,7 @@ use  BusinessObject\Employee;
 use  BusinessObject\Employer;
 use  BusinessObject\Tradesman;
 use  BusinessObject\Certification;
+use App\Models\MessageRequest;
 
 
 class UserController extends Controller
@@ -240,7 +241,19 @@ class UserController extends Controller
         }
         $users=  $this->userServiceProvider->listUsers($filters,$order_by,$paging);
 
-        return view ('frontend.users.users_listing',array('users'=>$users));
+        $requestStatus = [];
+        if (count($users) > 0) {
+            foreach ($users as $key => $user) {
+                $checkRequest = MessageRequest::where('sender_id', '=', $this->logged_user->id)->where('reciever_id', '=', $user->id)->first();
+                if ($checkRequest != NULL) {
+                    $requestStatus[$user->id] = $checkRequest->status;
+                } else {
+                    $requestStatus[$user->id] = 'not_found';
+                }
+                
+            }
+        }
+        return view ('frontend.users.users_listing',array('users'=>$users, 'requestStatus'=>$requestStatus));
     }
 
     public function viewProfile(Request $request, $id) {

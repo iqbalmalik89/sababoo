@@ -77,6 +77,27 @@
                     </p>
 
                     <ul class="meta-list clearfix">
+                        <li>
+                            <h4 class="heading">Current Location:</h4>
+                            <?php echo  (isset($basic_user_info->current_location) && $basic_user_info->current_location != '')?$basic_user_info->current_location:'N/A';?>
+                        </li>
+
+                        <li>
+                            <h4 class="heading">Gender:</h4>
+                            <?php echo  (isset($basic_user_info->gender) && $basic_user_info->gender != '')?$basic_user_info->gender:'N/A';?>
+                        </li>
+
+                        <?php 
+                            if ($from == 'view') {
+                        ?>
+                            <li>
+                                <h4 class="heading">Date of Birth:</h4>
+                                <?php echo  (isset($basic_user_info->dob) && $basic_user_info->dob != '')?date('d M, Y', strtotime($basic_user_info->dob)):'N/A';?>
+                            </li>
+                        <?php
+                            }
+                        ?>
+
                         <?php 
                             if (isset($basic_user_info->email) && $from == 'view') {
                         ?>

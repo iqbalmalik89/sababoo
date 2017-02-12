@@ -52,6 +52,9 @@ class EmployeeServiceProvider
         if(isset($userArray['phone_type'])){		$user->phone_type 		= $userArray['phone_type'];}
         if(isset($userArray['postal_code'])){		$user->postal_code 		= $userArray['postal_code'];}
         if(isset($userArray['industry'])){		    $user->industry_id 		= $userArray['industry'];}
+        if(isset($userArray['gender'])){            $user->gender           = $userArray['gender'];}
+        if(isset($userArray['current_location'])){  $user->current_location = $userArray['current_location'];}
+        if(isset($userArray['dob'])){               $user->dob              = date('Y-m-d', strtotime($userArray['dob']));}
 
         $user->update();
             return array(
