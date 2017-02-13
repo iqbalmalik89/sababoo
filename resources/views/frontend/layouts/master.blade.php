@@ -17,7 +17,7 @@
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{asset('assets/frontend/images/ico/apple-touch-icon-114-precomposed.png')}}">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{asset('assets/frontend/images/ico/apple-touch-icon-72-precomposed.png')}}">
         <link rel="apple-touch-icon-precomposed" href="{{asset('assets/frontend/images/ico/apple-touch-icon-57-precomposed.png')}}">
-        <link rel="shortcut icon" href="{{asset('assets/frontend/images/ico/favicon.png')}}">
+        <link rel="shortcut icon" href="{{asset('assets/frontend/images/ico/favicon.png?v=1')}}">
 
         <!-- CSS Plugins -->
         <link rel="stylesheet" type="text/css" href="{{asset('assets/frontend/bootstrap/css/bootstrap.min.css')}}" media="screen">   
