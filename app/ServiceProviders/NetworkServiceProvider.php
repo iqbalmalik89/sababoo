@@ -78,22 +78,30 @@ class NetworkServiceProvider
     }
     public function getViewUrl($user){
 
-       //print_r($user->id);die();
+      // print_r($user);
 
         if($user->role=='employee'){
-           $employee = Employee::where('userid', '=' , $user->id)->firstOrFail();
-
+           $employee = Employee::where('userid', '=' , $user->id)->first();
+           if ($employee != NULL) {
             return "employee/view/".$employee->id;
+           }
+            
         }
 
         if($user->role=='employer'){
-            $employer = Employer::where('userid', '=' , $user->id)->firstOrFail();
-            return "employer/view/".$employer->id;
+            $employer = Employer::where('userid', '=' , $user->id)->first();
+            if ($employer != NULL) {
+              return "employer/view/".$employer->id;
+            }
+            
         }
         if($user->role=='tradesman'){
 
-            $tradesman = Tradesman::where('userid', '=' , $user->id)->firstOrFail();
-            return "tradesman/view/".$tradesman->id;
+            $tradesman = Tradesman::where('userid', '=' , $user->id)->first();
+            if ($tradesman != NULL) {
+              return "tradesman/view/".$tradesman->id;
+            }
+            
         }
     }
 
@@ -157,6 +165,7 @@ class NetworkServiceProvider
         $role = $filter['roll'];
 
         $data = User::where('id','!=',$filter['id'])
+              /*->where('id','!=',19)*/
               ->where('role','!=','employer')
               ->where('status','=', 'enabled')
               ->where('is_admin', '=', 0)
@@ -175,7 +184,7 @@ class NetworkServiceProvider
         }
         $data = $data->limit(20)
                     ->get();
-//dd($data);
+            //dd($data);
 
         foreach($data as $single_data){
             if($single_data->role=='employer'){
@@ -185,6 +194,7 @@ class NetworkServiceProvider
                 continue;
             }
             $single_data->postal_code =$this->getViewUrl($single_data);
+
              $suggest_array['data'][]=$single_data;
         }
 
