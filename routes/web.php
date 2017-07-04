@@ -312,3 +312,14 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware' =>[ 'web']], funct
 	Route::post('/image/upload',['uses'=>'UserController@upload']);
 });
 });
+
+
+/****** V2 Routes ******/
+Route::group(['prefix'=>'v2','namespace'=>'v2'], function(){
+	Route::get('/login', 'HomeController@showLogin');
+	Route::get('/', 'HomeController@index');
+	Route::get('/about-us', 'HomeController@showAboutUs');
+	Route::get('/contact-us', 'HomeController@showContactUs');
+	Route::get('/signup', 'HomeController@showSignup');
+	
+});
