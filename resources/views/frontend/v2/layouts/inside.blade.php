@@ -10,8 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
 
     <!-- Meta Tags - Description for Search Engine purposes -->
-    <meta name="description" content="Cariera - Job Board HTML Template">
-    <meta name="keywords" content="cariera job board, HTML Template, job board html, job listing, job portal, job postings, jobs, recruiters, recruiting, recruitment">
+    <meta name="description" content="'Share your jobs with sababo,Sababoo is a job portal','Create a job and post with Sababoo'">
+    <meta name="keywords" content="Sababoo,  Sababoo Tradesman, Sababoo Job Recuritment,Sababoo Employer,Sababoo Employee','Sababoo employee view','sababoo tradesman ','job','job post','apply job','job browse','job search','job view','job listing">
     <meta name="author" content="GnoDesign">
 
     <!-- Website Title -->
