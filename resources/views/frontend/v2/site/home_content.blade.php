@@ -1,23 +1,23 @@
-<div class="">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <div id="content">
-                    <h1> Welcome and Join Us!</h1>
-                    <h2>Hire the best | Connect with others | Discover your dream job</h2>
+<!-- ===== Start of Testimonial Section ===== -->
+    <section class="ptb80" id="testimonials">
+        <div class="container">
+
+            <!-- Section Title -->
+            <div class="section-title">
+                <h1 class="text-white">Welcome and Join Us!</h1>
+                <h2 class="text-white">Hire the best | Connect with others | Discover your dream job</h2>
                     <center><hr style="width: 476px"></center>
                     <?php
                         if (Auth::user() == NULL) {
                     ?>
-                        <a href="signup.php"></a>
-                        <button class="btn btn-default btn-lg homeJoinUsButton"><a href="signup">Join Us!
-                        </a> </button>
+                        <a class="btn btn-purple btn-effect mt20" href="{{url('v2/signup')}}">Join Us!
+                        </a>
                     <?php
                         }
                     ?>
-                    
-                </div>
             </div>
+
         </div>
-    </div>
-</div>
+    </section>
+    <!-- ===== End of Testimonial Section ===== -->
+

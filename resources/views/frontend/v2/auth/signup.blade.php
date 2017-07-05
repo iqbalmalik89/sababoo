@@ -66,6 +66,18 @@
                                     <input type="password" class="form-control" placeholder="Enter password">
                                 </div>
 
+                                <div class="form-group"> 
+                                        <label>Role: </label>
+
+                                        <input  style="" type="radio" name="role" id="role" value="employee" checked="checked">
+
+                                        <label class="" for="register_accept_checkbox">{{ucfirst(env('EMPLOYEE_TITLE'))}}</label>
+                                        <input  style="" type="radio" name="role" id="role" value="employer">
+                                        <label class="" for="register_accept_checkbox">{{ucfirst(env('EMPLOYER_TITLE'))}}</label>
+                                        <input  style="" type="radio" name="role" id="role" value="tradesman">
+                                        <label class="" for="register_accept_checkbox">{{ucfirst(env('TRADESMAN_TITLE'))}}</label>
+
+                                    </div>
                                 <!-- Form Group -->
                                 <div class="form-group text-center">
                                     <label>By clicking Join now, you agree to Sababoo's <a href="javascript:;">User Agreement</a>, <a href="javascript:;">Privacy Policy</a>, and <a href="javascript:;">Cookie Policy</a>.</label>

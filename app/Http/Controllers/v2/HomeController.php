@@ -59,14 +59,13 @@ class HomeController extends Controller
      */
     public function showHome()
     {
-      dd('sds');
         if (Auth::user()==null) {
             return view('frontend.v2.site.unauth_home');
         } else {
             $this->logged_user = Auth::user();
         } 
         
-        $matchThese = ['status'=>1];
+        /*$matchThese = ['status'=>1];
         $matchTheseFile = ['status'=>1,'userid'=>$this->logged_user->id];
         $industry = Industry::where($matchThese)->get();
         $user_files = UserFiles::where($matchTheseFile)->get();
@@ -106,7 +105,7 @@ class HomeController extends Controller
 
             return view('frontend.v2.admin_user.index',array('userinfo'=>$this->logged_user, 'adminUser'=>$adminUser));
 
-        }
+        }*/
         return view('frontend.v2.site.home');
     }
 
@@ -162,7 +161,10 @@ class HomeController extends Controller
 
      public function index()
     {
-        return view('frontend.v2.auth.signup');
+      if(Auth::user()!=null) {
+          return redirect('v2/home');
+       }
+      return view('frontend.v2.site.unauth_home');
     }
 
     public function showLogin()
@@ -198,6 +200,11 @@ class HomeController extends Controller
           return view('frontend.site.unauth_contactus');
          }
         
+    }
+
+    public function showLostPassword()
+    {
+      return view('frontend.v2.auth.lost-password');   
     }
 
     public function showSuccessPayment(Request $request)
