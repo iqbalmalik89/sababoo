@@ -1,4 +1,4 @@
-@extends('frontend.v2.layouts.outside')
+@extends('frontend.layouts.unathenticate')
 
 @section('title', 'Companies')
 @section('description', 'Share your jobs with sababo,Sababoo is a job portal','Create a job and post with Sababoo')
