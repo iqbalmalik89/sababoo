@@ -9,7 +9,7 @@
                     <span>&copy; Copyright {{date('Y')}} Sababoo</span>
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-4">
-                    <span><a href="javascript:;">Associate Companies</a></span>
+                    <span><a href="{{url('v2/companies')}}">Associate Companies</a></span>
                 </div>
                 <div class="col-md-5 col-sm-5 col-xs-10">
                     <!-- Start of Social Media Buttons -->

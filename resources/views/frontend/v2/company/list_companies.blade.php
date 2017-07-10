@@ -1,4 +1,4 @@
-@extends('frontend.v2.layouts.outside')
+@extends('frontend.v2.layouts.inside')
 
 @section('title', 'Companies')
 @section('description', 'Share your jobs with sababo,Sababoo is a job portal','Create a job and post with Sababoo')
@@ -7,17 +7,15 @@
 
 @section('content')
 
-        <!-- start Main Wrapper -->
-<div class="main-wrapper">
+    @include('frontend.v2.company.company_content')
 
-    @include('frontend.company.company_content')
-</div>
+@endsection
 
-<script>
-
-    $(document).ready(function () {
-
-    });
-</script>
+@section('scripts')
+<script type="text/javascript">
+$(document).ready(function() {
+  getCompanies(1);
+});
+</script> 
 @endsection
 

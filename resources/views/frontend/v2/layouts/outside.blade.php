@@ -48,6 +48,7 @@
                    
         @include('frontend.v2.layouts.outside-footer')
 
+        <input type="hidden" id="isLoggedIn" value="{{Auth::user()}}">
         <!-- ===== Start of Back to Top Button ===== -->
         <a href="#" class="back-top"><i class="fa fa-chevron-up"></i></a>
         <!-- ===== End of Back to Top Button ===== -->
@@ -68,5 +69,6 @@
         <script src="{{asset('assets/frontend/v2/js/countdown.js')}}"></script>
         <script src="{{asset('assets/frontend/v2/js/isotope.min.js')}}"></script>
         <script src="{{asset('assets/frontend/v2/js/custom.js')}}"></script>
+        @yield('scripts')
     </body>
 </html>

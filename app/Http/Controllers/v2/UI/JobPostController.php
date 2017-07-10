@@ -7,7 +7,7 @@
  */
 
 
-namespace App\Http\Controllers\UI;
+namespace App\Http\Controllers\v2\UI;
 
 use App\Http\Controllers\Controller;
 use BusinessLogic\EmployeeServiceProvider;
@@ -439,9 +439,9 @@ class JobPostController extends Controller
         $companies=  $this->jobpostServiceProvider->getCompanies($filters,$order_by,$paging);
 
         if(Auth::user()!=null) {
-            return view ('frontend.company.list_companies',array('companies'=>$companies, 'sticky_footer'=>''));
+            return view ('frontend.v2.company.list_companies',array('companies'=>$companies, 'sticky_footer'=>''));
          } else {
-            return view ('frontend.company.unauth_list_companies',array('companies'=>$companies, 'sticky_footer'=>''));
+            return view ('frontend.v2.company.unauth_list_companies',array('companies'=>$companies, 'sticky_footer'=>''));
          }
     }
 

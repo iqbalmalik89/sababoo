@@ -324,4 +324,11 @@ Route::group(['prefix'=>'v2','namespace'=>'v2'], function(){
 	Route::get('/signup', 'HomeController@showSignup');
 	Route::get('/lost-password', 'HomeController@showLostPassword');
 	Route::get('/logout', 'UI\Auth\AuthController@getLogout');
+
+	Route::get('/companies', ['uses'=>'HomeController@showCompanies']);
+	
+});
+
+Route::group(['prefix'=>'api/v2','namespace'=>'Api'], function(){
+	Route::get('/companies', ['uses'=>'CompanyController@all']);
 });

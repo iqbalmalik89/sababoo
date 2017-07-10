@@ -202,6 +202,16 @@ class HomeController extends Controller
         
     }
 
+    public function showCompanies()
+    {
+         if(Auth::user()!=null) {
+            return view('frontend.v2.company.list_companies');
+         } else {
+          return view('frontend.v2.company.unauth_list_companies');
+         }
+        
+    }
+
     public function showLostPassword()
     {
       return view('frontend.v2.auth.lost-password');   

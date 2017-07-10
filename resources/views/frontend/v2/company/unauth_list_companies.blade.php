@@ -7,17 +7,15 @@
 
 @section('content')
 
-        <!-- start Main Wrapper -->
-<div class="main-wrapper">
+    @include('frontend.v2.company.company_content')
 
-    @include('frontend.company.company_content')
-</div>
+@endsection
 
-<script>
-
-    $(document).ready(function () {
-
-    });
-</script>
+@section('scripts')
+<script type="text/javascript">
+$(document).ready(function() {
+  getCompanies(1);
+});
+</script> 
 @endsection
 

@@ -9,6 +9,16 @@ Version: 1.0
 
 Author URI: gnodesign.com
 ***************************/
+var server = window.location.hostname;
+if (server == 'sababoo.dev' || server == 'sababoo.localhost') {
+    var canvasUrl = location.protocol + "//" + server + "/";
+} else if (server == 'localhost'){
+    var canvasUrl = location.protocol + "//"+server+"/sababoo/public/";
+} else {
+  var canvasUrl = location.protocol + "//"+server+"/";
+}
+
+var apiUrl = canvasUrl + "api/";
 
 
 (function ($) {
@@ -1050,3 +1060,166 @@ Author URI: gnodesign.com
     }); //end of document ready function
 
 })(jQuery);
+
+function pagination (data) {
+    var classDisabledPrev = 'class="waves-effect"';
+    var classDisabledNext = 'class="waves-effect"';
+    var paginationShow = '';
+    var paginations=data.pagination;
+    if(data.pagination.current >= data.pagination.next && data.pagination.current==1) {
+        $('.gengeral_pagination').hide();
+    } else {
+        if(data.pagination.current==data.pagination.first){
+        classDisabledPrev="class='disabled pointer-event-none'";
+    }
+    if(data.pagination.current==data.pagination.last){
+        classDisabledNext="class='disabled pointer-event-none'";
+    }
+
+    paginationShow += '<li '+classDisabledPrev+'><a href="javascript:;" aria-label="Anterior" class="general-pagination-click" data-page='+data.pagination.previous+'><span aria-hidden="true">&laquo;</span></a></li>';
+     
+    for (var i = 1; i <= paginations.pages.length; i++) {
+        if(paginations.current==i){
+            paginationShow+='<li class="active"><a class="general-pagination-click" data-page='+i+' href="javascript:;">'+i+'</a></li>';
+        } else {
+            paginationShow+='<li class="waves-effect"><a class="general-pagination-click" data-page='+i+' href="javascript:;">'+i+'</a></li>';
+        }
+
+    }
+
+    paginationShow += '<li '+classDisabledNext+'><a href="javascript:;" aria-label="Siguiente" class="general-pagination-click" data-page='+data.pagination.next+'><span aria-hidden="true">&raquo;</span></a></li>';
+        $('.gengeral_pagination').html(paginationShow);
+        $('.gengeral_pagination').show();
+    }
+};
+
+$.msgShow = function(id, msg, type)
+{
+  if($(id).css('display') == 'block')
+    return false;
+
+  $(id).removeClass('alert-danger');
+  $(id).removeClass('alert-success')  
+  if(type == 'success')
+  {
+      $(id).addClass('alert-success');
+      $(id).html(msg).slideDown('fast').delay(2500).slideUp(1000);   
+  }
+  else
+  { 
+      $(id).addClass('alert-danger');
+      $(id).html(msg).addClass('red').slideDown('fast').delay(2500).slideUp(1000,function(){$(id).removeClass('red')});
+  }
+}
+
+function showErrors(divId ,jqXHR)
+{
+      try {
+        var jsonResponse = $.parseJSON(jqXHR.responseText);
+        if(jQuery.type(jsonResponse.message) == 'object')
+        {
+          var messages = '';
+          $.each( jsonResponse.message, function( key, value ) {
+            messages += value;
+          });            
+        }
+        else if(jQuery.type(jsonResponse.message) == 'string')
+        {
+          var messages = jsonResponse.message;
+        }
+        else
+        {
+          var messages = jsonResponse.error.message;
+        }
+
+        var body = $(".modal");
+        body.stop().animate({scrollTop:0}, '500', 'swing', function() { 
+
+        });          
+      
+        $.msgShow(divId, messages, 'error');
+
+      } catch (e) {
+          $.msgShow(divId, 'Unexpected error occurred', 'error');
+      }  
+}
+
+function getCompanies(page, from) {
+    var from = from || '';
+    var keyword = $.trim($('#keyword').val());
+    data = {};
+    data.pagination     = true;
+    data.page           = page || 1;
+    data.limit          = 6;
+    data.keyword        = keyword;
+
+    $.ajax({
+      type: 'get',
+      url: apiUrl + 'v2/companies',
+      dataType:"JSON",
+      data: data,
+      beforeSend:function(){
+        $('#spinner').show();
+      },
+      success:function(data){
+        $('#spinner').hide();
+        var html  ='';
+        if(data.data.length > 0) {
+            var isLoggedIn = $('#isLoggedIn').val();
+            $.each(data.data, function(index, company){
+                
+                var link = '';
+                var linkHtml = '';
+                if (isLoggedIn == '' || isLoggedIn == null) {
+                    link = canvasUrl+`v2/signup`;
+                    linkHtml = `<a href="`+canvasUrl+`v2/signup"><i class="fa fa-lock"></i>Register</a>`;
+                } else {
+                    link = company.url;
+                    linkHtml = `<a href="`+company.url+`" target="_blank"><i class="fa fa-building"></i>View</a>`;
+                }
+                html += `<div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="product">
+                                <div class="product-image">
+                                    <a href="`+link+`" class="">
+                                        <img src="`+canvasUrl+`files/company/`+company.image+`" class="img-responsive backup_picture" alt="">
+                                    </a>
+                                    <div class="product-overlay">
+                                        `+linkHtml+`
+                                    </div>
+                                </div>
+                                <div class="product-descr">
+                                    <a href="`+link+`">
+                                        <h4>`+company.name+`</h4>
+                                        <span class="price">
+                                        <span class="amount">Created At</span>
+                                        <span class="amount">`+company.created_at+`</span>
+                                        </span>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>`;
+            });             
+        } else {
+            html = `<h2>No Record Found</h2>`;
+        }
+
+        $('.companies_list').html(html);
+
+        $(".backup_picture").on("error", function(){
+           $(this).attr('src', canvasUrl+'images/image-not-found.png');
+       });
+        pagination(data);
+        $('.general-pagination-click').unbind('click').bind('click',function(e){
+            e.preventDefault();
+            var page  = $(this).data('page');
+            getCompanies(page);
+        });
+      },
+      error:function(jqXHR, textStatus, errorThrown){
+        $('#spinner').hide();
+        showErrors('#msg_div' ,jqXHR);
+        $('.companies_list').html('');
+      }
+    });                 
+}
