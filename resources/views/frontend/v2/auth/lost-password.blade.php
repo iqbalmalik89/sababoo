@@ -40,22 +40,24 @@
 
                 <!-- Start of Login Box -->
                 <div class="login-box">
-
                     <div class="login-title">
                         <h4>lost password</h4>
                     </div>
 
                     <!-- Start of Login Form -->
-                    <form action="#">
+                    <form action="">
+                        <div id="msg_div" class="alert" style="display: none;"></div>
+                        <p>To reset your password, enter the email address you use to sign in to Sababoo.</p>
+                        <br>
                         <!-- Form Group -->
                         <div class="form-group">
                             <label>Enter Your Email</label>
-                            <input type="email" class="form-control" placeholder="Email">
+                            <input type="email" class="form-control" id="forgot_email" placeholder="Enter your email address">
                         </div>
 
                         <!-- Form Group -->
                         <div class="form-group text-center">
-                            <button class="btn btn-blue btn-effect">send email</button>
+                            <a class="btn btn-blue btn-effect" href="javascript:;" id="forgot_password">send email<i id="spinner" style="display: none;float: right;margin-left: 2px;margin-top: 10px;" class="fa fa-spinner fa-spin" aria-hidden="true"></i></a>
                             <a href="{{url('v2/login')}}" class="btn btn-blue btn-effect">login</a>
                         </div>
 
@@ -70,3 +72,26 @@
 
     <!-- ===== End of Login - Register Section ===== -->
     @endsection
+    @section('scripts')
+    <script type="text/javascript">    
+    var pageURI = '';
+    var request_data = '';
+    var isScrLock = false;
+    var html = '';
+    $(document).ready(function () {
+        
+        // Press with enter key.
+        //submit_key('frm_join input', 'btnsignup');
+
+        /*FORGOT PASSWORD*/
+
+        $('#forgot_password').click(function(){
+            forgotPassword();           
+        });
+       
+    });
+    
+    // submit_key('frm_login input', 'login');
+
+    </script>
+@endsection

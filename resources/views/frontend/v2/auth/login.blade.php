@@ -45,18 +45,21 @@
                         <h4>login to sababoo</h4>
                     </div>
 
+                    
+
                     <!-- Start of Login Form -->
-                    <form action="#">
+                    <form action="" >
+                        <div id="msg_div" class="alert" style="display: none;"></div>
                         <!-- Form Group -->
                         <div class="form-group">
                             <label>Email Address</label>
-                            <input type="email" class="form-control" placeholder="Enter Your Email Address">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address">
                         </div>
 
                         <!-- Form Group -->
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" class="form-control" placeholder="Enter Your Password">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
                         </div>
 
                         <!-- Form Group -->
@@ -64,8 +67,8 @@
                             <div class="row">
                                 <div class="col-xs-6">
 
-                                    <input type="checkbox" id="remember-me2">
-                                    <label for="remember-me2">Remember me?</label>
+                                    <input type="checkbox" id="remember" name="remember" value="remember">
+                                    <label for="remember">Remember me?</label>
 
                                 </div>
 
@@ -77,7 +80,7 @@
 
                         <!-- Form Group -->
                         <div class="form-group text-center">
-                            <button class="btn btn-blue btn-effect">Login</button>
+                            <a class="btn btn-blue btn-effect" id="login" href="javascript:;">Login<i id="spinner" style="display: none;float: right;margin-left: 2px;margin-top: 10px;" class="fa fa-spinner fa-spin" aria-hidden="true"></i></a>
                             <a href="{{url('v2/signup')}}" class="btn btn-blue btn-effect">register</a>
                         </div>
 
@@ -93,3 +96,31 @@
     @include('frontend.v2.common.get-started')
     <!-- ===== End of Login - Register Section ===== -->
     @endsection
+
+@section('scripts')
+    <script type="text/javascript">    
+    var pageURI = '';
+    var request_data = '';
+    var isScrLock = false;
+    var html = '';
+    $(document).ready(function () {
+        //Sign up
+        $('#login').click(function () {
+            login();       
+        });
+        
+        // Press with enter key.
+        //submit_key('frm_join input', 'btnsignup');
+
+       
+    });
+
+    $("#email, #password").keypress(function (e) {
+        if (e.which == 13) {
+            login();
+        }
+    });
+    // submit_key('frm_login input', 'login');
+
+    </script>
+@endsection

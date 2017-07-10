@@ -1061,6 +1061,11 @@ var apiUrl = canvasUrl + "api/";
 
 })(jQuery);
 
+function isValidEmailAddress(emailAddress) {
+    var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+    return pattern.test(emailAddress);
+}
+
 function pagination (data) {
     var classDisabledPrev = 'class="waves-effect"';
     var classDisabledNext = 'class="waves-effect"';
@@ -1222,4 +1227,114 @@ function getCompanies(page, from) {
         $('.companies_list').html('');
       }
     });                 
+}
+
+function login(from) {
+    var from = from || '';
+    $('.form-group').removeClass('has-error');
+    var check = true;
+    
+    var remember = $('input[type=checkbox][name=remember]:checked').val();
+    var email = $.trim($('#email').val());
+    var password = $.trim($('#password').val());
+
+    if (email == '') {
+        check = false;
+        $('#email').parent().addClass('has-error');
+    } else {
+        if(!isValidEmailAddress(email))
+        {
+            $('#email').parent().addClass('has-error');
+            $('#email').focus();            
+            check = false;
+            $.msgShow('#msg_div', 'The email you entered is not valid, try again.', 'error', '');
+        }
+    }
+
+    if (password == '') {
+        check = false;
+        $('#password').parent().addClass('has-error');
+    }
+
+    if (check) {
+        var data = {};
+        data.email = email;
+        data.password = password;
+        data.remember = remember;
+        var request = $.ajax({
+            url: canvasUrl+'v2/auth/login',
+            data: data,
+            type: 'POST',
+            dataType:'json'
+        });
+
+        $('#spinner').show();
+        request.done(function(data){
+            $('#spinner').hide();
+            
+            if (data.status == 'success') {
+                $.msgShow('#msg_div', data.msg, 'success','/');
+                window.location = canvasUrl + 'v2/home';
+            } else if(data.status == 'error') {
+                $('#spinner').hide();
+                $.msgShow('#msg_div', data.msg, 'error','/');
+            }
+        });
+
+        request.fail(function(jqXHR, textStatus){
+            $('#spinner').hide();
+            showErrors('#msg_div' ,jqXHR);
+        });
+    }
+
+}
+
+function forgotPassword() {
+    $('.form-group').removeClass('has-error');
+    var check = true;
+    
+    var email = $.trim($('#forgot_email').val());
+
+    if (email == '') {
+        check = false;
+        $('#forgot_email').parent().addClass('has-error');
+    } else {
+        if(!isValidEmailAddress(email))
+        {
+            $('#forgot_email').parent().addClass('has-error');
+            $('#forgot_email').focus();            
+            check = false;
+            $.msgShow('#msg_div', 'The email you entered is not valid, try again.', 'error', '');
+        }
+    }
+
+    if (check) {
+        var data = {};
+        data.email = email;
+        var request = $.ajax({
+            url: canvasUrl+'ui/forgotpw',
+            data: data,
+            type: 'POST',
+            dataType:'json'
+        });
+
+        $('#spinner').show();
+        request.done(function(data){
+            $('#spinner').hide();
+            
+            if (data.status == 'success') {
+                $.msgShow('#msg_div', data.msg, 'success','/');
+                window.location = canvasUrl + 'v2';
+            } else if(data.status == 'error') {
+                $('#spinner').hide();
+                $.msgShow('#msg_div', data.msg, 'error','/');
+            }
+        });
+
+        request.fail(function(jqXHR, textStatus){
+            $('#spinner').hide();
+            showErrors('#msg_div' ,jqXHR);
+        });
+    }
+
 }

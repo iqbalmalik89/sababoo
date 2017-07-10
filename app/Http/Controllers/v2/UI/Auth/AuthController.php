@@ -153,7 +153,10 @@ class AuthController extends Controller
                     \Session::put('redirect_url',\Redirect::intended()->getTargetUrl());
                 }
             }else{
-
+                $code = 200;
+                $msg = "Login Success";
+                $status = 'success';
+                $detail = 'You are login successfully....';
                 $url="/v2/home";
                 
                 /*if ($user->role == 'employee') {
