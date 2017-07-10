@@ -1051,9 +1051,9 @@ var apiUrl = canvasUrl + "api/";
         ------------------------------ */
         // Asynchronously Load Google Analytics Script on all pages
 
-        var script = document.createElement('script');
-        script.src = "js/google-analytics.js";
-        document.body.appendChild(script);
+        // var script = document.createElement('script');
+        // script.src = "js/google-analytics.js";
+        // document.body.appendChild(script);
 
         
         
