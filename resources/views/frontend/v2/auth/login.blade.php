@@ -80,7 +80,7 @@
 
                         <!-- Form Group -->
                         <div class="form-group text-center">
-                            <a class="btn btn-blue btn-effect" id="login" href="javascript:;">Login<i id="spinner" style="display: none;float: right;margin-left: 2px;margin-top: 10px;" class="fa fa-spinner fa-spin" aria-hidden="true"></i></a>
+                            <a class="btn btn-blue btn-effect" id="login_btn" href="javascript:;">Login<i id="spinner" style="display: none;float: right;margin-left: 2px;margin-top: 10px;" class="fa fa-spinner fa-spin" aria-hidden="true"></i></a>
                             <a href="{{url('v2/signup')}}" class="btn btn-blue btn-effect">register</a>
                         </div>
 
@@ -105,7 +105,7 @@
     var html = '';
     $(document).ready(function () {
         //Sign up
-        $('#login').click(function () {
+        $('#login_btn').click(function () {
             login();       
         });
         
